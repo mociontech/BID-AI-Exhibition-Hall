@@ -1,0 +1,109 @@
+{
+  "project": "02_Bogota_Traffic_Prediction",
+  "product": "PredictToDo",
+  "languages": {
+    "ES": [
+      {
+        "index": 1,
+        "title": "Introducción",
+        "subtitle": "Conoce cómo la IA anticipa el tráfico.",
+        "tv": "TV/ES/01_Introducción_ES.png"
+      },
+      {
+        "index": 2,
+        "title": "El reto",
+        "subtitle": "Por qué la congestión importa.",
+        "tv": "TV/ES/02_El_reto_ES.png"
+      },
+      {
+        "index": 3,
+        "title": "La solución",
+        "subtitle": "IA para apoyar decisiones.",
+        "tv": "TV/ES/03_La_solución_ES.png"
+      },
+      {
+        "index": 4,
+        "title": "Los datos",
+        "subtitle": "20 TB y 300 variables.",
+        "tv": "TV/ES/04_Los_datos_ES.png"
+      },
+      {
+        "index": 5,
+        "title": "Cómo funciona",
+        "subtitle": "De datos a pronósticos.",
+        "tv": "TV/ES/05_Cómo_funciona_ES.png"
+      },
+      {
+        "index": 6,
+        "title": "Cómo aprende la IA",
+        "subtitle": "Una red vial conectada.",
+        "tv": "TV/ES/06_Cómo_aprende_la_IA_ES.png"
+      },
+      {
+        "index": 7,
+        "title": "Qué predice",
+        "subtitle": "Congestión y velocidad.",
+        "tv": "TV/ES/07_Qué_predice_ES.png"
+      },
+      {
+        "index": 8,
+        "title": "Resultados",
+        "subtitle": "Qué tan preciso es el modelo.",
+        "tv": "TV/ES/08_Resultados_ES.png"
+      }
+    ],
+    "ES_tablet": "TABLET/Menu_Informacion_Tablet_ES.png",
+    "EN": [
+      {
+        "index": 1,
+        "title": "Introduction",
+        "subtitle": "Discover how AI forecasts traffic.",
+        "tv": "TV/EN/01_Introduction_EN.png"
+      },
+      {
+        "index": 2,
+        "title": "The challenge",
+        "subtitle": "Why congestion matters.",
+        "tv": "TV/EN/02_The_challenge_EN.png"
+      },
+      {
+        "index": 3,
+        "title": "The solution",
+        "subtitle": "AI for operational decisions.",
+        "tv": "TV/EN/03_The_solution_EN.png"
+      },
+      {
+        "index": 4,
+        "title": "The data",
+        "subtitle": "20 TB and 300 variables.",
+        "tv": "TV/EN/04_The_data_EN.png"
+      },
+      {
+        "index": 5,
+        "title": "How it works",
+        "subtitle": "From data to forecasts.",
+        "tv": "TV/EN/05_How_it_works_EN.png"
+      },
+      {
+        "index": 6,
+        "title": "How AI learns",
+        "subtitle": "A connected road network.",
+        "tv": "TV/EN/06_How_AI_learns_EN.png"
+      },
+      {
+        "index": 7,
+        "title": "What it predicts",
+        "subtitle": "Congestion and speed.",
+        "tv": "TV/EN/07_What_it_predicts_EN.png"
+      },
+      {
+        "index": 8,
+        "title": "Results",
+        "subtitle": "How accurate is the model?",
+        "tv": "TV/EN/08_Results_EN.png"
+      }
+    ],
+    "EN_tablet": "TABLET/Menu_Informacion_Tablet_EN.png"
+  },
+  "usage": "Visual assets are illustrative; traffic paths are simulated and model metrics are from DigitalMornings.pdf, subject to validation."
+}

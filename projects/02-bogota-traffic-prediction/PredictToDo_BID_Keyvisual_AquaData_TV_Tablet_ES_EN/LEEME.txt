@@ -1,0 +1,10 @@
+PredictToDo · AI Exhibition Hall · Kit visual blanco/azul (AquaData key visual)
+
+Contiene 16 imágenes para TV (8 ES / 8 EN), 2 menús PNG para tablet, vistas previas y contenido.json.
+Archivos preparados a 1920x1080 PNG.
+
+Las pantallas de TV presentan información de DigitalMornings.pdf. La tableta es el controlador de los temas, no replica el contenido de TV.
+Los mapas y diagramas son ilustrativos; no son salidas reales en tiempo real.
+Datos del PDF: más de 20 TB; 300 variables; 139.107 segmentos; 38 h de entrada, 12 h de predicción, resolución de 15 minutos; MAE 0,80; ±1 nivel 75,95%; exactitud 58,95%.
+Se requiere validar las cifras con el cliente antes de publicación definitiva.
+La marca BID del encabezado se toma de la imagen de referencia suministrada por el usuario.

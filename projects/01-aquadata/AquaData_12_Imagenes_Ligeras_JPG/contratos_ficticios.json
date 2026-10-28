@@ -1,0 +1,162 @@
+[
+  {
+    "id": "A-01",
+    "asset": "residencial",
+    "es": "Conjunto Mirador",
+    "en": "Mirador Residences",
+    "esType": "Residencial",
+    "enType": "Residential",
+    "risk": 72,
+    "series": [
+      48,
+      46,
+      45,
+      49,
+      44,
+      31,
+      25
+    ],
+    "image": "assets/negocios/residencial.jpg",
+    "dataType": "educational_simulation"
+  },
+  {
+    "id": "A-02",
+    "asset": "restaurante",
+    "es": "Restaurante La Terraza",
+    "en": "La Terraza Restaurant",
+    "esType": "Gastronomía",
+    "enType": "Food service",
+    "risk": 25,
+    "series": [
+      32,
+      36,
+      33,
+      35,
+      34,
+      38,
+      37
+    ],
+    "image": "assets/negocios/restaurante.jpg",
+    "dataType": "educational_simulation"
+  },
+  {
+    "id": "A-03",
+    "asset": "hotel",
+    "es": "Hotel Vista Azul",
+    "en": "Vista Azul Hotel",
+    "esType": "Hospedaje",
+    "enType": "Hospitality",
+    "risk": 88,
+    "series": [
+      55,
+      57,
+      53,
+      49,
+      17,
+      12,
+      10
+    ],
+    "image": "assets/negocios/hotel.jpg",
+    "dataType": "educational_simulation"
+  },
+  {
+    "id": "A-04",
+    "asset": "centro_comercial",
+    "es": "C. Comercial Río Claro",
+    "en": "Río Claro Shopping Mall",
+    "esType": "Comercio",
+    "enType": "Retail",
+    "risk": 41,
+    "series": [
+      42,
+      45,
+      44,
+      40,
+      47,
+      43,
+      41
+    ],
+    "image": "assets/negocios/centro_comercial.jpg",
+    "dataType": "educational_simulation"
+  },
+  {
+    "id": "A-05",
+    "asset": "industria",
+    "es": "Alimentos del Valle",
+    "en": "Del Valle Food Plant",
+    "esType": "Industria",
+    "enType": "Industry",
+    "risk": 67,
+    "series": [
+      64,
+      61,
+      67,
+      63,
+      49,
+      43,
+      38
+    ],
+    "image": "assets/negocios/industria.jpg",
+    "dataType": "educational_simulation"
+  },
+  {
+    "id": "A-06",
+    "asset": "autolavado",
+    "es": "Autolavado Brisas",
+    "en": "Brisas Car Wash",
+    "esType": "Servicios",
+    "enType": "Services",
+    "risk": 53,
+    "series": [
+      28,
+      29,
+      30,
+      27,
+      29,
+      13,
+      15
+    ],
+    "image": "assets/negocios/autolavado.jpg",
+    "dataType": "educational_simulation"
+  },
+  {
+    "id": "A-07",
+    "asset": "clinica",
+    "es": "Clínica San Gabriel",
+    "en": "San Gabriel Clinic",
+    "esType": "Salud",
+    "enType": "Healthcare",
+    "risk": 19,
+    "series": [
+      38,
+      40,
+      37,
+      41,
+      39,
+      38,
+      40
+    ],
+    "image": "assets/negocios/clinica.jpg",
+    "dataType": "educational_simulation"
+  },
+  {
+    "id": "A-08",
+    "asset": "colegio",
+    "es": "Colegio Los Pinos",
+    "en": "Los Pinos School",
+    "esType": "Educación",
+    "enType": "Education",
+    "risk": 36,
+    "series": [
+      24,
+      26,
+      25,
+      24,
+      26,
+      25,
+      24
+    ],
+    "image": "assets/negocios/colegio.jpg",
+    "dataType": "educational_simulation"
+  }
+]

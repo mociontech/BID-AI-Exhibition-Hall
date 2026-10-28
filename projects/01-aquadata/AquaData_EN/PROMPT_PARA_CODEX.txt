@@ -1,0 +1,49 @@
+Estoy desarrollando la experiencia 01_AquaData del proyecto BID AI EXHIBITION HALL — From Strategy to Impact.
+
+Tengo un paquete llamado AquaData_18_Pantallas_ES_EN con 18 pantallas PNG (9 español y 9 inglés), el archivo index.html, assets y un minijuego anterior.
+
+OBJETIVO
+Integra el diseño al proyecto existente sin reconstruir el menú general. En la tarjeta 01 AquaData, abrir su pantalla principal (screen=0), con dos opciones:
+- Información: abre screen=1 y permite recorrer pantallas 1–8.
+- Minijuego: dirige al flujo interactivo existente o al juego anterior como referencia.
+
+NAVEGACIÓN
+- Mantén rutas/estado compatibles con el router del proyecto. No rompas los otros proyectos.
+- Pantallas 0–8: 0 Menú, 1 El reto, 2 Consecuencias, 3 La solución, 4 Cómo funciona, 5 Quién se beneficia, 6 Resultados reales, 7 ¿Dónde opera?, 8 Mensaje final.
+- Cambio ES/EN conservando screen actual, sin duplicar lógica de navegación.
+- Botones Inicio / Atrás / Siguiente y teclado; permitir volver al índice general de la exhibición.
+- Si el proyecto tiene un sistema de navegación común, utiliza ese en lugar de crear otro.
+
+LINEAMIENTOS GRÁFICOS OBLIGATORIOS
+- Mismo key visual claro del menú principal BID; fondo blanco, azul institucional, cian, gráficos punteados, arcos circulares sutiles, imágenes de agua y tarjetas redondeadas.
+- Logo BID + AI EXHIBITION HALL — From Strategy to Impact en la cabecera, sin redibujar su identidad; reemplazar por SVG oficial si ya existe en el proyecto.
+- 16:9 1920x1080; adaptar para tableta táctil.
+- Usar las imágenes PNG ES/EN como referencia visual exacta y de revisión, NO como una imagen plana completa donde se simulan botones.
+- Los textos, las barras de resultados, los botones y la lógica deben construirse con componentes web editables.
+- Fuente sans-serif limpia tipo Inter, títulos grandes, pocos párrafos, jerarquía alta y fotografías desvanecidas.
+
+DATOS DEL CONTENIDO
+- 1.4% → 11.6% EMCALI (Cali)
+- 11.45% → 22.56% EAAB (Bogotá)
+- 6.5% → 14.5% SADM (Monterrey)
+- 16.3% → 37.6% Aguas Regionales (Urabá)
+Estas cifras son tasas de hallazgos frente a referencias. Procedencia: ficha AquaData del BID, presentación ANDESCO septiembre de 2026.
+- Contratos y puntajes individuales de 92, 67 y 21 son ejemplos ilustrativos.
+- Agua No Contabilizada / Non-Revenue Water: ANC / NRW.
+- El RIR es el Reporte de Índice de Riesgo / Risk Index Report.
+- No mostrar pérdidas físicas de tuberías como objetivo del modelo; AquaData prioriza contratos con posibles irregularidades comerciales.
+- Un puntaje de riesgo alto NO confirma fraude, y el modelo NO sanciona ni corta servicio.
+- No integrar Energizados hasta aprobación del BID.
+- Mostrar la lista de contrapartes como ejemplos, sin afirmar que todos los proyectos estén en idéntica fase.
+
+IMPLEMENTACIÓN
+1. Examina la arquitectura del repositorio y sus componentes del key visual.
+2. Incorpora los assets desde /assets y usa la maqueta index.html como guía funcional.
+3. Crea las vistas reactivas (ES/EN) con navegación y edición de copy por pantalla.
+4. Usa datos de chart estructurados y reusables para que el gráfico sea editable.
+5. Reutiliza el minijuego original como base, pero adapta su diseño a este key visual cuando se aborde esa fase.
+6. Verifica en Chrome 1920x1080, tableta horizontal, accesibilidad en botones y retorno al índice general.
+7. NO cambies el diseño o comportamiento de otros proyectos del AI Exhibition Hall.
+
+ENTREGA
+Archivos integrados al repositorio actual, estilos consistentes y navegación comprobada. Informa archivos modificados y pendientes de aprobación institucional.

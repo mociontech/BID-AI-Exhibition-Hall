@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "name": "AquaData",
+    "slug": "01_aquadata",
+    "image": "../cards/photos/01_aquadata.jpg",
+    "full_card": "../cards/full/01_aquadata_tarjeta.png"
+  },
+  {
+    "id": 2,
+    "name": "Bogotá Traffic Prediction",
+    "slug": "02_bogota_traffic_prediction",
+    "image": "../cards/photos/02_bogota_traffic_prediction.jpg",
+    "full_card": "../cards/full/02_bogota_traffic_prediction_tarjeta.png"
+  },
+  {
+    "id": 3,
+    "name": "Costa Rica Smart Borders",
+    "slug": "03_costa_rica_smart_borders",
+    "image": "../cards/photos/03_costa_rica_smart_borders.jpg",
+    "full_card": "../cards/full/03_costa_rica_smart_borders_tarjeta.png"
+  },
+  {
+    "id": 4,
+    "name": "Parque Tecnológico Guatiguará",
+    "slug": "04_parque_tecnologico_guatiguara",
+    "image": "../cards/photos/04_parque_tecnologico_guatiguara.jpg",
+    "full_card": "../cards/full/04_parque_tecnologico_guatiguara_tarjeta.png"
+  },
+  {
+    "id": 5,
+    "name": "Profe Gabi",
+    "slug": "05_profe_gabi",
+    "image": "../cards/photos/05_profe_gabi.jpg",
+    "full_card": "../cards/full/05_profe_gabi_tarjeta.png"
+  },
+  {
+    "id": 6,
+    "name": "RegLAC",
+    "slug": "06_reglac",
+    "image": "../cards/photos/06_reglac.jpg",
+    "full_card": "../cards/full/06_reglac_tarjeta.png"
+  },
+  {
+    "id": 7,
+    "name": "CSD: MAIIA",
+    "slug": "07_csd_maiia",
+    "image": "../cards/photos/07_csd_maiia.jpg",
+    "full_card": "../cards/full/07_csd_maiia_tarjeta.png"
+  },
+  {
+    "id": 8,
+    "name": "SIEMPLEA",
+    "slug": "08_siemplea",
+    "image": "../cards/photos/08_siemplea.jpg",
+    "full_card": "../cards/full/08_siemplea_tarjeta.png"
+  },
+  {
+    "id": 9,
+    "name": "Teachy",
+    "slug": "09_teachy",
+    "image": "../cards/photos/09_teachy.jpg",
+    "full_card": "../cards/full/09_teachy_tarjeta.png"
+  },
+  {
+    "id": 10,
+    "name": "VPC Country Intelligence",
+    "slug": "10_vpc_country_intelligence",
+    "image": "../cards/photos/10_vpc_country_intelligence.jpg",
+    "full_card": "../cards/full/10_vpc_country_intelligence_tarjeta.png"
+  },
+  {
+    "id": 11,
+    "name": "RSM RISE",
+    "slug": "11_rsm_rise",
+    "image": "../cards/photos/11_rsm_rise.jpg",
+    "full_card": "../cards/full/11_rsm_rise_tarjeta.png"
+  }
+]

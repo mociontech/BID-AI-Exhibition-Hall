@@ -1,0 +1,12 @@
+{
+  "name": "ai-exhibition-hall-tablet-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "11-project landscape tablet menu, 3 paired stations, Codex-ready project modules",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {"node": ">=18"},
+  "dependencies": {}
+}

@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Exhibition Hall · Menu UI assets</title><link rel="stylesheet" href="styles.css"></head><body><main class="screen"><header><div class="tag">BID &nbsp; | &nbsp; AI EXHIBITION HALL<br><small>From Strategy to Impact</small></div><h1>Explore <em>AI</em> in Action</h1><p>Select a project to begin your experience.</p></header><section class="projects">        <button class="project-card" data-project="01_aquadata" type="button" aria-label="Open AquaData">
+          <img class="photo" src="../cards/photos/01_aquadata.jpg" alt="" />
+          <span class="copy"><strong class="number">01</strong><span class="project-title">AquaData</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="02_bogota_traffic_prediction" type="button" aria-label="Open Bogotá Traffic Prediction">
+          <img class="photo" src="../cards/photos/02_bogota_traffic_prediction.jpg" alt="" />
+          <span class="copy"><strong class="number">02</strong><span class="project-title">Bogotá Traffic Prediction</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="03_costa_rica_smart_borders" type="button" aria-label="Open Costa Rica Smart Borders">
+          <img class="photo" src="../cards/photos/03_costa_rica_smart_borders.jpg" alt="" />
+          <span class="copy"><strong class="number">03</strong><span class="project-title">Costa Rica Smart Borders</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="04_parque_tecnologico_guatiguara" type="button" aria-label="Open Parque Tecnológico Guatiguará">
+          <img class="photo" src="../cards/photos/04_parque_tecnologico_guatiguara.jpg" alt="" />
+          <span class="copy"><strong class="number">04</strong><span class="project-title">Parque Tecnológico Guatiguará</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="05_profe_gabi" type="button" aria-label="Open Profe Gabi">
+          <img class="photo" src="../cards/photos/05_profe_gabi.jpg" alt="" />
+          <span class="copy"><strong class="number">05</strong><span class="project-title">Profe Gabi</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="06_reglac" type="button" aria-label="Open RegLAC">
+          <img class="photo" src="../cards/photos/06_reglac.jpg" alt="" />
+          <span class="copy"><strong class="number">06</strong><span class="project-title">RegLAC</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="07_csd_maiia" type="button" aria-label="Open CSD: MAIIA">
+          <img class="photo" src="../cards/photos/07_csd_maiia.jpg" alt="" />
+          <span class="copy"><strong class="number">07</strong><span class="project-title">CSD: MAIIA</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="08_siemplea" type="button" aria-label="Open SIEMPLEA">
+          <img class="photo" src="../cards/photos/08_siemplea.jpg" alt="" />
+          <span class="copy"><strong class="number">08</strong><span class="project-title">SIEMPLEA</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="09_teachy" type="button" aria-label="Open Teachy">
+          <img class="photo" src="../cards/photos/09_teachy.jpg" alt="" />
+          <span class="copy"><strong class="number">09</strong><span class="project-title">Teachy</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="10_vpc_country_intelligence" type="button" aria-label="Open VPC Country Intelligence">
+          <img class="photo" src="../cards/photos/10_vpc_country_intelligence.jpg" alt="" />
+          <span class="copy"><strong class="number">10</strong><span class="project-title">VPC Country Intelligence</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button>
+        <button class="project-card" data-project="11_rsm_rise" type="button" aria-label="Open RSM RISE">
+          <img class="photo" src="../cards/photos/11_rsm_rise.jpg" alt="" />
+          <span class="copy"><strong class="number">11</strong><span class="project-title">RSM RISE</span></span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </button></section><footer><button class="home" type="button" onclick="location.reload()">⌂ &nbsp; Home</button><span>AI EXHIBITION HALL &nbsp; <small>From Strategy to Impact</small></span><button class="back" type="button" onclick="history.back()">← &nbsp; Back</button></footer><div class="toast" id="toast" role="status"></div></main><script>const toast=document.querySelector('#toast');document.querySelectorAll('[data-project]').forEach(b=>b.addEventListener('click',()=>{toast.textContent='Proyecto seleccionado: '+b.querySelector('.project-title').textContent+'. Conecta aquí la carpeta del proyecto en Codex.';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3500)}));</script></body></html>

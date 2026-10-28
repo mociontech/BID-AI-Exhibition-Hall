@@ -1,0 +1,40 @@
+{
+  "type": "educational_simulation",
+  "officialBIDData": false,
+  "purpose": "Resultados ficticios para probar la mecánica de comparación del minijuego. No se derivan de datos reales de empresas ni de observaciones en campo.",
+  "method": "Las irregularidades se revelan sólo después de la inspección simulada. El riesgo estimado no confirma el resultado.",
+  "outcomes": [
+    {
+      "id": "A-01",
+      "finding": false
+    },
+    {
+      "id": "A-02",
+      "finding": false
+    },
+    {
+      "id": "A-03",
+      "finding": true
+    },
+    {
+      "id": "A-04",
+      "finding": false
+    },
+    {
+      "id": "A-05",
+      "finding": true
+    },
+    {
+      "id": "A-06",
+      "finding": true
+    },
+    {
+      "id": "A-07",
+      "finding": false
+    },
+    {
+      "id": "A-08",
+      "finding": false
+    }
+  ]
+}

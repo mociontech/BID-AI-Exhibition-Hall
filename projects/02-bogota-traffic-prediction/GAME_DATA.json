@@ -1,0 +1,36 @@
+{
+  "product": "PredictToDo",
+  "experience": "Pulso Vial Bogotá / Bogotá Traffic Pulse",
+  "version": "prototipo educativo",
+  "bilingual": ["es", "en"],
+  "data_type": "simulated",
+  "purpose": "Ilustrar cómo predicciones de congestión pueden apoyar decisiones humanas de movilidad.",
+  "important_note": "Los escenarios, efectos, valores y puntajes no provienen de resultados reales del modelo PredictToDo. Son material lúdico para revisión con el equipo del proyecto.",
+  "technical_context_from_DigitalMornings": {
+    "input_information_tb_approx": 20,
+    "variables_approx": 300,
+    "road_segments": 139107,
+    "reported_prediction_horizon_hours": 12,
+    "reported_time_resolution_minutes": 15,
+    "outputs": ["congestion_level", "estimated_speed"],
+    "source": "DigitalMornings.pdf, páginas 6-9; todas las cifras deben validarse para exhibición"
+  },
+  "characters": [
+    {"id":"valentina","name":"Valentina","role_es":"Ingeniera de tránsito","role_en":"Traffic engineer"},
+    {"id":"camila","name":"Camila","role_es":"Coordinadora del centro de control","role_en":"Control center coordinator"},
+    {"id":"santiago","name":"Santiago","role_es":"Operador de semáforos","role_en":"Traffic signal operator"},
+    {"id":"andres","name":"Andrés","role_es":"Jefe de agentes de tránsito","role_en":"Traffic agents manager"}
+  ],
+  "actions": [
+    {"id":"signals","es":"Ajustar semáforo","en":"Adjust traffic signals"},
+    {"id":"reversible","es":"Habilitar carril reversible","en":"Enable reversible lane"},
+    {"id":"agents","es":"Enviar agentes de tránsito","en":"Send traffic agents"},
+    {"id":"monitor","es":"No hacer nada","en":"Do nothing"}
+  ],
+  "scenarios": [
+    {"id":"cali_peak","time":"16:40","icon":"traffic_light","title_es":"Hora pico en la Av. Ciudad de Cali","title_en":"Peak hour on Av. Ciudad de Cali","scores":{"signals":55,"reversible":100,"agents":40,"monitor":15},"score_source":"Referencia del juego aportada por el usuario; no validación operativa"},
+    {"id":"campin_arrival","time":"17:15","icon":"football","title_es":"Llegada de hinchas a El Campín","title_en":"Fans arrive at El Campín","scores":{"signals":70,"reversible":45,"agents":100,"monitor":10},"score_source":"Simulación propuesta; pendiente de validación"},
+    {"id":"campin_exit","time":"19:55","icon":"stadium","title_es":"Salida masiva de El Campín","title_en":"Crowds leave El Campín","scores":{"signals":90,"reversible":50,"agents":80,"monitor":10},"score_source":"Simulación propuesta; pendiente de validación"},
+    {"id":"calle100_quiet","time":"22:15","icon":"sun","title_es":"Tráfico tranquilo en la Calle 100","title_en":"Light traffic on Calle 100","scores":{"signals":45,"reversible":10,"agents":20,"monitor":100},"score_source":"Simulación propuesta; pendiente de validación"}
+  ]
+}

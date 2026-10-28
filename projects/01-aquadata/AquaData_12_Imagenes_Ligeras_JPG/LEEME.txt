@@ -1,0 +1,1 @@
+12 imágenes de referencia JPG 1920x1080, mismo diseño de los PNG, archivos más ligeros. Para programación usar PROMPT_AQUADATA_CODEX_IMPLEMENTACION.txt disponible por separado.

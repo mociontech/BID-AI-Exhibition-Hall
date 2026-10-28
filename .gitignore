@@ -1,0 +1,12 @@
+# Local dependencies and diagnostic output
+node_modules/
+artifacts/
+coverage/
+
+# Local configuration, logs and editor files
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
