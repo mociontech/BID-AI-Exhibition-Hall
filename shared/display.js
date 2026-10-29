@@ -64,6 +64,16 @@ function renderBogotaGame(data){
  else panel=`<section class="pulse-final"><span>🏆</span><p class="pulse-eyebrow">${gameCopy.finish}</p><h1>${total}<small>/400</small></h1><p>${language==='en'?'Anticipating congestion supports better-informed planning.':'Anticipar la congestión permite planificar con mejor información.'}</p><div>${(bogotaGameData?.scenarios||[]).map((item,index)=>`<p><b>${index+1}. ${item[`title_${language}`]}</b><span>${game.results?.[index]||0} ${gameCopy.score.toLowerCase()}</span></p>`).join('')}</div><button type="button" class="pulse-primary">${gameCopy.restart} ↻</button></section>`;
  app.innerHTML=`<main class="pulse-game pulse-game--display" aria-label="PredictToDo game mirror">${header}${panel}</main>`;
 }
+/* The command-center game is rendered from the same shared template as the
+   tablet. The display has no active controls, but mirrors every selection. */
+function renderBogotaGame(data){
+ const language=data.language==='en'?'en':'es';
+ if(!bogotaGameData||!window.PULSE_VIAL){
+  app.innerHTML='<main class="pulse-command pulse-command--loading"><p>Loading PredictToDo…</p></main>';
+  return;
+ }
+ app.innerHTML=window.PULSE_VIAL.render({data:bogotaGameData,game:data.game||{},language,readonly:true});
+}
 function renderDefault(data){
  const p=EXHIBITION_PROJECTS.find(p=>p.id===data?.projectId);
  const isHome=!p||data?.view==='home';

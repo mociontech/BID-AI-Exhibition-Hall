@@ -59,3 +59,19 @@ test('PredictToDo game data has four configurable simulated scenarios',()=>{
  assert.match(controller,/GAME_DATA\.json/);
  assert.match(controller,/'final'/);
 });
+
+test('Pulso Vial offers role-aware decisions and a shared command-center renderer',()=>{
+ const game=JSON.parse(fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','GAME_DATA.json'),'utf8'));
+ assert.equal(game.characters.length,4);
+ assert.ok(game.characters.every(person=>person.bonus?.action&&person.bonus.points>0));
+ assert.ok(game.scenarios.every(item=>item.brief_es&&item.clue_es&&item.effects?.signals&&item.effects?.monitor));
+ const context={window:{}};
+ vm.runInNewContext(fs.readFileSync(path.join(root,'shared','pulse-vial.js'),'utf8'),context);
+ const gameState={phase:'decision',playerId:'andres',playerName:'Daniela',hour:17,scenarioIndex:1,actionId:'agents',results:{}};
+ const screen=context.window.PULSE_VIAL.render({data:game,game:gameState,language:'es',readonly:false});
+ assert.match(screen,/pulse-city-map/);
+ assert.match(screen,/data-hour/);
+ assert.match(screen,/data-action-choice="agents"/);
+ assert.match(screen,/Aplicar decisión/);
+ assert.equal(context.window.PULSE_VIAL.roleScore(game,gameState,game.scenarios[1],'agents'),100);
+});
