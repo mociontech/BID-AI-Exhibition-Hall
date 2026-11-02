@@ -1,3 +1,7 @@
+// Dedicated RegLAC entry; Home retains access to the general project menu.
+if(new URLSearchParams(location.search).get('station')==='6'&&!new URLSearchParams(location.search).has('projects')){
+ location.replace('projects/06-reglac/index.html?station=6');
+}else{
 const projects=window.EXHIBITION_PROJECTS;
 // SIEMPLEA remains in the registry and keeps its route, but is intentionally
 // not part of the public tablet menu at this stage.
@@ -30,3 +34,4 @@ app.querySelectorAll('[data-project]').forEach(a=>a.addEventListener('click',asy
 }));
 app.querySelector('[data-go-home]').addEventListener('click',e=>{e.preventDefault();sync.send({view:'home',projectId:null,section:null});});
 sync.send({view:'home',projectId:null,section:null});
+}
