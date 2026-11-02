@@ -134,4 +134,4 @@ async function tick(){
   if(sig!==last){last=sig;render(data);}
  }finally{busy=false;}
 }
-render(null);tick();setInterval(tick,150);
+render(null);tick();setInterval(tick,sync.pollInterval||150);
