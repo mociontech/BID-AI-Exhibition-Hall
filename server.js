@@ -1,6 +1,6 @@
 /**
  * Local-only exhibition prototype server (no external packages).
- * Syncs three independent tablet/display pairs on the same LAN.
+ * Syncs the ten public tablet/display pairs on the same LAN.
  * Does NOT secure this API for use on an untrusted/public network.
  */
 const http=require('node:http');
@@ -15,11 +15,16 @@ const stations={
   1:{stationId:1,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
   2:{stationId:2,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
   3:{stationId:3,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
+  4:{stationId:4,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
   5:{stationId:5,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
-  6:{stationId:6,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null}
+  6:{stationId:6,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
+  7:{stationId:7,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
+  9:{stationId:9,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
+  10:{stationId:10,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
+  11:{stationId:11,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null}
 };
 function sendJson(res,code,data){res.writeHead(code,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'});res.end(JSON.stringify(data));}
-function stationParam(url){const num=Number(url.searchParams.get('station'));return [1,2,3,5,6].includes(num)?num:1;}
+function stationParam(url){const num=Number(url.searchParams.get('station'));return [1,2,3,4,5,6,7,9,10,11].includes(num)?num:1;}
 const server=http.createServer((req,res)=>{
  let url;
  try{url=new URL(req.url,'http://localhost');}catch{return sendJson(res,400,{error:'Bad URL'});}
@@ -29,7 +34,7 @@ const server=http.createServer((req,res)=>{
  }
  if(url.pathname==='/api/state'){
   const station=stationParam(url);
-  if(req.method==='GET')return sendJson(res,200,station===5||station===6||stations[station].projectId==='06'?{...stations[station],serverNow:Date.now()}:stations[station]);
+  if(req.method==='GET')return sendJson(res,200,station===5||station===6||['05','06'].includes(stations[station].projectId)?{...stations[station],serverNow:Date.now()}:stations[station]);
   if(req.method!=='POST')return sendJson(res,405,{error:'Method not allowed'});
   let buffer='';
   req.on('data',chunk=>{buffer+=chunk;if(buffer.length>10000)req.destroy();});
@@ -111,10 +116,7 @@ const server=http.createServer((req,res)=>{
 server.listen(PORT,HOST,()=>{
  console.log(`\nAI Exhibition Hall — local station server at http://localhost:${PORT}`);
  console.log('Stations:');
- console.log(`  STATION 1 Tablet  http://localhost:${PORT}/?station=1  | Display http://localhost:${PORT}/display.html?station=1`);
- console.log(`  STATION 2 Tablet  http://localhost:${PORT}/?station=2  | Display http://localhost:${PORT}/display.html?station=2`);
- console.log(`  STATION 3 Tablet  http://localhost:${PORT}/?station=3  | Display http://localhost:${PORT}/display.html?station=3`);
- console.log(`  STATION 5 Tablet  http://localhost:${PORT}/?station=5  | Display http://localhost:${PORT}/display.html?station=5`);
+ for(const id of Object.keys(stations))console.log(`  STATION ${id} Tablet  http://localhost:${PORT}/?station=${id}  | Display http://localhost:${PORT}/display.html?station=${id}`);
  for(const list of Object.values(os.networkInterfaces()))for(const item of list||[])if(item.family==='IPv4'&&!item.internal)console.log(`  LAN address: http://${item.address}:${PORT}`);
  console.log('');
 });

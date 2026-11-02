@@ -82,6 +82,6 @@ La infografía de TV se construye ahora con HTML traducido y los mismos contenid
 
 ## Publicación GitHub / Netlify
 
-La rama de integración es project/06-reglac. Se conserva el transporte Firebase añadido en main: /api/state en desarrollo y Realtime Database en Netlify. El fragmento de reglas raíz incluye ahora la estación 6 y debe publicarlo un administrador de f1-sap; actualizar el repositorio no cambia automáticamente las reglas de Firebase. Para RegLAC, el reloj público se calibra con una petición HEAD al mismo dominio de Netlify y se reutiliza durante un minuto, sin depender de una cabecera Date bloqueada por CORS.
+La rama de integración es project/06-reglac. Se conserva el transporte Firebase añadido en main: /api/state en desarrollo y Realtime Database en Netlify. El administrador publicó las reglas para las diez estaciones visibles (1–7, 9–11); el fragmento versionado y la lista admitida por la aplicación utilizan esos mismos identificadores. Actualizar el repositorio no publica automáticamente cambios futuros de reglas de Firebase. Para RegLAC, el reloj público se calibra con una petición HEAD al mismo dominio de Netlify y se reutiliza durante un minuto, sin depender de una cabecera Date bloqueada por CORS.
 
 Verificación adicional: node --test tests/*.test.js projects/06-reglac/state.test.cjs projects/06-reglac/sync.test.cjs.
