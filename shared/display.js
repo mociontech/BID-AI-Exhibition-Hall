@@ -54,6 +54,10 @@ function renderGuatiguara(data){
  const image=GUATIGUARA_ART[language].info;
  app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information"><img src="${image}" alt="Parque Tecnológico Guatiguará information"></main>`;
 }
+function renderGuatiguaraGame(data){
+ if(!window.GUATIGUARA_GAME)return renderGuatiguara(data);
+ app.innerHTML=window.GUATIGUARA_GAME.renderTV(data.game,data.language);
+}
 function renderCostaRica(data){
  const language=data.language==='en'?'en':'es';
  const isInfo=data.mode==='info'||data.mode==='cta'||data.mode==='game'||data.mode==='results';
@@ -104,13 +108,17 @@ function renderDefault(data){
  app.innerHTML=`<main class="display-app"><header class="display-header">${AI_BRAND.header()}<span class="display-station">STATION ${String(sync.station).padStart(2,'0')} ? MAIN DISPLAY</span></header><section class="display-body"><div class="display-info"><div class="display-kicker">${isHome?'AI EXHIBITION HALL':`PROJECT ${p.id} ? ${p.division}`}</div><h1 class="display-title">${title}</h1><p class="display-description">${intro}</p></div><div class="display-figure" aria-hidden="true">${isHome?'?':data.view==='game'?'?':data.view==='overview'?'?':'?'}</div></section><footer class="display-footer">From Strategy to Impact ? This screen is controlled by the tablet.</footer></main>`;
 }
 function render(data){
+ if(data?.projectId==='05'&&data?.view!=='home'){
+  window.PROFE_GABI.renderInto(app,data,{readonly:true});
+  return;
+ }
  const isAquaData=data?.projectId==='01'&&data?.view!=='home';
  if(isAquaData)return renderAquaData(data);
  const isCostaRica=data?.projectId==='03'&&data?.view!=='home';
  if(isCostaRica)return renderCostaRica(data);
- // Project 04 is a tablet-led experience. Both its information view and its
- // minigame retain the approved infographic on the station display.
- const isGuatiguara=data?.projectId==='04'&&data?.view!=='home'&&(data?.mode==='info'||data?.mode==='game');
+ const isGuatiguaraGame=data?.projectId==='04'&&data?.view==='game'&&data?.mode==='game';
+ if(isGuatiguaraGame)return renderGuatiguaraGame(data);
+ const isGuatiguara=data?.projectId==='04'&&data?.view!=='home'&&data?.mode==='info';
  if(isGuatiguara)return renderGuatiguara(data);
  const isBogotaTraffic=data?.projectId==='02'&&data?.view==='overview'&&data?.section==='info';
  if(isBogotaTraffic)return renderBogotaTraffic(data);

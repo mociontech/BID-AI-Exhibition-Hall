@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Tablet / Main Screen — ES",
+    "nodeId": "99:100",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-100"
+  },
+  {
+    "name": "Tablet / Main Screen — EN",
+    "nodeId": "99:293",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-293"
+  },
+  {
+    "name": "Tablet / Information state — ES",
+    "nodeId": "99:486",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-486"
+  },
+  {
+    "name": "Tablet / Information state — EN",
+    "nodeId": "99:691",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-691"
+  },
+  {
+    "name": "Tablet / Mini-game state — ES",
+    "nodeId": "99:896",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-896"
+  },
+  {
+    "name": "Tablet / Mini-game state — EN",
+    "nodeId": "99:1074",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-1074"
+  },
+  {
+    "name": "TV / Main Screen — ES",
+    "nodeId": "99:1252",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-1252"
+  },
+  {
+    "name": "TV / Main Screen — EN",
+    "nodeId": "99:1349",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-1349"
+  },
+  {
+    "name": "TV / Information — ES",
+    "nodeId": "99:1446",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-1446"
+  },
+  {
+    "name": "TV / Information — EN",
+    "nodeId": "99:1687",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-1687"
+  },
+  {
+    "name": "TV / Mini-game — ES",
+    "nodeId": "99:1929",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-1929"
+  },
+  {
+    "name": "TV / Mini-game — EN",
+    "nodeId": "99:2088",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-2088"
+  },
+  {
+    "name": "TV / Results or Final message — ES",
+    "nodeId": "99:2247",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-2247"
+  },
+  {
+    "name": "TV / Results or Final message — EN",
+    "nodeId": "99:2448",
+    "url": "https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=99-2448"
+  }
+]

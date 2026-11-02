@@ -40,7 +40,7 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
  assert.match(controller,/projectId:'03'/);
  assert.match(controller,/setTimeout\(unlockGame,10000\)/);
  assert.match(controller,/gameReady/);
- assert.match(controller,/Costa_Rica_Smart_Borders_03_index\.html/);
+ assert.match(controller,/prototipo_actual_V5\.html/);
  assert.match(controller,/language==='en'/);
  assert.match(display,/renderCostaRica/);
  assert.match(display,/data\.mode==='cta'/);
@@ -121,4 +121,27 @@ test('Pulso Vial offers role-aware decisions and a shared command-center rendere
  assert.match(screen,/data-action-choice="agents"/);
  assert.match(screen,/Aplicar decisión/);
  assert.equal(context.window.PULSE_VIAL.roleScore(game,gameState,game.scenarios[1],'agents'),100);
+});
+
+test('Costa Rica Smart Borders ships the redesigned bilingual mini-game and keeps the TV on the information sheet',()=>{
+ const game=path.join(root,'projects','03-costa-rica-smart-borders','game');
+ assert.ok(fs.existsSync(path.join(game,'index.html')));
+ assert.ok(fs.existsSync(path.join(game,'game.css')));
+ const script=fs.readFileSync(path.join(game,'game.js'),'utf8');
+ const controller=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','module.js'),'utf8');
+ assert.ok(controller.includes("./game/index.html"));
+ for(const screen of ['intro','manual','ai','results'])assert.match(script,new RegExp(screen+':screen'));
+ assert.match(script,/Tu tiempo/);
+ assert.match(script,/Your time/);
+ assert.match(script,/Manifiesto de carga/);
+ assert.match(script,/Declaración aduanera/);
+ assert.match(script,/Falta un documento/);
+ assert.match(script,/no abre el camión/);
+ assert.match(script,/Se trata de priorizar mejor/);
+ assert.match(script,/It is about prioritizing better/);
+ assert.match(script,/data-act="home"/);
+ assert.match(script,/id="es"/);
+ assert.match(script,/id="en"/);
+ // The TV never mirrors game questions or decisions: the packet carries no game payload.
+ assert.match(controller,/game:null/);
 });
