@@ -1,0 +1,63 @@
+{
+  "status": "draft_for_client_validation",
+  "labsAreOfficial": false,
+  "notes": "Nombres provisionales: validar los 7 laboratorios antes de publicar. Escenarios pedagógicos ficticios.",
+  "es": {
+    "menu": {"info": "Información", "game": "Minijuego"},
+    "welcome": {"eyebrow": "MINIJUEGO · BIENVENIDA", "title": "Activa la innovación", "description": "Descubre cómo una idea puede conectarse con laboratorios, talento y aliados para convertirse en una oportunidad.", "cta": "Comenzar misión"},
+    "challenge": {"eyebrow": "PASO 1 · ELIGE UN RETO", "title": "Cada idea comienza con un desafío", "description": "Selecciona el tipo de reto que quieres ayudar a resolver.", "cta": "Continuar"},
+    "laboratory": {"eyebrow": "PASO 2 · ELIGE UN LABORATORIO", "title": "Siete laboratorios, múltiples caminos", "description": "Elige el laboratorio que mejor puede impulsar el reto seleccionado.", "cta": "Continuar"},
+    "supports": {"eyebrow": "PASO 3 · ACTIVA APOYOS", "title": "La innovación también necesita apoyo", "description": "Selecciona dos elementos que ayudan a que la idea avance.", "cta": "Ver resultado"},
+    "result": {"eyebrow": "RESULTADO · MISIÓN COMPLETADA", "title": "Así se activa la innovación", "description": "En Guatiguará, una idea puede fortalecerse cuando se conecta con laboratorios, talento y colaboración.", "cta": "Volver a jugar", "disclaimer": "Resultado pedagógico · Ejemplo de recorrido"},
+    "challenges": [
+      {"id":"agroindustria","label":"Agroindustria","short":"Optimizar procesos y productividad","icon":"agroindustria"},
+      {"id":"salud","label":"Salud","short":"Explorar soluciones para bienestar","icon":"salud"},
+      {"id":"herramienta-digital","label":"Herramienta digital","short":"Crear servicios y plataformas","icon":"herramienta-digital"},
+      {"id":"nuevo-producto","label":"Nuevo producto","short":"Convertir una idea en prototipo","icon":"nuevo-producto"}
+    ],
+    "labs": [
+      {"id":"agrotech","label":"AgroTech","short":"Procesos, sensores y productividad","icon":"agroindustria"},
+      {"id":"healthtech","label":"HealthTech","short":"Soluciones para salud y bienestar","icon":"salud"},
+      {"id":"software-ux","label":"Software & UX","short":"Plataformas, interfaces y experiencia","icon":"herramienta-digital"},
+      {"id":"ia-analitica","label":"IA & Analítica","short":"Datos, modelos y apoyo a decisiones","icon":"ia-analitica"},
+      {"id":"iot-sensores","label":"IoT & Sensores","short":"Conexión física y monitoreo inteligente","icon":"iot-sensores"},
+      {"id":"prototipado-digital","label":"Prototipado digital","short":"Pruebas, iteraciones y validación","icon":"nuevo-producto"},
+      {"id":"ciberseguridad","label":"Ciberseguridad","short":"Protección, confianza y resiliencia","icon":"ciberseguridad"}
+    ],
+    "supportOptions": [
+      {"id":"formacion","label":"Talento y formación","short":"Fortalecer capacidades y habilidades","icon":"formacion"},
+      {"id":"validacion","label":"Prototipado y validación","short":"Probar antes de escalar","icon":"nuevo-producto"},
+      {"id":"aliados","label":"Articulación con aliados","short":"Conectar empresa, academia y red","icon":"aliados"},
+      {"id":"acompanamiento","label":"Acompañamiento técnico","short":"Orientación experta durante el proceso","icon":"acompanamiento"}
+    ]
+  },
+  "en": {
+    "menu": {"info": "Information", "game": "Minigame"},
+    "welcome": {"eyebrow": "MINIGAME · WELCOME", "title": "Activate innovation", "description": "Discover how an idea can connect with labs, talent, and partners to become an opportunity.", "cta": "Start mission"},
+    "challenge": {"eyebrow": "STEP 1 · CHOOSE A CHALLENGE", "title": "Every idea begins with a challenge", "description": "Select the type of challenge you want to help solve.", "cta": "Continue"},
+    "laboratory": {"eyebrow": "STEP 2 · CHOOSE A LAB", "title": "Seven labs, multiple paths", "description": "Choose the lab that can best support the selected challenge.", "cta": "Continue"},
+    "supports": {"eyebrow": "STEP 3 · ACTIVATE SUPPORTS", "title": "Innovation also needs support", "description": "Select two elements that help the idea move forward.", "cta": "View result"},
+    "result": {"eyebrow": "RESULT · MISSION COMPLETE", "title": "This is how innovation is activated", "description": "At Guatiguará, an idea grows stronger when it connects with labs, talent, and collaboration.", "cta": "Play again", "disclaimer": "Educational result · Example journey"},
+    "challenges": [
+      {"id":"agroindustria","label":"Agro-industry","short":"Optimize processes and productivity","icon":"agroindustria"},
+      {"id":"salud","label":"Health","short":"Explore solutions for well-being","icon":"salud"},
+      {"id":"herramienta-digital","label":"Digital tool","short":"Create services and platforms","icon":"herramienta-digital"},
+      {"id":"nuevo-producto","label":"New product","short":"Turn an idea into a prototype","icon":"nuevo-producto"}
+    ],
+    "labs": [
+      {"id":"agrotech","label":"AgroTech","short":"Processes, sensors, and productivity","icon":"agroindustria"},
+      {"id":"healthtech","label":"HealthTech","short":"Solutions for health and well-being","icon":"salud"},
+      {"id":"software-ux","label":"Software & UX","short":"Platforms, interfaces, and experience","icon":"herramienta-digital"},
+      {"id":"ia-analitica","label":"AI & Analytics","short":"Data, models, and decision support","icon":"ia-analitica"},
+      {"id":"iot-sensores","label":"IoT & Sensors","short":"Physical connection and smart monitoring","icon":"iot-sensores"},
+      {"id":"prototipado-digital","label":"Digital Prototyping","short":"Testing, iteration, and validation","icon":"nuevo-producto"},
+      {"id":"ciberseguridad","label":"Cybersecurity","short":"Protection, trust, and resilience","icon":"ciberseguridad"}
+    ],
+    "supportOptions": [
+      {"id":"formacion","label":"Talent & Training","short":"Build skills and capabilities","icon":"formacion"},
+      {"id":"validacion","label":"Prototyping & Validation","short":"Test before scaling","icon":"nuevo-producto"},
+      {"id":"aliados","label":"Partner Coordination","short":"Connect companies, academia, and networks","icon":"aliados"},
+      {"id":"acompanamiento","label":"Technical Guidance","short":"Expert support throughout the process","icon":"acompanamiento"}
+    ]
+  }
+}

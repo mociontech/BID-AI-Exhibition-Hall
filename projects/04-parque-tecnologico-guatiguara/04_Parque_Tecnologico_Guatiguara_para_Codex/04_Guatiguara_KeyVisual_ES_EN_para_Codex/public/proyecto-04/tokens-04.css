@@ -1,0 +1,11 @@
+/* Propuesta de tokens visuales del minijuego 04; cargar únicamente si es compatible con el estilo existente. */
+:root {
+  --guatiguara-blue: #005CFF;
+  --guatiguara-blue-secondary: #2E79FF;
+  --guatiguara-blue-light: #CFE1FF;
+  --guatiguara-ink: #141414;
+  --guatiguara-white: #FFFFFF;
+  --guatiguara-radius: 14px;
+  --guatiguara-font: Inter, Arial, sans-serif;
+}
+/* No aplicar background-image o degradados naranja-azul. */

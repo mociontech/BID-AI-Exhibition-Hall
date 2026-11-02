@@ -1,0 +1,30 @@
+04 · PARQUE TECNOLÓGICO GUATIGUARÁ — AI EXHIBITION HALL
+Recursos visuales bilingües (1920 × 1080 px)
+
+CONTENIDO
+- 04_Guatiguara_Inicio_ES_1920x1080.png  · Pantalla de inicio ES
+- 04_Guatiguara_Home_EN_1920x1080.png   · Home screen EN
+- 04_Guatiguara_Infografia_ES_1920x1080.png  · Infografía ES
+- 04_Guatiguara_Infographic_EN_1920x1080.png · Infographic EN
+- index.html · Prototipo web bilingüe para vista previa, con pantalla de información y minijuego conceptual.
+- assets/ · Material visual extraído de la presentación KTPA suministrada por el cliente; marca BID incluida en dicho material.
+
+USO
+Descomprima la carpeta y abra index.html en un navegador moderno.
+El selector ES/EN actualiza los títulos, las tarjetas, la infografía y el minijuego.
+La opción Información abre el resumen del proyecto. La opción Minijuego inicia una dinámica educativa de 3 decisiones.
+Para una integración por enlaces específicos al publicar en servidor:
+  ?lang=es&mode=home
+  ?lang=en&mode=home
+  ?lang=es&mode=info
+  ?lang=en&mode=info
+
+FUENTES DE DATOS
+Ficha CO-T1754 (agosto 2026), párrafos introductorios (septiembre 2026), presentación KTPA (septiembre 2026), documento de cooperación técnica y manual de marca BID suministrados.
+Las cifras de asistencia y capacitación son avances reportados, NO resultados finales.
+Las metas se etiquetan explícitamente (300 empresas / 420 personas).
+Las 7 áreas corresponden al equipamiento previsto y despliegue 2026–2027.
+La actividad es ilustrativa; no representa decisiones automatizadas, un software del parque ni impactos medidos.
+
+NOTA DE MARCA
+Propuesta visual inspirada en el manual de identidad recibido y en la referencia de la estación 03. El logotipo BID utilizado procede de la presentación del proyecto suministrada. La pieza debe someterse a revisión final de marca y contenidos antes de exhibirse públicamente.

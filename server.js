@@ -10,7 +10,7 @@ const os=require('node:os');
 const PORT=Number(process.env.PORT||4173);
 const HOST=process.env.HOST||'0.0.0.0';
 const ROOT=__dirname;
-const MIME={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml','.json':'application/json; charset=utf-8','.md':'text/markdown; charset=utf-8','.ico':'image/x-icon'};
+const MIME={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.json':'application/json; charset=utf-8','.md':'text/markdown; charset=utf-8','.ico':'image/x-icon'};
 const stations={
   1:{stationId:1,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
   2:{stationId:2,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
@@ -21,6 +21,10 @@ function stationParam(url){const num=Number(url.searchParams.get('station'));ret
 const server=http.createServer((req,res)=>{
  let url;
  try{url=new URL(req.url,'http://localhost');}catch{return sendJson(res,400,{error:'Bad URL'});}
+ if(url.pathname==='/api/maps-config'){
+  if(req.method!=='GET')return sendJson(res,405,{error:'Method not allowed'});
+  return sendJson(res,200,{googleMapsApiKey:process.env.GOOGLE_MAPS_API_KEY||null});
+ }
  if(url.pathname==='/api/state'){
   const station=stationParam(url);
   if(req.method==='GET')return sendJson(res,200,stations[station]);
@@ -33,7 +37,7 @@ const server=http.createServer((req,res)=>{
     if(!['home','project','overview','game'].includes(payload.view))return sendJson(res,400,{error:'Invalid view'});
     if(payload.projectId!==null && payload.projectId!==undefined && !/^(0[1-9]|1[01])$/.test(payload.projectId))return sendJson(res,400,{error:'Invalid project'});
     if(payload.language!==undefined && !['es','en',null].includes(payload.language))return sendJson(res,400,{error:'Invalid language'});
-    if(payload.mode!==undefined && !['landing','overview','info','cta','game',null].includes(payload.mode))return sendJson(res,400,{error:'Invalid mode'});
+    if(payload.mode!==undefined && !['landing','overview','info','cta','game','results',null].includes(payload.mode))return sendJson(res,400,{error:'Invalid mode'});
     if(payload.screenIndex!==undefined && payload.screenIndex!==null && (!Number.isInteger(payload.screenIndex)||payload.screenIndex<1||payload.screenIndex>9))return sendJson(res,400,{error:'Invalid screen index'});
     let game=null;
     if(payload.game!==undefined&&payload.game!==null){
@@ -52,6 +56,20 @@ const server=http.createServer((req,res)=>{
        cleanResults[key]=score;
       }
       game={phase:value.phase,playerId:value.playerId,playerName:value.playerName,hour:value.hour,scenarioIndex:value.scenarioIndex,actionId:value.actionId||null,results:cleanResults};
+     }else if(payload.projectId==='03'){
+      const value=payload.game;
+      if(typeof value!=='object'||!Number.isInteger(value.caseIndex)||value.caseIndex<0||value.caseIndex>3||!['intro','case','results'].includes(value.phase)||!Array.isArray(value.answers)||value.answers.length!==4||!value.answers.every(answer=>answer===null||Number.isInteger(answer)&&answer>=0&&answer<=2))return sendJson(res,400,{error:'Invalid Costa Rica Smart Borders game state'});
+      game={caseIndex:value.caseIndex,answers:[...value.answers],phase:value.phase};
+     }else if(payload.projectId==='04'){
+      const value=payload.game;
+      const missions=['agroindustria','salud','herramienta-digital','nuevo-producto'];
+      const labs=['agrotech','healthtech','software-ux','ia-analitica','iot-sensores','prototipado-digital','ciberseguridad'];
+      const supports=['formacion','validacion','aliados','acompanamiento'];
+      if(typeof value!=='object'||!Number.isInteger(value.step)||value.step<0||value.step>4)return sendJson(res,400,{error:'Invalid Guatiguara game state'});
+      if(value.mission!==null&&value.mission!==undefined&&!missions.includes(value.mission))return sendJson(res,400,{error:'Invalid Guatiguara mission'});
+      if(value.lab!==null&&value.lab!==undefined&&!labs.includes(value.lab))return sendJson(res,400,{error:'Invalid Guatiguara lab'});
+      if(!Array.isArray(value.supports)||value.supports.length>2||value.supports.some(item=>!supports.includes(item))||new Set(value.supports).size!==value.supports.length)return sendJson(res,400,{error:'Invalid Guatiguara supports'});
+      game={step:value.step,mission:value.mission||null,lab:value.lab||null,supports:[...value.supports]};
      }else{
       if(typeof payload.game!=='object'||!Number.isInteger(payload.game.step)||payload.game.step<1||payload.game.step>6)return sendJson(res,400,{error:'Invalid game state'});
       const cleanSelection=value=>Array.isArray(value)&&value.length<=3&&value.every(id=>/^A-0[1-8]$/.test(id))?[...new Set(value)]:null;

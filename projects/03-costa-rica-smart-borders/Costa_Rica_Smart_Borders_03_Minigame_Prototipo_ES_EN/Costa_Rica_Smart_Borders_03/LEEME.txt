@@ -1,0 +1,34 @@
+PROYECTO 03 — COSTA RICA SMART BORDERS
+AI EXHIBITION HALL · VERSIÓN DE REVISIÓN CREATIVA
+
+ARCHIVO PARA PROBAR
+  index.html
+
+CÓMO ABRIRLO
+  1. Haz doble clic en index.html.
+  2. Abre en Chrome o Edge si el computador solicita escoger programa.
+  3. Elige "Minijuego" -> "Comenzar juego".
+  4. Responde una opción A / B / C para cada caso.
+  5. Aparece una explicación y una comparación ilustrativa.
+  6. Continúa hasta ver tu resultado final.
+
+CARACTERÍSTICAS
+  - Un solo index.html: no requiere conexión a internet.
+  - Incluye español e inglés.
+  - Pantalla principal con Información y Minijuego.
+  - Cuatro casos: documentos, patrón de riesgo, tarimas y bajo riesgo.
+  - Puntuación educativa, progreso y botón para reiniciar.
+  - Adaptable a pantalla grande y tabletas.
+  - Reutiliza el logotipo facilitado por el usuario y fotogramas del video del cliente.
+
+ADVERTENCIAS
+  - Es una propuesta conceptual para revisión, NO una interfaz conectada a VUCE real.
+  - Las decisiones y variables de juego son casos sintéticos/ilustrativos.
+  - Los minutos, hallazgos y aperturas no son resultados reales del proyecto.
+  - Las autoridades conservan sus competencias y decisiones de control.
+  - Validar imágenes, textos, marca y cifras con el cliente antes de publicar.
+  - Aún no incorpora sincronización tableta ↔ TV ni un modo de operación multi-dispositivo.
+
+AL LLEVAR A CODEX
+  Conservar esta lógica base y luego integrar el minijuego en el index del hall;
+  incorporar transmisión de estado a la TV solo después de aprobar el prototipo.
