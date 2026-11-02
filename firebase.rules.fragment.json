@@ -1,0 +1,23 @@
+{
+  "aiExhibitionHall": {
+    "stations": {
+      "$station": {
+        ".read": "$station === '1' || $station === '2' || $station === '3' || $station === '5'",
+        ".write": "($station === '1' || $station === '2' || $station === '3' || $station === '5') && newData.exists()",
+        ".validate": "newData.hasChildren(['stationId', 'updatedAt', 'payload'])",
+        "stationId": {
+          ".validate": "newData.isNumber() && (($station === '1' && newData.val() === 1) || ($station === '2' && newData.val() === 2) || ($station === '3' && newData.val() === 3) || ($station === '5' && newData.val() === 5))"
+        },
+        "updatedAt": {
+          ".validate": "newData.isNumber() && newData.val() > now - 300000 && newData.val() < now + 300000"
+        },
+        "payload": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 10000"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+  }
+}

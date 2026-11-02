@@ -83,6 +83,12 @@ window.GUATIGUARA_GAME=(function(){
   const labStep=`${guide.lab} ${get(lab,lang)}.`;
   return `<section class="kv-solution" aria-label="${guide.label}"><div class="kv-solution-icon">${image('ruta')}</div><div><p>${guide.label}</p><h3>${guide.title}</h3><strong>${esc(get(challenge,lang))} + ${esc(get(lab,lang))}</strong><ol><li>${esc(nextStep)}</li><li>${esc(labStep)}</li><li>${esc(supportsSentence)}.</li></ol></div><blockquote>${guide.quote}</blockquote><small>${guide.note}</small></section>`;
  }
+ function tvRecommendation(raw,selectedLanguage){
+  const game=sanitize(raw),lang=language(selectedLanguage),guide=routeGuidance[lang];
+  const challenge=find(challenges,game.mission)||challenges[0];
+  const lab=find(labs,game.lab)||labs[0];
+  return `<aside class="kv-tv-recommendation"><img src="${base}iconos/oportunidad.svg" alt="" aria-hidden="true"><div><b>${lang==='es'?'Siguiente paso sugerido':'Suggested next step'}</b><span>${esc(guide.mission[challenge.id])} ${esc(guide.lab)} ${esc(get(lab,lang))}.</span></div></aside>`;
+ }
  const fresh=()=>({step:0,mission:null,lab:null,supports:[]});
  function sanitize(value){
   const source=value&&typeof value==='object'?value:{};
@@ -110,7 +116,8 @@ window.GUATIGUARA_GAME=(function(){
   if(game.step===3)content=`<section class="kv-tv-stage"><div class="kv-copy">${corner()}<p>${c.supports[0]}</p><h1>${c.supports[1]}</h1><i></i><h2>${c.supports[2]}</h2></div><div class="kv-tv-cards kv-tv-cards--support">${supports.map(item=>`<article class="kv-card ${game.supports.includes(item.id)?'is-selected':''}">${image(item.icon)}<div><b>${esc(get(item,lang))}</b><span>${esc(get(item,lang,1))}</span></div>${game.supports.includes(item.id)?line():''}</article>`).join('')}</div><div class="kv-mini-flow"><span>${image('reto')}${lang==='es'?'Reto':'Challenge'}</span><i></i><span>${image('laboratorio')}${lang==='es'?'Laboratorio':'Lab'}</span><i></i><span>${image('capas')}${lang==='es'?'Apoyos':'Support'}</span></div></section>`;
   if(game.step===4)content=`<section class="kv-tv-stage kv-tv-result"><div class="kv-copy">${corner()}<p>${c.result[0]}</p><h1>${c.result[1]}</h1><i></i><h2>${c.result[2]}</h2></div><div class="kv-route"><article>${image(selectedChallenge.icon)}<b>${lang==='es'?'Reto':'Challenge'}</b><span>${esc(get(selectedChallenge,lang))}</span></article><i></i><article>${image('laboratorio')}<b>${lang==='es'?'Laboratorio':'Lab'}</b><span>${esc(get(selectedLab,lang))}</span></article><i></i><article>${image('talento')}<b>${lang==='es'?'Apoyos':'Support'}</b><span>${picked.map(item=>`• ${esc(get(item,lang))}`).join('<br>')}</span></article><i></i><article>${image('oportunidad')}<b>${lang==='es'?'Oportunidad':'Opportunity'}</b><span>${lang==='es'?'Ruta de innovación activada':'Innovation route activated'}</span></article></div><button type="button" tabindex="-1">${c.result[3]} →</button></section>`;
   const footerText=game.step===2?`7 ${lang==='es'?'laboratorios · Referencia visual editable':'labs · Editable visual reference'}`:game.step===4?c.disclaimer:(lang==='es'?'Minijuego interactivo · Referencia visual para desarrollo':'Interactive minigame · Visual reference for development');
-  return `<main class="kv-game kv-game--tv">${tvTop(game.step,lang)}${content}${footer(footerText)}</main>`;
+   if(game.step===4)content=content.replace('<button type="button"',`${tvRecommendation(game,lang)}<button type="button"`);
+   return `<main class="kv-game kv-game--tv">${tvTop(game.step,lang)}${content}${footer(footerText)}</main>`;
  }
  function padTop(step,lang){return `<header class="kv-pad-top"><div>${image('idea')}<b>${copy[lang].tablet}</b></div><span>0${step} / 04</span></header>`;}
  function back(step,lang){return `<div class="kv-pad-nav"><button data-game-action="${step===0?'exit':'back'}">← ${step===0?copy[lang].exit:copy[lang].back}</button><span>${step?copy[lang][stageKey(step)][0]:''}</span></div>`;}
