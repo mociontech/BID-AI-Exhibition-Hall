@@ -1,0 +1,84 @@
+{
+  "project": "04 - Parque Tecnológico Guatiguará",
+  "type": "design-reference and editable visual assets",
+  "brandPrimary": "#005CFF",
+  "noOrangeBlueGradient": true,
+  "references": {
+    "es": [
+      "/proyecto-04/key-visual/es/01-bienvenida.png",
+      "/proyecto-04/key-visual/es/02-elegir-reto.png",
+      "/proyecto-04/key-visual/es/03-siete-laboratorios.png",
+      "/proyecto-04/key-visual/es/04-activar-apoyos.png",
+      "/proyecto-04/key-visual/es/05-resultado.png"
+    ],
+    "en": [
+      "/proyecto-04/key-visual/en/01-bienvenida.png",
+      "/proyecto-04/key-visual/en/02-elegir-reto.png",
+      "/proyecto-04/key-visual/en/03-siete-laboratorios.png",
+      "/proyecto-04/key-visual/en/04-activar-apoyos.png",
+      "/proyecto-04/key-visual/en/05-resultado.png"
+    ]
+  },
+  "editableAssets": {
+    "icons": [
+      "/proyecto-04/iconos/idea.svg",
+      "/proyecto-04/iconos/laboratorio.svg",
+      "/proyecto-04/iconos/talento.svg",
+      "/proyecto-04/iconos/aliados.svg",
+      "/proyecto-04/iconos/agroindustria.svg",
+      "/proyecto-04/iconos/salud.svg",
+      "/proyecto-04/iconos/herramienta-digital.svg",
+      "/proyecto-04/iconos/nuevo-producto.svg",
+      "/proyecto-04/iconos/ia-analitica.svg",
+      "/proyecto-04/iconos/iot-sensores.svg",
+      "/proyecto-04/iconos/ciberseguridad.svg",
+      "/proyecto-04/iconos/formacion.svg",
+      "/proyecto-04/iconos/acompanamiento.svg",
+      "/proyecto-04/iconos/ruta.svg",
+      "/proyecto-04/iconos/oportunidad.svg",
+      "/proyecto-04/iconos/capas.svg",
+      "/proyecto-04/iconos/reto.svg",
+      "/proyecto-04/iconos/informacion.svg"
+    ],
+    "illustrations": [
+      "/proyecto-04/ilustraciones/acento-esquina.svg",
+      "/proyecto-04/ilustraciones/parque-tecnologico.svg"
+    ],
+    "tokens": "/proyecto-04/tokens-04.css"
+  },
+  "note": "Mockups are visual references; UI controls must be rendered as functioning HTML, not baked into images. Names of seven labs are provisional.",
+  "referenceCrops": {
+    "tv": {
+      "es": [
+        "/proyecto-04/referencia-tv/es/01-bienvenida.png",
+        "/proyecto-04/referencia-tv/es/02-elegir-reto.png",
+        "/proyecto-04/referencia-tv/es/03-siete-laboratorios.png",
+        "/proyecto-04/referencia-tv/es/04-activar-apoyos.png",
+        "/proyecto-04/referencia-tv/es/05-resultado.png"
+      ],
+      "en": [
+        "/proyecto-04/referencia-tv/en/01-bienvenida.png",
+        "/proyecto-04/referencia-tv/en/02-elegir-reto.png",
+        "/proyecto-04/referencia-tv/en/03-siete-laboratorios.png",
+        "/proyecto-04/referencia-tv/en/04-activar-apoyos.png",
+        "/proyecto-04/referencia-tv/en/05-resultado.png"
+      ]
+    },
+    "tablet": {
+      "es": [
+        "/proyecto-04/referencia-tablet/es/01-bienvenida.png",
+        "/proyecto-04/referencia-tablet/es/02-elegir-reto.png",
+        "/proyecto-04/referencia-tablet/es/03-siete-laboratorios.png",
+        "/proyecto-04/referencia-tablet/es/04-activar-apoyos.png",
+        "/proyecto-04/referencia-tablet/es/05-resultado.png"
+      ],
+      "en": [
+        "/proyecto-04/referencia-tablet/en/01-bienvenida.png",
+        "/proyecto-04/referencia-tablet/en/02-elegir-reto.png",
+        "/proyecto-04/referencia-tablet/en/03-siete-laboratorios.png",
+        "/proyecto-04/referencia-tablet/en/04-activar-apoyos.png",
+        "/proyecto-04/referencia-tablet/en/05-resultado.png"
+      ]
+    }
+  }
+}
