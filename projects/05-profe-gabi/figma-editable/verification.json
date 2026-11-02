@@ -1,0 +1,220 @@
+{
+  "localViewsPassed": true,
+  "frameCount": 14,
+  "figmaPageCreated": true,
+  "figmaEditabilityVerified": true,
+  "views": [
+    {
+      "name": "Tablet / Main Screen — ES",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nESTACIÓN 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nProfe Gabi\nIA de apoyo para docentes\n\nAsistente que apoya a docentes principiantes en sus retos cotidianos.\n\n550\ndocentes inscritos\nPiloto en Chile · 2024\n01\nInformación\n\nDescubre el desafío, cómo funciona Profe Gabi y la evidencia del piloto.\n\n02\nMinijuego\n\nVive una conversación simulada con Profe Gabi por medio de decisiones guiadas.\n\nProfe Gabi\n\nConsulta Información para habilitar el minijuego.\n\nInicio\n/\nProfe Gabi\n/\nMenú principal\nConectando…",
+      "buttons": 7,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "Tablet / Main Screen — EN",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nSTATION 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nProfe Gabi\nAI support for teachers\n\nAn AI assistant that supports beginning teachers in their day-to-day challenges.\n\n550\nteachers enrolled\nPilot in Chile · 2024\n01\nInformation\n\nDiscover the challenge, how Profe Gabi works, and the project’s pilot evidence.\n\n02\nMini-game\n\nExperience a simulated conversation with Profe Gabi through guided choices.\n\nProfe Gabi\n\nView Information to unlock the mini-game.\n\nHome\n/\nProfe Gabi\n/\nMain menu\nConnecting…",
+      "buttons": 7,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "Tablet / Information state — ES",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nESTACIÓN 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nProfe Gabi\nIA de apoyo para docentes\n\nAsistente que apoya a docentes principiantes en sus retos cotidianos.\n\n550\ndocentes inscritos\nPiloto en Chile · 2024\n01\nInformación\n\nDescubre el desafío, cómo funciona Profe Gabi y la evidencia del piloto.\n\n02\nMinijuego\n\nVive una conversación simulada con Profe Gabi por medio de decisiones guiadas.\n\nProfe Gabi\n\nTodo listo para conversar con Profe Gabi.\n\nMenú principal\nComenzar minijuego\nInicio\n/\nProfe Gabi\n/\nInformación\nConectando…",
+      "buttons": 9,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "Tablet / Information state — EN",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nSTATION 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nProfe Gabi\nAI support for teachers\n\nAn AI assistant that supports beginning teachers in their day-to-day challenges.\n\n550\nteachers enrolled\nPilot in Chile · 2024\n01\nInformation\n\nDiscover the challenge, how Profe Gabi works, and the project’s pilot evidence.\n\n02\nMini-game\n\nExperience a simulated conversation with Profe Gabi through guided choices.\n\nProfe Gabi\n\nReady to talk with Profe Gabi.\n\nMain menu\nStart mini-game\nHome\n/\nProfe Gabi\n/\nInformation\nConnecting…",
+      "buttons": 9,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "Tablet / Mini-game state — ES",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nESTACIÓN 05 · PROFE GABI\nES\nEN\nTú eliges en la tableta. La conversación cobra vida en la pantalla principal.\n¿En qué te gustaría enfocarte ahora?\n\nElige cómo continuar. Tu elección se convertirá en un mensaje en la pantalla principal.\n\n01\nUna actividad rápida para comenzar\n02\nUna forma de revisar si aprendieron\nVolver\nReiniciar\nMenú principal\n\nTema seleccionado\n\nPreparar una clase\n\nTú eliges en la tableta. La conversación cobra vida en la pantalla principal.\n\n01\n02\n03\n\nConversación simulada · Sin IA en vivo\n\nInicio\n/\nProfe Gabi\n/\nPreparar una clase\nConectando…",
+      "buttons": 10,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "Tablet / Mini-game state — EN",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nSTATION 05 · PROFE GABI\nES\nEN\nYou choose on the tablet. The conversation comes to life on the main display.\nWhat would you like to focus on now?\n\nChoose how to continue. Your choice will become a message on the main display.\n\n01\nA quick activity to get started\n02\nA way to check understanding\nBack\nRestart\nMain menu\n\nSelected topic\n\nPrepare a lesson\n\nYou choose on the tablet. The conversation comes to life on the main display.\n\n01\n02\n03\n\nScripted conversation · No live AI\n\nHome\n/\nProfe Gabi\n/\nPrepare a lesson\nConnecting…",
+      "buttons": 10,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "TV / Main Screen — ES",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nESTACIÓN 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nProfe Gabi\nIA de apoyo para docentes\n\nDescubre una nueva forma de acompañar a quienes enseñan.\n\nSelecciona Información en la tableta para comenzar.\n550\ndocentes inscritos\nPiloto en Chile · 2024\nAI EXHIBITION HALL\n/\nProfe Gabi\n/\nMenú principal\nConectando…",
+      "buttons": 0,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "TV / Main Screen — EN",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nSTATION 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nProfe Gabi\nAI support for teachers\n\nDiscover a new way to support those who teach.\n\nSelect Information on the tablet to begin.\n550\nteachers enrolled\nPilot in Chile · 2024\nAI EXHIBITION HALL\n/\nProfe Gabi\n/\nMain menu\nConnecting…",
+      "buttons": 0,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "TV / Information — ES",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nESTACIÓN 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nProfe Gabi\n\nCómo una IA acompaña a docentes principiantes\n\n¿Qué es?\n\nUn asistente de IA por WhatsApp que proporciona orientación práctica a docentes principiantes en Chile.\n\n¿Por qué importa?\n\nAl comenzar, los docentes enfrentan retos de planificación, aprendizaje, participación del alumnado, manejo del aula, organización del tiempo y bienestar.\n\nCómo funciona\nDocente hace una pregunta\nIA consulta recursos educativos\nProfe Gabi entrega orientación por chat\n\nLa recuperación de información (RAG) permite consultar una base de más de 200 documentos educativos del Ministerio de Educación de Chile para orientar la respuesta.\n\nÁreas de apoyo\nApoyo pedagógico\nOrientación profesional\nBienestar docente\nPiloto en Chile · 2024\n550\ndocentes inscritos voluntariamente\n8\nsemanas de piloto\n200+\ndocumentos educativos\n85,3 %\nsatisfechos o muy satisfechos\n\n85,3 % entre las 136 personas que respondieron la encuesta; no representa a todos los inscritos ni demuestra impacto causal.\n\nProfe Gabi complementa el acompañamiento de mentores y colegas. No reemplaza el criterio profesional docente.\n\nAI EXHIBITION HALL\n/\nProfe Gabi\n/\nInformación\nConectando…",
+      "buttons": 0,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "TV / Information — EN",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nSTATION 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nProfe Gabi\n\nHow an AI assistant supports beginning teachers\n\nWhat is it?\n\nA WhatsApp-based AI assistant providing practical guidance to beginning teachers in Chile.\n\nWhy does it matter?\n\nBeginning teachers face challenges with planning, learning, student participation, classroom management, time organisation and wellbeing.\n\nHow it works\nTeacher asks a question\nAI consults education resources\nProfe Gabi offers guidance by chat\n\nInformation retrieval (RAG) allows the tool to consult a knowledge base of more than 200 education documents from Chile’s Ministry of Education to guide its response.\n\nSupport areas\nTeaching support\nProfessional guidance\nTeacher wellbeing\nPilot in Chile · 2024\n550\nteachers enrolled voluntarily\n8\nweeks in the pilot\n200+\neducation documents\n85.3%\nsatisfied or very satisfied\n\n85.3% among the 136 survey respondents; this does not represent all enrolled teachers or demonstrate causal impact.\n\nProfe Gabi complements support from mentors and colleagues. It does not replace teachers’ professional judgment.\n\nAI EXHIBITION HALL\n/\nProfe Gabi\n/\nInformation\nConnecting…",
+      "buttons": 0,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "TV / Mini-game — ES",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nESTACIÓN 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nMinijuego · Profe Gabi\n\nTema seleccionado: Preparar una clase\n\nProfe Gabi\nAsistente virtual · Conversación simulada\nConversación simulada · Sin IA en vivo\nPROFE GABI\n\n¡Hola! Soy Profe Gabi. ¿En qué te gustaría recibir orientación hoy?\n\nTÚ\n\nQuisiera orientación sobre preparar una clase.\n\n✓✓\nPROFE GABI\n\n¿Qué te está costando más de tu próxima clase?\n\nTÚ\n\nHola, Profe Gabi. Tengo que enseñar fracciones en quinto básico y quiero que mis estudiantes participen más. ¿Qué me sugieres?\n\n✓✓\nPROFE GABI\n\n¡Hola! Podemos partir con algo concreto: representar fracciones con tiras de papel o dibujos. Luego cada grupo explica cómo obtuvo su respuesta. ¿Qué te gustaría priorizar?\n\n＋\nTus elecciones se convierten en mensajes…\n\nMensajes de exhibición preprogramados; no son respuestas reales ni verificadas de Profe Gabi.\n\nAI EXHIBITION HALL\n/\nProfe Gabi\n/\nPreparar una clase\nConectando…",
+      "buttons": 0,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "TV / Mini-game — EN",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nSTATION 05 · PROFE GABI\nES\nEN\n\n05 / AI EXHIBITION HALL\n\nMini-game · Profe Gabi\n\nSelected topic: Prepare a lesson\n\nProfe Gabi\nVirtual assistant · Simulated conversation\nScripted conversation · No live AI\nPROFE GABI\n\nHi! I’m Profe Gabi. What would you like guidance on today?\n\nYOU\n\nI would like guidance on prepare a lesson.\n\n✓✓\nPROFE GABI\n\nWhat is the biggest challenge in your next lesson?\n\nYOU\n\nHi, Profe Gabi. I need to teach fractions to fifth graders and I want my students to participate more. What would you suggest?\n\n✓✓\nPROFE GABI\n\nHi! We could start with something concrete: represent fractions using paper strips or drawings. Then each group explains how they found their answer. What would you like to focus on?\n\n＋\nYour choices become messages…\n\nPreprogrammed exhibition messages; these are not actual or verified Profe Gabi responses.\n\nAI EXHIBITION HALL\n/\nProfe Gabi\n/\nPrepare a lesson\nConnecting…",
+      "buttons": 0,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "TV / Results or Final message — ES",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nESTACIÓN 05 · PROFE GABI\nES\nEN\n\nLo que aprendiste con Profe Gabi\n\n¡Conversación completada!\nDar contexto mejora la orientación recibida.\nLa IA propone ideas, pero el docente decide.\nProfe Gabi complementa el acompañamiento humano.\n\nUna orientación útil parte de contar el curso, el contenido y lo que quieres lograr.\n\nProfe Gabi\nAsistente virtual · Conversación simulada\nPROFE GABI\n\n¡Hola! Soy Profe Gabi. ¿En qué te gustaría recibir orientación hoy?\n\nTÚ\n\nQuisiera orientación sobre preparar una clase.\n\n✓✓\nPROFE GABI\n\n¿Qué te está costando más de tu próxima clase?\n\nTÚ\n\nHola, Profe Gabi. Tengo que enseñar fracciones en quinto básico y quiero que mis estudiantes participen más. ¿Qué me sugieres?\n\n✓✓\nPROFE GABI\n\n¡Hola! Podemos partir con algo concreto: representar fracciones con tiras de papel o dibujos. Luego cada grupo explica cómo obtuvo su respuesta. ¿Qué te gustaría priorizar?\n\nTÚ\n\nMe serviría una actividad corta para iniciar la clase.\n\n✓✓\nPROFE GABI\n\nPodrías repartir papeles y pedir que formen un medio, un tercio y un cuarto. Comparen los resultados en parejas antes de compartirlos con el curso.\n\nRecuerda: estas ideas son puntos de partida. Tu criterio profesional y el acompañamiento de mentores y colegas siguen siendo esenciales.\n\n＋\nTus elecciones se convierten en mensajes…\n\nMensajes de exhibición preprogramados; no son respuestas reales ni verificadas de Profe Gabi.\n\nAI EXHIBITION HALL\n/\nProfe Gabi\n/\n¡Conversación completada!\nConectando…",
+      "buttons": 0,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "TV / Results or Final message — EN",
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "scrollHeight": 1080,
+      "text": "AI EXHIBITION HALL\nFrom Strategy to Impact\nSTATION 05 · PROFE GABI\nES\nEN\n\nWhat you learned with Profe Gabi\n\nConversation completed!\nGiving context improves the guidance you receive.\nAI proposes ideas; the teacher decides.\nProfe Gabi complements human support.\n\nUseful guidance starts with describing the class, the content and what you want to achieve.\n\nProfe Gabi\nVirtual assistant · Simulated conversation\nPROFE GABI\n\nHi! I’m Profe Gabi. What would you like guidance on today?\n\nYOU\n\nI would like guidance on prepare a lesson.\n\n✓✓\nPROFE GABI\n\nWhat is the biggest challenge in your next lesson?\n\nYOU\n\nHi, Profe Gabi. I need to teach fractions to fifth graders and I want my students to participate more. What would you suggest?\n\n✓✓\nPROFE GABI\n\nHi! We could start with something concrete: represent fractions using paper strips or drawings. Then each group explains how they found their answer. What would you like to focus on?\n\nYOU\n\nA short activity to start the lesson would help.\n\n✓✓\nPROFE GABI\n\nYou could hand out paper and ask students to make one half, one third and one quarter. Have them compare results in pairs before sharing with the class.\n\nRemember: these ideas are starting points. Your professional judgment and support from mentors and colleagues remain essential.\n\n＋\nYour choices become messages…\n\nPreprogrammed exhibition messages; these are not actual or verified Profe Gabi responses.\n\nAI EXHIBITION HALL\n/\nProfe Gabi\n/\nConversation completed!\nConnecting…",
+      "buttons": 0,
+      "images": [
+        {
+          "src": "http://localhost:4173/projects/05-profe-gabi/assets/bid-logo.png",
+          "loaded": true
+        }
+      ]
+    }
+  ],
+  "pageId": "63:2",
+  "figmaFileKey": "6WCZLX7n6GHksVOfP9TKZz"
+}

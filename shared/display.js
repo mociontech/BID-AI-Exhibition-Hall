@@ -104,6 +104,10 @@ function renderDefault(data){
  app.innerHTML=`<main class="display-app"><header class="display-header">${AI_BRAND.header()}<span class="display-station">STATION ${String(sync.station).padStart(2,'0')} ? MAIN DISPLAY</span></header><section class="display-body"><div class="display-info"><div class="display-kicker">${isHome?'AI EXHIBITION HALL':`PROJECT ${p.id} ? ${p.division}`}</div><h1 class="display-title">${title}</h1><p class="display-description">${intro}</p></div><div class="display-figure" aria-hidden="true">${isHome?'?':data.view==='game'?'?':data.view==='overview'?'?':'?'}</div></section><footer class="display-footer">From Strategy to Impact ? This screen is controlled by the tablet.</footer></main>`;
 }
 function render(data){
+ if(data?.projectId==='05'&&data?.view!=='home'){
+  window.PROFE_GABI.renderInto(app,data,{readonly:true});
+  return;
+ }
  const isAquaData=data?.projectId==='01'&&data?.view!=='home';
  if(isAquaData)return renderAquaData(data);
  const isCostaRica=data?.projectId==='03'&&data?.view!=='home';
