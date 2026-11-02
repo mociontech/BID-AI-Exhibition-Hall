@@ -1,0 +1,18 @@
+:root {
+  --idb-blue: #005CFF;
+  --idb-blue-secondary: #2E79FF;
+  --idb-blue-soft: #CFE1FF;
+  --idb-blue-surface: #EFF4FF;
+  --idb-black: #141414;
+  --idb-white: #FFFFFF;
+  --idb-muted: #596579;
+  --idb-line: #D7E1F2;
+  --idb-focus: #005CFF;
+  --idb-font: "Inter", Arial, sans-serif;
+  --idb-radius-card: 12px;
+  --idb-radius-button: 10px;
+  --idb-touch-target: 56px;
+  --idb-icon-stroke: 3.5px;
+}
+/* Prohibido el degradado naranja→azul. Usar colores sólidos y contraste claro. */
+/* No reconstruir el logo BID; utilizar el archivo oficial aprobado en el repositorio. */

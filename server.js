@@ -14,10 +14,11 @@ const MIME={'.html':'text/html; charset=utf-8','.js':'application/javascript; ch
 const stations={
   1:{stationId:1,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
   2:{stationId:2,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
-  3:{stationId:3,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null}
+  3:{stationId:3,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
+  5:{stationId:5,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null}
 };
 function sendJson(res,code,data){res.writeHead(code,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'});res.end(JSON.stringify(data));}
-function stationParam(url){const num=Number(url.searchParams.get('station'));return [1,2,3].includes(num)?num:1;}
+function stationParam(url){const num=Number(url.searchParams.get('station'));return [1,2,3,5].includes(num)?num:1;}
 const server=http.createServer((req,res)=>{
  let url;
  try{url=new URL(req.url,'http://localhost');}catch{return sendJson(res,400,{error:'Bad URL'});}
@@ -27,7 +28,7 @@ const server=http.createServer((req,res)=>{
  }
  if(url.pathname==='/api/state'){
   const station=stationParam(url);
-  if(req.method==='GET')return sendJson(res,200,stations[station]);
+  if(req.method==='GET')return sendJson(res,200,station===5?{...stations[station],serverNow:Date.now()}:stations[station]);
   if(req.method!=='POST')return sendJson(res,405,{error:'Method not allowed'});
   let buffer='';
   req.on('data',chunk=>{buffer+=chunk;if(buffer.length>10000)req.destroy();});
@@ -60,6 +61,9 @@ const server=http.createServer((req,res)=>{
       const value=payload.game;
       if(typeof value!=='object'||!Number.isInteger(value.caseIndex)||value.caseIndex<0||value.caseIndex>3||!['intro','case','results'].includes(value.phase)||!Array.isArray(value.answers)||value.answers.length!==4||!value.answers.every(answer=>answer===null||Number.isInteger(answer)&&answer>=0&&answer<=2))return sendJson(res,400,{error:'Invalid Costa Rica Smart Borders game state'});
       game={caseIndex:value.caseIndex,answers:[...value.answers],phase:value.phase};
+     }else if(payload.projectId==='05'){
+      game=require('./projects/05-profe-gabi/state.js').sanitize(payload.game);
+      if(!game)return sendJson(res,400,{error:'Invalid Profe Gabi game state'});
      }else if(payload.projectId==='04'){
       const value=payload.game;
       const missions=['agroindustria','salud','herramienta-digital','nuevo-producto'];
@@ -106,6 +110,7 @@ server.listen(PORT,HOST,()=>{
  console.log(`  STATION 1 Tablet  http://localhost:${PORT}/?station=1  | Display http://localhost:${PORT}/display.html?station=1`);
  console.log(`  STATION 2 Tablet  http://localhost:${PORT}/?station=2  | Display http://localhost:${PORT}/display.html?station=2`);
  console.log(`  STATION 3 Tablet  http://localhost:${PORT}/?station=3  | Display http://localhost:${PORT}/display.html?station=3`);
+ console.log(`  STATION 5 Tablet  http://localhost:${PORT}/?station=5  | Display http://localhost:${PORT}/display.html?station=5`);
  for(const list of Object.values(os.networkInterfaces()))for(const item of list||[])if(item.family==='IPv4'&&!item.internal)console.log(`  LAN address: http://${item.address}:${PORT}`);
  console.log('');
 });

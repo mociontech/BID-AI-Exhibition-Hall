@@ -1,5 +1,14 @@
 # AI Exhibition Hall — Menú principal interactivo (v0.1)
 
+## Incorporación de Profe Gabi
+
+El proyecto 05 incluye información y conversación guiada bilingüe, sincronización de tableta/TV, desbloqueo tras 10 segundos, navegación Home y reinicio. Ver [ejecución, contenido y pruebas](projects/05-profe-gabi/README.md) y [14 pantallas editables en Figma](projects/05-profe-gabi/figma-editable/README.md).
+
+- Tableta: http://localhost:4173/index.html?station=5
+- TV: http://localhost:4173/display.html?station=5
+
+Los proyectos 01–04 conservan su implementación. Las secciones siguientes documentan el starter original; sus menciones a juegos pendientes describen esa versión inicial.
+
 Starter para programar en **Codex**, basado en la pantalla de tableta horizontal aprobada para el BID. Incluye el menú de **11 proyectos en orden alfabético**, estructura separada por carpetas y las bases para **3 estaciones tablet–pantalla independientes**.
 
 ## Ejecutar

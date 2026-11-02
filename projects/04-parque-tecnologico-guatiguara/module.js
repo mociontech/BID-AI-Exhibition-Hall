@@ -12,9 +12,7 @@ window.ProjectModule={
   function armIdle(){cancelIdle();if(isGame())idleTimer=setTimeout(()=>exitGame(),120000);}
   function publish(){
    const game=isGame()?gameApi.sanitize(state.game):null;
-   // The tablet owns the game. The station display is explicitly instructed
-   // to retain the approved infographic, including while the game is active.
-   return sync.send({view:isGame()?'game':'project',projectId:'04',section:isGame()?'game':state.displayMode==='info'?'info':null,language:state.language,mode:isGame()?'info':state.displayMode,screenIndex:null,game});
+   return sync.send({view:isGame()?'game':'project',projectId:'04',section:isGame()?'game':state.displayMode==='info'?'info':null,language:state.language,mode:isGame()?'game':state.displayMode,screenIndex:null,game});
   }
   async function goHome(){
    cancelIdle();
@@ -49,7 +47,7 @@ window.ProjectModule={
    const remote=await sync.read();
    if(remote?.projectId==='04'){
     state.language=remote.language==='en'?'en':'es';
-    if(remote.view==='game'&&remote.game)state={...state,displayMode:'game',game:gameApi.sanitize(remote.game)};
+    if(remote.mode==='game'&&remote.game)state={...state,displayMode:'game',game:gameApi.sanitize(remote.game)};
     else state={...state,displayMode:remote.mode==='info'?'info':'landing',game:null};
    }
   }catch{}
