@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" role="img" aria-label="Ilustración conceptual de un parque tecnológico">
+<path d="M0 0h700v360H0Z" fill="#005CFF"/>
+<g fill="none" stroke="white" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+<path d="M23 304C173 285 302 306 445 294c103-9 163-19 230-8"/>
+<path d="M214 294V119l145-39 156 57v150"/><path d="M359 80v208"/><path d="M214 151l145-34 156 48"/>
+<path d="M254 175h65v60h-65zM395 179h81v60h-81z"/><path d="M286 175v60M436 179v60M254 205h65M395 209h81"/>
+<path d="M515 286V213l111-27 41 24v79M544 229l86-21"/>
+<path d="M77 294V197M47 196c-42-20-15-72 24-61-8-46 62-68 83-22 37-12 62 38 20 55 8 34-25 53-48 34-24 32-58 4-49-6Z"/>
+<path d="M29 81C175 20 326 16 461 56c77 23 144 27 213 7"/>
+</g>
+</svg>

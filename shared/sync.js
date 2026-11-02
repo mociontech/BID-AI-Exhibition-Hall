@@ -7,10 +7,27 @@
   try { sessionStorage.setItem('exhibition-station',String(station)); } catch {}
   const KEY=`ai-exhibition-state-${station}`;
   const stationQuery=`?station=${station}`;
+  let writeQueue=Promise.resolve();
   function remember(state){try{localStorage.setItem(KEY,JSON.stringify({...state,ts:Date.now()}));}catch{}}
-  async function send(state){
+  async function post(packet){
+   const response=await fetch(`/api/state?station=${station}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(packet),cache:'no-store',signal:AbortSignal.timeout(1500)});
+   if(!response.ok)throw Error(`State update failed: ${response.status}`);
+   return response;
+  }
+  async function deliver(packet){
+   try{return await post(packet);}
+   catch(error){
+    // Preserve the newest tablet command when a local Wi-Fi request is lost.
+    await new Promise(resolve=>setTimeout(resolve,120));
+    try{return await post(packet);}catch{return null;}
+   }
+  }
+  function send(state){
     const packet={station,...state,ts:Date.now()}; remember(packet);
-    try{ await fetch(`/api/state?station=${station}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(packet),signal:AbortSignal.timeout(900)}); }catch(e){ /* Standalone HTML still navigates. */ }
+    // Queue writes so quick taps cannot arrive at the station server out of order.
+    const task=writeQueue.then(()=>deliver(packet));
+    writeQueue=task.catch(()=>null);
+    return task;
   }
   async function read(){
     try {const r=await fetch(`/api/state?station=${station}`,{cache:'no-store',signal:AbortSignal.timeout(900)});if(!r.ok)throw Error('HTTP');return await r.json();}
