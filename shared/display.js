@@ -54,6 +54,10 @@ function renderGuatiguara(data){
  const image=GUATIGUARA_ART[language].info;
  app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information"><img src="${image}" alt="Parque Tecnológico Guatiguará information"></main>`;
 }
+function renderGuatiguaraGame(data){
+ if(!window.GUATIGUARA_GAME)return renderGuatiguara(data);
+ app.innerHTML=window.GUATIGUARA_GAME.renderTV(data.game,data.language);
+}
 function renderCostaRica(data){
  const language=data.language==='en'?'en':'es';
  const isInfo=data.mode==='info'||data.mode==='cta'||data.mode==='game'||data.mode==='results';
@@ -112,9 +116,9 @@ function render(data){
  if(isAquaData)return renderAquaData(data);
  const isCostaRica=data?.projectId==='03'&&data?.view!=='home';
  if(isCostaRica)return renderCostaRica(data);
- // Project 04 is a tablet-led experience. Both its information view and its
- // minigame retain the approved infographic on the station display.
- const isGuatiguara=data?.projectId==='04'&&data?.view!=='home'&&(data?.mode==='info'||data?.mode==='game');
+ const isGuatiguaraGame=data?.projectId==='04'&&data?.view==='game'&&data?.mode==='game';
+ if(isGuatiguaraGame)return renderGuatiguaraGame(data);
+ const isGuatiguara=data?.projectId==='04'&&data?.view!=='home'&&data?.mode==='info';
  if(isGuatiguara)return renderGuatiguara(data);
  const isBogotaTraffic=data?.projectId==='02'&&data?.view==='overview'&&data?.section==='info';
  if(isBogotaTraffic)return renderBogotaTraffic(data);
