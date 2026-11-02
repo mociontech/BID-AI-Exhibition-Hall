@@ -3,7 +3,8 @@
   const params=new URLSearchParams(location.search);
   let previous='1'; try { previous=sessionStorage.getItem('exhibition-station')||'1'; } catch {}
   const raw=Number(params.get('station')||previous);
-  const station=[1,2,3,5,6].includes(raw)?raw:1;
+  // Project 08 is hidden. Preserve each of the ten public station IDs.
+  const station=[1,2,3,4,5,6,7,9,10,11].includes(raw)?raw:1;
   try { sessionStorage.setItem('exhibition-station',String(station)); } catch {}
   const KEY=`ai-exhibition-state-${station}`;
   const stationQuery=`?station=${station}`;
@@ -27,7 +28,7 @@
       }
     }catch{}
   }
-  function connection(connected,source){if(station===5||station===6)window.dispatchEvent(new CustomEvent('ai-sync-connection',{detail:{station,connected,source}}));}
+  function connection(connected,source){window.dispatchEvent(new CustomEvent('ai-sync-connection',{detail:{station,connected,source}}));}
   function remember(state){try{localStorage.setItem(KEY,JSON.stringify({...state,ts:Date.now()}));}catch{}}
   async function post(packet){
    const body=localHost?packet:{stationId:station,updatedAt:{'.sv':'timestamp'},payload:JSON.stringify(packet)};
@@ -59,10 +60,10 @@
       const stored=await r.json();
       const state=localHost?stored:stored?.payload?JSON.parse(stored.payload):{stationId:station,view:'home',projectId:null};
       if(!localHost){state.stationId=station;if(stored?.updatedAt)state.updatedAt=stored.updatedAt;}
-      if(station===5||station===6||state.projectId==='06'){
+      if(station===5||station===6||state.projectId==='05'||state.projectId==='06'){
         const serverDate=localHost?state.serverNow:Date.parse(r.headers.get('date')||'');
         if(Number.isFinite(serverDate))clockOffset=serverDate-(started+Date.now())/2;
-        else if(!localHost&&(station===6||state.projectId==='06'))await readHostingClock();
+        else if(!localHost)await readHostingClock();
         connection(true,'read');if(state.updatedAt)remember(state);
       }
       return state;
