@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "checks": [
+    "landing 1180x820",
+    "keyboard focus and minimum 44px touch controls",
+    "landing 1024x768",
+    "10-second unlock; infographic persists; ES/EN",
+    "intro 1024x768",
+    "manual 1024x768",
+    "manual TV 1920x1080",
+    "shared server clock corrects TV +5 minute skew",
+    "manual reveal 1024x768",
+    "organize 1024x768",
+    "identify TV 1920x1080",
+    "confirm 1024x768",
+    "results 1024x768",
+    "reload restores results and actual elapsed times",
+    "reload resumes animation without restarting time",
+    "incorrect answer continues; menu cancels animation and timers",
+    "Home reaches general menu; project 06 remains accessible",
+    "other stations unchanged; no browser or HTTP errors"
+  ],
+  "sessionTimes": [
+    1802,
+    6285
+  ],
+  "errors": []
+}
