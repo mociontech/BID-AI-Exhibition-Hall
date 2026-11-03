@@ -20,7 +20,7 @@ window.ProjectModule={
    document.documentElement.lang=state.language;
    mount.innerHTML=`<main class="teachy-tablet" aria-label="${t.screen}">
     <div class="teachy-artboard">
-     <img class="teachy-tablet-image" src="${TEACHY.art[state.language].tablet}" alt="${t.screen}" draggable="false">
+     ${AI_ARTWORK(`${TEACHY.art[state.language].tablet}`,`class="teachy-tablet-image"  alt="${t.screen}" draggable="false"`)}
      <nav class="teachy-controls" aria-label="Teachy">
       <button class="teachy-hit teachy-hit--es" type="button" data-language="es" aria-label="Español" aria-pressed="${state.language==='es'}"></button>
       <button class="teachy-hit teachy-hit--en" type="button" data-language="en" aria-label="English" aria-pressed="${state.language==='en'}"></button>

@@ -11,7 +11,7 @@ function renderAquaData(data){
   const game=data.game||{step:1};
   const image=AQUADATA.gameReferencePath(game.step,language);
   const progress=game.step===3?'<span class="aqua-display-progress" aria-hidden="true"><i></i></span>':'';
-  app.innerHTML=`<main class="aquadata-display aquadata-game-display" aria-label="AquaData Detective del Agua"><img class="aquadata-display-image" src="${image}" alt="AquaData Detective del Agua">${progress}</main>`;
+  app.innerHTML=`<main class="aquadata-display aquadata-game-display" aria-label="AquaData Detective del Agua">${AI_ARTWORK(`${image}`,`class="aquadata-display-image"  alt="AquaData Detective del Agua"`)}${progress}</main>`;
   return;
  }
  if(data.mode==='info'||data.mode==='cta'){
@@ -20,12 +20,12 @@ function renderAquaData(data){
    const copy=language==='en'
     ? {eyebrow:'AQUADATA ? NEXT STEP',title:'The mini-game is now available',body:'Return to the tablet and experience how AI helps prioritize inspections.'}
     : {eyebrow:'AQUADATA ? SIGUIENTE PASO',title:'El minijuego ya est? disponible',body:'Regresa a la tableta y vive c?mo la IA ayuda a priorizar inspecciones.'};
-   app.innerHTML=`<main class="aquadata-display aquadata-display--cta" aria-label="AquaData technical sheet"><img class="aquadata-display-image" src="${sheet}" alt="AquaData technical sheet"><section class="aqua-cta-overlay" aria-live="polite"><div class="aqua-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="aqua-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
-  }else app.innerHTML=`<main class="aquadata-display" aria-label="AquaData technical sheet"><img class="aquadata-display-image" src="${sheet}" alt="AquaData technical sheet"></main>`;
+   app.innerHTML=`<main class="aquadata-display aquadata-display--cta" aria-label="AquaData technical sheet">${AI_ARTWORK(`${sheet}`,`class="aquadata-display-image"  alt="AquaData technical sheet"`)}<section class="aqua-cta-overlay" aria-live="polite"><div class="aqua-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="aqua-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
+  }else app.innerHTML=`<main class="aquadata-display" aria-label="AquaData technical sheet">${AI_ARTWORK(`${sheet}`,`class="aquadata-display-image"  alt="AquaData technical sheet"`)}</main>`;
   return;
  }
  const image=AQUADATA.imagePath(1,language);
- app.innerHTML=`<main class="aquadata-display" aria-label="AquaData large display"><img class="aquadata-display-image" src="${image}" alt="AquaData"></main>`;
+ app.innerHTML=`<main class="aquadata-display" aria-label="AquaData large display">${AI_ARTWORK(`${image}`,`class="aquadata-display-image"  alt="AquaData"`)}</main>`;
 }
 function renderBogotaTraffic(data){
  const language=data.language==='en'?'en':'es';
@@ -36,10 +36,10 @@ function renderBogotaTraffic(data){
   const copy=language==='en'
    ? {eyebrow:'PREDICTTODO ? NEXT STEP',title:'The mini-game is now available',body:'Return to the tablet and explore how anticipating congestion can support human decisions.'}
    : {eyebrow:'PREDICTTODO ? SIGUIENTE PASO',title:'El minijuego ya est? disponible',body:'Regresa a la tableta y explora c?mo anticipar la congesti?n puede apoyar decisiones humanas.'};
-  app.innerHTML=`<main class="bogota-display bogota-display--cta" aria-label="Bogot? Traffic Prediction information"><img class="bogota-display-image" src="${image}" alt="Bogot? Traffic Prediction: ${screen.labels[language]}"><section class="bogota-cta-overlay" aria-live="polite"><div class="bogota-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="bogota-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
+  app.innerHTML=`<main class="bogota-display bogota-display--cta" aria-label="Bogot? Traffic Prediction information">${AI_ARTWORK(`${image}`,`class="bogota-display-image"  alt="Bogot? Traffic Prediction: ${screen.labels[language]}"`)}<section class="bogota-cta-overlay" aria-live="polite"><div class="bogota-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="bogota-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
   return;
  }
- app.innerHTML=`<main class="bogota-display" aria-label="Bogot? Traffic Prediction large display"><img class="bogota-display-image" src="${image}" alt="Bogot? Traffic Prediction: ${screen.labels[language]}"></main>`;
+ app.innerHTML=`<main class="bogota-display" aria-label="Bogot? Traffic Prediction large display">${AI_ARTWORK(`${image}`,`class="bogota-display-image"  alt="Bogot? Traffic Prediction: ${screen.labels[language]}"`)}</main>`;
 }
 const COSTA_RICA_ART={
  es:{home:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-1.png',info:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-2.png'},
@@ -55,7 +55,7 @@ function renderTeachy(data){
 function renderGuatiguara(data){
  const language=data.language==='en'?'en':'es';
  const image=GUATIGUARA_ART[language].info;
- app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information"><img src="${image}" alt="Parque Tecnológico Guatiguará information"></main>`;
+ app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information">${AI_ARTWORK(`${image}`,`alt="Parque Tecnológico Guatiguará information"`)}</main>`;
 }
 function renderGuatiguaraGame(data){
  if(!window.GUATIGUARA_GAME)return renderGuatiguara(data);
@@ -66,7 +66,7 @@ function renderCostaRica(data){
  const isInfo=data.mode==='info'||data.mode==='cta'||data.mode==='game'||data.mode==='results';
  const image=COSTA_RICA_ART[language][isInfo?'info':'home'];
  const cta=data.mode==='cta'?(language==='en'?{eyebrow:'COSTA RICA SMART BORDERS',title:'The mini-game is now available.',body:'Return to the tablet and start the experience.'}:{eyebrow:'COSTA RICA SMART BORDERS',title:'El minijuego ya está disponible.',body:'Regresa a la tableta para iniciar la experiencia.'}):null;
- app.innerHTML=`<main class="crb-display ${cta?'crb-display--cta':''}" aria-label="Costa Rica Smart Borders"><img src="${image}" alt="Costa Rica Smart Borders">${cta?`<section class="crb-display-cta"><p>${cta.eyebrow}</p><h1>${cta.title}</h1><span>${cta.body}</span></section>`:''}</main>`;
+ app.innerHTML=`<main class="crb-display ${cta?'crb-display--cta':''}" aria-label="Costa Rica Smart Borders">${AI_ARTWORK(`${image}`,`alt="Costa Rica Smart Borders"`)}${cta?`<section class="crb-display-cta"><p>${cta.eyebrow}</p><h1>${cta.title}</h1><span>${cta.body}</span></section>`:''}</main>`;
 }
 let bogotaGameData=null;
 fetch('projects/02-bogota-traffic-prediction/GAME_DATA.json',{cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{bogotaGameData=data;last='';}).catch(()=>{});
@@ -108,15 +108,15 @@ function renderDefault(data){
  let intro=isHome?'Choose one of the eleven projects on the tablet to begin.':'Select Project Overview or Interactive Mini-Game on the tablet.';
  if(!isHome&&data.view==='overview'){title=topics[data.section]||'Project Overview';intro=`${p.name} ? This section will be developed and approved for the large display.`;}
  if(!isHome&&data.view==='game'){title='Interactive Mini-Game';intro=`${p.name} ? Interactive experience pending implementation.`;}
- app.innerHTML=`<main class="display-app"><header class="display-header">${AI_BRAND.header()}<span class="display-station">STATION ${String(sync.station).padStart(2,'0')} ? MAIN DISPLAY</span></header><section class="display-body"><div class="display-info"><div class="display-kicker">${isHome?'AI EXHIBITION HALL':`PROJECT ${p.id} ? ${p.division}`}</div><h1 class="display-title">${title}</h1><p class="display-description">${intro}</p></div><div class="display-figure" aria-hidden="true">${isHome?'?':data.view==='game'?'?':data.view==='overview'?'?':'?'}</div></section><footer class="display-footer">From Strategy to Impact ? This screen is controlled by the tablet.</footer></main>`;
+ app.innerHTML=`<main class="display-app"><header class="display-header">${AI_BRAND.header()}<span class="display-station">STATION ${String(sync.station).padStart(2,'0')} ? MAIN DISPLAY</span></header><section class="display-body"><div class="display-info"><div class="display-kicker">${isHome?'AI in Action':`PROJECT ${p.id} ? ${p.division}`}</div><h1 class="display-title">${title}</h1><p class="display-description">${intro}</p></div><div class="display-figure" aria-hidden="true">${isHome?'?':data.view==='game'?'?':data.view==='overview'?'?':'?'}</div></section><footer class="display-footer">IDB Group Projects Across The Region ? This screen is controlled by the tablet.</footer></main>`;
 }
 function render(data){
  if(data?.projectId==='07'&&data?.view!=='home'){
-  document.title='MAIIA | AI Exhibition Hall';
+  document.title='MAIIA | AI in Action';
   window.MAIIA.renderInto(app,data,{readonly:true});
   return;
  }
- document.title=data?.projectId==='06'&&data?.view!=='home'?'RegLAC | AI in Action':'AI Exhibition Hall | Main Display';
+ document.title=data?.projectId==='06'&&data?.view!=='home'?'RegLAC | AI in Action':'AI in Action | Main Display';
  if(data?.projectId==='06'&&data?.view!=='home'){
   window.REGLAC.renderInto(app,data,{readonly:true});
   return;

@@ -20,7 +20,7 @@ const DOCS=['factura','manifiesto','declaracion'];
 /* ---------- Copys bilingües ---------- */
 const COPY={
  es:{
-  brand:'AI Exhibition Hall',station:'Estación 03 · Costa Rica Smart Borders',home:'Inicio',
+  brand:'AI in Action',station:'Estación 03 · Costa Rica Smart Borders',home:'Inicio',
   simulated:'Ejemplo simulado · educativo',
   steps:['Llegan camiones','Tú revisas','La IA revisa','Comparación'],
   what:'¿Qué está pasando?',decided:'¿Qué decidió el sistema?',learned:'¿Qué aprendiste?',
@@ -81,7 +81,7 @@ const COPY={
   truckAria:'Camión {id}, {cargo}'
  },
  en:{
-  brand:'AI Exhibition Hall',station:'Station 03 · Costa Rica Smart Borders',home:'Home',
+  brand:'AI in Action',station:'Station 03 · Costa Rica Smart Borders',home:'Home',
   simulated:'Simulated · educational example',
   steps:['Trucks arrive','You check','AI checks','Comparison'],
   what:'What is happening?',decided:'What did the system decide?',learned:'What did you learn?',
@@ -216,7 +216,7 @@ function clock(label){return `<div class="clock"><span>${esc(label)}</span><b da
 function header(){
  const steps=t('steps');const index={intro:0,manual:1,ai:2,results:3}[state.screen];
  return `<header class="top">
-  <div class="top-brand"><span class="top-bid">BID</span><span class="top-sep"></span><span><b>${esc(t('brand'))}</b><small>${esc(t('station'))}</small></span></div>
+  <div class="top-brand"><img class="top-idb-group" src="../../../assets/brand/idb-group.jpg" alt="IDB Group"><span class="top-sep"></span><span><b>${esc(t('brand'))}</b><small>IDB Group Projects Across The Region</small></span></div>
   <ol class="stepper">${steps.map((s,i)=>`<li class="${i<index?'done':i===index?'current':''}"><span>${i+1}</span><em>${esc(s)}</em></li>`).join('')}</ol>
   <div class="top-tools"><div class="langs" aria-label="Language"><button id="es" type="button" aria-pressed="${state.lang==='es'}">ES</button><button id="en" type="button" aria-pressed="${state.lang==='en'}">EN</button></div><button type="button" class="home-btn" data-act="home">${esc(t('home'))}</button></div>
  </header>`;

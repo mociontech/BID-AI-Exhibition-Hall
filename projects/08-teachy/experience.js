@@ -33,7 +33,7 @@
   if(data.mode==='video')return renderVideo(mount,language);
   const info=data.mode==='info';
   const alt=language==='en'?(info?'Teachy infographic':'Teachy main screen'):(info?'Infografía Teachy':'Pantalla principal Teachy');
-  mount.innerHTML=`<main class="teachy-display" aria-label="${alt}"><img class="teachy-display-image" src="${art[language][info?'info':'tablet']}" alt="${alt}" width="1672" height="941"></main>`;
+  mount.innerHTML=`<main class="teachy-display" aria-label="${alt}">${AI_ARTWORK(`${art[language][info?'info':'tablet']}`,`class="teachy-display-image"  alt="${alt}" width="1672" height="941"`)}</main>`;
  }
  window.TEACHY={art,renderDisplay};
 })();

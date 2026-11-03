@@ -14,7 +14,7 @@ window.ProjectModule={
   function set(next){state={...state,...next};flow();render();void send();}
   function hot(className,label,attrs=''){return `<button type="button" class="aqua-hotspot ${className}" aria-label="${label}" ${attrs}></button>`;}
   function languages(){return `${hot('aqua-hotspot--spanish','Español',`data-language="es" aria-pressed="${state.language==='es'}"`)}${hot('aqua-hotspot--english','English',`data-language="en" aria-pressed="${state.language==='en'}"`)}`;}
-  function landing(){const x=t();return `<main class="aqua-approved-screen aqua-approved-screen--landing"><img class="aqua-approved-art" src="${cover[state.language]}" alt="" aria-hidden="true"><nav class="aqua-approved-actions">${languages()}${hot('aqua-hotspot--information',x.info,'data-action="information"')}${hot('aqua-hotspot--game',x.game,'data-action="game"')}${hot('aqua-hotspot--home',x.home,'data-action="home"')}${hot('aqua-hotspot--back',x.back,'data-action="home"')}</nav></main>`;}
+  function landing(){const x=t();return `<main class="aqua-approved-screen aqua-approved-screen--landing">${AI_ARTWORK(`${cover[state.language]}`,`class="aqua-approved-art"  alt="" aria-hidden="true"`)}<nav class="aqua-approved-actions">${languages()}${hot('aqua-hotspot--information',x.info,'data-action="information"')}${hot('aqua-hotspot--game',x.game,'data-action="game"')}${hot('aqua-hotspot--home',x.home,'data-action="home"')}${hot('aqua-hotspot--back',x.back,'data-action="home"')}</nav></main>`;}
   function game(){
    const language=state.language==='en'?'EN':'ES',files=['01_Mision.jpg','02_Seleccion_Sin_IA_Negocios.jpg','03_Analisis_AquaData.jpg','04_Seleccion_Con_IA_Negocios.jpg','05_Verificacion_Resultados.jpg','06_Impacto_Real.jpg'];
    let controls=languages();
@@ -28,7 +28,7 @@ window.ProjectModule={
    const progress=state.step===3?'<span class="aqua-game-progress" aria-hidden="true"><i></i></span>':'';
    if(state.step===3&&state.analysisReady)controls+=`<button type="button" class="aqua-game-continue aqua-game-continue--analysis" data-action="next">${state.language==='es'?'Continuar':'Continue'} <span aria-hidden="true">→</span></button>`;
    if(state.step===5)controls+=`<button type="button" class="aqua-game-continue aqua-game-continue--results" data-action="next">${state.language==='es'?'Continuar':'Continue'} <span aria-hidden="true">→</span></button>`;
-   return `<main class="aqua-approved-screen aqua-game-reference"><img class="aqua-approved-art" src="${root}${language}/${files[state.step-1]}" alt="" aria-hidden="true">${progress}<nav class="aqua-approved-actions">${controls}</nav></main>`;
+   return `<main class="aqua-approved-screen aqua-game-reference">${AI_ARTWORK(`${root}${language}/${files[state.step-1]}`,`class="aqua-approved-art"  alt="" aria-hidden="true"`)}${progress}<nav class="aqua-approved-actions">${controls}</nav></main>`;
   }
   function render(){if(!contracts.length){mount.innerHTML='<main class="detective-loading">Cargando recursos de AquaData…</main>';return;}mount.innerHTML=state.mode==='game'?game():landing();bind();}
   function info(){if(unlockTimer)clearTimeout(unlockTimer);set({mode:'info'});unlockTimer=setTimeout(()=>set({mode:'cta'}),10000);}

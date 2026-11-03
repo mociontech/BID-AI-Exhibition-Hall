@@ -41,9 +41,9 @@ La numeración conserva los identificadores del repositorio; Teachy ocupa el 08 
 | 04 · Parque Tecnológico Guatiguará | [Abrir tableta](https://bidaiinaction.netlify.app/projects/04-parque-tecnologico-guatiguara/index.html?station=4) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=4) |
 | 05 · Profe Gabi | [Abrir tableta](https://bidaiinaction.netlify.app/projects/05-profe-gabi/index.html?station=5) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=5) |
 | 06 · RegLAC | [Abrir tableta](https://bidaiinaction.netlify.app/projects/06-reglac/index.html?station=6) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=6) |
-| 07 · CSD: MAIIA | [Abrir tableta](https://bidaiinaction.netlify.app/projects/07-csd-maiia/index.html?station=7) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=7) |
+| 07 · MAIIA | [Abrir tableta](https://bidaiinaction.netlify.app/projects/07-csd-maiia/index.html?station=7) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=7) |
 | 08 · Teachy | [Abrir tableta](https://bidaiinaction.netlify.app/projects/08-teachy/index.html?station=9) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=9) |
-| 10 · VPC Country Intelligence | [Abrir tableta](https://bidaiinaction.netlify.app/projects/10-vpc-country-intelligence/index.html?station=10) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=10) |
+| 10 · Country Intelligence | [Abrir tableta](https://bidaiinaction.netlify.app/projects/10-vpc-country-intelligence/index.html?station=10) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=10) |
 | 11 · RSM RISE | [Abrir tableta](https://bidaiinaction.netlify.app/projects/11-rsm-rise/index.html?station=11) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=11) |
 
 Las reglas publicadas por el administrador permiten las estaciones 1 a 7 y 9 a 11, por eso Teachy usa la estación 9. shared/sync.js y el servidor local admiten las once. Habilitar la sincronización no añade contenido a los proyectos que aún tienen módulos de desarrollo pendiente.
