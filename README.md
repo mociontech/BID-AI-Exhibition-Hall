@@ -78,8 +78,7 @@ AI_Exhibition_Hall_Codex_Starter/
     ├── 05-profe-gabi/
     ├── 06-reglac/
     ├── 07-csd-maiia/
-    ├── 08-siemplea/
-    ├── 09-teachy/
+    ├── 08-teachy/
     ├── 10-vpc-country-intelligence/
     └── 11-rsm-rise/
 ```

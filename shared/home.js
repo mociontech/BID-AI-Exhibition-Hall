@@ -1,7 +1,6 @@
 const projects=window.EXHIBITION_PROJECTS;
-// SIEMPLEA remains in the registry and keeps its route, but is intentionally
-// not part of the public tablet menu at this stage.
-const visibleProjects=projects.filter(project=>project.id!=='08');
+// Ten visitor projects, including a single Teachy entry at position 08.
+const visibleProjects=projects;
 const B=window.AI_BRAND;
 const sync=window.AI_SYNC;
 const app=document.getElementById('app');
@@ -13,8 +12,7 @@ const menuPhotos={
   '05':'assets/AI_Exhibition_Hall_Recursos_Graficos/cards/photos/05_profe_gabi.jpg',
   '06':'assets/AI_Exhibition_Hall_Recursos_Graficos/cards/photos/06_reglac.jpg',
   '07':'assets/AI_Exhibition_Hall_Recursos_Graficos/cards/photos/07_csd_maiia.jpg',
-  '08':'assets/AI_Exhibition_Hall_Recursos_Graficos/cards/photos/08_siemplea.jpg',
-  '09':'assets/AI_Exhibition_Hall_Recursos_Graficos/cards/photos/09_teachy.jpg',
+  '08':'assets/AI_Exhibition_Hall_Recursos_Graficos/cards/photos/09_teachy.jpg',
   '10':'assets/AI_Exhibition_Hall_Recursos_Graficos/cards/photos/10_vpc_country_intelligence.jpg',
   '11':'assets/AI_Exhibition_Hall_Recursos_Graficos/cards/photos/11_rsm_rise.jpg'
 };

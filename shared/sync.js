@@ -3,7 +3,7 @@
   const params=new URLSearchParams(location.search);
   let previous='1'; try { previous=sessionStorage.getItem('exhibition-station')||'1'; } catch {}
   const raw=Number(params.get('station')||previous);
-  const station=[1,2,3,5].includes(raw)?raw:1;
+  const station=[1,2,3,5,8].includes(raw)?raw:1;
   try { sessionStorage.setItem('exhibition-station',String(station)); } catch {}
   const KEY=`ai-exhibition-state-${station}`;
   const stationQuery=`?station=${station}`;

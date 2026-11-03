@@ -10,15 +10,16 @@ const os=require('node:os');
 const PORT=Number(process.env.PORT||4173);
 const HOST=process.env.HOST||'0.0.0.0';
 const ROOT=__dirname;
-const MIME={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.json':'application/json; charset=utf-8','.md':'text/markdown; charset=utf-8','.ico':'image/x-icon'};
+const MIME={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.svg':'image/svg+xml','.json':'application/json; charset=utf-8','.md':'text/markdown; charset=utf-8','.ico':'image/x-icon','.mp4':'video/mp4','.webm':'video/webm'};
 const stations={
   1:{stationId:1,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
   2:{stationId:2,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
   3:{stationId:3,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
-  5:{stationId:5,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null}
+  5:{stationId:5,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null},
+  8:{stationId:8,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null}
 };
 function sendJson(res,code,data){res.writeHead(code,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'});res.end(JSON.stringify(data));}
-function stationParam(url){const num=Number(url.searchParams.get('station'));return [1,2,3,5].includes(num)?num:1;}
+function stationParam(url){const num=Number(url.searchParams.get('station'));return [1,2,3,5,8].includes(num)?num:1;}
 const server=http.createServer((req,res)=>{
  let url;
  try{url=new URL(req.url,'http://localhost');}catch{return sendJson(res,400,{error:'Bad URL'});}
@@ -38,7 +39,7 @@ const server=http.createServer((req,res)=>{
     if(!['home','project','overview','game'].includes(payload.view))return sendJson(res,400,{error:'Invalid view'});
     if(payload.projectId!==null && payload.projectId!==undefined && !/^(0[1-9]|1[01])$/.test(payload.projectId))return sendJson(res,400,{error:'Invalid project'});
     if(payload.language!==undefined && !['es','en',null].includes(payload.language))return sendJson(res,400,{error:'Invalid language'});
-    if(payload.mode!==undefined && !['landing','overview','info','cta','game','results',null].includes(payload.mode))return sendJson(res,400,{error:'Invalid mode'});
+    if(payload.mode!==undefined && !['landing','overview','info','cta','game','results','video',null].includes(payload.mode))return sendJson(res,400,{error:'Invalid mode'});
     if(payload.screenIndex!==undefined && payload.screenIndex!==null && (!Number.isInteger(payload.screenIndex)||payload.screenIndex<1||payload.screenIndex>9))return sendJson(res,400,{error:'Invalid screen index'});
     let game=null;
     if(payload.game!==undefined&&payload.game!==null){
@@ -99,7 +100,18 @@ const server=http.createServer((req,res)=>{
  fs.stat(file,(err,stat)=>{
   if(err||!stat.isFile())return sendJson(res,404,{error:'Not found'});
   const extension=path.extname(file);
-  res.writeHead(200,{'Content-Type':MIME[extension]||'application/octet-stream','Cache-Control':['.html','.js','.css'].includes(extension)?'no-store':'public, max-age=60'});
+  const headers={'Content-Type':MIME[extension]||'application/octet-stream','Cache-Control':['.html','.js','.css'].includes(extension)?'no-store':'public, max-age=60','Accept-Ranges':'bytes'};
+  // Range requests let the TV browser seek and loop station videos.
+  const range=/^bytes=(\d*)-(\d*)$/.exec(req.headers.range||'');
+  if(range&&(range[1]||range[2])){
+   let start=range[1]?Number(range[1]):Math.max(0,stat.size-Number(range[2]));
+   let end=range[1]&&range[2]?Math.min(Number(range[2]),stat.size-1):stat.size-1;
+   if(start>end||start>=stat.size){res.writeHead(416,{'Content-Range':'bytes */'+stat.size});return res.end();}
+   res.writeHead(206,{...headers,'Content-Range':`bytes ${start}-${end}/${stat.size}`,'Content-Length':end-start+1});
+   if(req.method==='HEAD')return res.end();
+   return fs.createReadStream(file,{start,end}).pipe(res);
+  }
+  res.writeHead(200,{...headers,'Content-Length':stat.size});
   if(req.method==='HEAD')return res.end();
   fs.createReadStream(file).pipe(res);
  });
@@ -111,6 +123,7 @@ server.listen(PORT,HOST,()=>{
  console.log(`  STATION 2 Tablet  http://localhost:${PORT}/?station=2  | Display http://localhost:${PORT}/display.html?station=2`);
  console.log(`  STATION 3 Tablet  http://localhost:${PORT}/?station=3  | Display http://localhost:${PORT}/display.html?station=3`);
  console.log(`  STATION 5 Tablet  http://localhost:${PORT}/?station=5  | Display http://localhost:${PORT}/display.html?station=5`);
+  console.log(`  STATION 8 Tablet  http://localhost:${PORT}/?station=8  | Display http://localhost:${PORT}/display.html?station=8`);
  for(const list of Object.values(os.networkInterfaces()))for(const item of list||[])if(item.family==='IPv4'&&!item.internal)console.log(`  LAN address: http://${item.address}:${PORT}`);
  console.log('');
 });

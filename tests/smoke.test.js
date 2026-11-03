@@ -5,15 +5,30 @@ const path=require('node:path');
 const vm=require('node:vm');
 const root=path.resolve(__dirname,'..');
 
-test('the exhibition registry preserves its eleven projects',()=>{
+test('the exhibition registry has ten projects and only one Teachy at 08',()=>{
  const context={window:{}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'shared','projects.js'),'utf8'),context);
- assert.equal(context.window.EXHIBITION_PROJECTS.length,11);
+ const projects=context.window.EXHIBITION_PROJECTS;
+ assert.equal(projects.length,10);
+ assert.equal(projects.filter(project=>project.slug==='teachy').length,1);
+ assert.equal(projects.find(project=>project.slug==='teachy').id,'08');
 });
 
-test('the tablet home intentionally hides SIEMPLEA and uses ten visual positions',()=>{
+test('Teachy ships its supplied tablet, infographic and video resources',()=>{
+ const folder=path.join(root,'projects','08-teachy');
+ assert.ok(fs.existsSync(path.join(folder,'Video','muestra-estacion-teachy-BID.mp4')));
+ assert.equal(fs.readdirSync(path.join(folder,'Public')).filter(file=>file.endsWith('.png')).length,4);
+ const experience=fs.readFileSync(path.join(folder,'experience.js'),'utf8');
+ assert.match(experience,/muestra-estacion-teachy-BID\.mp4/);
+ assert.match(experience,/data\.mode==='video'/);
+ const controller=fs.readFileSync(path.join(folder,'module.js'),'utf8');
+ assert.match(controller,/data-action="video"/);
+ assert.doesNotMatch(controller,/teachy-hit--video" type="button" disabled/);
+});
+
+test('the tablet home uses ten visual positions',()=>{
  const home=fs.readFileSync(path.join(root,'shared','home.js'),'utf8');
- assert.match(home,/visibleProjects=projects\.filter\(project=>project\.id!=='08'\)/);
+ assert.match(home,/visibleProjects=projects;/);
  assert.match(home,/visibleProjects\.map\(\(p,index\)=>/);
  assert.match(home,/String\(index\+1\)\.padStart\(2,'0'\)/);
 });

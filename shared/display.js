@@ -49,6 +49,9 @@ const GUATIGUARA_ART={
  es:{info:'projects/04-parque-tecnologico-guatiguara/04_Guatiguara_BID_Bilingue/04_Guatiguara_Infografia_ES_1920x1080.png'},
  en:{info:'projects/04-parque-tecnologico-guatiguara/04_Guatiguara_BID_Bilingue/04_Guatiguara_Infographic_EN_1920x1080.png'}
 };
+function renderTeachy(data){
+ window.TEACHY.renderDisplay(app,data);
+}
 function renderGuatiguara(data){
  const language=data.language==='en'?'en':'es';
  const image=GUATIGUARA_ART[language].info;
@@ -120,6 +123,8 @@ function render(data){
  if(isGuatiguaraGame)return renderGuatiguaraGame(data);
  const isGuatiguara=data?.projectId==='04'&&data?.view!=='home'&&data?.mode==='info';
  if(isGuatiguara)return renderGuatiguara(data);
+ const isTeachy=data?.projectId==='08'&&data?.view!=='home';
+ if(isTeachy)return renderTeachy(data);
  const isBogotaTraffic=data?.projectId==='02'&&data?.view==='overview'&&data?.section==='info';
  if(isBogotaTraffic)return renderBogotaTraffic(data);
  const isBogotaGame=data?.projectId==='02'&&data?.view==='game';

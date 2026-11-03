@@ -71,22 +71,12 @@ window.EXHIBITION_PROJECTS = [
   },
   {
     "id": "08",
-    "slug": "siemplea",
-    "name": "SIEMPLEA",
-    "subtitle": "Connecting skills and jobs",
-    "description": "Emparejamiento laboral asistido por IA basado en habilidades y ocupaciones.",
-    "division": "VPS · SCL",
-    "href": "projects/08-siemplea/index.html",
-    "image": "assets/cards/08.webp"
-  },
-  {
-    "id": "09",
     "slug": "teachy",
     "name": "Teachy",
-    "subtitle": "AI for education",
-    "description": "Herramientas de inteligencia artificial para crear recursos educativos.",
+    "subtitle": "AI for a more personalized and efficient school",
+    "description": "An AI operating system that connects pedagogy, learning and management.",
     "division": "IDB Lab",
-    "href": "projects/09-teachy/index.html",
+    "href": "projects/08-teachy/index.html",
     "image": "assets/cards/09.webp"
   },
   {
