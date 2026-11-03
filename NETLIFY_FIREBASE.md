@@ -23,6 +23,12 @@ Cuando el despliegue esté listo, toca un proyecto en la tableta y comprueba que
 
 Abre /index.html?station=6 y /display.html?station=6 en dos dispositivos. Las reglas deben incluir la estación 6; el fragmento conserva las estaciones anteriores. RegLAC calibra sus cronómetros con la fecha HTTP del mismo dominio de Netlify, ya que Firebase no expone Date mediante CORS. El servidor local sigue proporcionando serverNow. La calibración pública se reutiliza durante 60 segundos.
 
+## MAIIA (estación 7)
+
+Abre `https://bidaiinaction.netlify.app/index.html?station=7` y `https://bidaiinaction.netlify.app/display.html?station=7`. El menú general sigue disponible con `index.html?station=7&projects=1`.
+
+MAIIA conserva Firebase en hosting estático y la API local durante desarrollo. Los plazos de desbloqueo (10 segundos) y análisis simulado (4 segundos) usan la hora compartida del servidor/hosting; solo la tableta avanza el estado. El trazo libre se sincroniza durante el gesto y se cierra al soltar. Los polígonos permanecen dentro del límite del payload existente. No se requieren cambios en las reglas publicadas de Firebase, que ya admiten la estación 7.
+
 ## Enlaces de producción de las 10 parejas
 
 La numeración conserva los identificadores del repositorio; el proyecto 08 está oculto. Abre una tableta y su TV con el mismo parámetro station. Cada pareja conserva un estado independiente.

@@ -34,7 +34,7 @@ const server=http.createServer((req,res)=>{
  }
  if(url.pathname==='/api/state'){
   const station=stationParam(url);
-  if(req.method==='GET')return sendJson(res,200,station===5||station===6||['05','06'].includes(stations[station].projectId)?{...stations[station],serverNow:Date.now()}:stations[station]);
+  if(req.method==='GET')return sendJson(res,200,station===5||station===6||station===7||['05','06','07'].includes(stations[station].projectId)?{...stations[station],serverNow:Date.now()}:stations[station]);
   if(req.method!=='POST')return sendJson(res,405,{error:'Method not allowed'});
   let buffer='';
   req.on('data',chunk=>{buffer+=chunk;if(buffer.length>10000)req.destroy();});
@@ -67,6 +67,9 @@ const server=http.createServer((req,res)=>{
       const value=payload.game;
       if(typeof value!=='object'||!Number.isInteger(value.caseIndex)||value.caseIndex<0||value.caseIndex>3||!['intro','case','results'].includes(value.phase)||!Array.isArray(value.answers)||value.answers.length!==4||!value.answers.every(answer=>answer===null||Number.isInteger(answer)&&answer>=0&&answer<=2))return sendJson(res,400,{error:'Invalid Costa Rica Smart Borders game state'});
       game={caseIndex:value.caseIndex,answers:[...value.answers],phase:value.phase};
+     }else if(payload.projectId==='07'){
+      game=require('./projects/07-csd-maiia/state.js').sanitize(payload.game,require('./projects/07-csd-maiia/data/demo-maps.json'));
+      if(!game)return sendJson(res,400,{error:'Invalid MAIIA game state'});
      }else if(payload.projectId==='06'){
       game=require('./projects/06-reglac/state.js').sanitize(payload.game);
       if(!game)return sendJson(res,400,{error:'Invalid RegLAC game state'});

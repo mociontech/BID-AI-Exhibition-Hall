@@ -6,6 +6,22 @@ const vm=require('node:vm');
 
 const code=fs.readFileSync(path.join(__dirname,'..','shared','sync.js'),'utf8');
 
+test('MAIIA uses the hosting clock on Netlify even when the TV clock is wrong',async()=>{
+ const realNow=Date.now(),requests=[],window={dispatchEvent:()=>{}},values=new Map();
+ class SkewedDate extends Date{static now(){return Date.now()+300000;}}
+ const storage={getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,v)};
+ const fetch=async(url,options={})=>{
+  requests.push({url,method:options.method});
+  if(options.method==='HEAD')return {ok:true,headers:{get:()=>new Date(realNow).toUTCString()}};
+  return {ok:true,headers:{get:()=>null},json:async()=>({stationId:7,updatedAt:realNow,payload:JSON.stringify({projectId:'07',view:'game',language:'es',game:{phase:'analysis',analysisAt:realNow}})})};
+ };
+ vm.runInNewContext(code,{window,location:{hostname:'bidaiinaction.netlify.app',search:'?station=7'},sessionStorage:storage,localStorage:storage,URLSearchParams,fetch,AbortSignal,Date:SkewedDate,JSON,Promise,setTimeout,CustomEvent:class {}});
+ const state=await window.AI_SYNC.read();await window.AI_SYNC.read();
+ assert.equal(state.projectId,'07');assert.ok(Math.abs(window.AI_SYNC.now()-realNow)<1500);
+ assert.equal(requests.filter(r=>r.method==='HEAD').length,1);
+ assert.ok(requests.filter(r=>r.method!=='HEAD').every(r=>r.url.endsWith('/stations/7.json')));
+});
+
 test('two public links on one station exchange state through Firebase',async()=>{
  let stored=null;
  const requests=[];
