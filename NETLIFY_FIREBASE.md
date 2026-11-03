@@ -6,7 +6,7 @@ El sitio usa `/api/state` en localhost y Firebase Realtime Database cuando se ab
 
 En Firebase Console → Realtime Database → Reglas, añade el contenido de `firebase.rules.fragment.json` **dentro** del objeto `rules` existente, antes de `$other`. Conserva intactos `messages`, `live_reactions`, `bidMapaSessions`, `events` y `enrutaTrivia`. Publica las reglas. El fragmento no es un archivo de reglas completo por sí solo.
 
-Esta ruta de demostración permite lecturas y escrituras públicas para las estaciones 1 a 11. La estación 8 (Teachy) es nueva en el fragmento: el administrador debe volver a publicar las reglas para que la pareja de Teachy sincronice en Netlify. Cualquier persona con el enlace puede cambiar la pantalla; úsala solo para pruebas públicas, no para datos sensibles ni una instalación sin control de acceso.
+Esta ruta de demostración permite lecturas y escrituras públicas para las estaciones 1 a 11. Teachy (proyecto 08) sincroniza por la estación 9, ya publicada; la estación 8 queda en el fragmento para cuando el administrador vuelva a publicar las reglas. Cualquier persona con el enlace puede cambiar la pantalla; úsala solo para pruebas públicas, no para datos sensibles ni una instalación sin control de acceso.
 
 ## Desplegar y probar
 
@@ -42,12 +42,12 @@ La numeración conserva los identificadores del repositorio; Teachy ocupa el 08 
 | 05 · Profe Gabi | [Abrir tableta](https://bidaiinaction.netlify.app/projects/05-profe-gabi/index.html?station=5) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=5) |
 | 06 · RegLAC | [Abrir tableta](https://bidaiinaction.netlify.app/projects/06-reglac/index.html?station=6) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=6) |
 | 07 · CSD: MAIIA | [Abrir tableta](https://bidaiinaction.netlify.app/projects/07-csd-maiia/index.html?station=7) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=7) |
-| 08 · Teachy | [Abrir tableta](https://bidaiinaction.netlify.app/projects/08-teachy/index.html?station=8) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=8) |
+| 08 · Teachy | [Abrir tableta](https://bidaiinaction.netlify.app/projects/08-teachy/index.html?station=9) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=9) |
 | 10 · VPC Country Intelligence | [Abrir tableta](https://bidaiinaction.netlify.app/projects/10-vpc-country-intelligence/index.html?station=10) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=10) |
 | 11 · RSM RISE | [Abrir tableta](https://bidaiinaction.netlify.app/projects/11-rsm-rise/index.html?station=11) | [Abrir TV](https://bidaiinaction.netlify.app/display.html?station=11) |
 
-Las reglas publicadas por el administrador permiten las estaciones 1 a 7 y 9 a 11; la estación 8 requiere publicar el fragmento actualizado. shared/sync.js y el servidor local admiten las once. Habilitar la sincronización no añade contenido a los proyectos que aún tienen módulos de desarrollo pendiente.
+Las reglas publicadas por el administrador permiten las estaciones 1 a 7 y 9 a 11, por eso Teachy usa la estación 9. shared/sync.js y el servidor local admiten las once. Habilitar la sincronización no añade contenido a los proyectos que aún tienen módulos de desarrollo pendiente.
 
-## Teachy (estación 8)
+## Teachy (proyecto 08, estación 9)
 
-Abre `https://bidaiinaction.netlify.app/projects/08-teachy/index.html?station=8` y `https://bidaiinaction.netlify.app/display.html?station=8`. Información muestra la infografía y Video reproduce `projects/08-teachy/Video/muestra-estacion-teachy-BID.mp4` en la TV; la tableta conserva su PNG. Requiere que las reglas de Firebase incluyan la estación 8.
+Abre `https://bidaiinaction.netlify.app/projects/08-teachy/index.html?station=9` y `https://bidaiinaction.netlify.app/display.html?station=9`. El número de estación es solo el canal de sincronización; el proyecto conserva el 08 en el menú y en su carpeta. Información muestra la infografía y Video reproduce `projects/08-teachy/Video/muestra-estacion-teachy-BID.mp4` en la TV; la tableta conserva su PNG. La estación 9 ya está permitida por las reglas publicadas.
