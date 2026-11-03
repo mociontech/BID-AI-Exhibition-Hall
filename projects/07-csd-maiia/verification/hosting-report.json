@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "transport": "Firebase REST PUT/GET (isolated test)",
+  "writeCount": 20,
+  "checks": [
+    "public entry and passive TV",
+    "freehand live synchronization",
+    "no pre-AI answer reveal",
+    "shared hosting clock with TV skew",
+    "assisted selections and actual final score",
+    "language and late receiver restoration"
+  ],
+  "errors": []
+}

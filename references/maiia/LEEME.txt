@@ -1,0 +1,7 @@
+MAIIA / BID — 10 pantallas de referencia para DEMO
+
+Son mockups conceptuales recortados de una lamina visual: no son componentes HTML funcionales ni mapas validados. Los porcentajes, mapas y aciertos son ilustrativos. Las imagenes fueron ampliadas para colocacion, sin agregar detalle real.
+
+02 es la unica pantalla informativa. 01 y 03–10 pertenecen a la navegacion y minijuego.
+
+Para produccion reconstruir con HTML/CSS, Inter, mapas y datos autorizados, y logo oficial BID. Evitar degradado naranja a azul.

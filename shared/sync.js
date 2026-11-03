@@ -3,7 +3,8 @@
   const params=new URLSearchParams(location.search);
   let previous='1'; try { previous=sessionStorage.getItem('exhibition-station')||'1'; } catch {}
   const raw=Number(params.get('station')||previous);
-  const station=[1,2,3,5,8].includes(raw)?raw:1;
+  // Eleven station IDs: Teachy runs on station 8; 9 stays allowed by the published rules.
+  const station=[1,2,3,4,5,6,7,8,9,10,11].includes(raw)?raw:1;
   try { sessionStorage.setItem('exhibition-station',String(station)); } catch {}
   const KEY=`ai-exhibition-state-${station}`;
   const stationQuery=`?station=${station}`;
@@ -12,7 +13,22 @@
   const endpoint=localHost?`/api/state?station=${station}`:firebaseURL;
   let writeQueue=Promise.resolve();
   let clockOffset=0;
-  function connection(connected,source){if(station===5)window.dispatchEvent(new CustomEvent('ai-sync-connection',{detail:{station,connected,source}}));}
+  let lastClockRead=0;
+  async function readHostingClock(){
+    // Firebase does not expose Date through CORS. The same-origin hosting
+    // response provides a shared clock without adding another backend.
+    if(lastClockRead&&Date.now()-lastClockRead<60000)return;
+    const started=Date.now();
+    try{
+      const response=await fetch('/index.html',{method:'HEAD',cache:'no-store',signal:AbortSignal.timeout(5000)});
+      const serverDate=Date.parse(response.headers.get('date')||'');
+      if(response.ok&&Number.isFinite(serverDate)){
+        clockOffset=serverDate+500-(started+Date.now())/2;
+        lastClockRead=Date.now();
+      }
+    }catch{}
+  }
+  function connection(connected,source){window.dispatchEvent(new CustomEvent('ai-sync-connection',{detail:{station,connected,source}}));}
   function remember(state){try{localStorage.setItem(KEY,JSON.stringify({...state,ts:Date.now()}));}catch{}}
   async function post(packet){
    const body=localHost?packet:{stationId:station,updatedAt:{'.sv':'timestamp'},payload:JSON.stringify(packet)};
@@ -44,9 +60,10 @@
       const stored=await r.json();
       const state=localHost?stored:stored?.payload?JSON.parse(stored.payload):{stationId:station,view:'home',projectId:null};
       if(!localHost){state.stationId=station;if(stored?.updatedAt)state.updatedAt=stored.updatedAt;}
-      if(station===5){
+      if(station===5||station===6||station===7||['05','06','07'].includes(state.projectId)){
         const serverDate=localHost?state.serverNow:Date.parse(r.headers.get('date')||'');
         if(Number.isFinite(serverDate))clockOffset=serverDate-(started+Date.now())/2;
+        else if(!localHost)await readHostingClock();
         connection(true,'read');if(state.updatedAt)remember(state);
       }
       return state;

@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "checks": [
+    "geometry: actual IoU, empty/disjoint/duplicate unions; unique hits, penalties and bounded coordinates",
+    "menu 1180×820",
+    "tablet landing map has no overlapping blue caption",
+    "keyboard focus and 44px touch targets",
+    "menu 1024×768",
+    "single infographic TV 1920×1080 ES",
+    "single infographic TV EN",
+    "information only on TV; 10-second unlock; reload retains deadline; skewed receiver clock",
+    "intro 1024×768",
+    "drawing 1024×768",
+    "drawing TV",
+    "tablet map occupies more than 85% of viewport width; only compact hint and toolbar",
+    "split-window tablet 764×830",
+    "portrait/split-window map is visible and touch drawing stays aligned after resize",
+    "freehand touch/mouse, automatic closure, live TV preview, canceled gestures, bounded pointer capture, undo/clear and keyboard fallback",
+    "markers 1180×820",
+    "marker add/remove, cap five, viewport alignment, real manual score, language preserves progress",
+    "manual review shows only visitor markers and overall score on tablet/TV; hard reference answers remain hidden until AI",
+    "assisted 1180×820",
+    "assisted TV",
+    "4-second simulated scan resumes; exact same hard image; candidate toggle/sync; late TV recovery",
+    "final tablet map shows every reference, actual selected areas, false selections and original markers; TV keeps score comparison",
+    "final 1180×820",
+    "final TV",
+    "final 1024×768 EN",
+    "actual final scores ES/EN, progress reload and fullscreen enter/exit",
+    "replay clears every interaction; menu retains unlock; cancel scan; Home reaches exhibition menu",
+    "equal and lower outcomes; assisted score is not forced to improve",
+    "station isolation; invalid state rejected; zero browser/asset errors"
+  ],
+  "results": {
+    "easy": 100,
+    "manual": {
+      "hits": 2,
+      "errors": 3,
+      "score": 0
+    },
+    "assisted": {
+      "hits": 3,
+      "errors": 1,
+      "score": 40
+    }
+  },
+  "errors": []
+}

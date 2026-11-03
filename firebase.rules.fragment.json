@@ -2,11 +2,11 @@
   "aiExhibitionHall": {
     "stations": {
       "$station": {
-        ".read": "$station === '1' || $station === '2' || $station === '3' || $station === '5'",
-        ".write": "($station === '1' || $station === '2' || $station === '3' || $station === '5') && newData.exists()",
+        ".read": "$station === '1' || $station === '2' || $station === '3' || $station === '4' || $station === '5' || $station === '6' || $station === '7' || $station === '8' || $station === '9' || $station === '10' || $station === '11'",
+        ".write": "($station === '1' || $station === '2' || $station === '3' || $station === '4' || $station === '5' || $station === '6' || $station === '7' || $station === '8' || $station === '9' || $station === '10' || $station === '11') && newData.exists()",
         ".validate": "newData.hasChildren(['stationId', 'updatedAt', 'payload'])",
         "stationId": {
-          ".validate": "newData.isNumber() && (($station === '1' && newData.val() === 1) || ($station === '2' && newData.val() === 2) || ($station === '3' && newData.val() === 3) || ($station === '5' && newData.val() === 5))"
+          ".validate": "newData.isNumber() && $station === (newData.val() + '')"
         },
         "updatedAt": {
           ".validate": "newData.isNumber() && newData.val() > now - 300000 && newData.val() < now + 300000"
