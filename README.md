@@ -1,4 +1,4 @@
-# AI Exhibition Hall — Menú principal interactivo (v0.1)
+# AI in Action — Menú principal interactivo (v0.1)
 
 ## Incorporación de Profe Gabi
 

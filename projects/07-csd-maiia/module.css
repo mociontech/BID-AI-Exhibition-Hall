@@ -48,3 +48,10 @@
 .mai-final-map{grid-template-rows:auto minmax(180px,1fr) auto auto}.mai-final-map>.mai-legend{padding:0;gap:10px 18px;font-size:11px;min-height:24px;justify-content:center}.mai-final-map-actions{justify-content:flex-start;gap:14px}.mai-answer-selection{fill:none;stroke:#83efff;stroke-width:4;pointer-events:none}.mai-answer-selection.is-incorrect{fill:#ff6b8b28;stroke:#ff91aa;stroke-dasharray:8 5}.mai-answer-key{background:transparent;border-color:#147e90!important;border-width:2px!important}.mai-incorrect-key{background:#ff6b8b28;border-color:#b83d59!important;border-style:dashed!important}.mai-final-map .mai-marker{cursor:default}.mai-final-map .mai-controller-toolbar>.mai-btn{min-width:170px}
 @media(max-width:600px){.mai-final-map-actions{flex-wrap:wrap}.mai-final-map .mai-controller-toolbar>.mai-btn{min-width:145px}.mai-final-map>.mai-legend{justify-content:flex-start}}
 @media(prefers-reduced-motion:reduce){.mai-app *{animation-duration:.01ms!important;animation-delay:0ms!important;transition:none!important}.mai-scanning .mai-candidate-group{opacity:1}.mai-analysis-complete{opacity:1}}
+
+/* English group lockup and updated event name. */
+.mai-brand img{width:clamp(130px,13vw,210px);height:auto;max-height:54px;object-fit:contain;flex-shrink:0;background:white;border-radius:2px}
+.mai-brand small{max-width:310px;white-space:normal;line-height:1.25}
+@media(max-width:1100px){.mai-brand{gap:12px}.mai-brand small{max-width:245px;font-size:11px}}
+
+.mai-controller-mode .mai-brand img{width:130px;height:auto}.mai-brand p{font-size:14px;letter-spacing:0}.mai-brand small{font-size:11px;letter-spacing:0}

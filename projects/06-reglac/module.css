@@ -17,3 +17,8 @@
 .rl-result-card>p{min-height:2.9em}
 .rl-display .rl-doc p{font-size:clamp(20px,1.3vw,25px);line-height:1.4}
 .rl-display .rl-workspace-reveal .rl-doc h2{margin-top:14px}.rl-display .rl-workspace-reveal .rl-doc p{font-size:21px;line-height:1.4;padding-top:12px;margin-top:14px}
+
+/* English group lockup and updated event name. */
+.rl-brand img{width:clamp(130px,13vw,210px);height:auto;max-height:54px;object-fit:contain;flex-shrink:0;background:white;border-radius:2px}
+.rl-brand small{max-width:310px;white-space:normal;line-height:1.25}
+@media(max-width:1100px){.rl-brand{gap:12px}.rl-brand small{max-width:245px;font-size:11px}}

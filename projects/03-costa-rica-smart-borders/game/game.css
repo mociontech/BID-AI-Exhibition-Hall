@@ -215,3 +215,5 @@ h1,h2,h3{text-align:left}
 @keyframes dot{0%,80%,100%{opacity:.2}40%{opacity:1}}
 .ai-progress{display:block;height:10px;border-radius:999px;background:var(--black4);overflow:hidden}
 .ai-progress i{display:block;width:0;height:100%;border-radius:999px;background:var(--bid);transition:width .25s linear}
+
+.top-idb-group{display:block;width:clamp(130px,14vw,205px);height:auto}.top-brand{white-space:normal}.top-brand small{max-width:300px}

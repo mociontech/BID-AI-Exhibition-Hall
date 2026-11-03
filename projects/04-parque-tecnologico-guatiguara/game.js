@@ -101,7 +101,7 @@ window.GUATIGUARA_GAME=(function(){
  }
  function stageKey(step){return ['welcome','challenge','labs','supports','result'][step]||'welcome'}
  const line=()=>'<span class="kv-card__check" aria-hidden="true">✓</span>';
- function tvTop(step,lang){return `<header class="kv-tv-top"><div class="kv-tv-id"><span>04</span><div><b>PARQUE TECNOLÓGICO GUATIGUARÁ</b><small>AI EXHIBITION HALL · COLOMBIA</small></div></div><em>0${step} / 04</em></header>`;}
+ function tvTop(step,lang){return `<header class="kv-tv-top"><div class="kv-tv-id"><span>04</span><div><b>PARQUE TECNOLÓGICO GUATIGUARÁ</b><small>AI in Action · COLOMBIA</small></div></div><em>0${step} / 04</em></header>`;}
  function corner(){return `<div class="kv-corner" aria-hidden="true"><img src="${base}ilustraciones/parque-tecnologico.svg" alt=""></div>`;}
  function footer(text){return `<footer class="kv-tv-footer"><img src="${base}iconos/reto.svg" alt="" aria-hidden="true"><span>${text}</span></footer>`;}
  function renderTV(raw,selectedLanguage){

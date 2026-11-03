@@ -62,7 +62,7 @@ window.EXHIBITION_PROJECTS = [
   {
     "id": "07",
     "slug": "csd-maiia",
-    "name": "CSD: MAIIA",
+    "name": "MAIIA",
     "subtitle": "Mapping for better decisions",
     "description": "Herramienta de análisis territorial con IA. Storytelling de exhibición pendiente de aprobación.",
     "division": "VPS · CSD",
@@ -82,7 +82,7 @@ window.EXHIBITION_PROJECTS = [
   {
     "id": "10",
     "slug": "vpc-country-intelligence",
-    "name": "VPC Country Intelligence",
+    "name": "Country Intelligence",
     "subtitle": "Project context to be confirmed",
     "description": "Contenido y recorrido del proyecto pendientes de validación.",
     "division": "VPC + TTD",

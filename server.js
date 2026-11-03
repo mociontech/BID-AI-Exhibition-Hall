@@ -129,7 +129,7 @@ const server=http.createServer((req,res)=>{
  });
 });
 server.listen(PORT,HOST,()=>{
- console.log(`\nAI Exhibition Hall — local station server at http://localhost:${PORT}`);
+ console.log(`\nAI in Action — local station server at http://localhost:${PORT}`);
  console.log('Stations:');
  for(const id of Object.keys(stations))console.log(`  STATION ${id} Tablet  http://localhost:${PORT}/?station=${id}  | Display http://localhost:${PORT}/display.html?station=${id}`);
  for(const list of Object.values(os.networkInterfaces()))for(const item of list||[])if(item.family==='IPv4'&&!item.internal)console.log(`  LAN address: http://${item.address}:${PORT}`);
