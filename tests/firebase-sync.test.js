@@ -84,3 +84,42 @@ test('all eleven station IDs retain independent public and local state',async()=
  }
  assert.equal(remote.size,22);
 });
+
+test('two private rooms on the same station cannot change each other',async()=>{
+ const roomA='0123456789abcdef0123456789abcdef';
+ const roomB='fedcba9876543210fedcba9876543210';
+ const remote=new Map();
+ const fetch=async(url,options={})=>{
+  if(options.method==='PUT'||options.method==='POST')remote.set(url,options.method==='PUT'?JSON.parse(options.body):JSON.parse(options.body));
+  return {ok:true,headers:{get:()=>null},json:async()=>remote.get(url)||null};
+ };
+ function client(room,hostname='bidaiinaction.netlify.app'){
+  const values=new Map();
+  const storage={getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
+  const window={dispatchEvent:()=>{}};
+  vm.runInNewContext(code,{window,location:{hostname,search:`?station=1&room=${room}`},sessionStorage:storage,localStorage:storage,URLSearchParams,fetch,AbortSignal,Date,JSON,Promise,setTimeout,CustomEvent:class {}});
+  return window.AI_SYNC;
+ }
+ for(const hostname of ['bidaiinaction.netlify.app','localhost']){
+  const a=client(roomA,hostname),b=client(roomB,hostname);
+  assert.equal(a.stationQuery,`?station=1&room=${roomA}`);
+  assert.notEqual(a.KEY,b.KEY);
+  await a.send({view:'project',projectId:'01',section:'A'});
+  await b.send({view:'project',projectId:'02',section:'B'});
+  assert.equal((await a.read()).section,'A');
+  assert.equal((await b.read()).section,'B');
+ }
+});
+
+test('room code survives navigation within its station and clears on another station',()=>{
+ const values=new Map(),storage={getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
+ const room='0123456789abcdef0123456789abcdef';
+ function load(search){
+  const window={dispatchEvent:()=>{}};
+  vm.runInNewContext(code,{window,location:{hostname:'localhost',search},sessionStorage:storage,localStorage:storage,URLSearchParams,fetch:()=>{},AbortSignal,Date,JSON,Promise,setTimeout,CustomEvent:class {}});
+  return window.AI_SYNC;
+ }
+ assert.equal(load(`?station=6&room=${room}`).room,room);
+ assert.equal(load('?station=6&projects=1').stationQuery,`?station=6&room=${room}`);
+ assert.equal(load('?station=7').room,null);
+});

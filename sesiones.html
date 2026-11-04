@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Diez parejas · AI Exhibition Hall</title>
+  <style>
+    :root{font-family:Arial,sans-serif;color:#082b53;background:#f3faff}*{box-sizing:border-box}body{margin:0;padding:32px 20px}main{max-width:1080px;margin:auto}h1{margin:0 0 8px;font-size:clamp(28px,4vw,44px)}p{line-height:1.5;color:#477194}.intro{max-width:760px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:24px}.session{background:white;border:1px solid #bcdff5;border-radius:18px;padding:20px;box-shadow:0 8px 24px #097cc00c}.session h2{margin:0 0 6px;font-size:22px}.session code{font-size:12px;color:#4b7392;overflow-wrap:anywhere}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}a,button{min-height:44px;border-radius:24px;border:1px solid #008ed9;background:#008ed9;color:white;text-decoration:none;font:700 14px Arial,sans-serif;padding:12px 16px;cursor:pointer}button.secondary{background:white;color:#086ca8}button:focus-visible,a:focus-visible{outline:3px solid #032d56;outline-offset:3px}.notice{margin:24px 0;padding:14px 18px;border-radius:12px;background:#e1f4ff}.status{min-height:24px;color:#087042;font-weight:700}
+  </style>
+</head>
+<body><main>
+  <h1>Diez sesiones independientes</h1>
+  <p class="intro">Abre la tableta y el televisor de una misma sala con sus enlaces. Cada pareja lleva un código propio: aunque otra persona elija el mismo número de estación, no podrá cambiar esa pantalla sin el enlace de la pareja.</p>
+  <p class="notice">Guarda esta página en el navegador desde el que organizas la exposición. Los códigos se conservan aquí. Si cambias el código de una sala, vuelve a abrir sus dos enlaces en ambos dispositivos. Comparte cada enlace solo con el equipo de esa sala.</p>
+  <div id="sessions" class="grid"></div><p id="status" class="status" role="status" aria-live="polite"></p>
+</main><script src="shared/sessions.js"></script></body></html>

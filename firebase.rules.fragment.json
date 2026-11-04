@@ -1,5 +1,24 @@
 {
   "aiExhibitionHall": {
+    "rooms": {
+      "$room": {
+        ".read": "$room.matches(/^[a-f0-9]{32}$/)",
+        ".write": "$room.matches(/^[a-f0-9]{32}$/) && newData.exists()",
+        ".validate": "newData.hasChildren(['stationId', 'updatedAt', 'payload'])",
+        "stationId": {
+          ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 10"
+        },
+        "updatedAt": {
+          ".validate": "newData.isNumber() && newData.val() > now - 300000 && newData.val() < now + 300000"
+        },
+        "payload": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 10000"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
     "stations": {
       "$station": {
         ".read": "$station === '1' || $station === '2' || $station === '3' || $station === '4' || $station === '5' || $station === '6' || $station === '7' || $station === '8' || $station === '9' || $station === '10' || $station === '11'",

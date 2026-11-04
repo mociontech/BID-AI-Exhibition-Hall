@@ -1,6 +1,6 @@
 /**
  * Local-only exhibition prototype server (no external packages).
- * Syncs the ten public tablet/display pairs on the same LAN.
+ * Syncs public stations and private-link tablet/display pairs on the same LAN.
  * Does NOT secure this API for use on an untrusted/public network.
  */
 const http=require('node:http');
@@ -26,6 +26,9 @@ const stations={
 };
 function sendJson(res,code,data){res.writeHead(code,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'});res.end(JSON.stringify(data));}
 function stationParam(url){const num=Number(url.searchParams.get('station'));return [1,2,3,4,5,6,7,8,9,10,11].includes(num)?num:1;}
+function roomParam(url){const value=url.searchParams.get('room');return /^[a-f0-9]{32}$/.test(value||'')?value:null;}
+function initialState(station){return {stationId:station,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null};}
+const rooms=new Map();
 const server=http.createServer((req,res)=>{
  let url;
  try{url=new URL(req.url,'http://localhost');}catch{return sendJson(res,400,{error:'Bad URL'});}
@@ -35,7 +38,10 @@ const server=http.createServer((req,res)=>{
  }
  if(url.pathname==='/api/state'){
   const station=stationParam(url);
-  if(req.method==='GET')return sendJson(res,200,station===5||station===6||station===7||['05','06','07'].includes(stations[station].projectId)?{...stations[station],serverNow:Date.now()}:stations[station]);
+  if(url.searchParams.has('room')&&!roomParam(url))return sendJson(res,400,{error:'Invalid room code'});
+  const room=roomParam(url);
+  const current=room?(rooms.get(room)||initialState(station)):stations[station];
+  if(req.method==='GET')return sendJson(res,200,station===5||station===6||station===7||['05','06','07'].includes(current.projectId)?{...current,serverNow:Date.now()}:current);
   if(req.method!=='POST')return sendJson(res,405,{error:'Method not allowed'});
   let buffer='';
   req.on('data',chunk=>{buffer+=chunk;if(buffer.length>10000)req.destroy();});
@@ -98,7 +104,8 @@ const server=http.createServer((req,res)=>{
       game={step:payload.game.step,p1,p2,p1Result,p2Result};
      }
     }
-    stations[station]={stationId:station,view:payload.view,projectId:payload.projectId??null,section:typeof payload.section==='string'?payload.section:null,language:payload.language==='en'?'en':payload.language==='es'? 'es':null,mode:payload.mode||null,screenIndex:payload.screenIndex??null,game,updatedAt:Date.now()};
+    const nextState={stationId:station,view:payload.view,projectId:payload.projectId??null,section:typeof payload.section==='string'?payload.section:null,language:payload.language==='en'?'en':payload.language==='es'? 'es':null,mode:payload.mode||null,screenIndex:payload.screenIndex??null,game,updatedAt:Date.now()};
+    if(room)rooms.set(room,nextState);else stations[station]=nextState;
     sendJson(res,200,{ok:true,station});
    }catch{return sendJson(res,400,{error:'Invalid JSON'});}
   });return;

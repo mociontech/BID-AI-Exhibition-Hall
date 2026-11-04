@@ -6,11 +6,20 @@
   // Eleven station IDs: Teachy runs on station 8; 9 stays allowed by the published rules.
   const station=[1,2,3,4,5,6,7,8,9,10,11].includes(raw)?raw:1;
   try { sessionStorage.setItem('exhibition-station',String(station)); } catch {}
-  const KEY=`ai-exhibition-state-${station}`;
-  const stationQuery=`?station=${station}`;
+  const suppliedRoom=params.get('room');
+  let previousRoom=null;
+  try { if(sessionStorage.getItem('exhibition-room-station')===String(station))previousRoom=sessionStorage.getItem('exhibition-room'); } catch {}
+  const room=/^[a-f0-9]{32}$/.test(suppliedRoom||'')?suppliedRoom:(!params.has('room')?previousRoom:null);
+  const safeRoom=/^[a-f0-9]{32}$/.test(room||'')?room:null;
+  try {
+    if(safeRoom){sessionStorage.setItem('exhibition-room-station',String(station));sessionStorage.setItem('exhibition-room',safeRoom);}
+    else {sessionStorage.removeItem('exhibition-room-station');sessionStorage.removeItem('exhibition-room');}
+  } catch {}
+  const KEY=`ai-exhibition-state-${station}${safeRoom?'-'+safeRoom:''}`;
+  const stationQuery=`?station=${station}${safeRoom?'&room='+safeRoom:''}`;
   const localHost=['localhost','127.0.0.1','[::1]'].includes(location.hostname)||/^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(location.hostname);
-  const firebaseURL=`https://f1-sap-default-rtdb.firebaseio.com/aiExhibitionHall/stations/${station}.json`;
-  const endpoint=localHost?`/api/state?station=${station}`:firebaseURL;
+  const firebaseURL=`https://f1-sap-default-rtdb.firebaseio.com/aiExhibitionHall/${safeRoom?'rooms/'+safeRoom:'stations/'+station}.json`;
+  const endpoint=localHost?`/api/state${stationQuery}`:firebaseURL;
   let writeQueue=Promise.resolve();
   let clockOffset=0;
   let lastClockRead=0;
@@ -70,5 +79,5 @@
     }
     catch(e){connection(false,'read');try{const cached=JSON.parse(localStorage.getItem(KEY)||'null');if(station===5&&Number.isFinite(cached?.serverNow)&&Number.isFinite(cached?.ts))clockOffset=cached.serverNow-cached.ts;return cached;}catch{return null;}}
   }
-  window.AI_SYNC={station,stationQuery,send,read,KEY,pollInterval:localHost?150:1000,now:()=>Math.round(Date.now()+clockOffset)};
+  window.AI_SYNC={station,room:safeRoom,stationQuery,send,read,KEY,pollInterval:localHost?150:1000,now:()=>Math.round(Date.now()+clockOffset)};
 })();

@@ -2,6 +2,14 @@
 
 El sitio usa `/api/state` en localhost y Firebase Realtime Database cuando se abre en un dominio público. No hacen falta variables de entorno para esta demostración: la URL de la base está en `shared/sync.js`.
 
+## Diez sesiones privadas por enlace
+
+Abre `https://bidaiinaction.netlify.app/sesiones.html` (o `/sesiones.html` en el servidor local). La página genera diez códigos aleatorios, uno por pareja de tableta y TV, y guarda los códigos en el navegador del organizador. Copia y abre los dos enlaces de cada sala. Ambos llevan el mismo `station` y `room`. Una persona que abra solamente `?station=1` ya no comparte el estado de la sala 1 con código. Los enlaces antiguos sin `room` siguen funcionando como canal público de prueba.
+
+Si necesitas sustituir un enlace que se compartió por error, pulsa **Cambiar código** en esa sala y vuelve a abrir los dos enlaces. Un código no es autenticación: quien tenga el enlace completo puede controlar esa pareja. No publiques los enlaces de las tabletas ni uses esta base para información sensible. El código permanece en la URL y se conserva al navegar por el menú y los proyectos.
+
+**Antes de usar estos enlaces en Netlify**, publica el bloque `aiExhibitionHall` actualizado de `firebase.rules.fragment.json` dentro de `rules` en Firebase Console. Incluye la nueva ruta `rooms`; sin ella Firebase responderá `401`. Conserva los demás bloques de reglas existentes. En el servidor local no se necesita este paso.
+
 ## Configurar Firebase
 
 En Firebase Console → Realtime Database → Reglas, añade el contenido de `firebase.rules.fragment.json` **dentro** del objeto `rules` existente, antes de `$other`. Conserva intactos `messages`, `live_reactions`, `bidMapaSessions`, `events` y `enrutaTrivia`. Publica las reglas. El fragmento no es un archivo de reglas completo por sí solo.
@@ -31,7 +39,7 @@ MAIIA conserva Firebase en hosting estático y la API local durante desarrollo. 
 
 ## Enlaces de producción de las 10 parejas
 
-La numeración conserva los identificadores del repositorio; Teachy ocupa el 08 y SIEMPLEA no forma parte del menú. Abre una tableta y su TV con el mismo parámetro station. Cada pareja conserva un estado independiente.
+La numeración conserva los identificadores del repositorio; Teachy ocupa el 08 y SIEMPLEA no forma parte del menú. Estos enlaces con solo `station` son canales públicos heredados. Para las diez parejas de la exposición usa los enlaces con `room` que entrega `/sesiones.html`.
 
 | Proyecto | Tableta | TV |
 | --- | --- | --- |
