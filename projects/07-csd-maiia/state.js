@@ -1,8 +1,8 @@
 /* Shared geometry and deterministic session transitions, used by browser and server.
    Coordinates are fractions of the visible map, including the close-up crop. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.MAIIA_STATE=api;})(typeof window==='undefined'?globalThis:window,()=>{
- const phases=['intro','easy','easyResult','manual','manualResult','analysis','assisted','final'];
- const fresh=(ready=false)=>({phase:'intro',ready,unlockAt:0,analysisAt:0,startedAt:0,polygons:[],draft:[],markers:[],selected:[],easyScore:null,manual:null,assisted:null});
+ const phases=['intro','easy','easyResult','manual','manualResult','activation','analysis','assisted','final'];
+ const fresh=(ready=true)=>({phase:'intro',ready,unlockAt:0,analysisAt:0,startedAt:0,polygons:[],draft:[],markers:[],selected:[],easyScore:null,manual:null,assisted:null});
  // Keep curved gestures within the existing 40-point sync contract. Remove
  // near-collinear samples first; increase tolerance only if the budget requires it.
  function simplifyStroke(points,maxPoints=40){
@@ -52,8 +52,8 @@
   if(!value||!phases.includes(value.phase)||typeof value.ready!=='boolean')return null;
   if(value.easyScore!==null&&(!Number.isInteger(value.easyScore)||value.easyScore<0||value.easyScore>100))return null;
   if(!['manual','assisted'].every(k=>value[k]===null||value[k]&&typeof value[k]==='object'))return null;
-  if(['easyResult','manual','manualResult','analysis','assisted','final'].includes(value.phase)&&value.easyScore===null)return null;
-  if(['manualResult','analysis','assisted','final'].includes(value.phase)&&value.manual===null)return null;
+  if(['easyResult','manual','manualResult','activation','analysis','assisted','final'].includes(value.phase)&&value.easyScore===null)return null;
+  if(['manualResult','activation','analysis','assisted','final'].includes(value.phase)&&value.manual===null)return null;
   if(value.phase==='final'&&value.assisted===null)return null;
   const point=p=>Array.isArray(p)&&p.length===2&&p.every(n=>Number.isFinite(n)&&n>=0&&n<=1);
   if(!Array.isArray(value.polygons)||value.polygons.length>config.scoring.maxPolygons||!value.polygons.every(p=>Array.isArray(p)&&p.length>=3&&p.length<=config.scoring.maxPoints&&p.every(point)))return null;

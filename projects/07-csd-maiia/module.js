@@ -2,9 +2,8 @@
    complete session snapshots received through AI_SYNC, including on late join. */
 window.ProjectModule={id:'07',async mountController({sync,mount}){
  const api=MAIIA,S=MAIIA_STATE;await api.ready;
- const config=api.config,key='maiia-ready-'+sync.station;
- let remembered=false;try{remembered=sessionStorage.getItem(key)==='true';}catch{}
- let state={projectId:'07',view:'project',mode:'landing',section:'landing',language:'en',game:S.fresh(remembered)};
+ const config=api.config;
+ let state={projectId:'07',view:'project',mode:'landing',section:'landing',language:'en',game:S.fresh()};
  let timer=null,heartbeat=null,leaving=false,pending=0,dirty=false,reading=false,feedbackKey=null,cursor=[.5,.5];
  let stroke=null,strokeTimer=null;
  const now=()=>sync.now();
@@ -18,13 +17,11 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
   api.renderInto(mount,state);if(selector)mount.querySelector(selector)?.focus({preventScroll:true});connection(!dirty);if(feedbackKey)feedback(feedbackKey);
  }
  function arm(){clearTimeout(timer);if(leaving)return;const g=state.game;
-  // Deadlines live in the shared snapshot. Reloading or changing language
+  // The scan deadline lives in the shared snapshot. Reloading or changing language
   // cannot restart them; the passive receiver never advances state itself.
-  if(!g.ready&&g.unlockAt)timer=setTimeout(()=>update({game:{...state.game,ready:true,unlockAt:0}}),Math.max(0,g.unlockAt-now()));
-  else if(state.mode==='game'&&g.phase==='analysis')timer=setTimeout(()=>update({game:{...state.game,phase:'assisted',analysisAt:0}}),Math.max(0,g.analysisAt+config.timing.analysisMs-now()));
+  if(state.mode==='game'&&g.phase==='analysis')timer=setTimeout(()=>update({game:{...state.game,phase:'assisted',analysisAt:0}}),Math.max(0,g.analysisAt+config.timing.analysisMs-now()));
  }
  function update(next){if(leaving)return;if(stroke){cancelStroke();if(next.game)next.game={...next.game,draft:[]};}state={...state,...next};state.section=state.mode==='game'?state.game.phase:state.mode;feedbackKey=null;
-  if(state.game.ready)try{sessionStorage.setItem(key,'true');}catch{}
   render();void publish();arm();
  }
  function setGame(patch){update({game:{...state.game,...patch}});}
@@ -108,9 +105,9 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
   if(action==='retry')return publish();
   if(action==='fullscreen'){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{feedback('fullError');}return;}
   if(action==='home'){leaving=true;clearTimeout(timer);clearInterval(heartbeat);await sync.send({view:'home',projectId:null,mode:null,section:null,language:state.language,game:null});return location.assign('/index.html'+sync.stationQuery+'&projects=1');}
-  if(action==='menu')return update({view:'project',mode:'landing',game:{...S.fresh(g.ready),unlockAt:g.unlockAt}});
-  if(action==='information'){if(state.mode==='info')return;return update({mode:'info',view:'project',game:{...g,unlockAt:g.ready?0:g.unlockAt||now()+config.timing.unlockMs}});}
-  if(action==='game'&&g.ready||action==='replay')return update({view:'game',mode:'game',game:S.fresh(true)});
+  if(action==='menu')return update({view:'project',mode:'landing',game:S.fresh()});
+  if(action==='information'){if(state.mode==='info')return;return update({mode:'info',view:'project',game:{...g,ready:true,unlockAt:0}});}
+  if(action==='game'||action==='replay')return update({view:'game',mode:'game',game:S.fresh(true)});
   if(state.mode!=='game')return;
   if(action==='start'&&g.phase==='intro')return setGame({phase:'easy',startedAt:now()});
   if(action==='undo'&&g.phase==='easy')return g.draft.length?setGame({draft:g.draft.slice(0,-1)}):setGame({polygons:g.polygons.slice(0,-1)});
@@ -125,10 +122,11 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
    if(g.phase==='assisted'){if(!g.selected.length)return feedback('needSelection');return setGame({phase:'final',assisted:S.assisted(g.selected,config)});}
   }
   if(action==='next'&&g.phase==='easyResult')return setGame({phase:'manual'});
-  if(action==='activate'&&g.phase==='manualResult')return setGame({phase:'analysis',analysisAt:now()});
+  if(action==='next'&&g.phase==='manualResult')return setGame({phase:'activation'});
+  if(action==='activate'&&g.phase==='activation')return setGame({phase:'analysis',analysisAt:now()});
  });
  const remote=await sync.read(),restored=remote?.projectId==='07'?S.sanitize(remote.game,config):null;
- if(restored&&['landing','info','game'].includes(remote.mode))state={...state,mode:remote.mode,view:remote.mode==='game'?'game':'project',game:{...restored,draft:[]},language:remote.language==='es'?'es':'en'};
+ if(restored&&['landing','info','game'].includes(remote.mode))state={...state,mode:remote.mode,view:remote.mode==='game'?'game':'project',game:{...restored,ready:true,unlockAt:0,draft:[]},language:remote.language==='es'?'es':'en'};
  else if(remote?.language==='es')state.language='es';
  render();void publish();arm();
  heartbeat=setInterval(async()=>{if(leaving||pending||reading||stroke)return;reading=true;try{if(dirty)await publish();else{const latest=await sync.read();if(latest?.projectId!=='07'||latest.language!==state.language||latest.mode!==state.mode||JSON.stringify(latest.game)!==JSON.stringify(state.game))void publish();}}finally{reading=false;}},1500);

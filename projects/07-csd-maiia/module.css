@@ -55,3 +55,10 @@
 @media(max-width:1100px){.mai-brand{gap:12px}.mai-brand small{max-width:245px;font-size:11px}}
 
 .mai-controller-mode .mai-brand img{width:130px;height:auto}.mai-brand p{font-size:14px;letter-spacing:0}.mai-brand small{font-size:11px;letter-spacing:0}
+
+/* The activation step waits for an explicit tablet command before scanning. */
+.mai-activation-symbol{display:grid;place-items:center;width:96px;height:96px;margin-bottom:24px;border-radius:24px;background:var(--mai-pale);color:var(--mai-blue)}
+.mai-activation-symbol .mai-icon{width:52px;height:52px}
+.mai-activation-cue{display:flex;align-items:center;gap:14px;margin-top:28px;font-size:clamp(16px,1.4vw,24px);line-height:1.4;color:var(--mai-blue)}
+.mai-activation-cue .mai-icon{flex:none;width:32px;height:32px}
+.mai-activation .mai-copy h1{max-width:100%}

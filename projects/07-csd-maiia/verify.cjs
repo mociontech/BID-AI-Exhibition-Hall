@@ -18,6 +18,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  assert.deepEqual(S.assisted(config.hard.candidates.map(c=>c.id),config),{hits:5,errors:2,score:60});
  assert.deepEqual(S.assisted(['C6','C7'],config),{hits:0,errors:2,score:0});
  assert.equal(S.sanitize({...S.fresh(),markers:[[2,.5]]},config),null);
+ assert.equal(S.sanitize({...S.fresh(),phase:'activation',easyScore:0},config),null);
  const circle=Array.from({length:1000},(_,i)=>[.5+.3*Math.cos(i/999*Math.PI*2),.5+.3*Math.sin(i/999*Math.PI*2)]);
  const simplified=S.simplifyStroke(circle,config.scoring.maxPoints);
  assert.ok(simplified.length>=3&&simplified.length<=40);assert.ok(Math.abs(S.area(simplified)-Math.PI*.3*.3)<.01);
@@ -30,7 +31,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  const remote=async(n=7)=>(await controller.request.get(base+'/api/state?station='+n)).json();
  const other=await Promise.all([1,2,3,5,6].map(remote));
  for(const page of [tablet,tv]){page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400&&!r.url().endsWith('/favicon.ico'))errors.push(r.status()+' '+r.url());});}
- await controller.request.post(base+'/api/state?station=7',{data:{projectId:'07',view:'project',mode:'landing',language:'es',game:S.fresh()}});
+ await controller.request.post(base+'/api/state?station=7',{data:{projectId:'07',view:'project',mode:'landing',language:'es',game:S.fresh(false)}});
  const click=a=>tablet.locator(`[data-action="${a}"]`).first().click();
  const shot=async(p,name)=>p.screenshot({path:path.join(out,name+'.png'),fullPage:true});
  async function fits(p,label){const d=await p.evaluate(()=>({w:innerWidth,h:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}));assert.ok(d.sw<=d.w+1&&d.sh<=d.h+1,label+' '+JSON.stringify(d));checks.push(label);}
@@ -51,21 +52,23 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  }
  async function waitRemote(predicate){for(let i=0;i<100;i++){const s=await remote();if(predicate(s))return s;await tablet.waitForTimeout(80);}throw Error('Remote state did not converge');}
  await tv.goto(base+'/display.html?station=7');await tablet.goto(base+'/index.html?station=7');await tablet.waitForSelector('.mai-landing');
- assert.match(tablet.url(),/07-csd-maiia/);assert.equal(await tablet.locator('[data-action=game]').isDisabled(),true);
+ assert.match(tablet.url(),/07-csd-maiia/);assert.equal(await tablet.locator('[data-action=game]').isEnabled(),true);assert.equal(await tablet.locator('[data-action=information]').isEnabled(),true);
+ await click('game');await phase('intro');await click('menu');await tablet.waitForSelector('.mai-landing');checks.push('mini-game opens immediately without viewing information, including a restored legacy locked state');
  await fits(tablet,'menu 1180×820');await shot(tablet,'tablet-menu-es');
  assert.equal(await tablet.locator('.mai-hero-caption').count(),0);checks.push('tablet landing map has no overlapping blue caption');
  await tablet.keyboard.press('Tab');assert.equal(await tablet.evaluate(()=>document.activeElement.tagName),'BUTTON');
  const targets=await tablet.locator('.mai-header button,.mai-option,.mai-footer button').evaluateAll(nodes=>nodes.map(n=>({w:n.getBoundingClientRect().width,h:n.getBoundingClientRect().height})));
  assert.ok(targets.every(t=>t.w>=44&&t.h>=44));checks.push('keyboard focus and 44px touch targets');
  await tablet.setViewportSize({width:1024,height:768});await fits(tablet,'menu 1024×768');
- const started=Date.now();await click('information');await tv.waitForSelector('.mai-infographic');
+ await click('information');await tv.waitForSelector('.mai-infographic');
  assert.equal(await tablet.locator('.mai-infographic').count(),0);assert.equal(await tablet.locator('.mai-landing').count(),1);
  await fits(tv,'single infographic TV 1920×1080 ES');await shot(tv,'tv-infographic-es');
  await tablet.locator('[data-language=en]').click();await tv.waitForSelector('[data-language=en]');await fits(tv,'single infographic TV EN');await shot(tv,'tv-infographic-en');
- const unlockAt=(await remote()).game.unlockAt;await tablet.reload();await tablet.waitForSelector('.mai-landing');assert.equal((await remote()).game.unlockAt,unlockAt);
- await tablet.waitForFunction(()=>!document.querySelector('[data-action=game]').disabled,null,{timeout:14000});assert.ok(Date.now()-started>=9750);
- await tv.waitForSelector('.mai-infographic');checks.push('information only on TV; 10-second unlock; reload retains deadline; skewed receiver clock');
+ assert.equal(await tablet.locator('[data-action=game]').isEnabled(),true);
+ await tablet.reload();await tablet.waitForSelector('.mai-landing');assert.equal((await remote()).game.unlockAt,0);
+ await tv.waitForSelector('.mai-infographic');checks.push('information remains optional; both entries stay enabled after language change and reload');
  await click('game');await phase('intro');await fits(tablet,'intro 1024×768');await shot(tablet,'tablet-intro-en');await click('start');await phase('easy');
+ assert.match(await tv.locator('.mai-copy h1').textContent(),/informal settlements/);assert.match(await tablet.locator('.mai-controller-heading h1').textContent(),/informal settlements/);
  await fits(tablet,'drawing 1024×768');await fits(tv,'drawing TV');
  const drawingArea=await tablet.locator('[data-map]').boundingBox();
  assert.ok(drawingArea.width>1024*.85&&drawingArea.height>768*.6);
@@ -96,7 +99,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  assert.ok((await remote()).game.easyScore>=99);await shot(tv,'tv-easy-result-en');
  assert.equal(await tablet.locator('.mai-big-score').count(),0);assert.equal(await tv.locator('.mai-big-score').count(),1);assert.equal(await tablet.locator('.mai-controller-canvas .mai-map').count(),1);
  for(const page of [tablet,tv])assert.equal(await page.locator('.mai-reference').count(),config.easy.reference.length);
- await click('next');await phase('manual');await click('review');assert.equal((await remote()).game.phase,'manual');
+ await click('next');await phase('manual');assert.match(await tv.locator('.mai-copy h1').textContent(),/informal settlements/);assert.match(await tablet.locator('.mai-controller-heading h1').textContent(),/informal settlements/);await click('review');assert.equal((await remote()).game.phase,'manual');
  await tap(centers[0]);await tap(centers[1]);await tap([.9,.1]);await waitRemote(s=>s.game.markers.length===3);
  await tablet.locator('[data-marker="2"]').click();await waitRemote(s=>s.game.markers.length===2);
  await tap([.9,.1]);await tap([.91,.8]);await tap([.1,.8]);await waitRemote(s=>s.game.markers.length===5);
@@ -110,7 +113,13 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
   assert.equal(await page.locator('.mai-marker').count(),before.length);
  }
  checks.push('manual review shows only visitor markers and overall score on tablet/TV; hard reference answers remain hidden until AI');
- await shot(tv,'tv-manual-result-es');await click('activate');await phase('analysis');await shot(tv,'tv-analysis-es');
+ await shot(tv,'tv-manual-result-es');await click('next');await phase('activation');
+ assert.equal((await remote()).game.analysisAt,0);
+ for(const page of [tablet,tv]){assert.equal(await page.locator('.mai-reference,.mai-candidate,.mai-scanning').count(),0);assert.match(await page.locator('h1').textContent(),/MAIIA/);}
+ await fits(tablet,'activation 1180 x 820');await fits(tv,'activation TV');await shot(tablet,'tablet-activation-es');await shot(tv,'tv-activation-es');
+ await tablet.reload();await tablet.waitForSelector('.mai-phase-activation');await tablet.waitForTimeout(500);assert.equal((await remote()).game.phase,'activation');assert.equal((await remote()).game.analysisAt,0);
+ checks.push('activation is a separate synchronized step after manual results; reload retains it; no scan or answer reveal before the explicit activation');
+ await click('activate');await phase('analysis');await shot(tv,'tv-analysis-es');
  const analysisAt=(await remote()).game.analysisAt;await tablet.reload();await tablet.waitForSelector('.mai-phase-analysis');assert.equal((await remote()).game.analysisAt,analysisAt);
  assert.equal(await tablet.locator('.mai-scanning').count(),0);assert.equal(await tv.locator('.mai-scanning').count(),1);
  await phase('assisted');assert.ok(Date.now()-analysisAt>=3900);assert.equal(await tablet.locator('.mai-map image').getAttribute('href'),mapBefore);
@@ -147,9 +156,9 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  await click('replay');await phase('intro');assert.deepEqual((await remote()).game,S.fresh(true));assert.equal((await remote()).language,'en');
  await click('menu');await tablet.waitForSelector('.mai-landing');assert.equal(await tablet.locator('[data-action=game]').isEnabled(),true);
  // An interrupted scan must not trigger an old transition after menu or replay.
- await click('game');await click('start');await draw([[.1,.1],[.3,.1],[.2,.3]]);await click('review');await click('next');await tap(centers[0]);await click('review');await click('activate');await phase('analysis');await click('menu');await tablet.waitForTimeout(4300);assert.equal((await remote()).mode,'landing');assert.equal((await remote()).game.analysisAt,0);
+ await click('game');await click('start');await draw([[.1,.1],[.3,.1],[.2,.3]]);await click('review');await click('next');await tap(centers[0]);await click('review');await click('next');await phase('activation');await click('activate');await phase('analysis');await click('menu');await tablet.waitForTimeout(4300);assert.equal((await remote()).mode,'landing');assert.equal((await remote()).game.analysisAt,0);
  await click('home');await tablet.waitForSelector('[data-project="07"]');assert.equal((await remote()).view,'home');
- await tablet.locator('[data-project="07"]').click();await tablet.waitForSelector('.mai-landing');assert.equal(await tablet.locator('[data-action=game]').isEnabled(),true);checks.push('replay clears every interaction; menu retains unlock; cancel scan; Home reaches exhibition menu');
+ await tablet.locator('[data-project="07"]').click();await tablet.waitForSelector('.mai-landing');assert.equal(await tablet.locator('[data-action=game]').isEnabled(),true);checks.push('replay clears every interaction; both menu entries stay available; cancel scan; Home reaches exhibition menu');
  // Show equal/lower dynamic messages with genuine precomputed geometry scores.
  const synthetic={...S.fresh(true),phase:'final',markers:centers,selected:['C6'],manual:S.manual(centers,config),assisted:S.assisted(['C6'],config)};
  await tv.evaluate(s=>MAIIA.renderInto(document.getElementById('app'),s,{readonly:true}),{view:'game',mode:'game',projectId:'07',language:'en',game:synthetic});
