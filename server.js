@@ -27,6 +27,23 @@ const stations={
 function sendJson(res,code,data){res.writeHead(code,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'});res.end(JSON.stringify(data));}
 function stationParam(url){const num=Number(url.searchParams.get('station'));return [1,2,3,4,5,6,7,8,9,10,11].includes(num)?num:1;}
 function roomParam(url){const value=url.searchParams.get('room');return /^[a-f0-9]{32}$/.test(value||'')?value:null;}
+/* Costa Rica Smart Borders: resumen del minijuego para la TV. Solo texto corto, números,
+   booleanos y listas pequeñas (nunca documentos). */
+function cleanCostaRica(value){
+ const clean=(v,depth)=>{
+  if(v===null||v===undefined)return null;
+  if(typeof v==='string')return v.slice(0,300);
+  if(typeof v==='number')return Number.isFinite(v)?v:null;
+  if(typeof v==='boolean')return v;
+  if(depth>=4)return null;
+  if(Array.isArray(v))return v.slice(0,12).map(x=>clean(x,depth+1));
+  if(typeof v==='object'){const out={};for(const k of Object.keys(v).slice(0,40))out[k.slice(0,40)]=clean(v[k],depth+1);return out;}
+  return null;
+ };
+ if(typeof value!=='object'||value===null||value.v!==1||!['intro','manual','ai','results'].includes(value.screen))return null;
+ try{if(JSON.stringify(value).length>12000)return null;}catch{return null;}
+ return clean(value,0);
+}
 function initialState(station){return {stationId:station,view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null};}
 const rooms=new Map();
 const server=http.createServer((req,res)=>{
@@ -72,8 +89,8 @@ const server=http.createServer((req,res)=>{
       game={phase:value.phase,playerId:value.playerId,playerName:value.playerName,hour:value.hour,scenarioIndex:value.scenarioIndex,actionId:value.actionId||null,results:cleanResults};
      }else if(payload.projectId==='03'){
       const value=payload.game;
-      if(typeof value!=='object'||!Number.isInteger(value.caseIndex)||value.caseIndex<0||value.caseIndex>3||!['intro','case','results'].includes(value.phase)||!Array.isArray(value.answers)||value.answers.length!==4||!value.answers.every(answer=>answer===null||Number.isInteger(answer)&&answer>=0&&answer<=2))return sendJson(res,400,{error:'Invalid Costa Rica Smart Borders game state'});
-      game={caseIndex:value.caseIndex,answers:[...value.answers],phase:value.phase};
+      game=cleanCostaRica(value);
+      if(!game)return sendJson(res,400,{error:'Invalid Costa Rica Smart Borders game state'});
      }else if(payload.projectId==='07'){
       game=require('./projects/07-csd-maiia/state.js').sanitize(payload.game,require('./projects/07-csd-maiia/data/demo-maps.json'));
       if(!game)return sendJson(res,400,{error:'Invalid MAIIA game state'});

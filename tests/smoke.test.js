@@ -157,6 +157,62 @@ test('Costa Rica Smart Borders ships the redesigned bilingual mini-game and keep
  assert.match(script,/data-act="home"/);
  assert.match(script,/id="es"/);
  assert.match(script,/id="en"/);
- // The TV never mirrors game questions or decisions: the packet carries no game payload.
+ // Fuera del juego el paquete no lleva estado; dentro, lleva solo el resumen (etapa, semáforos, cronómetro), nunca documentos.
  assert.match(controller,/game:null/);
+});
+
+test('Costa Rica Smart Borders mini-game carries bilingual VUCE 3.0 project popups (Peñas Blancas, three mechanisms, risk traffic light, real-life stage)',()=>{
+ const script=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','game','game.js'),'utf8');
+ const css=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','game','game.css'),'utf8');
+ for(const key of ['place','how','light','real'])assert.match(script,new RegExp(`${key}:\{title:`));
+ assert.match(script,/Así era antes en Peñas Blancas/);
+ assert.match(script,/How it used to be at Peñas Blancas/);
+ assert.match(script,/330\.000 registros históricos/);
+ assert.match(script,/330,000 historical trade records/);
+ assert.match(script,/Selección aleatoria/);
+ assert.match(script,/El semáforo de riesgo/);
+ assert.match(script,/ya está en producción/);
+ assert.match(script,/data-act="pop:place"/);
+ assert.match(script,/data-act="pop:real"/);
+ assert.match(script,/data-tap="inst"/);
+ assert.match(css,/\.modal\{position:fixed/);
+ assert.match(css,/\.light--red/);
+});
+
+test('Costa Rica Smart Borders mini-game decides with the VUCE risk traffic light and shows project facts',()=>{
+ const script=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','game','game.js'),'utf8');
+ const css=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','game','game.css'),'utf8');
+ assert.match(script,/play:\{title:'¿Cómo se juega\?'/);
+ assert.match(script,/play:\{title:'How to play\?'/);
+ assert.match(script,/lights:\{green:\{name:'Verde'/);
+ assert.match(script,/lights:\{green:\{name:'Green'/);
+ assert.match(script,/function expected\(c\)\{return c\.issue\?'red':c\.missing\?'yellow':'green';\}/);
+ assert.match(script,/act==='green'\|\|act==='yellow'\|\|act==='red'/);
+ assert.match(script,/factsTitle:'Datos de VUCE 3\.0/);
+ assert.match(script,/360\.000/);
+ assert.match(script,/class="info-btn"/);
+ assert.match(css,/\.facts-grid/);
+ assert.match(css,/\.btn--yellow/);
+});
+
+test('Costa Rica Smart Borders mirrors the mini-game on the TV through the station state (no documents, only stage, lights and clocks)',()=>{
+ const project=path.join(root,'projects','03-costa-rica-smart-borders');
+ const game=fs.readFileSync(path.join(project,'game','game.js'),'utf8');
+ const controller=fs.readFileSync(path.join(project,'module.js'),'utf8');
+ const tv=fs.readFileSync(path.join(project,'tv.js'),'utf8');
+ const server=fs.readFileSync(path.join(root,'server.js'),'utf8');
+ const display=fs.readFileSync(path.join(root,'shared','display.js'),'utf8');
+ const html=fs.readFileSync(path.join(root,'display.html'),'utf8');
+ assert.ok(game.includes('function tvPacket()'));
+ assert.ok(game.includes("postMessage({type:'cr-game',game:tvPacket()}"));
+ const mirror=game.slice(game.indexOf('function tvPacket'));
+ assert.ok(!mirror.includes('docValue(')&&!mirror.includes('DOCS.map'),'the TV packet must never carry document contents');
+ assert.ok(controller.includes("data.type!=='cr-game'"));
+ assert.ok(controller.includes('game:isGame?gameState:null'));
+ assert.ok(server.includes('function cleanCostaRica'));
+ assert.match(server,/Invalid Costa Rica Smart Borders game state/);
+ assert.ok(display.includes('window.CRB_TV.render(app,data.game)'));
+ assert.ok(html.includes('projects/03-costa-rica-smart-borders/tv.js'));
+ assert.ok(tv.includes('window.CRB_TV={render,stop}'));
+ assert.ok(tv.includes('data-crtv-clock'));
 });

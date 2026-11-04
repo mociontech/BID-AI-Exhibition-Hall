@@ -66,6 +66,8 @@ function renderGuatiguaraVideo(data){
 }
 function renderCostaRica(data){
  const language=data.language==='es'?'es':'en';
+ if(data.mode==='game'&&data.game&&data.game.v===1&&window.CRB_TV){window.CRB_TV.render(app,data.game);return;} // espejo del minijuego (tv.js)
+ if(window.CRB_TV)window.CRB_TV.stop();
  const isInfo=data.mode==='info'||data.mode==='cta'||data.mode==='game'||data.mode==='results';
  const image=COSTA_RICA_ART[language][isInfo?'info':'home'];
  const cta=data.mode==='cta'?(language==='en'?{eyebrow:'COSTA RICA SMART BORDERS',title:'The mini-game is now available.',body:'Return to the tablet and start the experience.'}:{eyebrow:'COSTA RICA SMART BORDERS',title:'El minijuego ya está disponible.',body:'Regresa a la tableta para iniciar la experiencia.'}):null;
