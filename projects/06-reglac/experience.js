@@ -65,7 +65,7 @@
  }
  let clockLoop;
  function renderInto(mount,state,{readonly=false}={}){
-  clearInterval(clockLoop);const lang=state.language==='en'?'en':'es',w=words[lang];state={...state,language:lang,game:state.game||S.fresh()};
+  clearInterval(clockLoop);const lang=state.language==='es'?'es':'en',w=words[lang];state={...state,language:lang,game:state.game||S.fresh()};
   document.documentElement.lang=lang;
   const info=readonly&&['info','cta'].includes(state.mode),isGame=state.mode==='game',g=state.game;
   const number=info?'02':!isGame?'01':({intro:'03',manual:'04',manualReveal:'04',transition:'05',assist:'05',organize:'05',scan:'05',identify:'05',confirm:'06',assistReveal:'07',results:'07'}[g.phase]);

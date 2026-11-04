@@ -4,7 +4,7 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
  const api=MAIIA,S=MAIIA_STATE;await api.ready;
  const config=api.config,key='maiia-ready-'+sync.station;
  let remembered=false;try{remembered=sessionStorage.getItem(key)==='true';}catch{}
- let state={projectId:'07',view:'project',mode:'landing',section:'landing',language:'es',game:S.fresh(remembered)};
+ let state={projectId:'07',view:'project',mode:'landing',section:'landing',language:'en',game:S.fresh(remembered)};
  let timer=null,heartbeat=null,leaving=false,pending=0,dirty=false,reading=false,feedbackKey=null,cursor=[.5,.5];
  let stroke=null,strokeTimer=null;
  const now=()=>sync.now();
@@ -128,8 +128,8 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
   if(action==='activate'&&g.phase==='manualResult')return setGame({phase:'analysis',analysisAt:now()});
  });
  const remote=await sync.read(),restored=remote?.projectId==='07'?S.sanitize(remote.game,config):null;
- if(restored&&['landing','info','game'].includes(remote.mode))state={...state,mode:remote.mode,view:remote.mode==='game'?'game':'project',game:{...restored,draft:[]},language:remote.language==='en'?'en':'es'};
- else if(remote?.language==='en')state.language='en';
+ if(restored&&['landing','info','game'].includes(remote.mode))state={...state,mode:remote.mode,view:remote.mode==='game'?'game':'project',game:{...restored,draft:[]},language:remote.language==='es'?'es':'en'};
+ else if(remote?.language==='es')state.language='es';
  render();void publish();arm();
  heartbeat=setInterval(async()=>{if(leaving||pending||reading||stroke)return;reading=true;try{if(dirty)await publish();else{const latest=await sync.read();if(latest?.projectId!=='07'||latest.language!==state.language||latest.mode!==state.mode||JSON.stringify(latest.game)!==JSON.stringify(state.game))void publish();}}finally{reading=false;}},1500);
  window.addEventListener('pagehide',()=>{cancelStroke();leaving=true;clearTimeout(timer);clearInterval(heartbeat);},{once:true});

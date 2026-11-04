@@ -2,7 +2,7 @@
 window.ProjectModule={id:'06',async mountController({sync,mount,home}){
  const S=window.REGLAC_STATE,api=window.REGLAC;
  home='/index.html'+sync.stationQuery+'&projects=1';
- let state={view:'project',projectId:'06',section:'landing',language:'es',mode:'landing',screenIndex:null,game:S.fresh()};
+ let state={view:'project',projectId:'06',section:'landing',language:'en',mode:'landing',screenIndex:null,game:S.fresh()};
  let timer=null,heartbeat=null,leaving=false,dirty=false,publishing=0,reading=false;
  function connection(ok){const el=mount.querySelector('.rl-network');if(el)el.hidden=ok;}
  function publish(){
@@ -60,8 +60,8 @@ window.ProjectModule={id:'06',async mountController({sync,mount,home}){
  });
  const remote=await sync.read();
  const restored=remote?.projectId==='06'?S.sanitize(remote.game):null;
- if(restored&&['landing','info','cta','game'].includes(remote.mode))state={...state,view:remote.mode==='game'?'game':'project',mode:remote.mode,game:restored,language:remote.language==='en'?'en':'es'};
- else if(remote?.language==='en')state.language='en';
+ if(restored&&['landing','info','cta','game'].includes(remote.mode))state={...state,view:remote.mode==='game'?'game':'project',mode:remote.mode,game:restored,language:remote.language==='es'?'es':'en'};
+ else if(remote?.language==='es')state.language='es';
  render();void publish();arm();
  heartbeat=setInterval(async()=>{
   if(leaving||publishing||reading)return;reading=true;

@@ -4,7 +4,7 @@ window.ProjectModule={
  async mountController({sync,mount,home}){
   const assets='./04_Guatiguara_BID_Bilingue/';
   const artwork={es:'04_Guatiguara_Inicio_ES_1920x1080.png',en:'04_Guatiguara_Home_EN_1920x1080.png'};
-  let state={language:'es',displayMode:'landing'};
+  let state={language:'en',displayMode:'landing'};
   function publish(){
    return sync.send({view:'project',projectId:'04',section:state.displayMode==='landing'?null:state.displayMode,language:state.language,mode:state.displayMode,screenIndex:null,game:null});
   }
@@ -29,7 +29,7 @@ window.ProjectModule={
   try{
    const remote=await sync.read();
    if(remote?.projectId==='04'){
-    state.language=remote.language==='en'?'en':'es';
+    state.language=remote.language==='es'?'es':'en';
     state.displayMode=remote.mode==='info'?'info':['video','game','results'].includes(remote.mode)?'video':'landing';
    }
   }catch{}

@@ -6,7 +6,7 @@ const topics={what:'What It Is & the Problem',solution:'The Solution',ai:'How AI
 let last='';let busy=false;
 Object.values(BOGOTA_TRAFFIC.INFO_IMAGES).forEach(src=>{const image=new Image();image.src=src;});
 function renderAquaData(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  if(data.mode==='game'){
   const game=data.game||{step:1};
   const image=AQUADATA.gameReferencePath(game.step,language);
@@ -28,7 +28,7 @@ function renderAquaData(data){
  app.innerHTML=`<main class="aquadata-display" aria-label="AquaData large display">${AI_ARTWORK(`${image}`,`class="aquadata-display-image"  alt="AquaData"`)}</main>`;
 }
 function renderBogotaTraffic(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  const screenIndex=Number.isInteger(data.screenIndex)?data.screenIndex:1;
  const screen=BOGOTA_TRAFFIC.screen(screenIndex);
  const image=BOGOTA_TRAFFIC.imagePath(screen.index,language);
@@ -53,19 +53,19 @@ function renderTeachy(data){
  window.TEACHY.renderDisplay(app,data);
 }
 function renderGuatiguara(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  const image=GUATIGUARA_ART[language].info;
  app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information">${AI_ARTWORK(`${image}`,`alt="Parque Tecnológico Guatiguará information"`)}</main>`;
 }
 function renderGuatiguaraVideo(data){
- const english=data.language==='en';
+ const english=data.language!=='es';
  const title=english?'Institutional video':'Video institucional';
  const message=english?'Coming soon: the project’s institutional video will be available here.':'Próximamente: aquí estará el video institucional del proyecto.';
  document.documentElement.lang=english?'en':'es';
  app.innerHTML=`<main class="guatiguara-video-placeholder"><header>${AI_BRAND.header()}</header><section><svg class="video-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m7 3 15 9-15 9z"/></svg><h1>Parque Tecnológico Guatiguará</h1><h2>${title}</h2><p>${message}</p></section></main>`;
 }
 function renderCostaRica(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  const isInfo=data.mode==='info'||data.mode==='cta'||data.mode==='game'||data.mode==='results';
  const image=COSTA_RICA_ART[language][isInfo?'info':'home'];
  const cta=data.mode==='cta'?(language==='en'?{eyebrow:'COSTA RICA SMART BORDERS',title:'The mini-game is now available.',body:'Return to the tablet and start the experience.'}:{eyebrow:'COSTA RICA SMART BORDERS',title:'El minijuego ya está disponible.',body:'Regresa a la tableta para iniciar la experiencia.'}):null;
@@ -75,7 +75,7 @@ let bogotaGameData=null;
 fetch('projects/02-bogota-traffic-prediction/GAME_DATA.json',{cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{bogotaGameData=data;last='';}).catch(()=>{});
 function bogotaMap(){return `<svg class="pulse-map" viewBox="0 0 700 420" aria-hidden="true"><path d="M35 335C144 294 169 175 301 188S452 91 653 56"/><path d="M57 73C162 126 234 110 344 224S530 289 666 364"/><path d="M86 390C194 314 273 358 361 239S535 179 642 202"/><path d="M134 31C218 151 204 240 323 302S506 340 607 389"/><circle cx="302" cy="188" r="12"/><circle cx="344" cy="224" r="12"/><circle cx="361" cy="239" r="12"/></svg>`;}
 function renderBogotaGame(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  const game=data.game||{};
  const gameCopy=language==='en'
   ? {concept:'Conceptual map ? Educational simulation',intro:'Bogot? Traffic Pulse',introBody:'Explore four simulated scenarios and see how anticipating congestion can support human decisions.',next:'Next',choosePlayer:'Choose your profile',name:'Your name',start:'Start simulation',explore:'Explore the map',selectEvent:'Select an event',decide:'Choose an action',result:'Simulated result',retry:'Try again',nextScenario:'Next scenario',finish:'Final result',restart:'Restart',score:'Score',warning:'Educational simulation. Actions and scores are not operational PredictToDo recommendations.'}
@@ -97,7 +97,7 @@ function renderBogotaGame(data){
 /* The command-center game is rendered from the same shared template as the
    tablet. The display has no active controls, but mirrors every selection. */
 function renderBogotaGame(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  if(!bogotaGameData||!window.PULSE_VIAL){
   app.innerHTML='<main class="pulse-command pulse-command--loading"><p>Loading PredictToDo?</p></main>';
   return;

@@ -82,7 +82,7 @@
  }
  function renderInto(mount,state,{readonly=false}={}){
   if(!config){mount.innerHTML='<div class="mai-loading">MAIIA…</div>';ready.then(()=>{if(mount.querySelector('.mai-loading'))renderInto(mount,state,{readonly});}).catch(()=>{if(mount.querySelector('.mai-loading'))mount.textContent='MAIIA: map configuration unavailable / Configuración no disponible';});return;}
-  const s={...state,language:state.language==='en'?'en':'es',game:state.game||MAIIA_STATE.fresh()},t=words[s.language];
+  const s={...state,language:state.language==='es'?'es':'en',game:state.game||MAIIA_STATE.fresh()},t=words[s.language];
   const info=readonly&&s.mode==='info',playing=s.mode==='game';
   document.documentElement.lang=s.language;
   const content=info?infographic(s):!playing?landing(s,readonly):!readonly?controller(s):s.game.phase==='intro'?intro(s,true):s.game.phase==='final'?final(s,true):game(s,true);

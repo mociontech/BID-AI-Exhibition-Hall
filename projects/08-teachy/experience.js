@@ -28,7 +28,7 @@
   play();
  }
  function renderDisplay(mount,data){
-  const language=data.language==='en'?'en':'es';
+  const language=data.language==='es'?'es':'en';
   document.documentElement.lang=language;
   if(data.mode==='video')return renderVideo(mount,language);
   const info=data.mode==='info';

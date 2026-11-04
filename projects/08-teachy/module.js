@@ -3,7 +3,7 @@
 window.ProjectModule={
  id:'08',
  async mountController({sync,mount,home}){
-  let state={language:'es',mode:'landing'};
+  let state={language:'en',mode:'landing'};
   const labels={
    es:{screen:'Teachy: pantalla principal',info:'Mostrar información en la TV',video:'Reproducir el video en la TV',home:'Inicio: volver a los proyectos',back:'Volver al inicio de Teachy',fullscreen:'Activar o salir de pantalla completa'},
    en:{screen:'Teachy: main screen',info:'Show information on the TV',video:'Play the video on the TV',home:'Home: back to projects',back:'Back to Teachy',fullscreen:'Enter or exit fullscreen'}
@@ -58,7 +58,7 @@ window.ProjectModule={
   try{
    const remote=await sync.read();
    if(remote?.projectId==='08'&&remote.view!=='home'){
-    state.language=remote.language==='en'?'en':'es';
+    state.language=remote.language==='es'?'es':'en';
     state.mode=['info','video'].includes(remote.mode)?remote.mode:'landing';
    }
   }catch{}

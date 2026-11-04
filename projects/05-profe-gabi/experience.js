@@ -24,7 +24,7 @@
   return {marks,sendAt,total:sendAt+thinking};
  }
  function animation(state){
-  const g=state.game,language=state.language==='en'?'en':'es';
+  const g=state.game,language=state.language==='es'?'es':'en';
   if(g?.phase!=='animating')return null;
   const pair=exchange(g,language),times=timing(pair.user,pair.gabi),elapsed=Math.max(0,now()-g.startedAt);
   const count=times.marks.filter(mark=>mark<=elapsed).length;
@@ -49,7 +49,7 @@
  }
  function renderInto(mount,state,{readonly=false}={}){
   if(pending.has(mount))cancelAnimationFrame(pending.get(mount));
-  const language=state.language==='en'?'en':'es',t=words[language];
+  const language=state.language==='es'?'es':'en',t=words[language];
   const g=window.PROFE_GABI_STATE.sanitize(state.game)||window.PROFE_GABI_STATE.fresh();
   state={...state,game:g};document.documentElement.lang=language;
   const isGame=state.mode==='game'||state.mode==='results',isInfo=['info','cta'].includes(state.mode),busy=isGame&&g.phase==='animating';
