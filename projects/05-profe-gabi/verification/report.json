@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "ctaElapsedMs": 10051,
+  "ctaElapsedMs": 10049,
   "pathsCompleted": 16,
   "checks": [
     "Menu, separate TV invitation, native fullscreen, keyboard focus, touch targets",
