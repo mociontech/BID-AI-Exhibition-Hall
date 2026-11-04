@@ -332,7 +332,7 @@ window.PROFE_GABI_CONVERSATIONS={
       ]
     },
     {
-      "title": "Care for my wellbeing",
+      "title": "Help me manage my workload",
       "sub": "Time management and professional support",
       "lead": "You feel your teaching workload building up each week.",
       "question": "What would you like to talk about?",
