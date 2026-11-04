@@ -31,8 +31,11 @@ const S=require('./state.js');
     }
    }
    if(url.hostname==='fonts.googleapis.com')return route.fulfill({body:'',contentType:'text/css'});
+   // The preview toolbar belongs to Netlify and can cover the product's footer.
+   if(url.pathname==='/.netlify/scripts/cdp')return route.fulfill({body:'',contentType:'text/javascript'});
    assert.equal(url.origin,origin);
-   const response=await route.fetch({url:base+url.pathname+url.search});return route.fulfill({response});
+   try{const response=await route.fetch({url:base+url.pathname+url.search});return await route.fulfill({response});}
+   catch(error){if(!/closed|disposed|Invalid InterceptionId|intercepted|handled/i.test(error.message))throw error;}
   });
   const tablet=await tabletContext.newPage(),tv=await tvContext.newPage();
   for(const page of [tablet,tv])page.on('pageerror',error=>errors.push(error.message));
