@@ -16,6 +16,8 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
     if(request.method()==='PUT'){const value=request.postDataJSON();assert.ok(value.payload.length<=10000);stored={...value,updatedAt:Date.now()};writes.push(JSON.parse(value.payload));}
     return route.fulfill({json:stored,headers:{'Access-Control-Allow-Origin':'*'}});
    }
+   // Other projects import this global stylesheet; MAIIA uses its local font.
+   if(url.hostname==='fonts.googleapis.com')return route.fulfill({body:'',contentType:'text/css'});
    assert.equal(url.origin,origin);const response=await route.fetch({url:base+url.pathname+url.search});return route.fulfill({response});
   });
   const tablet=await a.newPage(),tv=await b.newPage();for(const p of [tablet,tv])p.on('pageerror',e=>errors.push(e.message));
@@ -31,6 +33,8 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
   for(const p of [[.2,.15],[.45,.14],[.9,.9]]){const q=await at(p);await tablet.mouse.click(q.x,q.y);}
   await click('review');await tv.waitForSelector('.mai-phase-manualResult');
   for(const p of [tablet,tv])assert.equal(await p.locator('.mai-reference,.mai-candidate,.mai-reference-key').count(),0);
+  await click('next');await tv.waitForSelector('.mai-phase-activation');assert.equal(JSON.parse(stored.payload).game.analysisAt,0);
+  await tablet.reload();await tablet.waitForSelector('.mai-phase-activation');
   await click('activate');await tv.waitForSelector('.mai-phase-analysis');await tablet.waitForSelector('.mai-phase-assisted');await tv.waitForSelector('.mai-phase-assisted');
   for(const id of ['C1','C2','C6']){
    const candidate=C.hard.candidates.find(c=>c.id===id),zone=candidate.points?candidate:C.hard.reference.find(z=>z.id===candidate.referenceId);
@@ -43,7 +47,7 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
   await tablet.locator('[data-language=en]').click();await tv.waitForSelector('[data-language=en]');await tv.reload();await tv.waitForSelector('.mai-phase-final');
   assert.equal(JSON.parse(stored.payload).game.assisted.score,20);assert.ok(Math.abs(await tv.evaluate(()=>AI_SYNC.now())-Date.now())<1800);
   assert.ok(writes.length>8);assert.ok(requests.some(r=>r.method==='HEAD'));assert.ok(!requests.some(r=>new URL(r.url).pathname==='/api/state'));assert.deepEqual(errors,[]);
-  const report={passed:true,transport:'Firebase REST PUT/GET (isolated test)',writeCount:writes.length,checks:['public entry and passive TV','freehand live synchronization','no pre-AI answer reveal','shared hosting clock with TV skew','assisted selections and actual final score','language and late receiver restoration'],errors};
+  const report={passed:true,transport:'Firebase REST PUT/GET (isolated test)',writeCount:writes.length,checks:['public entry and passive TV','freehand live synchronization','no pre-AI answer reveal','separate activation step survives reload','shared hosting clock with TV skew','assisted selections and actual final score','language and late receiver restoration'],errors};
   fs.writeFileSync(path.join(__dirname,'verification/hosting-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

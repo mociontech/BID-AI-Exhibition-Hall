@@ -16,12 +16,12 @@ Desde la raíz que contiene `package.json` y `server.js`, ejecutar `npm start`.
 Para dispositivos distintos, sustituir localhost por la IP LAN que imprime el servidor, con el mismo puerto y station=7 en ambos. Deben estar en la misma red y tener acceso al servidor. Usar una sola tableta controladora por estación. La TV puede abrirse después de iniciar el juego.
 
 1. Pulsar Información: la tableta conserva el menú; la TV presenta una única infografía.
-2. Esperar 10 segundos para habilitar el minijuego. Cambiar idioma o recargar no reinicia el plazo.
+2. Información y Minijuego están disponibles desde el inicio. No hay espera ni requisito de consultar primero la información.
 3. Entrar al minijuego y pulsar Comenzar.
 4. Dibujar el contorno directamente con el dedo, lápiz táctil o mouse, sin soltar durante el gesto. Al levantar el dedo o soltar el mouse, la zona se cierra automáticamente. Se pueden dibujar varias zonas. Deshacer elimina la última zona y Borrar limpia todas. El botón Cerrar zona ya no es necesario. Un toque o un trazo demasiado pequeño no crea una zona; un gesto cancelado se descarta.
 5. Revisar la coincidencia y continuar. En el mapa lejano, colocar hasta cinco marcadores; tocar un marcador lo elimina. Al revisar la fase sin IA, ambas pantallas muestran solo los marcadores del visitante y el resultado general, sin revelar las zonas correctas. Las vistas previas tampoco anticipan las respuestas del mapa difícil.
-6. Revisar y activar MAIIA. Tras cuatro segundos de análisis simulado, seleccionar/deseleccionar las sugerencias y revisar.
-7. Comparar resultados. Volver a jugar limpia la partida y conserva idioma/desbloqueo. Volver al menú conserva el desbloqueo. Home abre el menú general.
+6. Revisar el resultado sin IA y continuar a la pantalla «Activa MAIIA». El escaneo no comienza hasta pulsar Activar MAIIA en la tableta. Ambas pantallas muestran entonces que MAIIA está activa y escaneando. Tras cuatro segundos de análisis simulado, seleccionar/deseleccionar las sugerencias y revisar.
+7. Comparar resultados. Volver a jugar limpia la partida y conserva el idioma. Volver al menú mantiene ambas opciones disponibles. Home abre el menú general.
 
 La duración orientativa es 60 segundos, sin corte forzoso. ES/EN está disponible durante todo el recorrido. Como alternativa accesible, el mapa admite flechas + Enter para colocar puntos con teclado y Espacio para cerrar la zona; Tab + Enter/Espacio selecciona candidatos o elimina marcadores. Pantalla completa usa la API nativa del navegador.
 
@@ -77,7 +77,7 @@ Cambios compartidos mínimos:
 - display.html: carga el módulo y CSS.
 - shared/display.js: delega la representación de MAIIA.
 
-No se cambia el orden ni la numeración de shared/projects.js, ni los archivos de los proyectos 01–06. Se reutilizan cola de escrituras, caché, consulta y polling compartidos. La tableta es la única que avanza unlockAt y analysisAt; la TV no contiene temporizadores de avance. Recargar recupera la sesión del servidor. Reiniciar el proceso del servidor comienza otra sesión (estado en memoria).
+No se cambia el orden ni la numeración de shared/projects.js, ni los archivos de los proyectos 01–06. Se reutilizan cola de escrituras, caché, consulta y polling compartidos. La tableta es la única que inicia y avanza analysisAt; unlockAt permanece en cero por compatibilidad con sesiones anteriores; la TV no contiene temporizadores de avance. Recargar recupera la sesión del servidor. Reiniciar el proceso del servidor comienza otra sesión (estado en memoria).
 
 ## Verificación
 
