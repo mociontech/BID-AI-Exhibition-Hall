@@ -1,56 +1,38 @@
-/* Station 04 controller. Information stays independent from the approved game. */
+/* Station 04: the tablet selects information or the institutional video slot. */
 window.ProjectModule={
  id:'04',
  async mountController({sync,mount,home}){
   const assets='./04_Guatiguara_BID_Bilingue/';
   const artwork={es:'04_Guatiguara_Inicio_ES_1920x1080.png',en:'04_Guatiguara_Home_EN_1920x1080.png'};
-  const gameApi=window.GUATIGUARA_GAME;
-  let idleTimer=null;
-  let state={language:'es',displayMode:'landing',game:null};
-  const isGame=()=>state.displayMode==='game';
-  function cancelIdle(){if(idleTimer){clearTimeout(idleTimer);idleTimer=null;}}
-  function armIdle(){cancelIdle();if(isGame())idleTimer=setTimeout(()=>exitGame(),120000);}
+  let state={language:'es',displayMode:'landing'};
   function publish(){
-   const game=isGame()?gameApi.sanitize(state.game):null;
-   return sync.send({view:isGame()?'game':'project',projectId:'04',section:isGame()?'game':state.displayMode==='info'?'info':null,language:state.language,mode:isGame()?'game':state.displayMode,screenIndex:null,game});
+   return sync.send({view:'project',projectId:'04',section:state.displayMode==='landing'?null:state.displayMode,language:state.language,mode:state.displayMode,screenIndex:null,game:null});
   }
   async function goHome(){
-   cancelIdle();
    await sync.send({view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null});
    location.assign(home);
   }
-  function exitGame(){cancelIdle();state={...state,displayMode:'landing',game:null};render();void publish();}
-  function renderLanding(){
+  function render(){
    const copy=state.language==='es'
-    ? {info:'Mostrar información en la pantalla principal',game:'Abrir minijuego Activa la innovación',home:'Volver a los 11 proyectos',back:'Volver a los proyectos',next:'Mostrar información en la pantalla principal'}
-    : {info:'Show information on the main display',game:'Open Activate innovation mini-game',home:'Return to the 11 projects',back:'Back to projects',next:'Show information on the main display'};
-   return `<main class="guatiguara-controller" aria-label="Parque Tecnológico Guatiguará"><div class="guatiguara-artboard">${AI_ARTWORK(`${assets+artwork[state.language]}`,`alt="" aria-hidden="true"`)}<nav class="guatiguara-controls" aria-label="Guatiguará controls"><button class="guatiguara-hit guatiguara-hit--es" type="button" data-language="es" aria-label="Español" aria-pressed="${state.language==='es'}"></button><button class="guatiguara-hit guatiguara-hit--en" type="button" data-language="en" aria-label="English" aria-pressed="${state.language==='en'}"></button><button class="guatiguara-hit guatiguara-hit--info" type="button" data-action="information" aria-label="${copy.info}"></button><button class="guatiguara-hit guatiguara-hit--game" type="button" data-action="game" aria-label="${copy.game}"></button><button class="guatiguara-hit guatiguara-hit--home-text" type="button" data-action="home" aria-label="${copy.home}"></button><button class="guatiguara-hit guatiguara-hit--home-icon" type="button" data-action="home" aria-label="${copy.home}"></button><button class="guatiguara-hit guatiguara-hit--back" type="button" data-action="home" aria-label="${copy.back}"></button><button class="guatiguara-hit guatiguara-hit--next" type="button" data-action="information" aria-label="${copy.next}"></button></nav></div></main>`;
-  }
-  function render(){mount.innerHTML=isGame()?gameApi.renderTablet(state.game,state.language):renderLanding();bind();}
-  function setLanguage(language){if(language===state.language)return;state={...state,language};render();void publish();armIdle();}
-  function bind(){
-   mount.querySelectorAll('[data-language]').forEach(button=>button.addEventListener('click',()=>setLanguage(button.dataset.language)));
-   mount.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',event=>{
-    event.preventDefault();
-    if(button.dataset.action==='information'){cancelIdle();state={...state,displayMode:'info',game:null};render();void publish();}
-    if(button.dataset.action==='game'){state={...state,displayMode:'game',game:gameApi.fresh()};render();void publish();armIdle();}
-    if(button.dataset.action==='home')void goHome();
+    ? {info:'Mostrar información en la pantalla principal',video:'Video institucional',soon:'Próximamente: aquí estará el video institucional del proyecto.',home:'Volver a los proyectos',next:'Mostrar información en la pantalla principal'}
+    : {info:'Show information on the main display',video:'Institutional video',soon:'Coming soon: the project’s institutional video will be available here.',home:'Back to projects',next:'Show information on the main display'};
+   mount.innerHTML=`<main class="guatiguara-controller" aria-label="Parque Tecnológico Guatiguará"><div class="guatiguara-artboard">${AI_ARTWORK(`${assets+artwork[state.language]}`,`alt="" aria-hidden="true"`)}<div class="guatiguara-video-copy"><h2>${copy.video}</h2><p>${copy.soon}</p></div><nav class="guatiguara-controls" aria-label="Guatiguará controls"><button class="guatiguara-hit guatiguara-hit--es" type="button" data-language="es" aria-label="Español" aria-pressed="${state.language==='es'}"></button><button class="guatiguara-hit guatiguara-hit--en" type="button" data-language="en" aria-label="English" aria-pressed="${state.language==='en'}"></button><button class="guatiguara-hit guatiguara-hit--info" type="button" data-action="information" aria-label="${copy.info}" aria-pressed="${state.displayMode==='info'}"></button><button class="guatiguara-hit guatiguara-hit--video" type="button" data-action="video" aria-label="${copy.video}" aria-pressed="${state.displayMode==='video'}"></button><button class="guatiguara-hit guatiguara-hit--home-text" type="button" data-action="home" aria-label="${copy.home}"></button><button class="guatiguara-hit guatiguara-hit--home-icon" type="button" data-action="home" aria-label="${copy.home}"></button><button class="guatiguara-hit guatiguara-hit--back" type="button" data-action="home" aria-label="${copy.home}"></button><button class="guatiguara-hit guatiguara-hit--next" type="button" data-action="information" aria-label="${copy.next}"></button></nav></div></main>`;
+   mount.querySelectorAll('[data-language]').forEach(button=>button.addEventListener('click',()=>{
+    state={...state,language:button.dataset.language};render();void publish();
    }));
-   mount.querySelectorAll('[data-game-action]').forEach(button=>button.addEventListener('click',event=>{
-    event.preventDefault();const action=button.dataset.gameAction;
-    if(action==='exit')return exitGame();
-    state={...state,game:gameApi.transition(state.game,action,button.dataset.id)};
-    render();void publish();armIdle();
+   mount.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',()=>{
+    const action=button.dataset.action;
+    if(action==='home')return void goHome();
+    state={...state,displayMode:action==='video'?'video':'info'};render();void publish();
    }));
   }
   try{
    const remote=await sync.read();
    if(remote?.projectId==='04'){
     state.language=remote.language==='en'?'en':'es';
-    if(remote.mode==='game'&&remote.game)state={...state,displayMode:'game',game:gameApi.sanitize(remote.game)};
-    else state={...state,displayMode:remote.mode==='info'?'info':'landing',game:null};
+    state.displayMode=remote.mode==='info'?'info':['video','game','results'].includes(remote.mode)?'video':'landing';
    }
   }catch{}
-  render();void publish();armIdle();
+  render();void publish();
  }
 };

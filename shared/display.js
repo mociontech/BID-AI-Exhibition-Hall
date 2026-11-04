@@ -57,9 +57,12 @@ function renderGuatiguara(data){
  const image=GUATIGUARA_ART[language].info;
  app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information">${AI_ARTWORK(`${image}`,`alt="Parque Tecnológico Guatiguará information"`)}</main>`;
 }
-function renderGuatiguaraGame(data){
- if(!window.GUATIGUARA_GAME)return renderGuatiguara(data);
- app.innerHTML=window.GUATIGUARA_GAME.renderTV(data.game,data.language);
+function renderGuatiguaraVideo(data){
+ const english=data.language==='en';
+ const title=english?'Institutional video':'Video institucional';
+ const message=english?'Coming soon: the project’s institutional video will be available here.':'Próximamente: aquí estará el video institucional del proyecto.';
+ document.documentElement.lang=english?'en':'es';
+ app.innerHTML=`<main class="guatiguara-video-placeholder"><header>${AI_BRAND.header()}</header><section><svg class="video-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m7 3 15 9-15 9z"/></svg><h1>Parque Tecnológico Guatiguará</h1><h2>${title}</h2><p>${message}</p></section></main>`;
 }
 function renderCostaRica(data){
  const language=data.language==='en'?'en':'es';
@@ -129,10 +132,10 @@ function render(data){
  if(isAquaData)return renderAquaData(data);
  const isCostaRica=data?.projectId==='03'&&data?.view!=='home';
  if(isCostaRica)return renderCostaRica(data);
- const isGuatiguaraGame=data?.projectId==='04'&&data?.view==='game'&&data?.mode==='game';
- if(isGuatiguaraGame)return renderGuatiguaraGame(data);
- const isGuatiguara=data?.projectId==='04'&&data?.view!=='home'&&data?.mode==='info';
- if(isGuatiguara)return renderGuatiguara(data);
+ if(data?.projectId==='04'&&data?.view!=='home'){
+  if(['video','game','results'].includes(data.mode))return renderGuatiguaraVideo(data);
+  return renderGuatiguara(data);
+ }
  const isTeachy=data?.projectId==='08'&&data?.view!=='home';
  if(isTeachy)return renderTeachy(data);
  const isBogotaTraffic=data?.projectId==='02'&&data?.view==='overview'&&data?.section==='info';
