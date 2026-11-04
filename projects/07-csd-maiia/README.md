@@ -23,6 +23,8 @@ Para dispositivos distintos, sustituir localhost por la IP LAN que imprime el se
 6. Revisar el resultado sin IA y continuar a la pantalla «Activa MAIIA». El escaneo no comienza hasta pulsar Activar MAIIA en la tableta. Ambas pantallas muestran entonces que MAIIA está activa y escaneando. Tras cuatro segundos de análisis simulado, seleccionar/deseleccionar las sugerencias y revisar.
 7. Comparar resultados. Volver a jugar limpia la partida y conserva el idioma. Volver al menú mantiene ambas opciones disponibles. Home abre el menú general.
 
+Home usa un enlace nativo al menú general y conserva la estación y el código de sala. No espera a que terminen los envíos pendientes. Volver al menú está disponible durante el juego y al consultar Información. Los reintentos de sincronización continúan en segundo plano, sin un aviso superpuesto sobre la experiencia.
+
 La duración orientativa es 60 segundos, sin corte forzoso. ES/EN está disponible durante todo el recorrido. Como alternativa accesible, el mapa admite flechas + Enter para colocar puntos con teclado y Espacio para cerrar la zona; Tab + Enter/Espacio selecciona candidatos o elimina marcadores. Pantalla completa usa la API nativa del navegador.
 
 ## Inventario de recursos
@@ -92,6 +94,7 @@ $env:BROWSER_CHANNEL='msedge'
 node projects/07-csd-maiia/verify.cjs
 node projects/07-csd-maiia/visual-audit.cjs
 node projects/07-csd-maiia/verify-hosting.cjs
+node projects/07-csd-maiia/verify-navigation.cjs
 node --test tests/*.test.js
 ```
 
