@@ -43,13 +43,13 @@ Se omitieron los textos accidentales sobre Codex de la referencia de conversaci�
 1. La tableta abre el menú con Información y Minijuego. Minijuego comienza gris y deshabilitado, sin superposiciones. La TV muestra una invitación, no tarjetas táctiles.
 2. Información mantiene la tableta en su menú con controles sencillos y muestra una infografía HTML/CSS en TV. Incluye qué es, por qué importa, flujo de tres pasos, explicación sencilla de RAG, tres áreas de apoyo, cuatro cifras del piloto y el papel del criterio docente.
 3. Tras 10 segundos aparece el CTA dentro del menú y se habilita Minijuego. La espera sobrevive a cambios de idioma y recargas. Volver al menú después del desbloqueo conserva el acceso para esa visita.
-4. Minijuego sustituye la infografía: la tableta muestra tres temas y la TV una introducción. Al seleccionar un tema, la TV simula el primer intercambio; después la tableta presenta sus tres situaciones.
-5. Al elegir situación, el mensaje se escribe literalmente en el campo del chat a 55 ms por carácter, con pausas mayores para signos de puntuación y 480 ms antes de enviarse. Luego aparece el pensamiento de Profe Gabi durante 1,7–3 segundos, y después la respuesta. Se desbloquean dos seguimientos.
-6. Al elegir un seguimiento, se repite la animación y se muestra el cierre con tres aprendizajes, la reflexión específica del desenlace y la conversación completa en un área con desplazamiento interno.
-7. Reiniciar / Volver a jugar y Elegir otro tema limpian el recorrido y regresan a los temas. Menú principal regresa a Profe Gabi. Inicio regresa al menú general, conserva la estación y limpia la experiencia del visitante.
-8. Volver y Omitir animación funcionan durante la escritura o el pensamiento. Las opciones permanecen deshabilitadas durante las animaciones para impedir solicitudes duplicadas. Cambiar idioma reconstruye todo el historial en el idioma seleccionado; si había escritura activa, reinicia ese intercambio sin mezclar idiomas.
+4. El minijuego presenta cuatro casos documentados: planificar una clase, incluir a un estudiante con TEA, entender la carrera docente y afrontar el agotamiento. Las tarjetas indican sus tres áreas de apoyo.
+5. Elegir un caso inicia directamente la consulta y la respuesta, con escritura y pensamiento simulados. No hay un paso intermedio para escoger otra situación.
+6. Una sola decisión de seguimiento, entre dos opciones, conduce a la respuesta final y a un aprendizaje breve. Las fuentes aparecen como texto en el chat, sin enlaces ni redirecciones.
+7. Volver a jugar limpia el recorrido; Volver al menú regresa a Profe Gabi. Home regresa al inicio general y cancela los temporizadores. ES/EN, fullscreen y Volver conservan su comportamiento.
+8. Cambiar idioma reconstruye el historial completo en un idioma. Recargar recupera la sesión, y los fallos de red reenvían el estado más reciente al reconectar.
 
-Los mensajes son ejemplos de exhibición preprogramados del HTML recibido, no respuestas reales ni verificadas del asistente. Esa distinción aparece en el chat. No se ejecuta el código de interfaz del prototipo original.
+Los guiones son adaptaciones editoriales de casos reales anonimizados de la ficha recibida el 4 de noviembre de 2026. Las continuaciones se construyen con los elementos documentados y no se atribuyen como citas literales. La versión EN es una traduccion para la exhibicion. Ver el detalle de procedencia en [source/context-2026-11-04.md](source/context-2026-11-04.md). El avatar es el oficial incluido en el ZIP. No se consulta IA en vivo ni se recogen mensajes libres.
 
 ## Archivos y arquitectura
 
@@ -84,7 +84,7 @@ node projects/05-profe-gabi/verify.cjs
 
 La prueba utiliza Chrome instalado localmente. Se puede indicar otro servidor con `TEST_URL`.
 
-Comprueba 36 recorridos: los 18 desenlaces de cada idioma. Abre tableta y TV en contextos independientes de navegador, verifica escritura, envío, pensamiento, omisión, bloqueo de opciones, cambio de idioma durante animación, recargas de ambos equipos, reinicio, regreso, Home con temporizador pendiente, reconexión y reenvío sin duplicar mensajes. Simula un reloj de TV adelantado cinco minutos. Comprueba también rechazo de estado inválido, aislamiento de estaciones y entradas/receptores de 01–04 mediante pruebas de humo.
+Comprueba 16 recorridos: los ocho desenlaces de cada idioma. Abre tableta y TV en contextos independientes de navegador, verifica escritura, envío, pensamiento, omisión, bloqueo de opciones, cambio de idioma durante animación, recargas de ambos equipos, reinicio, regreso, Home con temporizador pendiente, reconexión y reenvío sin duplicar mensajes. Simula un reloj de TV adelantado cinco minutos. Comprueba también rechazo de estado inválido, aislamiento de estaciones y entradas/receptores de 01–04 mediante pruebas de humo.
 
 Dimensiones de tableta: 1180×820, 1024×768, 1280×800, 1366×768 y 960×600. TV: 1920×1080. Incluye comprobaciones de ausencia de desbordamiento de página, foco visible y objetivos táctiles de al menos 44 px en el menú. Los mensajes largos se desplazan dentro del chat.
 
@@ -93,3 +93,5 @@ El resultado de la última ejecución está en `verification/report.json`, con c
 ## Diseño editable en Figma
 
 Las 14 pantallas ES/EN y sus componentes están en [05_ProfeGabi — Editable](https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=63-2). Los enlaces individuales y la auditoría de capas nativas se conservan en [`figma-editable/`](figma-editable/README.md).
+
+La entrega Figma enlazada documenta la versión anterior del minijuego. Los guiones de esta actualización se implementaron en la aplicacion local; el documento Figma no se modificó en esta tarea.

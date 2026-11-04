@@ -1,5 +1,5 @@
 {
-  "status": "created-and-verified-in-figma",
+  "status": "local-preview-updated-figma-document-previous-content",
   "project": "05 — Profe Gabi",
   "fileKey": "6WCZLX7n6GHksVOfP9TKZz",
   "pageName": "05_ProfeGabi — Editable",
@@ -196,7 +196,7 @@
         "section": "landing",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "topics",
           "topic": null,
           "situation": null,
@@ -223,7 +223,7 @@
         "section": "landing",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "topics",
           "topic": null,
           "situation": null,
@@ -250,7 +250,7 @@
         "section": "cta",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "topics",
           "topic": null,
           "situation": null,
@@ -277,7 +277,7 @@
         "section": "cta",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "topics",
           "topic": null,
           "situation": null,
@@ -304,7 +304,7 @@
         "section": "game",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "follow",
           "topic": 0,
           "situation": 0,
@@ -331,7 +331,7 @@
         "section": "game",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "follow",
           "topic": 0,
           "situation": 0,
@@ -358,7 +358,7 @@
         "section": "landing",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "topics",
           "topic": null,
           "situation": null,
@@ -385,7 +385,7 @@
         "section": "landing",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "topics",
           "topic": null,
           "situation": null,
@@ -412,7 +412,7 @@
         "section": "info",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "topics",
           "topic": null,
           "situation": null,
@@ -439,7 +439,7 @@
         "section": "info",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "topics",
           "topic": null,
           "situation": null,
@@ -466,7 +466,7 @@
         "section": "game",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "follow",
           "topic": 0,
           "situation": 0,
@@ -493,7 +493,7 @@
         "section": "game",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "follow",
           "topic": 0,
           "situation": 0,
@@ -520,7 +520,7 @@
         "section": "game",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "complete",
           "topic": 0,
           "situation": 0,
@@ -547,7 +547,7 @@
         "section": "game",
         "screenIndex": null,
         "game": {
-          "version": 2,
+          "version": 3,
           "phase": "complete",
           "topic": 0,
           "situation": 0,
@@ -563,5 +563,6 @@
   "figmaPageCreated": true,
   "figmaEditabilityVerified": true,
   "pageId": "63:2",
-  "figmaFileKey": "6WCZLX7n6GHksVOfP9TKZz"
+  "figmaFileKey": "6WCZLX7n6GHksVOfP9TKZz",
+  "contentRevision": "2026-11-04"
 }
