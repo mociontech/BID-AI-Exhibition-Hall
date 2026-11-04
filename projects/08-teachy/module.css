@@ -1,0 +1,47 @@
+/* The client-supplied PNGs define the complete tablet visual. */
+.teachy-tablet{
+ width:100%;height:100dvh;display:grid;place-items:center;
+ overflow:hidden;background:#f4fbff;
+}
+.teachy-artboard{
+ position:relative;width:min(100dvw,177.6833156dvh);aspect-ratio:1672 / 941;
+ overflow:hidden;
+}
+.teachy-tablet-image{
+ display:block;width:100%;height:100%;object-fit:contain;
+ user-select:none;pointer-events:none;
+}
+.teachy-controls{position:absolute;inset:0}
+.teachy-hit{
+ position:absolute;border:0;padding:0;background:transparent;cursor:pointer;
+ border-radius:18px;touch-action:manipulation;
+}
+.teachy-hit:focus-visible{
+ outline:4px solid #005da8;outline-offset:-4px;background:#ffffff26;
+}
+.teachy-hit:disabled{cursor:default}
+.teachy-hit--es{left:88.8%;top:3%;width:3.6%;height:5.3%;border-radius:99px}
+.teachy-hit--en{left:92.4%;top:3%;width:3.6%;height:5.3%;border-radius:99px}
+.teachy-hit--info{left:4%;top:58%;width:45.4%;height:27.8%}
+.teachy-hit--video{left:50.6%;top:58%;width:45.4%;height:27.8%}
+.teachy-hit--home-text{left:4.4%;top:92%;width:5.6%;height:5.7%}
+.teachy-hit--home{left:83.8%;top:91.8%;width:3.6%;height:6%;border-radius:50%}
+.teachy-hit--back{left:88%;top:91.8%;width:3.6%;height:6%;border-radius:50%}
+.teachy-hit--next{left:92.3%;top:91.8%;width:3.6%;height:6%;border-radius:50%}
+.teachy-hit--fullscreen{left:71%;top:3%;width:17%;height:5.3%;border-radius:99px}
+
+/* A single full-viewport image, also at the exhibition TV's 1920 × 1080. */
+.teachy-display{
+ position:fixed;inset:0;width:100dvw;height:100dvh;
+ display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);
+ padding:0;margin:0;overflow:hidden;background:#fff;
+}
+.teachy-display-image{
+ display:block;width:100%;height:100%;min-width:0;min-height:0;
+ max-width:none;max-height:none;object-fit:contain;
+}
+.teachy-display--video{background:#fff}
+.teachy-display-video{
+ display:block;width:100%;height:100%;min-width:0;min-height:0;
+ max-width:none;max-height:none;object-fit:contain;background:#fff;
+}

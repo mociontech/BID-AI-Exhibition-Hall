@@ -6,12 +6,12 @@ const topics={what:'What It Is & the Problem',solution:'The Solution',ai:'How AI
 let last='';let busy=false;
 Object.values(BOGOTA_TRAFFIC.INFO_IMAGES).forEach(src=>{const image=new Image();image.src=src;});
 function renderAquaData(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  if(data.mode==='game'){
   const game=data.game||{step:1};
   const image=AQUADATA.gameReferencePath(game.step,language);
   const progress=game.step===3?'<span class="aqua-display-progress" aria-hidden="true"><i></i></span>':'';
-  app.innerHTML=`<main class="aquadata-display aquadata-game-display" aria-label="AquaData Detective del Agua"><img class="aquadata-display-image" src="${image}" alt="AquaData Detective del Agua">${progress}</main>`;
+  app.innerHTML=`<main class="aquadata-display aquadata-game-display" aria-label="AquaData Detective del Agua">${AI_ARTWORK(`${image}`,`class="aquadata-display-image"  alt="AquaData Detective del Agua"`)}${progress}</main>`;
   return;
  }
  if(data.mode==='info'||data.mode==='cta'){
@@ -20,15 +20,15 @@ function renderAquaData(data){
    const copy=language==='en'
     ? {eyebrow:'AQUADATA ? NEXT STEP',title:'The mini-game is now available',body:'Return to the tablet and experience how AI helps prioritize inspections.'}
     : {eyebrow:'AQUADATA ? SIGUIENTE PASO',title:'El minijuego ya est? disponible',body:'Regresa a la tableta y vive c?mo la IA ayuda a priorizar inspecciones.'};
-   app.innerHTML=`<main class="aquadata-display aquadata-display--cta" aria-label="AquaData technical sheet"><img class="aquadata-display-image" src="${sheet}" alt="AquaData technical sheet"><section class="aqua-cta-overlay" aria-live="polite"><div class="aqua-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="aqua-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
-  }else app.innerHTML=`<main class="aquadata-display" aria-label="AquaData technical sheet"><img class="aquadata-display-image" src="${sheet}" alt="AquaData technical sheet"></main>`;
+   app.innerHTML=`<main class="aquadata-display aquadata-display--cta" aria-label="AquaData technical sheet">${AI_ARTWORK(`${sheet}`,`class="aquadata-display-image"  alt="AquaData technical sheet"`)}<section class="aqua-cta-overlay" aria-live="polite"><div class="aqua-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="aqua-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
+  }else app.innerHTML=`<main class="aquadata-display" aria-label="AquaData technical sheet">${AI_ARTWORK(`${sheet}`,`class="aquadata-display-image"  alt="AquaData technical sheet"`)}</main>`;
   return;
  }
  const image=AQUADATA.imagePath(1,language);
- app.innerHTML=`<main class="aquadata-display" aria-label="AquaData large display"><img class="aquadata-display-image" src="${image}" alt="AquaData"></main>`;
+ app.innerHTML=`<main class="aquadata-display" aria-label="AquaData large display">${AI_ARTWORK(`${image}`,`class="aquadata-display-image"  alt="AquaData"`)}</main>`;
 }
 function renderBogotaTraffic(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  const screenIndex=Number.isInteger(data.screenIndex)?data.screenIndex:1;
  const screen=BOGOTA_TRAFFIC.screen(screenIndex);
  const image=BOGOTA_TRAFFIC.imagePath(screen.index,language);
@@ -36,10 +36,10 @@ function renderBogotaTraffic(data){
   const copy=language==='en'
    ? {eyebrow:'PREDICTTODO ? NEXT STEP',title:'The mini-game is now available',body:'Return to the tablet and explore how anticipating congestion can support human decisions.'}
    : {eyebrow:'PREDICTTODO ? SIGUIENTE PASO',title:'El minijuego ya est? disponible',body:'Regresa a la tableta y explora c?mo anticipar la congesti?n puede apoyar decisiones humanas.'};
-  app.innerHTML=`<main class="bogota-display bogota-display--cta" aria-label="Bogot? Traffic Prediction information"><img class="bogota-display-image" src="${image}" alt="Bogot? Traffic Prediction: ${screen.labels[language]}"><section class="bogota-cta-overlay" aria-live="polite"><div class="bogota-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="bogota-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
+  app.innerHTML=`<main class="bogota-display bogota-display--cta" aria-label="Bogot? Traffic Prediction information">${AI_ARTWORK(`${image}`,`class="bogota-display-image"  alt="Bogot? Traffic Prediction: ${screen.labels[language]}"`)}<section class="bogota-cta-overlay" aria-live="polite"><div class="bogota-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="bogota-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
   return;
  }
- app.innerHTML=`<main class="bogota-display" aria-label="Bogot? Traffic Prediction large display"><img class="bogota-display-image" src="${image}" alt="Bogot? Traffic Prediction: ${screen.labels[language]}"></main>`;
+ app.innerHTML=`<main class="bogota-display" aria-label="Bogot? Traffic Prediction large display">${AI_ARTWORK(`${image}`,`class="bogota-display-image"  alt="Bogot? Traffic Prediction: ${screen.labels[language]}"`)}</main>`;
 }
 const COSTA_RICA_ART={
  es:{home:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-1.png',info:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-2.png'},
@@ -49,23 +49,35 @@ const GUATIGUARA_ART={
  es:{info:'projects/04-parque-tecnologico-guatiguara/04_Guatiguara_BID_Bilingue/04_Guatiguara_Infografia_ES_1920x1080.png'},
  en:{info:'projects/04-parque-tecnologico-guatiguara/04_Guatiguara_BID_Bilingue/04_Guatiguara_Infographic_EN_1920x1080.png'}
 };
+function renderTeachy(data){
+ window.TEACHY.renderDisplay(app,data);
+}
 function renderGuatiguara(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  const image=GUATIGUARA_ART[language].info;
- app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information"><img src="${image}" alt="Parque Tecnológico Guatiguará information"></main>`;
+ app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information">${AI_ARTWORK(`${image}`,`alt="Parque Tecnológico Guatiguará information"`)}</main>`;
+}
+function renderGuatiguaraVideo(data){
+ const english=data.language!=='es';
+ const title=english?'Institutional video':'Video institucional';
+ const message=english?'Coming soon: the project’s institutional video will be available here.':'Próximamente: aquí estará el video institucional del proyecto.';
+ document.documentElement.lang=english?'en':'es';
+ app.innerHTML=`<main class="guatiguara-video-placeholder"><header>${AI_BRAND.header()}</header><section><svg class="video-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m7 3 15 9-15 9z"/></svg><h1>Parque Tecnológico Guatiguará</h1><h2>${title}</h2><p>${message}</p></section></main>`;
 }
 function renderCostaRica(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
+ if(data.mode==='game'&&data.game&&data.game.v===1&&window.CRB_TV){window.CRB_TV.render(app,data.game);return;} // espejo del minijuego (tv.js)
+ if(window.CRB_TV)window.CRB_TV.stop();
  const isInfo=data.mode==='info'||data.mode==='cta'||data.mode==='game'||data.mode==='results';
  const image=COSTA_RICA_ART[language][isInfo?'info':'home'];
  const cta=data.mode==='cta'?(language==='en'?{eyebrow:'COSTA RICA SMART BORDERS',title:'The mini-game is now available.',body:'Return to the tablet and start the experience.'}:{eyebrow:'COSTA RICA SMART BORDERS',title:'El minijuego ya está disponible.',body:'Regresa a la tableta para iniciar la experiencia.'}):null;
- app.innerHTML=`<main class="crb-display ${cta?'crb-display--cta':''}" aria-label="Costa Rica Smart Borders"><img src="${image}" alt="Costa Rica Smart Borders">${cta?`<section class="crb-display-cta"><p>${cta.eyebrow}</p><h1>${cta.title}</h1><span>${cta.body}</span></section>`:''}</main>`;
+ app.innerHTML=`<main class="crb-display ${cta?'crb-display--cta':''}" aria-label="Costa Rica Smart Borders">${AI_ARTWORK(`${image}`,`alt="Costa Rica Smart Borders"`)}${cta?`<section class="crb-display-cta"><p>${cta.eyebrow}</p><h1>${cta.title}</h1><span>${cta.body}</span></section>`:''}</main>`;
 }
 let bogotaGameData=null;
 fetch('projects/02-bogota-traffic-prediction/GAME_DATA.json',{cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{bogotaGameData=data;last='';}).catch(()=>{});
 function bogotaMap(){return `<svg class="pulse-map" viewBox="0 0 700 420" aria-hidden="true"><path d="M35 335C144 294 169 175 301 188S452 91 653 56"/><path d="M57 73C162 126 234 110 344 224S530 289 666 364"/><path d="M86 390C194 314 273 358 361 239S535 179 642 202"/><path d="M134 31C218 151 204 240 323 302S506 340 607 389"/><circle cx="302" cy="188" r="12"/><circle cx="344" cy="224" r="12"/><circle cx="361" cy="239" r="12"/></svg>`;}
 function renderBogotaGame(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  const game=data.game||{};
  const gameCopy=language==='en'
   ? {concept:'Conceptual map ? Educational simulation',intro:'Bogot? Traffic Pulse',introBody:'Explore four simulated scenarios and see how anticipating congestion can support human decisions.',next:'Next',choosePlayer:'Choose your profile',name:'Your name',start:'Start simulation',explore:'Explore the map',selectEvent:'Select an event',decide:'Choose an action',result:'Simulated result',retry:'Try again',nextScenario:'Next scenario',finish:'Final result',restart:'Restart',score:'Score',warning:'Educational simulation. Actions and scores are not operational PredictToDo recommendations.'}
@@ -87,7 +99,7 @@ function renderBogotaGame(data){
 /* The command-center game is rendered from the same shared template as the
    tablet. The display has no active controls, but mirrors every selection. */
 function renderBogotaGame(data){
- const language=data.language==='en'?'en':'es';
+ const language=data.language==='es'?'es':'en';
  if(!bogotaGameData||!window.PULSE_VIAL){
   app.innerHTML='<main class="pulse-command pulse-command--loading"><p>Loading PredictToDo?</p></main>';
   return;
@@ -101,9 +113,19 @@ function renderDefault(data){
  let intro=isHome?'Choose one of the eleven projects on the tablet to begin.':'Select Project Overview or Interactive Mini-Game on the tablet.';
  if(!isHome&&data.view==='overview'){title=topics[data.section]||'Project Overview';intro=`${p.name} ? This section will be developed and approved for the large display.`;}
  if(!isHome&&data.view==='game'){title='Interactive Mini-Game';intro=`${p.name} ? Interactive experience pending implementation.`;}
- app.innerHTML=`<main class="display-app"><header class="display-header">${AI_BRAND.header()}<span class="display-station">STATION ${String(sync.station).padStart(2,'0')} ? MAIN DISPLAY</span></header><section class="display-body"><div class="display-info"><div class="display-kicker">${isHome?'AI EXHIBITION HALL':`PROJECT ${p.id} ? ${p.division}`}</div><h1 class="display-title">${title}</h1><p class="display-description">${intro}</p></div><div class="display-figure" aria-hidden="true">${isHome?'?':data.view==='game'?'?':data.view==='overview'?'?':'?'}</div></section><footer class="display-footer">From Strategy to Impact ? This screen is controlled by the tablet.</footer></main>`;
+ app.innerHTML=`<main class="display-app"><header class="display-header">${AI_BRAND.header()}<span class="display-station">STATION ${String(sync.station).padStart(2,'0')} ? MAIN DISPLAY</span></header><section class="display-body"><div class="display-info"><div class="display-kicker">${isHome?'AI in Action':`PROJECT ${p.id} ? ${p.division}`}</div><h1 class="display-title">${title}</h1><p class="display-description">${intro}</p></div><div class="display-figure" aria-hidden="true">${isHome?'?':data.view==='game'?'?':data.view==='overview'?'?':'?'}</div></section><footer class="display-footer">IDB Group Projects Across The Region ? This screen is controlled by the tablet.</footer></main>`;
 }
 function render(data){
+ if(data?.projectId==='07'&&data?.view!=='home'){
+  document.title='MAIIA | AI in Action';
+  window.MAIIA.renderInto(app,data,{readonly:true});
+  return;
+ }
+ document.title=data?.projectId==='06'&&data?.view!=='home'?'RegLAC | AI in Action':'AI in Action | Main Display';
+ if(data?.projectId==='06'&&data?.view!=='home'){
+  window.REGLAC.renderInto(app,data,{readonly:true});
+  return;
+ }
  if(data?.projectId==='05'&&data?.view!=='home'){
   window.PROFE_GABI.renderInto(app,data,{readonly:true});
   return;
@@ -112,10 +134,12 @@ function render(data){
  if(isAquaData)return renderAquaData(data);
  const isCostaRica=data?.projectId==='03'&&data?.view!=='home';
  if(isCostaRica)return renderCostaRica(data);
- // Project 04 is a tablet-led experience. Both its information view and its
- // minigame retain the approved infographic on the station display.
- const isGuatiguara=data?.projectId==='04'&&data?.view!=='home'&&(data?.mode==='info'||data?.mode==='game');
- if(isGuatiguara)return renderGuatiguara(data);
+ if(data?.projectId==='04'&&data?.view!=='home'){
+  if(['video','game','results'].includes(data.mode))return renderGuatiguaraVideo(data);
+  return renderGuatiguara(data);
+ }
+ const isTeachy=data?.projectId==='08'&&data?.view!=='home';
+ if(isTeachy)return renderTeachy(data);
  const isBogotaTraffic=data?.projectId==='02'&&data?.view==='overview'&&data?.section==='info';
  if(isBogotaTraffic)return renderBogotaTraffic(data);
  const isBogotaGame=data?.projectId==='02'&&data?.view==='game';
@@ -130,4 +154,4 @@ async function tick(){
   if(sig!==last){last=sig;render(data);}
  }finally{busy=false;}
 }
-render(null);tick();setInterval(tick,150);
+render(null);tick();setInterval(tick,sync.pollInterval||150);

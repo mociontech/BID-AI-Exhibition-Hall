@@ -24,7 +24,7 @@
   return {marks,sendAt,total:sendAt+thinking};
  }
  function animation(state){
-  const g=state.game,language=state.language==='en'?'en':'es';
+  const g=state.game,language=state.language==='es'?'es':'en';
   if(g?.phase!=='animating')return null;
   const pair=exchange(g,language),times=timing(pair.user,pair.gabi),elapsed=Math.max(0,now()-g.startedAt);
   const count=times.marks.filter(mark=>mark<=elapsed).length;
@@ -49,15 +49,15 @@
  }
  function renderInto(mount,state,{readonly=false}={}){
   if(pending.has(mount))cancelAnimationFrame(pending.get(mount));
-  const language=state.language==='en'?'en':'es',t=words[language];
+  const language=state.language==='es'?'es':'en',t=words[language];
   const g=window.PROFE_GABI_STATE.sanitize(state.game)||window.PROFE_GABI_STATE.fresh();
   state={...state,game:g};document.documentElement.lang=language;
   const isGame=state.mode==='game'||state.mode==='results',isInfo=['info','cta'].includes(state.mode),busy=isGame&&g.phase==='animating';
   const topic=scripts[language][g.topic],branch=topic?.options[g.situation];
   const btn=(action,label,cls='',extra='')=>`<button type="button" class="gabi-button ${cls}" data-action="${action}" ${extra}>${label}</button>`;
   const langControl=`<div class="gabi-language" aria-label="${language==='es'?'Idioma':'Language'}">${['es','en'].map(l=>readonly?`<span class="${l===language?'is-active':''}">${l.toUpperCase()}</span>`:`<button type="button" data-language="${l}" aria-label="${l==='es'?'Español':'English'}" aria-pressed="${language===l}">${l.toUpperCase()}</button>`).join('')}</div>`;
-  const header=`<header class="gabi-header"><div class="gabi-brand"><img src="${assets('bid-logo.png')}" alt="BID"><span></span><div><strong>AI EXHIBITION HALL</strong><small>From Strategy to Impact</small></div></div><div class="gabi-header-tools"><span class="gabi-station">${t.station} ${String(window.AI_SYNC?.station||5).padStart(2,'0')} · PROFE GABI</span>${langControl}${readonly?'':btn('fullscreen',icon('expand'),'gabi-icon',`aria-label="${t.fullscreen}" title="${t.fullscreen}"`)}</div></header>`;
-  const kicker=`<p class="gabi-eyebrow">05 / AI EXHIBITION HALL</p>`;
+  const header=`<header class="gabi-header"><div class="gabi-brand"><img src="${new URL('../../assets/brand/idb-group.jpg',base).href}" alt="IDB Group"><span></span><div><strong>AI in Action</strong><small>IDB Group Projects Across The Region</small></div></div><div class="gabi-header-tools"><span class="gabi-station">${t.station} ${String(window.AI_SYNC?.station||5).padStart(2,'0')} · PROFE GABI</span>${langControl}${readonly?'':btn('fullscreen',icon('expand'),'gabi-icon',`aria-label="${t.fullscreen}" title="${t.fullscreen}"`)}</div></header>`;
+  const kicker=`<p class="gabi-eyebrow">05 / AI in Action</p>`;
   let content='';
   function info(){return `<section class="gabi-info-heading"><div class="gabi-info-photo">${photo()}</div>${kicker}<h1>Profe <em>Gabi</em></h1><p>${t.infoTitle}</p></section><section class="gabi-infographic" aria-label="${t.info}"><div class="gabi-info-intro"><article class="gabi-sheet"><div class="gabi-sheet-icon">${icon('bot')}</div><div><h2>${t.what}</h2><p>${t.whatBody}</p></div></article><article class="gabi-sheet"><div class="gabi-sheet-icon">${icon('people')}</div><div><h2>${t.why}</h2><p>${t.whyBody}</p></div></article></div><article class="gabi-sheet gabi-how"><h2>${icon('bot')}${t.how}</h2><div class="gabi-flow">${t.flow.map((step,i)=>`<div>${icon(['question','book','bot'][i])}<span>${step}</span></div>${i<2?`<span class="gabi-flow-arrow">${icon('arrow')}</span>`:''}`).join('')}</div><p class="gabi-rag">${t.rag}</p></article><article class="gabi-sheet gabi-areas"><h2>${t.areas}</h2>${t.areaNames.map((area,i)=>`<div>${icon(['book','people','heart'][i])}<strong>${area}</strong></div>`).join('')}</article><article class="gabi-sheet gabi-pilot"><h2>${icon('calendar')}${t.pilot}</h2><div class="gabi-metrics">${['550','8','200+',language==='es'?'85,3 %':'85.3%'].map((value,i)=>`<div>${icon(['people','calendar','document','check'][i])}<strong>${value}</strong><span>${t.metrics[i]}</span></div>`).join('')}</div><p class="gabi-qualifier">${t.qualifier}</p></article><article class="gabi-sheet gabi-note">${icon('shield')}<p>${t.note}</p></article></section>`;}
   function landing(){
@@ -88,7 +88,7 @@
    else content=`<section class="gabi-tablet-game">${g.phase==='complete'?summary():choices()}<aside class="gabi-tablet-context"><div class="gabi-context-symbol">${g.phase==='complete'?icon('check'):avatar()}</div><p class="gabi-eyebrow">${topic?t.selectedTopic:'PROFE GABI'}</p><h2>${topic?escape(topic.title):t.subtitle}</h2><p>${g.phase==='complete'?t.note:t.controlHint}</p><div class="gabi-journey"><span class="is-done">01</span><i></i><span class="${['follow','complete'].includes(g.phase)||g.turn==='follow'?'is-done':''}">02</span><i></i><span class="${g.phase==='complete'?'is-done':''}">03</span></div><p class="gabi-script-note">${t.tag}</p></aside></section>`;
   }else content=readonly&&isInfo?info():landing();
   const phaseLabel=isGame?(g.phase==='complete'?t.complete:topic?.title||t.game):isInfo?t.info:t.menu;
-  const footer=`<footer class="gabi-footer"><div class="gabi-breadcrumb">${readonly?`<span>AI EXHIBITION HALL</span>`:btn('home',icon('home')+t.home,'gabi-footer-home')}<span>/</span><span>Profe Gabi</span><span>/</span><span>${escape(phaseLabel)}</span></div><div class="gabi-footer-right"><span class="gabi-connection" data-gabi-connection data-status="${connection}" role="status">${connectionLabel(language)}</span>${readonly?'':btn('back',icon('back'),'gabi-icon',`aria-label="${t.back}" title="${t.back}"`)}</div></footer>`;
+  const footer=`<footer class="gabi-footer"><div class="gabi-breadcrumb">${readonly?`<span>AI in Action</span>`:btn('home',icon('home')+t.home,'gabi-footer-home')}<span>/</span><span>Profe Gabi</span><span>/</span><span>${escape(phaseLabel)}</span></div><div class="gabi-footer-right"><span class="gabi-connection" data-gabi-connection data-status="${connection}" role="status">${connectionLabel(language)}</span>${readonly?'':btn('back',icon('back'),'gabi-icon',`aria-label="${t.back}" title="${t.back}"`)}</div></footer>`;
   mount.innerHTML=`<main class="gabi-app ${readonly?'gabi-display':'gabi-tablet'} ${isGame?'gabi-game-view':''} ${readonly&&isInfo?'gabi-info-view':''}">${header}<div class="gabi-content">${content}</div>${footer}<p class="gabi-announcement" data-status role="status"></p></main>`;
   if(isGame){const messages=mount.querySelector('.gabi-messages');if(messages)messages.scrollTop=messages.scrollHeight;}
   if(busy){

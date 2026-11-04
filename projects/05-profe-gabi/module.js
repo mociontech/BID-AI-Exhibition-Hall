@@ -3,7 +3,7 @@ window.ProjectModule={
  id:'05',
  async mountController({sync,mount,home}){
   const api=window.PROFE_GABI,schema=window.PROFE_GABI_STATE;
-  let state={view:'project',projectId:'05',section:'menu',language:'es',mode:'landing',screenIndex:null,game:schema.fresh()};
+  let state={view:'project',projectId:'05',section:'menu',language:'en',mode:'landing',screenIndex:null,game:schema.fresh()};
   let timer=null,heartbeat=null,leaving=false,dirty=false,publishing=0,polling=false;
   function stopTimer(){clearTimeout(timer);timer=null;}
   function publish(){
@@ -99,9 +99,9 @@ window.ProjectModule={
    }
    const restored=schema.sanitize(remote?.game);
    if(remote?.projectId==='05'&&restored&&['landing','info','cta','game'].includes(remote.mode)){
-    state={...state,language:remote.language==='en'?'en':'es',mode:remote.mode,view:remote.mode==='game'?'game':'project',game:restored};
+    state={...state,language:remote.language==='es'?'es':'en',mode:remote.mode,view:remote.mode==='game'?'game':'project',game:restored};
     if(state.mode==='info'&&restored.unlockAt<=api.now())state={...state,mode:'cta',game:{...restored,ready:true,unlockAt:0}};
-   }else if(remote?.language==='en')state.language='en';
+   }else if(remote?.language==='es')state.language='es';
   }catch{}
   render();void publish();armTimer();
   // Re-send only the newest local command after a lost connection, including

@@ -5,15 +5,30 @@ const path=require('node:path');
 const vm=require('node:vm');
 const root=path.resolve(__dirname,'..');
 
-test('the exhibition registry preserves its eleven projects',()=>{
+test('the exhibition registry has ten projects and only one Teachy at 08',()=>{
  const context={window:{}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'shared','projects.js'),'utf8'),context);
- assert.equal(context.window.EXHIBITION_PROJECTS.length,11);
+ const projects=context.window.EXHIBITION_PROJECTS;
+ assert.equal(projects.length,10);
+ assert.equal(projects.filter(project=>project.slug==='teachy').length,1);
+ assert.equal(projects.find(project=>project.slug==='teachy').id,'08');
 });
 
-test('the tablet home intentionally hides SIEMPLEA and uses ten visual positions',()=>{
+test('Teachy ships its supplied tablet, infographic and video resources',()=>{
+ const folder=path.join(root,'projects','08-teachy');
+ assert.ok(fs.existsSync(path.join(folder,'Video','muestra-estacion-teachy-BID.mp4')));
+ assert.equal(fs.readdirSync(path.join(folder,'Public')).filter(file=>file.endsWith('.png')).length,4);
+ const experience=fs.readFileSync(path.join(folder,'experience.js'),'utf8');
+ assert.match(experience,/muestra-estacion-teachy-BID\.mp4/);
+ assert.match(experience,/data\.mode==='video'/);
+ const controller=fs.readFileSync(path.join(folder,'module.js'),'utf8');
+ assert.match(controller,/data-action="video"/);
+ assert.doesNotMatch(controller,/teachy-hit--video" type="button" disabled/);
+});
+
+test('the tablet home uses ten visual positions',()=>{
  const home=fs.readFileSync(path.join(root,'shared','home.js'),'utf8');
- assert.match(home,/visibleProjects=projects\.filter\(project=>project\.id!=='08'\)/);
+ assert.match(home,/visibleProjects=projects;/);
  assert.match(home,/visibleProjects\.map\(\(p,index\)=>/);
  assert.match(home,/String\(index\+1\)\.padStart\(2,'0'\)/);
 });
@@ -40,7 +55,7 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
  assert.match(controller,/projectId:'03'/);
  assert.match(controller,/setTimeout\(unlockGame,10000\)/);
  assert.match(controller,/gameReady/);
- assert.match(controller,/Costa_Rica_Smart_Borders_03_index\.html/);
+ assert.match(controller,/prototipo_actual_V5\.html/);
  assert.match(controller,/language==='en'/);
  assert.match(display,/renderCostaRica/);
  assert.match(display,/data\.mode==='cta'/);
@@ -121,4 +136,83 @@ test('Pulso Vial offers role-aware decisions and a shared command-center rendere
  assert.match(screen,/data-action-choice="agents"/);
  assert.match(screen,/Aplicar decisión/);
  assert.equal(context.window.PULSE_VIAL.roleScore(game,gameState,game.scenarios[1],'agents'),100);
+});
+
+test('Costa Rica Smart Borders ships the redesigned bilingual mini-game and keeps the TV on the information sheet',()=>{
+ const game=path.join(root,'projects','03-costa-rica-smart-borders','game');
+ assert.ok(fs.existsSync(path.join(game,'index.html')));
+ assert.ok(fs.existsSync(path.join(game,'game.css')));
+ const script=fs.readFileSync(path.join(game,'game.js'),'utf8');
+ const controller=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','module.js'),'utf8');
+ assert.ok(controller.includes("./game/index.html"));
+ for(const screen of ['intro','manual','ai','results'])assert.match(script,new RegExp(screen+':screen'));
+ assert.match(script,/Tu tiempo/);
+ assert.match(script,/Your time/);
+ assert.match(script,/Manifiesto de carga/);
+ assert.match(script,/Declaración aduanera/);
+ assert.match(script,/Falta un documento/);
+ assert.match(script,/no abre el camión/);
+ assert.match(script,/Se trata de priorizar mejor/);
+ assert.match(script,/It is about prioritizing better/);
+ assert.match(script,/data-act="home"/);
+ assert.match(script,/id="es"/);
+ assert.match(script,/id="en"/);
+ // Fuera del juego el paquete no lleva estado; dentro, lleva solo el resumen (etapa, semáforos, cronómetro), nunca documentos.
+ assert.match(controller,/game:null/);
+});
+
+test('Costa Rica Smart Borders mini-game carries bilingual VUCE 3.0 project popups (Peñas Blancas, three mechanisms, risk traffic light, real-life stage)',()=>{
+ const script=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','game','game.js'),'utf8');
+ const css=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','game','game.css'),'utf8');
+ for(const key of ['place','how','light','real'])assert.match(script,new RegExp(`${key}:\{title:`));
+ assert.match(script,/Así era antes en Peñas Blancas/);
+ assert.match(script,/How it used to be at Peñas Blancas/);
+ assert.match(script,/330\.000 registros históricos/);
+ assert.match(script,/330,000 historical trade records/);
+ assert.match(script,/Selección aleatoria/);
+ assert.match(script,/El semáforo de riesgo/);
+ assert.match(script,/ya está en producción/);
+ assert.match(script,/data-act="pop:place"/);
+ assert.match(script,/data-act="pop:real"/);
+ assert.match(script,/data-tap="inst"/);
+ assert.match(css,/\.modal\{position:fixed/);
+ assert.match(css,/\.light--red/);
+});
+
+test('Costa Rica Smart Borders mini-game decides with the VUCE risk traffic light and shows project facts',()=>{
+ const script=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','game','game.js'),'utf8');
+ const css=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','game','game.css'),'utf8');
+ assert.match(script,/play:\{title:'¿Cómo se juega\?'/);
+ assert.match(script,/play:\{title:'How to play\?'/);
+ assert.match(script,/lights:\{green:\{name:'Verde'/);
+ assert.match(script,/lights:\{green:\{name:'Green'/);
+ assert.match(script,/function expected\(c\)\{return c\.issue\?'red':c\.missing\?'yellow':'green';\}/);
+ assert.match(script,/act==='green'\|\|act==='yellow'\|\|act==='red'/);
+ assert.match(script,/factsTitle:'Datos de VUCE 3\.0/);
+ assert.match(script,/360\.000/);
+ assert.match(script,/class="info-btn"/);
+ assert.match(css,/\.facts-grid/);
+ assert.match(css,/\.btn--yellow/);
+});
+
+test('Costa Rica Smart Borders mirrors the mini-game on the TV through the station state (no documents, only stage, lights and clocks)',()=>{
+ const project=path.join(root,'projects','03-costa-rica-smart-borders');
+ const game=fs.readFileSync(path.join(project,'game','game.js'),'utf8');
+ const controller=fs.readFileSync(path.join(project,'module.js'),'utf8');
+ const tv=fs.readFileSync(path.join(project,'tv.js'),'utf8');
+ const server=fs.readFileSync(path.join(root,'server.js'),'utf8');
+ const display=fs.readFileSync(path.join(root,'shared','display.js'),'utf8');
+ const html=fs.readFileSync(path.join(root,'display.html'),'utf8');
+ assert.ok(game.includes('function tvPacket()'));
+ assert.ok(game.includes("postMessage({type:'cr-game',game:tvPacket()}"));
+ const mirror=game.slice(game.indexOf('function tvPacket'));
+ assert.ok(!mirror.includes('docValue(')&&!mirror.includes('DOCS.map'),'the TV packet must never carry document contents');
+ assert.ok(controller.includes("data.type!=='cr-game'"));
+ assert.ok(controller.includes('game:isGame?gameState:null'));
+ assert.ok(server.includes('function cleanCostaRica'));
+ assert.match(server,/Invalid Costa Rica Smart Borders game state/);
+ assert.ok(display.includes('window.CRB_TV.render(app,data.game)'));
+ assert.ok(html.includes('projects/03-costa-rica-smart-borders/tv.js'));
+ assert.ok(tv.includes('window.CRB_TV={render,stop}'));
+ assert.ok(tv.includes('data-crtv-clock'));
 });

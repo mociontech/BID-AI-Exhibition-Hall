@@ -2,6 +2,7 @@
 (function(){
 const project=EXHIBITION_PROJECTS.find(p=>p.id===window.ProjectModule.id);
 if(!project) throw new Error('Unknown project id in this module.');
+document.title=`${project.name} | AI in Action`;
 const brand=AI_BRAND, sync=AI_SYNC, mount=document.getElementById('app');
 const root='../../',home=root+'index.html'+sync.stationQuery;
 if(typeof window.ProjectModule.mountController==='function'){

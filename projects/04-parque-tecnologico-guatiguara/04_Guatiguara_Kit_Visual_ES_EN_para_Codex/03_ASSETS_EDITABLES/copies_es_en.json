@@ -1,0 +1,83 @@
+{
+  "notes": [
+    "Diseño visual de referencia, no producción aprobada.",
+    "La fuente del contenido interactivo es el HTML actual del proyecto/cliente; no inferir la taxonomía oficial de laboratorios a partir del PNG.",
+    "La información permanece como sección independiente del minijuego."
+  ],
+  "es": {
+    "welcome": {
+      "eyebrow": "MINIJUEGO · BIENVENIDA",
+      "title": "Activa la innovación",
+      "subtitle": "Descubre cómo una idea se conecta con laboratorios, talento y aliados para abrir nuevas oportunidades.",
+      "primary": "Comenzar misión"
+    },
+    "challenge": {
+      "eyebrow": "PASO 1 · ELIGE UN RETO",
+      "title": "Cada idea comienza con un desafío",
+      "subtitle": "Selecciona el reto que quieres ayudar a resolver.",
+      "button": "Continuar"
+    },
+    "labs": {
+      "eyebrow": "PASO 2 · ELIGE UN LABORATORIO",
+      "title": "Siete laboratorios, múltiples caminos",
+      "subtitle": "Elige el punto de partida que mejor se conecta con el reto.",
+      "button": "Continuar"
+    },
+    "supports": {
+      "eyebrow": "PASO 3 · ACTIVA APOYOS",
+      "title": "La innovación también necesita apoyo",
+      "subtitle": "Conecta los recursos que pueden ayudar a que la idea avance.",
+      "button": "Ver resultado"
+    },
+    "result": {
+      "eyebrow": "RESULTADO · MISIÓN COMPLETADA",
+      "title": "Así se activa la innovación",
+      "subtitle": "En Guatiguará, una idea puede fortalecerse al conectar tecnología, talento y colaboración.",
+      "button": "Volver a jugar"
+    },
+    "shell": {
+      "information": "Información",
+      "minigame": "Minijuego",
+      "tablet": "Tableta · controla la experiencia",
+      "hypothetical": "Ejemplo ilustrativo; no representa resultados garantizados."
+    }
+  },
+  "en": {
+    "welcome": {
+      "eyebrow": "MINIGAME · WELCOME",
+      "title": "Activate innovation",
+      "subtitle": "Discover how an idea connects with labs, talent and partners to open up new opportunities.",
+      "primary": "Start mission"
+    },
+    "challenge": {
+      "eyebrow": "STEP 1 · CHOOSE A CHALLENGE",
+      "title": "Every idea begins with a challenge",
+      "subtitle": "Select the challenge you want to help solve.",
+      "button": "Continue"
+    },
+    "labs": {
+      "eyebrow": "STEP 2 · CHOOSE A LAB",
+      "title": "Seven labs, multiple paths",
+      "subtitle": "Choose the starting point that best fits the challenge.",
+      "button": "Continue"
+    },
+    "supports": {
+      "eyebrow": "STEP 3 · ACTIVATE SUPPORTS",
+      "title": "Innovation also needs support",
+      "subtitle": "Connect the resources that can help the idea move forward.",
+      "button": "View result"
+    },
+    "result": {
+      "eyebrow": "RESULT · MISSION COMPLETE",
+      "title": "This is how innovation is activated",
+      "subtitle": "At Guatiguará, an idea grows stronger by connecting technology, talent and collaboration.",
+      "button": "Play again"
+    },
+    "shell": {
+      "information": "Information",
+      "minigame": "Minigame",
+      "tablet": "Tablet · control the experience",
+      "hypothetical": "Illustrative example; does not represent guaranteed results."
+    }
+  }
+}

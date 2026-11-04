@@ -6,7 +6,7 @@
     en:'assets/img/predicttodo/PredictToDo_Infografia_TV_EN_1920x1080.png'
   });
   const SATELLITE_MAP_IMAGE='/assets/img/predicttodo/PredictToDo_Mapa_Satelital_Simulado.png';
-  function infoImagePath(language){return INFO_IMAGES[language==='en'?'en':'es'];}
+  function infoImagePath(language){return INFO_IMAGES[language==='es'?'es':'en'];}
   // Compatibility helpers keep the generic display receiver small while all
   // topic navigation is retired in favour of the single approved infographic.
   function screen(){return {index:1,labels:{es:'Información',en:'Information'}};}
