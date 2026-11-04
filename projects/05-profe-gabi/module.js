@@ -13,7 +13,7 @@ window.ProjectModule={
   function render(){api.renderInto(mount,state);}
   function finishAnimation(){
    if(state.game.phase!=='animating')return;
-   const phase={topic:'situations',situation:'follow',follow:'complete'}[state.game.turn];
+   const phase={situation:'follow',follow:'complete'}[state.game.turn];
    setGame({phase,turn:null,startedAt:0});
   }
   function armTimer(){
@@ -39,12 +39,10 @@ window.ProjectModule={
    if(state.mode!=='game')return menu();
    if(g.phase==='topics')return menu();
    if(g.phase==='animating'){
-    if(g.turn==='topic')return restart();
-    if(g.turn==='situation')return setGame({phase:'situations',situation:null,follow:null,turn:null,startedAt:0});
+    if(g.turn==='situation')return restart();
     return setGame({phase:'follow',follow:null,turn:null,startedAt:0});
    }
-   if(g.phase==='situations')return restart();
-   if(g.phase==='follow')return setGame({phase:'situations',situation:null,follow:null});
+   if(g.phase==='follow')return restart();
    return setGame({phase:'follow',follow:null});
   }
   async function goHome(){
@@ -84,8 +82,12 @@ window.ProjectModule={
     if(!Number.isInteger(choice)||choice<0||choice>max)return false;
     setGame({[kind]:choice,phase:'animating',turn:kind,startedAt:api.now()});return true;
    };
-   if(choose('topic','topics',2))return;
-   if(choose('situation','situations',2))return;
+   if(button.dataset.topic!==undefined&&g.phase==='topics'){
+    const topic=Number(button.dataset.topic);
+    if(Number.isInteger(topic)&&topic>=0&&topic<window.PROFE_GABI_CONVERSATIONS[state.language].length)
+     setGame({topic,situation:0,follow:null,phase:'animating',turn:'situation',startedAt:api.now()});
+    return;
+   }
    choose('follow','follow',1);
   });
   try{

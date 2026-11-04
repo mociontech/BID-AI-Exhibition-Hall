@@ -64,33 +64,34 @@ const schema=require('./state.js');
   await tablet.locator('[data-language="es"]').click();await tvText('136 personas');await fits(tv,'infographic ES');await shot(tv,'infographic-es');
   await click('menu');assert.equal(await tablet.locator('[data-action="game"]').isEnabled(),true);
   await click('game');await tv.locator('.gabi-game-welcome').waitFor();
+  assert.equal(await tablet.locator('[data-topic]').count(),4);
+  await shot(tablet,'cases-es');await fits(tv,'four cases on TV');
   checks.push('Infographic ES/EN, survey denominator and causal-impact caveat, real 10-second CTA survives language/reload');
   // Run the first exchange at its real speed and inspect literal typing.
   await choose('topic',0);await tv.locator('[data-animate]').waitFor();
   await tv.waitForFunction(()=>document.querySelector('[data-draft]')?.textContent.length>=3);
   const sample=await tv.locator('[data-draft]').textContent();
-  assert.ok(sample.startsWith('Qui')&&sample.length<30,sample);
+  assert.ok(sample.startsWith('\u00bfMe')&&sample.length<30,sample);
   assert.equal(await tablet.locator('[data-topic="1"]').isDisabled(),true);
   await shot(tv,'chat-typing-es');
-  await tv.locator('[data-thinking]').waitFor({state:'visible'});await shot(tv,'chat-thinking-es');
-  await tablet.locator('[data-situation="0"]').waitFor();
-  await tvText('¿Qué te está costando más');
+  await tv.locator('[data-thinking]').waitFor({state:'visible'});await fits(tv,'live chat TV');await shot(tv,'chat-thinking-es');
+  await tablet.locator('[data-follow="0"]').waitFor();
+  await tvText('objetivo de aprendizaje');
   const skew=await tv.evaluate(()=>Date.now()-AI_SYNC.now());assert.ok(Math.abs(skew-300000)<500,`clock ${skew}`);
-  await choose('situation',0);await tv.locator('[data-animate]').waitFor();
+  await choose('follow',0);await tv.locator('[data-animate]').waitFor();
   await tv.waitForFunction(()=>document.querySelector('[data-draft]')?.textContent.length>8);
   await tv.reload();await tv.locator('[data-animate]').waitFor();
   await tablet.reload();await tablet.locator('[data-action="skip"]').waitFor();
-  await skip();await tablet.locator('[data-follow="0"]').waitFor();
-  await choose('follow',0);await skip();await tablet.locator('.gabi-summary').waitFor();await tv.locator('.is-complete').waitFor();
+  await skip();await tablet.locator('.gabi-summary').waitFor();await tv.locator('.is-complete').waitFor();
   await fits(tablet,'summary');await fits(tv,'summary TV');await shot(tablet,'completion-tablet-es');await shot(tv,'completion-tv-es');
   checks.push('Literal typing, auto-send, thinking, five-minute TV clock skew corrected, reload both devices mid-animation');
-  // All 18 endings in both languages, through the actual controller.
+  // Four documented cases, one decision with two choices: eight endings per language.
   let traversed=0;
   for(const language of ['es','en']){
    await tablet.locator(`[data-language="${language}"]`).click();
-   for(let topic=0;topic<3;topic++)for(let situation=0;situation<3;situation++)for(let follow=0;follow<2;follow++){
+   for(let topic=0;topic<4;topic++)for(let situation=0;situation<1;situation++)for(let follow=0;follow<2;follow++){
     await click('restart');await choose('topic',topic);await skip();
-    await choose('situation',situation);await skip();await choose('follow',follow);await skip();
+    await choose('follow',follow);await skip();
     const actual=await waitState(s=>s.game.phase==='complete'&&s.game.topic===topic&&s.game.situation===situation&&s.game.follow===follow&&s.language===language);
     assert.ok(schema.sanitize(actual.game));
     const take=await tablet.evaluate(({language,topic,situation,follow})=>PROFE_GABI_CONVERSATIONS[language][topic].options[situation].follow[follow].take,{language,topic,situation,follow});
@@ -99,11 +100,17 @@ const schema=require('./state.js');
    }
   }
   await shot(tablet,'completion-tablet-en');await shot(tv,'completion-tv-en');
-  checks.push(`${traversed} conversational paths completed (18 ES + 18 EN), every final takeaway received by separate TV`);
+  assert.equal(await tablet.locator('a[href^="http"]').count(),0);
+  assert.equal(await tv.locator('a[href^="http"]').count(),0);
+  await tv.locator('.gabi-source').waitFor();
+  assert.ok(await tv.locator('.gabi-official-avatar').count()>0);
+  assert.equal(await tv.locator('.gabi-official-avatar').first().evaluate(el=>el.complete&&el.naturalWidth>0),true);
+  checks.push('Official avatar loaded, source visible as plain text, no external navigation');
+  checks.push(`${traversed} conversational paths completed (8 ES + 8 EN), every final takeaway received by separate TV`);
   // Language switching during typing atomically rebuilds all messages.
-  await click('restart');await choose('topic',1);await skip();await choose('situation',1);
+  await click('restart');await choose('topic',1);
   await tablet.locator('[data-language="es"]').click();await tv.waitForFunction(()=>document.documentElement.lang==='es');
-  await skip();await tvText('Podrías asignar roles');
+  await skip();await tvText('Podemos partir con actividades de apoyo visual');
   assert.equal(await tv.locator('.gabi-messages').textContent().then(t=>t.includes('Hi!')),false);
   // Back cancels an animation, without allowing stale completions.
   await choose('follow',0);await click('back');await tablet.locator('[data-follow="1"]').waitFor();
@@ -118,15 +125,14 @@ const schema=require('./state.js');
   await waitState(s=>s.game.phase==='complete'&&s.game.follow===1);
   await tv.locator('.is-complete').waitFor();
   await tv.waitForFunction(()=>document.querySelector('[data-gabi-connection]')?.dataset.status==='connected');
-  assert.equal(await tv.locator('.gabi-message-user').count(),3);
+  assert.equal(await tv.locator('.gabi-message-user').count(),2);
   checks.push('Atomic language change during typing, Back cancels timers, offline cached TV and automatic latest-state replay');
   await click('restart');
   await waitState(s=>s.game.phase==='topics'&&s.game.topic===null&&s.game.situation===null&&s.game.follow===null);
   await tv.locator('.gabi-game-welcome').waitFor();
   for(const size of [{width:1024,height:768},{width:1280,height:800},{width:1366,height:768},{width:960,height:600}]){
    await tablet.setViewportSize(size);await fits(tablet,'topics '+size.width);
-   await choose('topic',0);await skip();await fits(tablet,'situations '+size.width);
-   await choose('situation',2);await skip();await fits(tablet,'follow '+size.width);
+   await choose('topic',0);await skip();await fits(tablet,'follow '+size.width);
    await choose('follow',1);await skip();await fits(tablet,'complete '+size.width);
    await click('menu');await fits(tablet,'menu '+size.width);await click('game');
   }
@@ -137,7 +143,7 @@ const schema=require('./state.js');
   assert.deepEqual(await Promise.all([1,2,3].map(async s=>clean(await state(s)))),isolated);
   checks.push('Restart clears choices, menu preserves unlock, fresh visitor locks again, Home cancels CTA, five landscape viewports, station isolation');
   // Malformed new game state cannot replace current station state.
-  for(const game of [{...schema.fresh(true),phase:'complete'},{...schema.fresh(true),topic:99},{...schema.fresh(true),phase:'animating',turn:'follow',startedAt:Date.now()}]){
+  for(const game of [{...schema.fresh(true),phase:'complete'},{...schema.fresh(true),topic:4},{...schema.fresh(true),version:2},{...schema.fresh(true),phase:'follow',topic:0,situation:1},{...schema.fresh(true),phase:'animating',turn:'follow',startedAt:Date.now()}]){
    const r=await request.post(`${base}/api/state?station=5`,{data:{view:'game',projectId:'05',mode:'game',game}});assert.equal(r.status(),400);
   }
   assert.equal((await state()).view,'home');

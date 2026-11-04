@@ -2,6 +2,8 @@
 
 Estado: creadas y verificadas en Figma.
 
+Nota del 4 de noviembre de 2026: el documento Figma y las auditorías siguientes corresponden a la entrega anterior. La aplicación y la previsualización local ya usan los cuatro casos del nuevo contexto y el avatar oficial. Esta tarea no modificó las capas del documento Figma.
+
 Página: [05_ProfeGabi — Editable](https://www.figma.com/design/6WCZLX7n6GHksVOfP9TKZz?node-id=63-2).
 
 Se entregaron 14 frames de 1920 × 1080 en español e inglés, sin modificar las páginas de otros proyectos. Los enlaces directos están en `frame-links.json`.

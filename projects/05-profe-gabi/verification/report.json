@@ -1,12 +1,13 @@
 {
   "passed": true,
-  "ctaElapsedMs": 10032,
-  "pathsCompleted": 36,
+  "ctaElapsedMs": 10051,
+  "pathsCompleted": 16,
   "checks": [
     "Menu, separate TV invitation, native fullscreen, keyboard focus, touch targets",
     "Infographic ES/EN, survey denominator and causal-impact caveat, real 10-second CTA survives language/reload",
     "Literal typing, auto-send, thinking, five-minute TV clock skew corrected, reload both devices mid-animation",
-    "36 conversational paths completed (18 ES + 18 EN), every final takeaway received by separate TV",
+    "Official avatar loaded, source visible as plain text, no external navigation",
+    "16 conversational paths completed (8 ES + 8 EN), every final takeaway received by separate TV",
     "Atomic language change during typing, Back cancels timers, offline cached TV and automatic latest-state replay",
     "Restart clears choices, menu preserves unlock, fresh visitor locks again, Home cancels CTA, five landscape viewports, station isolation",
     "Server rejects invalid 05 state; 01–04 controller and display smoke checks"
