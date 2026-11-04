@@ -165,7 +165,7 @@ function docValue(c,doc,field){
 }
 
 /* ---------- Estado ---------- */
-const state={lang:'es',screen:'intro',round:1,cases:[],idx:0,
+const state={lang:'en',screen:'intro',round:1,cases:[],idx:0,
  manual:{time:0,start:0,running:false,answers:[],feedback:null},
  ai:{time:0,start:0,running:false,answers:[],phase:'idle'}};
 let timers=[],ticker=null;

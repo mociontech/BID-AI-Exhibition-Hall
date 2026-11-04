@@ -8,7 +8,7 @@ window.ProjectModule={
       es:{information:'Información',game:'Minijuego',home:'Inicio',loading:'Preparando el centro de control…'},
       en:{information:'Information',game:'Mini game',home:'Home',loading:'Preparing the control center…'}
     };
-    let state={language:'es',mode:'landing',informationActive:false,infoCtaActive:false,game:null};
+    let state={language:'en',mode:'landing',informationActive:false,infoCtaActive:false,game:null};
     const words=()=>landingCopy[state.language];
     const freshGame=()=>({phase:'intro',playerId:'valentina',playerName:'',hour:16,scenarioIndex:0,actionId:null,results:{}});
     const infoImages=window.BOGOTA_TRAFFIC.INFO_IMAGES;

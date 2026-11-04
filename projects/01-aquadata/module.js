@@ -5,7 +5,7 @@ window.ProjectModule={
   const cover={es:'./assets/es/01_Pantalla_Principal.png',en:'./assets/en/01_Main_Screen.png'};
   const words={es:{info:'Ver ficha técnica',game:'Detective del Agua',home:'Inicio',back:'Volver',start:'Comenzar misión',confirm:'Confirmar inspecciones',again:'Jugar de nuevo',menu:'Volver al menú AquaData'},en:{info:'View technical sheet',game:'Water Detective',home:'Home',back:'Back',start:'Start mission',confirm:'Confirm inspections',again:'Play again',menu:'Return to AquaData menu'}};
   let contracts=[],outcomes=new Map(),unlockTimer=null,flowTimer=null;
-  let state={language:'es',mode:'landing',step:1,p1:[],p2:[],analysisReady:false};
+  let state={language:'en',mode:'landing',step:1,p1:[],p2:[],analysisReady:false};
   const t=()=>words[state.language], chosen=()=>state.step===2?state.p1:state.p2;
   const result=list=>list.filter(id=>outcomes.get(id)===true).length;
   const payload=()=>({step:state.step,p1:state.p1,p2:state.p2,p1Result:result(state.p1),p2Result:result(state.p2)});

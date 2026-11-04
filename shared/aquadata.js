@@ -14,7 +14,7 @@
     {index:9,files:{es:'09_Mensaje_Final.png',en:'09_Final_Message.png'},labels:{es:'Mensaje Final',en:'Final Message'}}
   ];
   function screen(index){return screens.find(item=>item.index===Number(index))||screens[0];}
-  function imagePath(index,language){const item=screen(index);const lang=language==='en'?'en':'es';return `${root}${lang}/${item.files[lang]}`;}
+  function imagePath(index,language){const item=screen(index);const lang=language==='es'?'es':'en';return `${root}${lang}/${item.files[lang]}`;}
   function technicalSheetPath(language){
     return language==='en'
       ? 'projects/01-aquadata/ahorasi/AquaData_ Inteligencia para el Agua.png'

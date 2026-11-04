@@ -9,7 +9,7 @@ window.ProjectModule={
   const legacyGame=new URLSearchParams(location.search).get('legacy')==='1';
   const gameUrl=legacyGame?'./Codex_Paquete_CR_Smart_Borders_VUCE/Codex_Paquete_CR_Smart_Borders_VUCE/03_HTML_BASE/prototipo_actual_V5.html':'./game/index.html';
   let timer=null;
-  let state={language:'es',screen:'home',displayMode:'landing',gameReady:false};
+  let state={language:'en',screen:'home',displayMode:'landing',gameReady:false};
   function packet(){const isGame=state.screen==='game',mode=isGame?'game':state.displayMode;return {view:isGame?'game':'project',projectId:'03',section:mode,language:state.language,mode,screenIndex:isGame?3:(mode==='landing'?1:2),game:null};}
   function cancelTimer(){if(timer){clearTimeout(timer);timer=null;}}
   function render(){mount.innerHTML=state.screen==='game'?game():home();bind();}
@@ -25,7 +25,7 @@ window.ProjectModule={
    frame.addEventListener('load',()=>{
     const doc=frame.contentDocument;
     if(!doc)return;
-    doc.getElementById(state.language==='en'?'en':'es')?.click();
+    doc.getElementById(state.language==='es'?'es':'en')?.click();
     doc.addEventListener('click',event=>{
      const control=event.target.closest('button');
      if(!control)return;
@@ -44,7 +44,7 @@ window.ProjectModule={
    mount.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{const action=button.dataset.action;if(action==='information')startInformation();if(action==='game')openGame();if(action==='menu')returnToMenu();if(action==='home')void goExhibitionHome();});
    const frame=mount.querySelector('.crb-prototype iframe');if(frame)connectGame(frame);
   }
-  try{const remote=await sync.read();if(remote?.projectId==='03'){state.language=remote.language==='en'?'en':'es';if(remote.mode==='game')state={...state,screen:'game',displayMode:'game',gameReady:true};else if(remote.mode==='cta')state={...state,displayMode:'cta',gameReady:true};else if(remote.mode==='info'){state={...state,displayMode:'info',gameReady:false};timer=setTimeout(unlockGame,10000);}}}catch{}
+  try{const remote=await sync.read();if(remote?.projectId==='03'){state.language=remote.language==='es'?'es':'en';if(remote.mode==='game')state={...state,screen:'game',displayMode:'game',gameReady:true};else if(remote.mode==='cta')state={...state,displayMode:'cta',gameReady:true};else if(remote.mode==='info'){state={...state,displayMode:'info',gameReady:false};timer=setTimeout(unlockGame,10000);}}}catch{}
   render();void sync.send(packet());
  }
 };
