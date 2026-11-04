@@ -7,14 +7,13 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
  let timer=null,heartbeat=null,leaving=false,pending=0,dirty=false,reading=false,feedbackKey=null,cursor=[.5,.5];
  let stroke=null,strokeTimer=null;
  const now=()=>sync.now();
- function connection(ok){const el=mount.querySelector('.mai-network');if(el)el.hidden=ok;}
  async function publish(){dirty=true;pending++;const snapshot=JSON.stringify(state);
-  try{const response=await sync.send(state);if(response?.ok&&snapshot===JSON.stringify(state))dirty=false;connection(!dirty);return response;}
+  try{const response=await sync.send(state);if(response?.ok&&snapshot===JSON.stringify(state))dirty=false;return response;}
   finally{pending--;}
  }
  function feedback(key){feedbackKey=key;const el=mount.querySelector('.mai-feedback');if(el)el.textContent=api.words[state.language][key]||'';}
  function render(){const active=document.activeElement,selector=active?.dataset.language?`[data-language="${active.dataset.language}"]`:active?.dataset.action?`[data-action="${active.dataset.action}"]`:active?.dataset.candidate?`[data-candidate="${active.dataset.candidate}"]`:active?.matches('[data-map]')?'[data-map]':null;
-  api.renderInto(mount,state);if(selector)mount.querySelector(selector)?.focus({preventScroll:true});connection(!dirty);if(feedbackKey)feedback(feedbackKey);
+  api.renderInto(mount,state);if(selector)mount.querySelector(selector)?.focus({preventScroll:true});if(feedbackKey)feedback(feedbackKey);
  }
  function arm(){clearTimeout(timer);if(leaving)return;const g=state.game;
   // The scan deadline lives in the shared snapshot. Reloading or changing language
@@ -102,9 +101,7 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
   const b=event.target.closest('button');if(!b||b.disabled||leaving)return;
   if(b.dataset.language)return update({language:b.dataset.language});
   if(stroke)cancelStroke();const action=b.dataset.action,g=state.game;
-  if(action==='retry')return publish();
   if(action==='fullscreen'){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{feedback('fullError');}return;}
-  if(action==='home'){leaving=true;clearTimeout(timer);clearInterval(heartbeat);await sync.send({view:'home',projectId:null,mode:null,section:null,language:state.language,game:null});return location.assign('/index.html'+sync.stationQuery+'&projects=1');}
   if(action==='menu')return update({view:'project',mode:'landing',game:S.fresh()});
   if(action==='information'){if(state.mode==='info')return;return update({mode:'info',view:'project',game:{...g,ready:true,unlockAt:0}});}
   if(action==='game'||action==='replay')return update({view:'game',mode:'game',game:S.fresh(true)});

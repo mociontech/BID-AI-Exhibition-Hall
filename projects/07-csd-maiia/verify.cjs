@@ -57,7 +57,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  await fits(tablet,'menu 1180×820');await shot(tablet,'tablet-menu-es');
  assert.equal(await tablet.locator('.mai-hero-caption').count(),0);checks.push('tablet landing map has no overlapping blue caption');
  await tablet.keyboard.press('Tab');assert.equal(await tablet.evaluate(()=>document.activeElement.tagName),'BUTTON');
- const targets=await tablet.locator('.mai-header button,.mai-option,.mai-footer button').evaluateAll(nodes=>nodes.map(n=>({w:n.getBoundingClientRect().width,h:n.getBoundingClientRect().height})));
+ const targets=await tablet.locator('.mai-header button,.mai-option,.mai-footer :is(button,a)').evaluateAll(nodes=>nodes.map(n=>({w:n.getBoundingClientRect().width,h:n.getBoundingClientRect().height})));
  assert.ok(targets.every(t=>t.w>=44&&t.h>=44));checks.push('keyboard focus and 44px touch targets');
  await tablet.setViewportSize({width:1024,height:768});await fits(tablet,'menu 1024×768');
  await click('information');await tv.waitForSelector('.mai-infographic');
