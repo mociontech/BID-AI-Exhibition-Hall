@@ -8,7 +8,7 @@ window.ProjectModule={
       es:{information:'Información',game:'Minijuego',home:'Inicio',loading:'Preparando el centro de control…'},
       en:{information:'Information',game:'Mini game',home:'Home',loading:'Preparing the control center…'}
     };
-    let state={language:'es',mode:'landing',informationActive:false,infoCtaActive:false,game:null};
+    let state={language:'en',mode:'landing',informationActive:false,infoCtaActive:false,game:null};
     const words=()=>landingCopy[state.language];
     const freshGame=()=>({phase:'intro',playerId:'valentina',playerName:'',hour:16,scenarioIndex:0,actionId:null,results:{}});
     const infoImages=window.BOGOTA_TRAFFIC.INFO_IMAGES;
@@ -47,7 +47,7 @@ window.ProjectModule={
     function landing(){
       const copy=words();
       const artwork=`./assets/TABLET/PredictToDo_Pantalla_Inicio_${state.language==='es'?'ES':'EN'}.png`;
-      return `<main class="traffic-approved-landing"><img class="traffic-approved-landing-art" src="${artwork}" alt="" aria-hidden="true"><nav class="traffic-approved-landing-actions" aria-label="PredictToDo"><button type="button" class="traffic-landing-hit traffic-landing-hit--es" data-language="es" aria-label="Español"></button><button type="button" class="traffic-landing-hit traffic-landing-hit--en" data-language="en" aria-label="English"></button><button type="button" class="traffic-landing-hit traffic-landing-hit--overview" data-action="information" aria-label="${copy.information}"></button><button type="button" class="traffic-landing-hit traffic-landing-hit--game" data-action="open-game" aria-label="${copy.game}"></button><button type="button" class="traffic-landing-hit traffic-landing-hit--home" data-action="home" aria-label="${copy.home}"></button></nav></main>`;
+      return `<main class="traffic-approved-landing">${AI_ARTWORK(`${artwork}`,`class="traffic-approved-landing-art"  alt="" aria-hidden="true"`)}<nav class="traffic-approved-landing-actions" aria-label="PredictToDo"><button type="button" class="traffic-landing-hit traffic-landing-hit--es" data-language="es" aria-label="Español"></button><button type="button" class="traffic-landing-hit traffic-landing-hit--en" data-language="en" aria-label="English"></button><button type="button" class="traffic-landing-hit traffic-landing-hit--overview" data-action="information" aria-label="${copy.information}"></button><button type="button" class="traffic-landing-hit traffic-landing-hit--game" data-action="open-game" aria-label="${copy.game}"></button><button type="button" class="traffic-landing-hit traffic-landing-hit--home" data-action="home" aria-label="${copy.home}"></button></nav></main>`;
     }
     function render(){
       if(state.mode==='landing')mount.innerHTML=landing();

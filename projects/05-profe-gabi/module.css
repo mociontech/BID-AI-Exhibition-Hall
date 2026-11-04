@@ -17,3 +17,8 @@
 .gabi-info-heading{position:relative;overflow:hidden}.gabi-info-heading>:not(.gabi-info-photo){position:relative;z-index:1;max-width:70%}.gabi-info-photo{position:absolute;right:-1px;top:0;bottom:0;width:42%;border-radius:0 18px 18px 80px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 35%)}
 .gabi-info-view .gabi-content{padding-top:10px;padding-bottom:12px}
 @media(min-width:1200px){.gabi-info-view .gabi-info-heading{padding-bottom:18px}.gabi-info-view .gabi-info-heading h1{font-size:64px}.gabi-info-view .gabi-info-heading>p:last-child{font-size:27px}.gabi-info-view .gabi-info-heading .gabi-eyebrow{font-size:16px;margin-bottom:8px!important}.gabi-info-view .gabi-sheet{padding:20px}.gabi-info-view .gabi-sheet p{font-size:21px}.gabi-info-view .gabi-info-intro .gabi-sheet{gap:16px}.gabi-info-view .gabi-sheet-icon svg{width:40px;height:40px}.gabi-info-view .gabi-flow{margin-top:8px;margin-bottom:12px}.gabi-info-view .gabi-flow>div{padding:18px 12px;gap:15px}.gabi-info-view .gabi-flow>div svg{width:54px;height:54px}.gabi-info-view .gabi-metrics>div{padding:14px 15px}}
+
+/* English group lockup and updated event name. */
+.gabi-brand img{width:clamp(130px,13vw,210px);height:auto;max-height:54px;object-fit:contain;flex-shrink:0;background:white;border-radius:2px}
+.gabi-brand small{max-width:310px;white-space:normal;line-height:1.25}
+@media(max-width:1100px){.gabi-brand{gap:12px}.gabi-brand small{max-width:245px;font-size:11px}}
