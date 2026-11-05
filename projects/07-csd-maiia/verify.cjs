@@ -51,7 +51,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
   await waitRemote(s=>s.game.draft.length===0&&s.game.polygons.length===before+(cancel?0:1));
  }
  async function waitRemote(predicate){for(let i=0;i<100;i++){const s=await remote();if(predicate(s))return s;await tablet.waitForTimeout(80);}throw Error('Remote state did not converge');}
- await tv.goto(base+'/display.html?station=7');await tablet.goto(base+'/index.html?station=7');await tablet.waitForSelector('.mai-landing');
+ await tv.goto(base+'/display.html?station=7');await tablet.goto(base+'/projects/07-csd-maiia/index.html?station=7');await tablet.waitForSelector('.mai-landing');
  assert.match(tablet.url(),/07-csd-maiia/);assert.equal(await tablet.locator('[data-action=game]').isEnabled(),true);assert.equal(await tablet.locator('[data-action=information]').isEnabled(),true);
  await click('game');await phase('intro');await click('menu');await tablet.waitForSelector('.mai-landing');checks.push('mini-game opens immediately without viewing information, including a restored legacy locked state');
  await fits(tablet,'menu 1180×820');await shot(tablet,'tablet-menu-es');

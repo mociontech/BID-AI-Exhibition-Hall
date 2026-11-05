@@ -6,7 +6,7 @@ Experiencia bilingüe integrada en la arquitectura existente. La tableta control
 
 Ejecuta `npm start` desde la raíz del repositorio y abre:
 
-- Tableta: `http://localhost:4173/index.html?station=6`.
+- Tableta: `http://localhost:4173/projects/06-reglac/index.html?station=6`.
 - TV: `http://localhost:4173/display.html?station=6`.
 - Menú general: `http://localhost:4173/index.html?station=6&projects=1`.
 

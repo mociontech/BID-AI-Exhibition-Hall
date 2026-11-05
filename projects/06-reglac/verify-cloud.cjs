@@ -20,7 +20,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   const both=async selector=>{await tablet.waitForSelector(selector,{timeout:20000});await tv.waitForSelector(selector,{timeout:20000});};
   const remote=async()=>{const v=await raw(6);return JSON.parse(v.payload);};
   async function waitRemote(test){const end=Date.now()+20000;while(Date.now()<end){const s=await remote();if(test(s))return s;await new Promise(r=>setTimeout(r,200));}throw Error('Firebase state did not converge');}
-  await tv.goto(base+'/display.html?station=6');await tablet.goto(base+'/index.html?station=6');await both('.rl-landing');
+  await tv.goto(base+'/display.html?station=6');await tablet.goto(base+'/projects/06-reglac/index.html?station=6');await both('.rl-landing');
   assert.equal(await tablet.locator('[data-action="game"]').isDisabled(),true);await waitRemote(s=>s.mode==='landing');
   await click('information');await tv.waitForSelector('.rl-information[data-language="es"]');
   await tablet.locator('[data-language="en"]').click();await tv.waitForSelector('.rl-information[data-language="en"]');

@@ -22,7 +22,7 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
    assert.equal(url.origin,origin);const response=await route.fetch({url:base+url.pathname+url.search});return route.fulfill({response});
   });
   const tablet=await a.newPage(),tv=await b.newPage();for(const p of [tablet,tv])p.on('pageerror',e=>errors.push(e.message));
-  await tv.goto(origin+'/display.html?station=7');await tablet.goto(origin+'/index.html?station=7');
+  await tv.goto(origin+'/display.html?station=7');await tablet.goto(origin+'/projects/07-csd-maiia/index.html?station=7');
   await tablet.waitForSelector('.mai-phase-easy');await tv.waitForSelector('.mai-phase-easy');
   const click=action=>tablet.locator(`[data-action="${action}"]`).first().click();
   const at=async p=>{const r=await tablet.locator('[data-map]').boundingBox();return {x:r.x+p[0]*r.width,y:r.y+p[1]*r.height};};

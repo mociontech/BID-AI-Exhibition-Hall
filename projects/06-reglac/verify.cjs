@@ -18,7 +18,7 @@ const S=require('./state.js');
  async function waitState(phase){await tablet.waitForFunction(p=>document.querySelector('.rl-phase-'+p),phase);await tv.waitForFunction(p=>document.querySelector('.rl-phase-'+p),phase);}
  async function fits(page,label){const d=await page.evaluate(()=>({w:innerWidth,h:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}));assert.ok(d.sw<=d.w+1&&d.sh<=d.h+1,label+' '+JSON.stringify(d));checks.push(label);}
  async function shot(page,name){await page.screenshot({path:path.join(out,name+'.png'),fullPage:true});}
- await tv.goto(base+'/display.html?station=6');await tablet.goto(base+'/index.html?station=6');
+ await tv.goto(base+'/display.html?station=6');await tablet.goto(base+'/projects/06-reglac/index.html?station=6');
  await tablet.waitForSelector('.rl-landing');assert.match(tablet.url(),/projects\/06-reglac/);
  assert.equal(await tablet.locator('[data-action="game"]').isDisabled(),true);await fits(tablet,'landing 1180x820');await shot(tablet,'tablet-main-es');
  await tablet.keyboard.press('Tab');assert.equal(await tablet.evaluate(()=>document.activeElement.tagName),'BUTTON');
