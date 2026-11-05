@@ -121,7 +121,16 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  checks.push('activation is a separate synchronized step after manual results; reload retains it; no scan or answer reveal before the explicit activation');
  await click('activate');await phase('analysis');await shot(tv,'tv-analysis-es');
  const analysisAt=(await remote()).game.analysisAt;await tablet.reload();await tablet.waitForSelector('.mai-phase-analysis');assert.equal((await remote()).game.analysisAt,analysisAt);
- assert.equal(await tablet.locator('.mai-scanning').count(),0);assert.equal(await tv.locator('.mai-scanning').count(),1);
+ for(const page of [tablet,tv]){
+  assert.equal(await page.locator('.mai-scanning,.mai-scan-grid,.mai-scan-line,.mai-analysis-progress').count(),4);
+  assert.equal(await page.locator('.mai-candidate').count(),config.hard.candidates.length);
+  assert.equal(await page.locator('[data-map],[data-candidate]').count(),0);
+  const clock=await page.locator('.mai-scan-line').evaluate(el=>({delay:parseFloat(getComputedStyle(el).animationDelay)*1000,elapsed:parseFloat(el.closest('.mai-app').style.getPropertyValue('--elapsed')),time:el.getAnimations()[0].currentTime}));
+  assert.ok(Math.abs(clock.delay-clock.elapsed)<2);assert.ok(clock.time>=0);
+ }
+ const scanTime=await tablet.locator('.mai-scan-line').evaluate(el=>el.getAnimations()[0].currentTime);
+ await tablet.waitForTimeout(100);assert.ok(await tablet.locator('.mai-scan-line').evaluate(el=>el.getAnimations()[0].currentTime)>scanTime);
+ await shot(tablet,'tablet-analysis-es');checks.push('tablet and TV both animate the scan, reveal the same suggestions and show progress from the shared deadline; tablet scan resumes after reload');
  await phase('assisted');assert.ok(Date.now()-analysisAt>=3900);assert.equal(await tablet.locator('.mai-map image').getAttribute('href'),mapBefore);
  await fits(tablet,'assisted 1180×820');await fits(tv,'assisted TV');
  // Exercise all candidate toggles, then retain three true and one false area.
