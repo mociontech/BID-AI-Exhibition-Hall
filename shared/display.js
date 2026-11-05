@@ -5,27 +5,30 @@ const sync=AI_SYNC;
 const topics={what:'What It Is & the Problem',solution:'The Solution',ai:'How AI Is Used',results:'Results & Key Figures',users:'Who Uses It / Who Benefits','before-after':'Before & After'};
 let last='';let busy=false;
 Object.values(BOGOTA_TRAFFIC.INFO_IMAGES).forEach(src=>{const image=new Image();image.src=src;});
+let aquaData=null,aquaDataLoading=false;
 function renderAquaData(data){
  const language=data.language==='es'?'es':'en';
+ const V=window.AQUADATA_VISUAL;
+ if(!V){app.innerHTML='<main class="aqd-loading">AquaData…</main>';return;}
+ if(!aquaData){
+  if(!aquaDataLoading){aquaDataLoading=true;V.load().then(loaded=>{aquaData=loaded;last='';}).catch(()=>{aquaDataLoading=false;});}
+  app.innerHTML='<main class="aqd-loading">AquaData…</main>';
+  return;
+ }
+ const game=data.game||{step:1,p1:[],p2:[]};
+ const opts={data:aquaData,station:sync.station};
  if(data.mode==='game'){
-  const game=data.game||{step:1};
-  const image=AQUADATA.gameReferencePath(game.step,language);
-  const progress=game.step===3?'<span class="aqua-display-progress" aria-hidden="true"><i></i></span>':'';
-  app.innerHTML=`<main class="aquadata-display aquadata-game-display" aria-label="AquaData Detective del Agua">${AI_ARTWORK(`${image}`,`class="aquadata-display-image"  alt="AquaData Detective del Agua"`)}${progress}</main>`;
+  // TV guide: context for the current stage plus the call to action for the tablet.
+  app.innerHTML=V.renderTv({language,mode:'game',step:game.step,p1:game.p1||[],p2:game.p2||[]},opts);
   return;
  }
  if(data.mode==='info'||data.mode==='cta'){
+  // Technical sheet with the project synopsis panel and the call to action.
   const sheet=AQUADATA.technicalSheetPath(language);
-  if(data.mode==='cta'){
-   const copy=language==='en'
-    ? {eyebrow:'AQUADATA ? NEXT STEP',title:'The mini-game is now available',body:'Return to the tablet and experience how AI helps prioritize inspections.'}
-    : {eyebrow:'AQUADATA ? SIGUIENTE PASO',title:'El minijuego ya est? disponible',body:'Regresa a la tableta y vive c?mo la IA ayuda a priorizar inspecciones.'};
-   app.innerHTML=`<main class="aquadata-display aquadata-display--cta" aria-label="AquaData technical sheet">${AI_ARTWORK(`${sheet}`,`class="aquadata-display-image"  alt="AquaData technical sheet"`)}<section class="aqua-cta-overlay" aria-live="polite"><div class="aqua-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="aqua-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
-  }else app.innerHTML=`<main class="aquadata-display" aria-label="AquaData technical sheet">${AI_ARTWORK(`${sheet}`,`class="aquadata-display-image"  alt="AquaData technical sheet"`)}</main>`;
+  app.innerHTML=`<main class="aquadata-display aquadata-display--info" aria-label="AquaData technical sheet">${AI_ARTWORK(`${sheet}`,`class="aquadata-display-image"  alt="AquaData technical sheet"`)}${V.renderTv({language,mode:'info'},opts)}</main>`;
   return;
  }
- const image=AQUADATA.imagePath(1,language);
- app.innerHTML=`<main class="aquadata-display" aria-label="AquaData large display">${AI_ARTWORK(`${image}`,`class="aquadata-display-image"  alt="AquaData"`)}</main>`;
+ app.innerHTML=V.renderTv({language,mode:'landing'},opts);
 }
 function renderBogotaTraffic(data){
  const language=data.language==='es'?'es':'en';

@@ -116,7 +116,7 @@ const server=http.createServer((req,res)=>{
       const p1=cleanSelection(payload.game.p1),p2=cleanSelection(payload.game.p2);
       if(!p1||!p2)return sendJson(res,400,{error:'Invalid game selections'});
       const result=value=>Number.isInteger(value)&&value>=0&&value<=3?value:null;
-      const p1Result=result(payload.game.p1),p2Result=result(payload.game.p2);
+      const p1Result=result(payload.game.p1Result),p2Result=result(payload.game.p2Result);
       if(p1Result===null||p2Result===null)return sendJson(res,400,{error:'Invalid game results'});
       game={step:payload.game.step,p1,p2,p1Result,p2Result};
      }
