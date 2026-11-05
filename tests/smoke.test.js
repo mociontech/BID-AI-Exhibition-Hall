@@ -73,19 +73,24 @@ test('PredictToDo uses only its approved bilingual information pair',()=>{
  assert.match(context.window.BOGOTA_TRAFFIC.infoImagePath('en'),/PredictToDo_Infografia_TV_EN_1920x1080\.png$/);
  assert.match(context.window.BOGOTA_TRAFFIC.SATELLITE_MAP_IMAGE,/PredictToDo_Mapa_Satelital_Simulado\.png$/);
  const controller=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','module.js'),'utf8');
- assert.match(controller,/data-action="information"/);
+ const visual=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','visual.js'),'utf8');
+ assert.match(controller,/PREDICTTODO_VISUAL\.landing/);
+ assert.ok(fs.existsSync(path.join(root,'projects','02-bogota-traffic-prediction','predicttodoImages','fondoprincipal.png')));
+ assert.match(visual,/fondoprincipal\.png/);
+ assert.match(visual,/data-action="information"/);
+ assert.match(visual,/data-action="open-game"/);
+ assert.match(visual,/data-action="back-information"/);
  assert.doesNotMatch(controller,/traffic-reference-grid/);
 });
 
-test('PredictToDo presents a bilingual mini-game CTA after the information pause',()=>{
+test('PredictToDo keeps information ungated and announces game entry unobtrusively',()=>{
  const controller=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','module.js'),'utf8');
  const display=fs.readFileSync(path.join(root,'shared','display.js'),'utf8');
- assert.match(controller,/infoTimer/);
- assert.match(controller,/},10000\)/);
- assert.match(controller,/infoCtaActive/);
- assert.match(display,/PREDICTTODO .* SIGUIENTE PASO/);
- assert.match(display,/The mini-game is now available/);
- assert.match(display,/data\.mode==='cta'/);
+ assert.doesNotMatch(controller,/infoTimer|infoCtaActive|10000|90000/);
+ assert.match(controller,/mode:state\.informationActive\?'overview':state\.mode/);
+ assert.match(display,/PREDICTTODO_INSIGHTS\.information/);
+ assert.match(display,/PREDICTTODO_INSIGHTS\.gameView/);
+ assert.doesNotMatch(display,/bogota-cta-overlay/);
 });
 
 test('PredictToDo game data has four configurable simulated scenarios',()=>{
@@ -102,13 +107,13 @@ test('PredictToDo game data has four configurable simulated scenarios',()=>{
  assert.match(controller,/'final'/);
 });
 
-test('Pulso Vial offers role-aware decisions and a shared command-center renderer',()=>{
+test('Pulso Vial offers role-aware decisions in the project 02 renderer',()=>{
  const game=JSON.parse(fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','GAME_DATA.json'),'utf8'));
  assert.equal(game.characters.length,4);
  assert.ok(game.characters.every(person=>person.bonus?.action&&person.bonus.points>0));
  assert.ok(game.scenarios.every(item=>item.brief_es&&item.clue_es&&item.effects?.signals&&item.effects?.monitor));
  const context={window:{}};
- vm.runInNewContext(fs.readFileSync(path.join(root,'shared','pulse-vial.js'),'utf8'),context);
+ vm.runInNewContext(fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','pulse-vial.js'),'utf8'),context);
  const gameState={phase:'decision',playerId:'andres',playerName:'Daniela',hour:17,scenarioIndex:1,actionId:'agents',results:{}};
  const screen=context.window.PULSE_VIAL.render({data:game,game:gameState,language:'es',readonly:false});
  assert.match(screen,/pulse-city-map/);
@@ -135,7 +140,19 @@ test('Pulso Vial offers role-aware decisions and a shared command-center rendere
  assert.match(screen,/data-hour/);
  assert.match(screen,/data-action-choice="agents"/);
  assert.match(screen,/Aplicar decisión/);
- assert.equal(context.window.PULSE_VIAL.roleScore(game,gameState,game.scenarios[1],'agents'),100);
+  assert.equal(context.window.PULSE_VIAL.roleScore(game,gameState,game.scenarios[1],'agents'),100);
+  const oneResult={...gameState,results:{1:100}};
+  const result=context.window.PULSE_VIAL.render({data:game,game:{...oneResult,phase:'result'},language:'en',readonly:false});
+  assert.match(result,/data-action="choose-event"/);
+  assert.match(result,/data-action="finish-session"/);
+  assert.match(result,/data-action="exit-game"/);
+  const explore=context.window.PULSE_VIAL.render({data:game,game:{...oneResult,phase:'explore',actionId:null},language:'en',readonly:false});
+  assert.equal((explore.match(/data-scenario="\d"/g)||[]).length,4);
+  assert.doesNotMatch(explore,/data-scenario="\d" disabled/);
+  const final=context.window.PULSE_VIAL.render({data:game,game:{...oneResult,phase:'final',actionId:null},language:'en',readonly:false});
+  assert.match(final,/100<small>\/100<\/small>/);
+  assert.equal((final.match(/<article>/g)||[]).length,1);
+  assert.match(final,/data-action="resume-events"/);
 });
 
 test('Costa Rica Smart Borders ships the redesigned bilingual mini-game and keeps the TV on the information sheet',()=>{

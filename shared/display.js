@@ -32,13 +32,7 @@ function renderBogotaTraffic(data){
  const screenIndex=Number.isInteger(data.screenIndex)?data.screenIndex:1;
  const screen=BOGOTA_TRAFFIC.screen(screenIndex);
  const image=BOGOTA_TRAFFIC.imagePath(screen.index,language);
- if(data.mode==='cta'){
-  const copy=language==='en'
-   ? {eyebrow:'PREDICTTODO ? NEXT STEP',title:'The mini-game is now available',body:'Return to the tablet and explore how anticipating congestion can support human decisions.'}
-   : {eyebrow:'PREDICTTODO ? SIGUIENTE PASO',title:'El minijuego ya est? disponible',body:'Regresa a la tableta y explora c?mo anticipar la congesti?n puede apoyar decisiones humanas.'};
-  app.innerHTML=`<main class="bogota-display bogota-display--cta" aria-label="Bogot? Traffic Prediction information">${AI_ARTWORK(`${image}`,`class="bogota-display-image"  alt="Bogot? Traffic Prediction: ${screen.labels[language]}"`)}<section class="bogota-cta-overlay" aria-live="polite"><div class="bogota-cta-card"><p>${copy.eyebrow}</p><h1>${copy.title}</h1><div class="bogota-cta-arrow" aria-hidden="true">?</div><span>${copy.body}</span></div></section></main>`;
-  return;
- }
+ if(window.PREDICTTODO_INSIGHTS){app.innerHTML=window.PREDICTTODO_INSIGHTS.information({language,image,label:`PredictToDo: ${screen.labels[language]}`});return;}
  app.innerHTML=`<main class="bogota-display" aria-label="Bogot? Traffic Prediction large display">${AI_ARTWORK(`${image}`,`class="bogota-display-image"  alt="Bogot? Traffic Prediction: ${screen.labels[language]}"`)}</main>`;
 }
 const COSTA_RICA_ART={
@@ -96,14 +90,14 @@ function renderBogotaGame(data){
  else panel=`<section class="pulse-final"><span>??</span><p class="pulse-eyebrow">${gameCopy.finish}</p><h1>${total}<small>/400</small></h1><p>${language==='en'?'Anticipating congestion supports better-informed planning.':'Anticipar la congesti?n permite planificar con mejor informaci?n.'}</p><div>${(bogotaGameData?.scenarios||[]).map((item,index)=>`<p><b>${index+1}. ${item[`title_${language}`]}</b><span>${game.results?.[index]||0} ${gameCopy.score.toLowerCase()}</span></p>`).join('')}</div><button type="button" class="pulse-primary">${gameCopy.restart} ?</button></section>`;
  app.innerHTML=`<main class="pulse-game pulse-game--display" aria-label="PredictToDo game mirror">${header}${panel}</main>`;
 }
-/* The command-center game is rendered from the same shared template as the
-   tablet. The display has no active controls, but mirrors every selection. */
+/* Project 02 TV guidance follows the tablet's existing game state. */
 function renderBogotaGame(data){
  const language=data.language==='es'?'es':'en';
  if(!bogotaGameData||!window.PULSE_VIAL){
   app.innerHTML='<main class="pulse-command pulse-command--loading"><p>Loading PredictToDo?</p></main>';
   return;
  }
+ if(window.PREDICTTODO_INSIGHTS){app.innerHTML=window.PREDICTTODO_INSIGHTS.gameView({data:bogotaGameData,game:data.game||{},language,station:sync.station});return;}
  window.PULSE_VIAL.renderInto(app,{data:bogotaGameData,game:data.game||{},language,readonly:true});
 }
 function renderDefault(data){
@@ -144,6 +138,10 @@ function render(data){
  if(isBogotaTraffic)return renderBogotaTraffic(data);
  const isBogotaGame=data?.projectId==='02'&&data?.view==='game';
  if(isBogotaGame)return renderBogotaGame(data);
+ if(data?.projectId==='02'&&data?.view==='project'&&window.PREDICTTODO_VISUAL){
+  app.innerHTML=window.PREDICTTODO_VISUAL.landing(data.language,{station:sync.station,readonly:true});
+  return;
+ }
  renderDefault(data);
 }
 async function tick(){
