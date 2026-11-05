@@ -1,0 +1,132 @@
+{
+  "archive": "Maiia.zip",
+  "note": "Original approved PNGs, extracted without resizing, recompression or pixel edits.",
+  "files": [
+    {
+      "file": "Frame 11.png",
+      "source": "Frame 11.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "7f09eaccb8cf11affc13b17ec8a00124cee4726ab200dabe7bcc59b1f3ca4f2e"
+    },
+    {
+      "file": "Frame 22.png",
+      "source": "Frame 22.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "b03690a22bdb4825d22d632cb56968d1fdc4cfa2600fb8aa826c2430d8d3a9be"
+    },
+    {
+      "file": "Frame 23.png",
+      "source": "Frame 23.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "e78b21cb34073ac13f958b9708aacd8bd8999d9082aab21d780baf9da89f4056"
+    },
+    {
+      "file": "Frame 24.png",
+      "source": "Frame 24.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "b389bacef00670e93fed598bf2917c45383dfd983b70d8c067c8643b5ebcc04d"
+    },
+    {
+      "file": "Frame 25.png",
+      "source": "Frame 25.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "0faacc474d9f04b7d137d56188ada8e116a92445f9b804aa52a843c8c236d08d"
+    },
+    {
+      "file": "Frame 26.png",
+      "source": "Frame 26.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "ce816e283a7aadd7dbcba6e53977e9f7c5c74296d4a8105ec5ec123a730a5c20"
+    },
+    {
+      "file": "Frame 27.png",
+      "source": "Frame 27.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "39a581aa24b6688f046891e7ddd0848c244d2d43f796a4c7ed1699deaec7205a"
+    },
+    {
+      "file": "Frame 28.png",
+      "source": "Frame 28.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "b59cd852b19cbd5480566f0408c5290e411d7f2daa420011313a382f762c8eba"
+    },
+    {
+      "file": "Frame 29.png",
+      "source": "Frame 29.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "15af47beefd683c23eeb516559ce461909e274419e73bcf055ae0c7138da4d9e"
+    },
+    {
+      "file": "Frame 3.png",
+      "source": "Frame 3.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "e58dd7c783ae971d7133d9ddbec447a73243412f207d6d91d0e3cd65df3bc129"
+    },
+    {
+      "file": "Frame 30.png",
+      "source": "Frame 30.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "111f0f746acebb2338eeddc8af070f971a4ff3e57516521de1110a35aabda4c0"
+    },
+    {
+      "file": "Frame 31.png",
+      "source": "Frame 31.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "feffac01d962bc2a517131e1b0c4664fefff3c3990e6cebc1d9578e38681507b"
+    },
+    {
+      "file": "Frame 32.png",
+      "source": "Frame 32.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "082ab04e44445bb0852d0144cb1b48539c727bed264e5f7aedb15079e6c5d8e1"
+    },
+    {
+      "file": "Frame 33.png",
+      "source": "Frame 33.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "90bd67b677688b14a825eb3ffeb1e0b0198b0eacbabfc1fe616d7d49c05d48a1"
+    },
+    {
+      "file": "Frame 4.png",
+      "source": "Frame 4.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "4b619f40d105371122ff2c0775dd54bea3c87808f711021a973033f974132e52"
+    },
+    {
+      "file": "TABLET/ES/00 Portada-1.png",
+      "source": "TABLET/ES/00 Portada-1.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "0bfa7baaeca10a4f9a8432ef3d9b37be02fd8fb299a791872d606ab4c561abea"
+    },
+    {
+      "file": "TABLET/ES/00 Portada-2.png",
+      "source": "TABLET/ES/00 Portada-2.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "78aa890e3078aa0cdc0654bc0dfea7adfe85cfb0cb6807232494821d67b4fc40"
+    },
+    {
+      "file": "TABLET/ES/00 Portada.png",
+      "source": "TABLET/ES/00 Portada.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "0553a1751fec97039b0f69a4fa72822700977d6f4edd173897d475673c21c2b7"
+    }
+  ]
+}

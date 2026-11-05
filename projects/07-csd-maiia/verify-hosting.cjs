@@ -18,6 +18,7 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
    }
    // Other projects import this global stylesheet; MAIIA uses its local font.
    if(url.hostname==='fonts.googleapis.com')return route.fulfill({body:'',contentType:'text/css'});
+   if(url.pathname==='/.netlify/scripts/cdp')return route.fulfill({body:'',contentType:'text/javascript'});
    assert.equal(url.origin,origin);const response=await route.fetch({url:base+url.pathname+url.search});return route.fulfill({response});
   });
   const tablet=await a.newPage(),tv=await b.newPage();for(const p of [tablet,tv])p.on('pageerror',e=>errors.push(e.message));
@@ -44,7 +45,7 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
   await click('review');await tv.waitForSelector('.mai-phase-final');
   assert.equal(await tablet.locator('.mai-final-map .mai-reference').count(),5);assert.equal(await tablet.locator('.mai-answer-selection').count(),3);assert.equal(await tv.locator('.mai-scorecard').count(),2);
   const final=JSON.parse(stored.payload);assert.deepEqual(final.game.assisted,{hits:2,errors:1,score:20});
-  await tablet.locator('[data-language=en]').click();await tv.waitForSelector('[data-language=en]');await tv.reload();await tv.waitForSelector('.mai-phase-final');
+  assert.equal(final.language,'en');await tv.reload();await tv.waitForSelector('.mai-phase-final');
   assert.equal(JSON.parse(stored.payload).game.assisted.score,20);assert.ok(Math.abs(await tv.evaluate(()=>AI_SYNC.now())-Date.now())<1800);
   assert.ok(writes.length>8);assert.ok(requests.some(r=>r.method==='HEAD'));assert.ok(!requests.some(r=>new URL(r.url).pathname==='/api/state'));assert.deepEqual(errors,[]);
   const report={passed:true,transport:'Firebase REST PUT/GET (isolated test)',writeCount:writes.length,checks:['public entry and passive TV','freehand live synchronization','no pre-AI answer reveal','separate activation step survives reload','shared hosting clock with TV skew','assisted selections and actual final score','language and late receiver restoration'],errors};

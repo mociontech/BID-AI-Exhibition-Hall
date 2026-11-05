@@ -99,7 +99,7 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
  });
  mount.addEventListener('click',async event=>{
   const b=event.target.closest('button');if(!b||b.disabled||leaving)return;
-  if(b.dataset.language)return update({language:b.dataset.language});
+  if(b.dataset.language)return;
   if(stroke)cancelStroke();const action=b.dataset.action,g=state.game;
   if(action==='fullscreen'){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{feedback('fullError');}return;}
   if(action==='menu')return update({view:'project',mode:'landing',game:S.fresh()});
@@ -123,8 +123,7 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
   if(action==='activate'&&g.phase==='activation')return setGame({phase:'analysis',analysisAt:now()});
  });
  const remote=await sync.read(),restored=remote?.projectId==='07'?S.sanitize(remote.game,config):null;
- if(restored&&['landing','info','game'].includes(remote.mode))state={...state,mode:remote.mode,view:remote.mode==='game'?'game':'project',game:{...restored,ready:true,unlockAt:0,draft:[]},language:remote.language==='es'?'es':'en'};
- else if(remote?.language==='es')state.language='es';
+ if(restored&&['landing','info','game'].includes(remote.mode))state={...state,mode:remote.mode,view:remote.mode==='game'?'game':'project',game:{...restored,ready:true,unlockAt:0,draft:[]},language:'en'};
  render();void publish();arm();
  heartbeat=setInterval(async()=>{if(leaving||pending||reading||stroke)return;reading=true;try{if(dirty)await publish();else{const latest=await sync.read();if(latest?.projectId!=='07'||latest.language!==state.language||latest.mode!==state.mode||JSON.stringify(latest.game)!==JSON.stringify(state.game))void publish();}}finally{reading=false;}},1500);
  window.addEventListener('pagehide',()=>{cancelStroke();leaving=true;clearTimeout(timer);clearInterval(heartbeat);},{once:true});

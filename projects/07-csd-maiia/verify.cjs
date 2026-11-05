@@ -56,29 +56,29 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  await click('game');await phase('intro');await click('menu');await tablet.waitForSelector('.mai-landing');checks.push('mini-game opens immediately without viewing information, including a restored legacy locked state');
  await fits(tablet,'menu 1180×820');await shot(tablet,'tablet-menu-es');
  assert.equal(await tablet.locator('.mai-hero-caption').count(),0);checks.push('tablet landing map has no overlapping blue caption');
- await tablet.keyboard.press('Tab');assert.equal(await tablet.evaluate(()=>document.activeElement.tagName),'BUTTON');
- const targets=await tablet.locator('.mai-header button,.mai-option,.mai-footer :is(button,a)').evaluateAll(nodes=>nodes.map(n=>({w:n.getBoundingClientRect().width,h:n.getBoundingClientRect().height})));
+ await tablet.keyboard.press('Tab');assert.ok(['A','BUTTON'].includes(await tablet.evaluate(()=>document.activeElement.tagName)));
+ const targets=await tablet.locator('.mai-art-hit').evaluateAll(nodes=>nodes.map(n=>({w:n.getBoundingClientRect().width,h:n.getBoundingClientRect().height})));
  assert.ok(targets.every(t=>t.w>=44&&t.h>=44));checks.push('keyboard focus and 44px touch targets');
  await tablet.setViewportSize({width:1024,height:768});await fits(tablet,'menu 1024×768');
  await click('information');await tv.waitForSelector('.mai-infographic');
  assert.equal(await tablet.locator('.mai-infographic').count(),0);assert.equal(await tablet.locator('.mai-landing').count(),1);
  await fits(tv,'single infographic TV 1920×1080 ES');await shot(tv,'tv-infographic-es');
- await tablet.locator('[data-language=en]').click();await tv.waitForSelector('[data-language=en]');await fits(tv,'single infographic TV EN');await shot(tv,'tv-infographic-en');
+ assert.equal(await tablet.locator('[data-language=en]').count(),1);assert.equal(await tablet.locator('button[data-language]').count(),0);await fits(tv,'single infographic TV EN');await shot(tv,'tv-infographic-en');
  assert.equal(await tablet.locator('[data-action=game]').isEnabled(),true);
  await tablet.reload();await tablet.waitForSelector('.mai-landing');assert.equal((await remote()).game.unlockAt,0);
- await tv.waitForSelector('.mai-infographic');checks.push('information remains optional; both entries stay enabled after language change and reload');
+ await tv.waitForSelector('.mai-infographic');checks.push('information remains optional; both entries stay enabled after legacy Spanish snapshot and reload');
  await click('game');await phase('intro');await fits(tablet,'intro 1024×768');await shot(tablet,'tablet-intro-en');await click('start');await phase('easy');
- assert.match(await tv.locator('.mai-copy h1').textContent(),/informal settlements/);assert.match(await tablet.locator('.mai-controller-heading h1').textContent(),/informal settlements/);
+ assert.match(await tv.locator('.mai-art-title h1').textContent(),/informal settlements/);assert.match(await tablet.locator('.mai-controller-heading h1').textContent(),/informal settlements/);
  await fits(tablet,'drawing 1024×768');await fits(tv,'drawing TV');
  const drawingArea=await tablet.locator('[data-map]').boundingBox();
- assert.ok(drawingArea.width>1024*.85&&drawingArea.height>768*.6);
+ assert.ok(Math.abs(drawingArea.width-1065*1024/1920)<1&&Math.abs(drawingArea.height-600*1024/1920)<1);
  assert.equal(await tablet.locator('.mai-lead,.mai-help,.mai-legend').count(),0);
- checks.push('tablet map occupies more than 85% of viewport width; only compact hint and toolbar');
+ checks.push('tablet map matches the approved artwork coordinate space; transparent controls remain aligned');
  // Reproduce two browser windows side by side, including a narrow CSS
  // viewport as seen with browser zoom. The SVG must never collapse to 0px.
  await tablet.setViewportSize({width:764,height:830});
  await fits(tablet,'split-window tablet 764×830');
- const splitMap=await tablet.locator('[data-map]').boundingBox();assert.ok(splitMap.width>650&&splitMap.height>350);
+ const splitMap=await tablet.locator('[data-map]').boundingBox();assert.ok(splitMap.width>420&&splitMap.height>230);
  assert.equal(await tablet.locator('[data-action=close]').count(),0);
  await draw([[.15,.15],[.35,.15],[.25,.35]],{live:true,closePath:false});await tv.waitForFunction(()=>document.querySelectorAll('.mai-user').length===1);
  await shot(tablet,'tablet-split-window-drawing-en');
@@ -99,15 +99,15 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  assert.ok((await remote()).game.easyScore>=99);await shot(tv,'tv-easy-result-en');
  assert.equal(await tablet.locator('.mai-big-score').count(),0);assert.equal(await tv.locator('.mai-big-score').count(),1);assert.equal(await tablet.locator('.mai-controller-canvas .mai-map').count(),1);
  for(const page of [tablet,tv])assert.equal(await page.locator('.mai-reference').count(),config.easy.reference.length);
- await click('next');await phase('manual');assert.match(await tv.locator('.mai-copy h1').textContent(),/informal settlements/);assert.match(await tablet.locator('.mai-controller-heading h1').textContent(),/informal settlements/);await click('review');assert.equal((await remote()).game.phase,'manual');
+ await click('next');await phase('manual');assert.match(await tv.locator('.mai-art-title h1').textContent(),/informal settlements/);assert.match(await tablet.locator('.mai-controller-heading h1').textContent(),/informal settlements/);await click('review');assert.equal((await remote()).game.phase,'manual');
  await tap(centers[0]);await tap(centers[1]);await tap([.9,.1]);await waitRemote(s=>s.game.markers.length===3);
  await tablet.locator('[data-marker="2"]').click();await waitRemote(s=>s.game.markers.length===2);
  await tap([.9,.1]);await tap([.91,.8]);await tap([.1,.8]);await waitRemote(s=>s.game.markers.length===5);
  await tap([.95,.95]);assert.equal((await remote()).game.markers.length,5);await tv.waitForFunction(()=>document.querySelectorAll('.mai-marker').length===5);
- const before=(await remote()).game.markers;await tablet.locator('[data-language=es]').click();await waitRemote(s=>s.language==='es');assert.deepEqual((await remote()).game.markers,before);
+ const before=(await remote()).game.markers;await tablet.reload();await tablet.waitForSelector('.mai-phase-manual');assert.equal((await remote()).language,'en');assert.deepEqual((await remote()).game.markers,before);
  await tablet.setViewportSize({width:1180,height:820});await fits(tablet,'markers 1180×820');await shot(tablet,'tablet-markers-es');
  const mapBefore=await tablet.locator('.mai-map image').getAttribute('href');
- await click('review');await phase('manualResult');const manual=(await remote()).game.manual;assert.deepEqual(manual,{hits:2,errors:3,score:0});checks.push('marker add/remove, cap five, viewport alignment, real manual score, language preserves progress');
+ await click('review');await phase('manualResult');const manual=(await remote()).game.manual;assert.deepEqual(manual,{hits:2,errors:3,score:0});checks.push('marker add/remove, cap five, viewport alignment, real manual score, reload preserves progress in English');
  for(const page of [tablet,tv]){
   assert.equal(await page.locator('.mai-reference,.mai-candidate,.mai-answer-selection,.mai-reference-key').count(),0);
   assert.equal(await page.locator('.mai-marker').count(),before.length);
@@ -143,7 +143,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  await tv.reload();await tv.waitForSelector('.mai-phase-assisted');assert.equal(await tv.locator('.is-selected').count(),4);checks.push('4-second simulated scan resumes; exact same hard image; candidate toggle/sync; late TV recovery');
  await click('review');await phase('final');const result=(await remote()).game;
  assert.deepEqual(result.assisted,{hits:3,errors:1,score:40});assert.deepEqual(result.manual,manual);
- assert.ok((await tv.locator('.mai-final-message').textContent()).includes('ayudaron'));
+ assert.ok((await tv.locator('.mai-final-message').textContent()).includes('helped'));
  assert.equal(await tablet.locator('.mai-scorecard,.mai-final-message').count(),0);
  assert.equal(await tablet.locator('.mai-summary-scores article').count(),0);
  assert.equal(await tablet.locator('.mai-final-map .mai-reference').count(),config.hard.reference.length);
@@ -155,13 +155,13 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  assert.equal(await tablet.locator('[data-answer-id="C6"]').getAttribute('points'),falsePolygon);
  checks.push('final tablet map shows every reference, actual selected areas, false selections and original markers; TV keeps score comparison');
  await fits(tablet,'final 1180×820');await fits(tv,'final TV');await shot(tv,'tv-final-es');await shot(tablet,'tablet-final-es');
- await tablet.locator('[data-language=en]').click();await tv.waitForSelector('[data-language=en]');await shot(tv,'tv-final-en');
+ assert.equal(await tablet.locator('[data-language=en]').count(),1);assert.equal(await tablet.locator('button[data-language]').count(),0);await shot(tv,'tv-final-en');
  await tablet.setViewportSize({width:1024,height:768});await fits(tablet,'final 1024×768 EN');await shot(tablet,'tablet-final-en');
  await tablet.reload();await tablet.waitForSelector('.mai-phase-final');assert.deepEqual((await remote()).game.assisted,result.assisted);
  assert.equal(await tablet.locator('.mai-final-map .mai-answer-selection').count(),result.selected.length);
- assert.match(await tablet.locator('.mai-final-map>.mai-legend').textContent(),/Correct areas \(demo\)/);
+ assert.match(await tablet.locator('.mai-art-final-legend .mai-legend').textContent(),/Correct areas \(demo\)/);
  // Fullscreen is tested on a real click; headless Chrome supports the API.
- await click('fullscreen');await tablet.waitForFunction(()=>!!document.fullscreenElement);await click('fullscreen');await tablet.waitForFunction(()=>!document.fullscreenElement);checks.push('actual final scores ES/EN, progress reload and fullscreen enter/exit');
+ await click('fullscreen');await tablet.waitForFunction(()=>!!document.fullscreenElement);await click('fullscreen');await tablet.waitForFunction(()=>!document.fullscreenElement);checks.push('actual final scores in English, progress reload and fullscreen enter/exit');
  await click('replay');await phase('intro');assert.deepEqual((await remote()).game,S.fresh(true));assert.equal((await remote()).language,'en');
  await click('menu');await tablet.waitForSelector('.mai-landing');assert.equal(await tablet.locator('[data-action=game]').isEnabled(),true);
  // An interrupted scan must not trigger an old transition after menu or replay.

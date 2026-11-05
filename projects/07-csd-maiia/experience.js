@@ -88,6 +88,7 @@
  }
  function renderInto(mount,state,{readonly=false}={}){
   if(!config){mount.innerHTML='<div class="mai-loading">MAIIA…</div>';ready.then(()=>{if(mount.querySelector('.mai-loading'))renderInto(mount,state,{readonly});}).catch(()=>{if(mount.querySelector('.mai-loading'))mount.textContent='MAIIA: map configuration unavailable / Configuración no disponible';});return;}
+  if(window.MAIIA_ARTWORK)return MAIIA_ARTWORK.renderInto(mount,state,{readonly});
   const s={...state,language:state.language==='es'?'es':'en',game:state.game||MAIIA_STATE.fresh()},t=words[s.language];
   const info=readonly&&s.mode==='info',playing=s.mode==='game';
   document.documentElement.lang=s.language;
@@ -96,5 +97,5 @@
   if(playing&&!readonly)mount.querySelector('.mai-app').classList.add('mai-controller-mode');
   if(s.game.phase==='analysis'&&s.game.analysisAt)mount.querySelector('.mai-app').style.setProperty('--elapsed',`-${Math.max(0,AI_SYNC.now()-s.game.analysisAt)}ms`);
  }
- window.MAIIA={ready,words,renderInto,icon,get config(){return config;}};
+ window.MAIIA={ready,words,renderInto,icon,map,legend,get config(){return config;}};
 })();

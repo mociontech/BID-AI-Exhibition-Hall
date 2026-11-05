@@ -1,41 +1,43 @@
-/* Layout audit of every bilingual state at both landscape tablet sizes and TV. */
-const {chromium}=require('playwright'),fs=require('node:fs'),path=require('node:path');
+/* Approved artwork alignment, live data and touch targets at nine sizes. */
+const {chromium}=require('playwright'),assert=require('node:assert/strict');
 const S=require('./state.js'),C=require('./data/demo-maps.json');
 (async()=>{
  const browser=await chromium.launch({channel:process.env.BROWSER_CHANNEL||'msedge',headless:true});
- const findings=[],errors=[],checked=[],out=path.join(__dirname,'verification');
+ const findings=[],errors=[];let checked=0;
  try{
-  for(const [name,width,height,readonly] of [['tablet',1024,768,false],['tablet-large',1180,820,false],['tablet-fullscreen',1920,1200,false],['tablet-small',800,600,false],['tablet-portrait',768,1024,false],['tablet-split',764,830,false],['tablet-split-large',955,1038,false],['tv',1920,1080,true],['tv-small',1280,720,true]]){
-   const page=await browser.newPage({viewport:{width,height}});page.on('pageerror',e=>errors.push(e.message));
+  for(const [width,height,readonly] of [[1024,768,false],[1180,820,false],[1920,1200,false],[800,600,false],[768,1024,false],[764,830,false],[955,1038,false],[1920,1080,true],[1280,720,true]]){
+   const page=await browser.newPage({viewport:{width,height}});
+   page.on('pageerror',e=>errors.push(e.message));
    await page.route('**/api/state?*',r=>r.fulfill({json:{view:'home',projectId:null}}));
-   await page.goto((process.env.TEST_URL||'http://localhost:4197')+'/display.html?station=7');
-   await page.waitForTimeout(400);
-   await page.evaluate(()=>MAIIA.ready);
-   for(const language of ['es','en'])for(const phase of ['landing','info',...S.phases]){
+   await page.goto((process.env.TEST_URL||'http://localhost:4199')+'/display.html?station=7');
+   await page.evaluate(()=>MAIIA.ready);await page.waitForTimeout(500);
+   for(const phase of ['landing','info',...S.phases]){
     const markers=C.hard.reference.slice(0,2).map(z=>[0,1].map(i=>z.points.reduce((n,p)=>n+p[i],0)/z.points.length));
-    const g={...S.fresh(true),phase:S.phases.includes(phase)?phase:'intro',polygons:C.easy.reference.map(z=>z.points),draft:[],markers,selected:['C1','C3','C6'],easyScore:100,manual:S.manual(markers,C),assisted:S.assisted(['C1','C3','C6'],C),analysisAt:Date.now()-1500};
-    const state={view:'game',projectId:'07',language,mode:phase==='landing'?'landing':phase==='info'?'info':'game',game:g};
-    await page.evaluate(({state,readonly})=>MAIIA.renderInto(document.getElementById('app'),state,{readonly}),{state,readonly});
-    await page.evaluate(()=>document.fonts.ready);
-    const result=await page.evaluate(()=>{
-     const rect=n=>{const r=n.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right};},main=rect(document.querySelector('.mai-main'));
-     const selectors='.mai-copy,.mai-map-column,.mai-info-overview>article,.mai-info-map,.mai-workflow,.mai-benefits,.mai-human,.mai-scorecard,.mai-final-message,.mai-options,.mai-landing-copy,.mai-controller-heading,.mai-controller-canvas,.mai-controller-canvas .mai-map-frame,.mai-controller-toolbar,.mai-controller-wait,.mai-controller-intro,.mai-controller-summary';
-     const clipped=[...document.querySelectorAll(selectors)].filter(n=>{const r=rect(n);return r.top<main.top-2||r.bottom>main.bottom+2||r.left<main.left-2||r.right>main.right+2;}).map(n=>({class:n.className,...rect(n)}));
-     const overlap=[];
-     const upper=document.querySelector('.mai-info-overview'),lower=document.querySelector('.mai-info-lower');
-     if(upper&&lower)for(const n of upper.children)if(rect(n).bottom>rect(lower).top)overlap.push(n.className||n.tagName);
-     const canvas=document.querySelector('.mai-controller-canvas'),toolbar=document.querySelector('.mai-controller-toolbar');
-     if(canvas&&toolbar&&rect(canvas).bottom>rect(toolbar).top)overlap.push('controller canvas/toolbar');
-     if(canvas){const image=document.querySelector('.mai-controller-canvas .mai-map');if(!image||image.getBoundingClientRect().height<160)overlap.push('map collapsed or absent');}
-     return {sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight,main,clipped,overlap};
-    });
-    if(result.sw>width+1||result.sh>height+1||result.clipped.length||result.overlap.length)findings.push({name,language,phase,...result});
-    checked.push(`${name}/${language}/${phase}`);
-    if((name==='tv'&&['info','easyResult','final','assisted','analysis'].includes(phase))||(['tablet','tablet-split'].includes(name)&&language==='es'&&['intro','easy','manual','assisted','final'].includes(phase)))await page.screenshot({path:path.join(out,`audit-${name}-${phase}-${language}.png`),fullPage:true});
+    const game={...S.fresh(true),phase:S.phases.includes(phase)?phase:'intro',polygons:C.easy.reference.map(z=>z.points),markers,selected:['C1','C3','C6'],easyScore:100,manual:S.manual(markers,C),assisted:S.assisted(['C1','C3','C6'],C),analysisAt:Date.now()-1500};
+    await page.evaluate(({game,phase,readonly})=>MAIIA.renderInto(document.getElementById('app'),{projectId:'07',language:'es',mode:['landing','info'].includes(phase)?phase:'game',game},{readonly}),{game,phase,readonly});
+    await page.locator('.mai-approved-art').evaluate(img=>img.decode());await page.evaluate(()=>document.fonts.ready);
+    const issues=await page.evaluate(({width,height,readonly})=>{
+     const issues=[],scale=Math.min(width/1920,height/1080),board=document.querySelector('.mai-artboard').getBoundingClientRect();
+     const img=document.querySelector('.mai-approved-art');
+     if(img.naturalWidth!==1920||img.naturalHeight!==1080)issues.push('original artwork dimensions');
+     if(Math.abs(board.width-1920*scale)>1||Math.abs(board.height-1080*scale)>1||board.left<-.5||board.top<-.5)issues.push('proportional board bounds');
+     if(document.documentElement.scrollWidth>width||document.documentElement.scrollHeight>height)issues.push('page overflow');
+     if(document.documentElement.lang!=='en'||document.querySelector('button[data-language]'))issues.push('English production language');
+     for(const n of document.querySelectorAll('.mai-art-hit')){
+      const r=n.getBoundingClientRect();if(r.width<44||r.height<44)issues.push('touch target '+n.dataset.action);
+      if(r.left<0||r.top<0||r.right>width+1||r.bottom>height+1)issues.push('clipped target '+n.dataset.action);
+     }
+     if(readonly&&document.querySelector('[data-action],[data-map],[data-candidate]'))issues.push('TV must stay passive');
+     for(const n of document.querySelectorAll('.mai-art-patch'))if(n.scrollWidth>n.clientWidth+1||n.scrollHeight>n.clientHeight+1)issues.push('clipped live data '+n.className);
+     const map=document.querySelector('.mai-art-map');
+     if(map){const r=map.getBoundingClientRect(),svg=map.querySelector('svg.mai-map').getBoundingClientRect();if(Math.abs(r.width-svg.width)>1||Math.abs(r.height-svg.height)>1)issues.push('map and input bounds diverge');}
+     return issues;
+    },{width,height,readonly});
+    if(issues.length)findings.push({width,height,readonly,phase,issues});checked++;
    }
    await page.close();
   }
  }finally{await browser.close();}
- const report={passed:findings.length===0&&errors.length===0,statesChecked:checked.length,findings,errors};
- fs.writeFileSync(path.join(out,'visual-audit.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));if(!report.passed)process.exitCode=1;
+ console.log(JSON.stringify({passed:!findings.length&&!errors.length,statesChecked:checked,findings,errors},null,2));
+ assert.deepEqual(findings,[]);assert.deepEqual(errors,[]);
 })().catch(e=>{console.error(e);process.exitCode=1;});
