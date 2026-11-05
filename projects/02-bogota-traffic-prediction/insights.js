@@ -7,16 +7,16 @@
    ['12 h','Anticiparse cambia la movilidad','PredictToDo predice la congestión de cada tramo vial de Bogotá con hasta 12 horas de anticipación, en intervalos de 15 minutos.'],
    ['20 TB','Muchas señales, una mirada de ciudad','Analiza más de 20 terabytes de datos de tráfico, clima y eventos, junto con las características de más de 139.000 tramos viales.'],
    ['153 h','El tiempo que cuesta la congestión','Un conductor en Bogotá pierde en promedio 153 horas al año en el tráfico: cerca de seis días completos.'],
-   ['3 de 4','Una predicción que orienta','En tres de cada cuatro casos, el modelo acierta el nivel de congestión o se equivoca por un solo nivel. Es más preciso en los primeros 30 minutos.'],
-   ['Personas','La autoridad de tránsito decide','Desarrollada por el BID y la Secretaría Distrital de Movilidad, PredictToDo ofrece una mirada de toda la ciudad para anticipar dónde enviar agentes, ajustar semáforos o activar planes de manejo.'],
+   ['3 de cada 4','Una ayuda para prever el tráfico','En 3 de cada 4 casos, la predicción coincide con el tráfico observado o se desvía solo un nivel: por ejemplo, prevé tráfico moderado cuando resulta intenso. Es más precisa para los próximos 30 minutos.'],
+   ['Decisiones','La IA informa. Las personas deciden.','PredictToDo ayuda a ver dónde podría formarse un trancón. Con esa información, el equipo de movilidad decide si envía agentes, ajusta los tiempos de los semáforos o prepara un plan de tránsito.'],
    ['Región','Del conocimiento a la acción','El equipo de la Secretaría recibió transferencia de conocimiento para operar la herramienta. El modelo se reentrena con datos recientes y el BID trabaja para publicarlo como código abierto.']
   ],
   en:[
    ['12 h','Anticipation changes mobility','PredictToDo forecasts congestion on every road segment in Bogotá up to 12 hours ahead, in 15-minute intervals.'],
    ['20 TB','Many signals, one citywide view','It analyzes more than 20 terabytes of traffic, weather and event data, together with the characteristics of more than 139,000 road segments.'],
    ['153 h','The time congestion takes away','The average driver in Bogotá loses 153 hours a year in traffic: almost six full days.'],
-   ['3 in 4','A forecast that informs decisions','In three out of four cases, the model predicts the right congestion level or misses by only one level. It is more accurate in the first 30 minutes.'],
-   ['People','The traffic authority decides','Developed by the IDB and Bogotá’s Mobility Department, PredictToDo provides a citywide view to anticipate where to deploy officers, adjust signals or activate traffic management plans.'],
+   ['3 out of 4','A clearer picture of traffic ahead','In 3 out of 4 cases, the forecast matches the actual traffic level or is only one level off: for example, moderate instead of heavy traffic. It is more accurate for the next 30 minutes.'],
+   ['Decisions','AI informs. People decide.','PredictToDo shows where traffic could build up. The city’s mobility team uses that information to decide whether to send traffic officers, adjust traffic lights or put a traffic plan in place.'],
    ['Region','From knowledge to action','The Mobility Department’s team received knowledge transfer to operate the tool. The model is retrained with recent data, and the IDB is working to publish it as open source.']
   ]
  };
