@@ -33,3 +33,20 @@ test('PredictToDo project facts stay bilingual and TV choices follow the selecte
   assert.doesNotMatch(html,/undefined|NaN/);
  }
 });
+
+test('simulated hotspot markers match the counter for every event and action, including zero',()=>{
+ for(const language of ['es','en'])for(let scenarioIndex=0;scenarioIndex<data.scenarios.length;scenarioIndex++){
+  const item=data.scenarios[scenarioIndex];
+  for(const actionId of [null,...data.actions.map(action=>action.id)]){
+   const game={phase:'decision',scenarioIndex,actionId,playerId:'valentina',hour:item.hour,results:{}};
+   const before=JSON.stringify(game);
+   const html=context.window.PULSE_VIAL.render({data,game,language});
+   const expected=Math.max(0,item.baseline.critical+(item.effects[actionId]?.critical||0));
+   assert.equal((html.match(/class="pulse-critical-marker"/g)||[]).length,expected);
+   assert.ok(html.includes(`data-critical-count="${expected}"`));
+   assert.equal(Number(html.match(/data-meter="critical"><span>[^<]*<\/span><strong>(\d+)/)[1]),expected);
+   assert.equal(JSON.stringify(game),before);
+   if(!expected)assert.match(html,language==='es'?/No hay puntos críticos/:/No congestion hotspots/);
+  }
+ }
+});
