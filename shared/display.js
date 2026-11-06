@@ -114,6 +114,11 @@ function renderDefault(data){
 }
 function render(data){
  if(data?.projectId!=='11'||data?.view==='home')window.RISE_GAME?.stopDisplay();
+ if(data?.projectId==='10'&&data?.view!=='home'){
+  document.title='Country Intelligence | AI in Action';
+  window.COUNTRY_INTELLIGENCE.renderDisplay(app,data);return;
+ }
+ window.COUNTRY_INTELLIGENCE?.stopDisplay();
  if(data?.projectId==='11'&&data?.view!=='home'){
   document.title='RSM RISE | AI in Action';
   window.RSM_RISE.renderDisplay(app,data);
