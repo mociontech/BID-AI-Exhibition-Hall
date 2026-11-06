@@ -119,7 +119,7 @@
  function renderDisplay(mount,data){
   if(['game','results'].includes(data.mode))return RISE_GAME.renderDisplay(mount,data);
   RISE_GAME.stopDisplay();
-  const lang=data.language==='en'?'en':'es',c=copy[lang],g=RISE_STATE.sanitize(data.game)||RISE_STATE.fresh();
+  const lang=data.language==='es'?'es':'en',c=copy[lang],g=RISE_STATE.sanitize(data.game)||RISE_STATE.fresh();
   document.documentElement.lang=lang;
   let body='',label=c.tag;
   if(data.mode==='info'||data.mode==='cta'){
