@@ -58,7 +58,7 @@ const server=http.createServer((req,res)=>{
   if(url.searchParams.has('room')&&!roomParam(url))return sendJson(res,400,{error:'Invalid room code'});
   const room=roomParam(url);
   const current=room?(rooms.get(room)||initialState(station)):stations[station];
-  if(req.method==='GET')return sendJson(res,200,station===5||station===6||station===7||['05','06','07','11'].includes(current.projectId)?{...current,serverNow:Date.now()}:current);
+  if(req.method==='GET')return sendJson(res,200,station===5||station===6||station===7||station===10||['05','06','07','10','11'].includes(current.projectId)?{...current,serverNow:Date.now()}:current);
   if(req.method!=='POST')return sendJson(res,405,{error:'Method not allowed'});
   let buffer='';
   req.on('data',chunk=>{buffer+=chunk;if(buffer.length>10000)req.destroy();});
@@ -72,7 +72,10 @@ const server=http.createServer((req,res)=>{
     if(payload.screenIndex!==undefined && payload.screenIndex!==null && (!Number.isInteger(payload.screenIndex)||payload.screenIndex<1||payload.screenIndex>9))return sendJson(res,400,{error:'Invalid screen index'});
     let game=null;
     if(payload.game!==undefined&&payload.game!==null){
-     if(payload.projectId==='02'){
+     if(payload.projectId==='10'){
+      game=require('./projects/10-vpc-country-intelligence/state.js').sanitize(payload.game);
+      if(!game)return sendJson(res,400,{error:'Invalid Country Intelligence state'});
+     }else if(payload.projectId==='02'){
       const value=payload.game;
       const phases=['intro','player','explore','decision','result','final'];
       const players=['valentina','camila','santiago','andres'];

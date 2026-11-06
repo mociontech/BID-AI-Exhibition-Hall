@@ -69,7 +69,7 @@
       const stored=await r.json();
       const state=localHost?stored:stored?.payload?JSON.parse(stored.payload):{stationId:station,view:'home',projectId:null};
       if(!localHost){state.stationId=station;if(stored?.updatedAt)state.updatedAt=stored.updatedAt;}
-      if(station===5||station===6||station===7||['05','06','07','11'].includes(state.projectId)||location.pathname?.includes('/projects/11-rsm-rise/')){
+      if(station===5||station===6||station===7||station===10||['05','06','07','10','11'].includes(state.projectId)||location.pathname?.includes('/projects/11-rsm-rise/')){
         const serverDate=localHost?state.serverNow:Date.parse(r.headers.get('date')||'');
         if(Number.isFinite(serverDate))clockOffset=serverDate-(started+Date.now())/2;
         else if(!localHost)await readHostingClock();
