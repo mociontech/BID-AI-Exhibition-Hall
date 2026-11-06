@@ -63,7 +63,7 @@ function renderGuatiguaraVideo(data){
 }
 function renderCostaRica(data){
  const language=data.language==='es'?'es':'en';
- if(data.mode==='game'&&data.game&&data.game.v===1&&window.CRB_TV){window.CRB_TV.render(app,data.game);return;} // espejo del minijuego (tv.js)
+ if(data.mode==='game'&&data.game&&(data.game.v===1||data.game.v===2)&&window.CRB_TV){window.CRB_TV.render(app,data.game);return;} // espejo del minijuego (tv.js)
  if(window.CRB_TV)window.CRB_TV.stop();
  const isInfo=data.mode==='info'||data.mode==='cta'||data.mode==='game'||data.mode==='results';
  const image=COSTA_RICA_ART[language][isInfo?'info':'home'];

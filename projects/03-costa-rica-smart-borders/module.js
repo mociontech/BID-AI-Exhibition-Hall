@@ -13,7 +13,7 @@ window.ProjectModule={
   /* Resumen del minijuego (etapa, camión, cronómetro, semáforos) que el iframe envía por postMessage; la TV lo pinta con tv.js. Nunca incluye documentos. */
   let gameState=null;
   function packet(){const isGame=state.screen==='game',mode=isGame?'game':state.displayMode;return {view:isGame?'game':'project',projectId:'03',section:mode,language:state.language,mode,screenIndex:isGame?3:(mode==='landing'?1:2),game:isGame?gameState:null};}
-  window.addEventListener('message',event=>{const data=event.data;if(!data||data.type!=='cr-game'||state.screen!=='game')return;gameState=data.game&&data.game.v===1?data.game:null;if(gameState&&gameState.lang)state.language=gameState.lang==='es'?'es':'en';void sync.send(packet());});
+  window.addEventListener('message',event=>{const data=event.data;if(!data||data.type!=='cr-game'||state.screen!=='game')return;gameState=data.game&&(data.game.v===1||data.game.v===2)?data.game:null;if(gameState&&gameState.lang)state.language=gameState.lang==='es'?'es':'en';void sync.send(packet());});
   function cancelTimer(){if(timer){clearTimeout(timer);timer=null;}}
   function render(){mount.innerHTML=state.screen==='game'?game():home();bind();}
   function update(next){state={...state,...next};render();void sync.send(packet());}

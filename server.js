@@ -40,7 +40,7 @@ function cleanCostaRica(value){
   if(typeof v==='object'){const out={};for(const k of Object.keys(v).slice(0,40))out[k.slice(0,40)]=clean(v[k],depth+1);return out;}
   return null;
  };
- if(typeof value!=='object'||value===null||value.v!==1||!['intro','manual','ai','results'].includes(value.screen))return null;
+ if(typeof value!=='object'||value===null||![1,2].includes(value.v)||!['intro','manual','ai','results'].includes(value.screen))return null;
  try{if(JSON.stringify(value).length>12000)return null;}catch{return null;}
  return clean(value,0);
 }
