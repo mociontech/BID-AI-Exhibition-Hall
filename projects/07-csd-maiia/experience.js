@@ -17,6 +17,37 @@
  Object.assign(words.en,{drawHint:"Draw around each area without lifting your finger.",drawingHelp:'Trace around the area in one gesture. Release to close the outline automatically.',easyEmpty:'Draw at least one area before reviewing.',strokeTooSmall:'Draw a slightly larger outline.',keyboard:'Use the arrow keys and Enter to add keyboard points; Space closes the area.'});
  Object.assign(words.en,{"activationTitle":"Activate MAIIA","activationText":"You have explored the territory on your own. Activate MAIIA to scan the same map for possible informal settlements.","activationHint":"Get a new view of the territory with AI assistance.","activationCue":"Activate MAIIA on the tablet to start the scan."});
  Object.assign(words.es,{"activationTitle":"Activa MAIIA","activationText":"Ya exploraste el territorio por tu cuenta. Activa MAIIA para escanear el mismo mapa en busca de posibles asentamientos informales.","activationHint":"Descubre otra mirada del territorio con ayuda de la IA.","activationCue":"Activa MAIIA desde la tableta para iniciar el escaneo."});
+ // Visitor-facing English voice: short prompts, human transitions and honest feedback.
+ Object.assign(words.en,{
+  landingInvite:"Can you spot informal settlements? Let's explore the map together.",
+  info:'Meet MAIIA',game:"Let's try it",tvInvite:"Ready to explore? Choose where to start on the tablet.",
+  introTitle:'Take a closer look.',introText:'What do you notice in the streets and rooftops? Look for informal settlements, then see what MAIIA suggests.',
+  steps:['Look for informal settlements.','Draw around the areas you spot.','Step back and try with MAIIA.'],duration:"Take your time. There's no rush.",
+  easyTitle:'Can you spot informal settlements?',easyInstruction:"Think you've found an informal settlement? Draw around it on the tablet.",
+  drawHint:'Draw around what you spot. Lift your finger to finish.',drawingHelp:'Use your finger or mouse. Lift to finish the outline.',
+  clues:'Look for winding streets and tightly packed rooftops.',easyResult:"Let's look at your outline.",
+  match:'overlap with the demo reference',iou:'The percentage shows how much the two shapes overlap.',
+  manualTitle:'Can you find more informal settlements?',manualInstruction:'Can you spot more informal settlements? Tap up to five places on the tablet. No drawing this time.',
+  markerHelp:'Tap a marker again to remove it.',markHint:'Tap up to five places. Tap a marker again to remove it.',
+  manualResult:"Here's what you spotted.",manualBridge:"More ground to cover? Let's bring in MAIIA.",
+  activationTitle:"Let's bring in MAIIA.",activationText:"You've explored the map on your own. Now let's see what MAIIA notices in the same territory.",
+  activationCue:"Tap Run MAIIA on the tablet when you're ready.",activate:'Run MAIIA',
+  analysisTitle:"Let's see what MAIIA finds.",analysisText:'MAIIA is looking across the map for the patterns you just explored.',
+  analysisShort:'Looking across the territory...',analysisDetail:"We'll look at its suggestions together next.",
+  assistedTitle:'Which suggestions would you keep?',assistedInstruction:'MAIIA has marked a few possibilities. Choose the ones you think are informal settlements.',
+  assistedHelp:'Tap to choose an area. Tap again to undo. Some suggestions may be wrong.',selectHint:'Tap the areas you would keep. Tap again to undo.',
+  finalTitle:"Let's compare.",finalSubtitle:"You explored the map on your own and with MAIIA. Let's compare.",
+  without:'You on your own',with:'You + MAIIA',
+  improved:"Your score went up with MAIIA's suggestions.",same:'The scores match. What would you check next?',
+  lower:'Your score was higher on your own. AI suggestions need a human check.',
+  closing:'A map is a starting point. People check the results and decide what to do next.',
+  metric:'Correct picks add points. Wrong or repeated picks take points away.',
+  reviewMapHint:'See how your choices compare with the demo reference.',replay:'Try again',
+  easyEmpty:"Draw one area first, then let's take a look.",draftIncomplete:"Finish your outline, then let's take a look.",
+  smallPolygon:'Add a few points to finish your outline.',strokeTooSmall:'Try drawing a slightly bigger outline.',
+  needMarker:'Tap a place on the map first. Where would you look?',needSelection:'Choose at least one suggestion to compare your picks.',
+  limit:"That's the limit for this round. Tap Clear to make room.",fullError:"Full screen didn't open. You can keep playing here."
+ });
  const points=p=>p.map(([x,y])=>`${x*1000},${y*562.5}`).join(' ');
  function polygon(p,cls,attrs=''){return `<polygon class="${cls}" points="${points(p)}" ${attrs}/>`;}
  let config;

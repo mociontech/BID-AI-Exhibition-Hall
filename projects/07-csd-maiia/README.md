@@ -22,6 +22,10 @@ Interactive and review maps on the tablet are enlarged from 1065 x 600 to 1240 x
 
 Entering level 2 animates the SVG camera from the close-up crop to the full territory over 2.2 seconds on both devices. The tablet uses the shared `territoryAt` timestamp. When the TV receives the transition from the close-up view, it plays the full zoom locally so network latency cannot skip it. Subsequent snapshots preserve playback progress; opening an already active territory view does not replay an old transition. Pointer coordinates follow the moving SVG camera; reduced-motion users see the final territory immediately. Older sessions without this timestamp remain compatible. `verify-territory-zoom.cjs` checks this transition and marker alignment.
 
+## Visitor voice
+
+English game copy uses conversational questions, short actions and natural transitions throughout the welcome, drawing, wider search, AI activation, scan, review and comparison. Tablet prompts remain brief; the TV provides context. Text overlays also replace baked-in welcome and final captions without changing the approved PNG files. Results describe the actual score change; they do not congratulate automatically or claim the AI found more areas merely because its score improved. Scoring, map gestures and the pre-AI answer restriction stay unchanged.
+
 ## Local preview
 
 Run `npm start` from the repository root, then open:

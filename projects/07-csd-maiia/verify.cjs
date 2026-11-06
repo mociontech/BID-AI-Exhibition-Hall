@@ -143,7 +143,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  await tv.reload();await tv.waitForSelector('.mai-phase-assisted');assert.equal(await tv.locator('.is-selected').count(),4);checks.push('4-second simulated scan resumes; exact same hard image; candidate toggle/sync; late TV recovery');
  await click('review');await phase('final');const result=(await remote()).game;
  assert.deepEqual(result.assisted,{hits:3,errors:1,score:40});assert.deepEqual(result.manual,manual);
- assert.ok((await tv.locator('.mai-final-message').textContent()).includes('helped'));
+ assert.ok((await tv.locator('.mai-final-message').textContent()).includes('score went up'));
  assert.equal(await tablet.locator('.mai-scorecard,.mai-final-message').count(),0);
  assert.equal(await tablet.locator('.mai-summary-scores article').count(),0);
  assert.equal(await tablet.locator('.mai-final-map .mai-reference').count(),config.hard.reference.length);
@@ -171,10 +171,10 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  // Show equal/lower dynamic messages with genuine precomputed geometry scores.
  const synthetic={...S.fresh(true),phase:'final',markers:centers,selected:['C6'],manual:S.manual(centers,config),assisted:S.assisted(['C6'],config)};
  await tv.evaluate(s=>MAIIA.renderInto(document.getElementById('app'),s,{readonly:true}),{view:'game',mode:'game',projectId:'07',language:'en',game:synthetic});
- assert.match(await tv.locator('.mai-final-message').textContent(),/human interpretation/);
+ assert.match(await tv.locator('.mai-final-message').textContent(),/human check/);
  synthetic.markers=[[.99,.99]];synthetic.manual=S.manual(synthetic.markers,config);
  await tv.evaluate(s=>MAIIA.renderInto(document.getElementById('app'),s,{readonly:true}),{view:'game',mode:'game',projectId:'07',language:'en',game:synthetic});
- assert.match(await tv.locator('.mai-final-message').textContent(),/same result/);checks.push('equal and lower outcomes; assisted score is not forced to improve');
+ assert.match(await tv.locator('.mai-final-message').textContent(),/scores match/);checks.push('equal and lower outcomes; assisted score is not forced to improve');
  const strip=s=>{const {serverNow,...rest}=s;return rest;};
  for(const [i,n] of [1,2,3,5,6].entries())assert.deepEqual(strip(await remote(n)),strip(other[i]));
  const bad=await controller.request.post(base+'/api/state?station=7',{data:{view:'game',projectId:'07',mode:'game',game:{...S.fresh(),markers:[[2,.1]]}}});assert.equal(bad.status(),400);
