@@ -4,7 +4,7 @@ Experiencia bilingüe de tableta y TV para AI in Action. El diseño actual se co
 
 ## Mecánica del prototipo restaurada
 
-La introducción conserva el menú del proyecto, la información animada y el desbloqueo de 10 segundos. Dentro del minijuego se sigue este recorrido:
+El minijuego está disponible desde la primera visita y se puede abrir directamente, sin revisar la información. La información animada sigue disponible por separado; su secuencia dura 10 segundos y no condiciona el acceso al juego. Dentro del minijuego se sigue este recorrido:
 
 1. **Elegir una propuesta:** línea de crédito para pymes (186 páginas), metro urbano (412) o planta solar (268). Los tres casos y los datos en inglés proceden del prototipo.
 2. **Ejecutar RISE:** comparación simultánea entre lectura manual y lectura con RISE. La animación dura 4,8 segundos; la lectura manual alcanza aproximadamente un tercio de las páginas. Se extraen resumen, modelo de negocio, riesgos, mitigantes, vacíos y clasificación. El indicador `~3×` se presenta como comparación ilustrativa de tiempos simulados.
@@ -33,9 +33,9 @@ Cambios puntuales compartidos: `display.html` carga los componentes del proyecto
 
 El estado del juego conserva caso seleccionado, etapa, evidencias consultadas, decisión de clasificación, acción de supervisión y marcas temporales. Tableta y TV calculan la lectura y la línea de tiempo desde los mismos instantes (`readStartedAt`, `supStartedAt`), sin enviar escrituras por cada frame. Una pantalla abierta tarde o recargada recupera la animación en su punto actual.
 
-Cambiar de idioma conserva el avance. Volver atrás conserva el caso; elegir otra propuesta reinicia lectura y decisiones. Volver a empezar reinicia el minijuego desde la selección de propuesta. Volver al menú regresa a RSM RISE y conserva el desbloqueo obtenido. Home limpia el estado y abre todos los proyectos manteniendo `station` y `room`.
+Cambiar de idioma conserva el avance. Volver atrás conserva el caso; elegir otra propuesta reinicia lectura y decisiones. Volver a empezar reinicia el minijuego desde la selección de propuesta. Volver al menú regresa a RSM RISE y mantiene el minijuego disponible. Home limpia el estado y abre todos los proyectos manteniendo `station` y `room`.
 
-El estado anterior de Aurora se descarta por su versión incompatible. El servidor local debe reiniciarse después de cambiar su esquema, ya que Node carga el validador con caché.
+El estado anterior de Aurora se descarta por su versión incompatible. El servidor local debe reiniciarse después de cambiar su esquema, ya que Node carga el validador con caché. Los estados v2 antiguos con `unlocked:false` se normalizan a `true` al recuperarlos, sin perder idioma, caso o avance.
 
 ## Revisión local y publicación
 
