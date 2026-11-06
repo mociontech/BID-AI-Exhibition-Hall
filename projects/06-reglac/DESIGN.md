@@ -1,5 +1,7 @@
 # RegLAC — revisión visual con el manual BID
 
+> Actualización 2026-11-06: el minijuego se retiró por solicitud del cliente. La experiencia vigente tiene inicio, información y un espacio reservado para el video institucional, sin desbloqueo ni cronómetros. Se conservan marca, navegación y sincronización ES/EN. Las composiciones de juego descritas abajo y los frames Figma anteriores son referencias históricas; no describen el flujo actual.
+
 Referencia: `C:/Users/mateo/Downloads/Manual de marca BID.pdf`, documento de 170 páginas. Se revisaron visualmente las secciones pertinentes porque el PDF contiene páginas rasterizadas sin texto extraíble. El manual se utiliza como referencia de marca; el alcance funcional y las restricciones del proyecto proceden del encargo del usuario.
 
 ## Criterios aplicados
