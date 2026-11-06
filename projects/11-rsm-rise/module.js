@@ -1,7 +1,7 @@
 /* Tablet controller using the shared station lifecycle. */
 window.ProjectModule={id:'11',async mountController({sync,mount,brand}){
  const api=window.RSM_RISE;
- let state={language:'es',mode:'landing',game:RISE_STATE.fresh()},timer=null,leaving=false;
+ let state={language:'en',mode:'landing',game:RISE_STATE.fresh()},timer=null,leaving=false;
  const now=()=>sync.now(),words=()=>api.copy[state.language];
  const packet=()=>({view:['game','results'].includes(state.mode)?'game':'project',projectId:'11',section:state.mode,language:state.language,mode:state.mode,screenIndex:RISE_STATE.stages.indexOf(state.game.sc)+1,game:state.game});
  function publish(){return sync.send(packet());}
@@ -57,7 +57,7 @@ window.ProjectModule={id:'11',async mountController({sync,mount,brand}){
 
  const remote=await sync.read();
  const restored=remote?.projectId==='11'&&remote.view!=='home'?RISE_STATE.sanitize(remote.game):null;
- if(restored)state={language:remote.language==='en'?'en':'es',mode:['landing','info','cta','game','results'].includes(remote.mode)?remote.mode:'landing',game:restored};
+ if(restored)state={language:remote.language==='es'?'es':'en',mode:['landing','info','cta','game','results'].includes(remote.mode)?remote.mode:'landing',game:restored};
  render();void publish();arm();
  window.addEventListener('pagehide',()=>{leaving=true;stop();},{once:true});
 }};
