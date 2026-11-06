@@ -58,7 +58,7 @@ const server=http.createServer((req,res)=>{
   if(url.searchParams.has('room')&&!roomParam(url))return sendJson(res,400,{error:'Invalid room code'});
   const room=roomParam(url);
   const current=room?(rooms.get(room)||initialState(station)):stations[station];
-  if(req.method==='GET')return sendJson(res,200,station===5||station===6||station===7||['05','06','07'].includes(current.projectId)?{...current,serverNow:Date.now()}:current);
+  if(req.method==='GET')return sendJson(res,200,station===5||station===6||station===7||['05','06','07','11'].includes(current.projectId)?{...current,serverNow:Date.now()}:current);
   if(req.method!=='POST')return sendJson(res,405,{error:'Method not allowed'});
   let buffer='';
   req.on('data',chunk=>{buffer+=chunk;if(buffer.length>10000)req.destroy();});
@@ -91,6 +91,9 @@ const server=http.createServer((req,res)=>{
       const value=payload.game;
       game=cleanCostaRica(value);
       if(!game)return sendJson(res,400,{error:'Invalid Costa Rica Smart Borders game state'});
+     }else if(payload.projectId==='11'){
+      game=require('./projects/11-rsm-rise/state.js').sanitize(payload.game);
+      if(!game)return sendJson(res,400,{error:'Invalid RSM RISE simulation state'});
      }else if(payload.projectId==='07'){
       game=require('./projects/07-csd-maiia/state.js').sanitize(payload.game,require('./projects/07-csd-maiia/data/demo-maps.json'));
       if(!game)return sendJson(res,400,{error:'Invalid MAIIA game state'});
