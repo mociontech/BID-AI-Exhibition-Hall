@@ -20,6 +20,8 @@ The TV uses a large 16:9 map on the left (1296 x 729 in the artboard) and a 480 
 
 Interactive and review maps on the tablet are enlarged from 1065 x 600 to 1240 x 697.5, about 16% wider and 35% more area. Existing button artwork is reused at the new positions with transparent hit areas. All map coordinates remain normalized, preserving drawing and marker alignment on the TV. The original PNG assets remain unchanged.
 
+Entering level 2 animates the SVG camera from the close-up crop to the full territory over 2.2 seconds on both devices. A shared `territoryAt` timestamp keeps late receivers and marker re-renders at the current point in the transition. Pointer coordinates follow the moving SVG camera; reduced-motion users see the final territory immediately. Older sessions without this timestamp remain compatible. `verify-territory-zoom.cjs` checks this transition and marker alignment.
+
 ## Local preview
 
 Run `npm start` from the repository root, then open:

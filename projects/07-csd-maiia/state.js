@@ -2,7 +2,7 @@
    Coordinates are fractions of the visible map, including the close-up crop. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.MAIIA_STATE=api;})(typeof window==='undefined'?globalThis:window,()=>{
  const phases=['intro','easy','easyResult','manual','manualResult','activation','analysis','assisted','final'];
- const fresh=(ready=true)=>({phase:'intro',ready,unlockAt:0,analysisAt:0,startedAt:0,polygons:[],draft:[],markers:[],selected:[],easyScore:null,manual:null,assisted:null});
+ const fresh=(ready=true)=>({phase:'intro',ready,unlockAt:0,analysisAt:0,startedAt:0,territoryAt:0,polygons:[],draft:[],markers:[],selected:[],easyScore:null,manual:null,assisted:null});
  // Keep curved gestures within the existing 40-point sync contract. Remove
  // near-collinear samples first; increase tolerance only if the budget requires it.
  function simplifyStroke(points,maxPoints=40){
@@ -61,7 +61,8 @@
   if(!Array.isArray(value.markers)||value.markers.length>config.scoring.markerLimit||!value.markers.every(point))return null;
   if(!Array.isArray(value.selected)||value.selected.length>config.hard.candidates.length||new Set(value.selected).size!==value.selected.length||!value.selected.every(id=>config.hard.candidates.some(c=>c.id===id)))return null;
   if(!['unlockAt','analysisAt','startedAt'].every(k=>Number.isSafeInteger(value[k])&&value[k]>=0))return null;
-  const g={...fresh(value.ready),phase:value.phase,unlockAt:value.unlockAt,analysisAt:value.analysisAt,startedAt:value.startedAt,polygons:value.polygons.map(p=>p.map(p=>[...p])),draft:value.draft.map(p=>[...p]),markers:value.markers.map(p=>[...p]),selected:[...value.selected]};
+  if(value.territoryAt!==undefined&&(!Number.isSafeInteger(value.territoryAt)||value.territoryAt<0))return null;
+  const g={...fresh(value.ready),territoryAt:value.territoryAt||0,phase:value.phase,unlockAt:value.unlockAt,analysisAt:value.analysisAt,startedAt:value.startedAt,polygons:value.polygons.map(p=>p.map(p=>[...p])),draft:value.draft.map(p=>[...p]),markers:value.markers.map(p=>[...p]),selected:[...value.selected]};
   if(value.easyScore!==null)g.easyScore=iou(g.polygons,config.easy.reference,config.scoring);
   if(value.manual!==null)g.manual=manual(g.markers,config);
   if(value.assisted!==null)g.assisted=assisted(g.selected,config);

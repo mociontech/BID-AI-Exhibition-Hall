@@ -25,7 +25,7 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
   await tv.goto(origin+'/display.html?station=7');await tablet.goto(origin+'/projects/07-csd-maiia/index.html?station=7');
   await tablet.waitForSelector('.mai-phase-easy');await tv.waitForSelector('.mai-phase-easy');
   const click=action=>tablet.locator(`[data-action="${action}"]`).first().click();
-  const at=async p=>{const r=await tablet.locator('[data-map]').boundingBox();return {x:r.x+p[0]*r.width,y:r.y+p[1]*r.height};};
+  const at=async p=>{await tablet.bringToFront();await tablet.waitForFunction(()=>!document.querySelector('.mai-territory-zoom'));const r=await tablet.locator('[data-map]').boundingBox();return {x:r.x+p[0]*r.width,y:r.y+p[1]*r.height};};
   const move=async p=>{const q=await at(p);await tablet.mouse.move(q.x,q.y,{steps:8});};
   await move([.1,.1]);await tablet.mouse.down();await move([.35,.1]);await move([.35,.4]);
   await tv.waitForSelector('.mai-draft',{state:'attached'});await move([.1,.4]);await tablet.mouse.up();

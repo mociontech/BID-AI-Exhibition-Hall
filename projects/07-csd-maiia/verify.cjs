@@ -36,7 +36,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  const shot=async(p,name)=>p.screenshot({path:path.join(out,name+'.png'),fullPage:true});
  async function fits(p,label){const d=await p.evaluate(()=>({w:innerWidth,h:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}));assert.ok(d.sw<=d.w+1&&d.sh<=d.h+1,label+' '+JSON.stringify(d));checks.push(label);}
  async function phase(p){await tablet.waitForSelector('.mai-phase-'+p);await tv.waitForSelector('.mai-phase-'+p);}
- async function tap(p){const b=await tablet.locator('[data-map]').boundingBox();await tablet.touchscreen.tap(b.x+p[0]*b.width,b.y+p[1]*b.height);}
+ async function tap(p){await tablet.bringToFront();await tablet.waitForFunction(()=>!document.querySelector('.mai-territory-zoom'));const b=await tablet.locator('[data-map]').boundingBox();await tablet.touchscreen.tap(b.x+p[0]*b.width,b.y+p[1]*b.height);}
  const touch=await controller.newCDPSession(tablet);
  async function draw(vertices,{mouse=false,cancel=false,live=false,closePath=true}={}){
   const b=await tablet.locator('[data-map]').boundingBox(),xy=p=>({x:b.x+p[0]*b.width,y:b.y+p[1]*b.height}),path=closePath?[...vertices,vertices[0]]:vertices;

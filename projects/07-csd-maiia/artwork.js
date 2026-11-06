@@ -128,6 +128,25 @@
   return {screen:landing?'tvLanding':screens[p],html,cls:'mai-tv-map-layout '+(landing?'mai-landing':p==='intro'?'mai-intro':p==='activation'?'mai-activation':'mai-game-area')};
  }
 
+ // Animate the SVG camera, including its overlays, in the same coordinate system
+ // used by pointer input. The shared deadline survives renders and late TV joins.
+ const cameras=new WeakMap(),territoryDuration=2200;
+ function territoryCamera(mount,s){
+  cancelAnimationFrame(cameras.get(mount));cameras.delete(mount);
+  const svg=mount.querySelector('.mai-art-map .mai-map'),at=s.game.territoryAt;
+  if(!svg||s.mode!=='game'||s.game.phase!=='manual'||!at||matchMedia('(prefers-reduced-motion: reduce)').matches||AI_SYNC.now()-at>=territoryDuration)return;
+  const [ex,ey,ew,eh]=MAIIA.config.easy.crop,[hx,hy,hw,hh]=MAIIA.config.hard.crop;
+  const from=[(ex-hx)/hw*1000,(ey-hy)/hh*562.5,ew/hw*1000,eh/hh*562.5],to=[0,0,1000,562.5];
+  svg.classList.add('mai-territory-zoom');
+  function frame(){
+   if(!svg.isConnected){cameras.delete(mount);return;}
+   const progress=Math.max(0,Math.min(1,(AI_SYNC.now()-at)/territoryDuration)),ease=1-Math.pow(1-progress,3);
+   svg.setAttribute('viewBox',from.map((v,i)=>v+(to[i]-v)*ease).join(' '));
+   if(progress<1)cameras.set(mount,requestAnimationFrame(frame));
+   else{svg.setAttribute('viewBox','0 0 1000 562.5');svg.classList.remove('mai-territory-zoom');cameras.delete(mount);}
+  }
+  frame();
+ }
  function scale(){
   document.querySelectorAll('.mai-branded').forEach(main=>main.style.setProperty('--mai-art-scale',Math.min(main.clientWidth/1920,main.clientHeight/1080)));
  }
@@ -141,6 +160,7 @@
   mount.innerHTML=`<main class="mai-app mai-branded ${readonly?'mai-tv':'mai-tablet'} mai-phase-${phase}" data-language="en" aria-label="${label}"><div class="mai-artboard"><section class="mai-art-content ${art.cls}" aria-label="${label}"><img class="mai-approved-art" src="${asset(art.screen)}" alt="" draggable="false" aria-hidden="true"><p class="mai-art-sr">${label}. ${s.mode==='game'&&s.game.phase==='intro'?esc(MAIIA.words.en.introText):''}</p>${art.html}</section>${readonly?'':navigation(s)}${readonly||s.game.phase==='analysis'&&s.mode==='game'?'':`<small class="mai-art-disclaimer">${esc(MAIIA.words.en.demo)}</small>`}${readonly?'':'<div class="mai-feedback" role="status" aria-live="polite"></div>'}</div></main>`;
   mount.querySelectorAll('.mai-art-map .mai-map').forEach(svg=>svg.setAttribute('preserveAspectRatio','none'));
   if(s.game.phase==='analysis'&&s.game.analysisAt)mount.querySelector('.mai-app').style.setProperty('--elapsed',`-${Math.max(0,AI_SYNC.now()-s.game.analysisAt)}ms`);
+  territoryCamera(mount,s);
   warm(MAIIA.config.image);
   const image=mount.querySelector('.mai-approved-art'),preload=()=>{for(const name of next[art.screen]||[])warm(asset(name));};
   if(image.complete)preload();else image.addEventListener('load',preload,{once:true});
