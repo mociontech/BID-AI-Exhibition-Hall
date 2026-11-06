@@ -24,7 +24,7 @@
   return `<svg class="mai-art-fragment" style="${box(rect)}" viewBox="${source.join(' ')}" preserveAspectRatio="none" aria-hidden="true"><image href="${asset(name)}" width="1920" height="1080"/></svg>`;
  }
  function buttonLabel(rect,label){const [x,y,w,h]=rect;return patch([x+14,y+9,w-60,h-18],esc(label),'mai-art-button-label');}
- const mapRect=[427,315,1065,600],tvMap=[788,350,1065,600];
+ const mapRect=[340,254,1240,697.5],tvMap=[48,224,1296,729];
  function liveMap(s,rect,options={},cls=''){
   return `<div class="mai-art-map mai-controller-canvas ${cls}" style="${box(rect)}">${MAIIA.map(s,options)}</div>`;
  }
@@ -57,36 +57,32 @@
    html+=buttonLabel([1603,915,250,70],'Activate MAIIA')+hit([1603,915,250,70],'activate','Activate MAIIA and scan the territory');
   }else{
    const easy=p==='easy'||p==='easyResult',review=p==='easyResult'||p==='manualResult',analysis=p==='analysis',final=p==='final';
-   if(final){screen='easyResult';cls='mai-final-map';}
-   else cls='mai-controller';
+   if(final){screen='easyResult';cls='mai-final-map';}else cls='mai-controller';
+   html+=patch([0,126,1920,954],'','mai-art-body-mask');
+   const headings={easy:['Outline','informal settlements'],easyResult:['Your','results'],manual:['Mark','informal settlements'],manualResult:['Your observations,','without MAIIA'],analysis:['MAIIA is','scanning...'],assisted:['Review','MAIIA suggestions'],final:['Your','results']};
+   const hints={easy:t.drawHint,easyResult:`${g.easyScore}% overlap with the reference areas`,manual:t.markerHelp,manualResult:`${g.manual?.hits} / ${MAIIA.config.scoring.markerLimit} areas identified \u00b7 ${g.manual?.score}%`,analysis:t.analysisShort,assisted:t.selectHint,final:t.reviewMapHint};
+   html+=title([340,148,1500,76],...headings[p],64);
+   html+=patch([340,218,1300,33],esc(hints[p]),'mai-art-subtitle mai-tablet-map-hint');
    html+=liveMap(s,mapRect,{kind:easy?'easy':'hard',reference:final||p==='easyResult',candidates:analysis||p==='assisted',answers:final,readonly:review||analysis||final,scan:analysis});
+   const reviewButton=[1330,960,250,70],clearButton=[340,960,250,70];
+   const approvedButton=(source,rect,action,label,options={})=>fragment(screen,source,rect)+hit(rect,action,label,options);
    if(p==='easy'){
-    html+=title([420,174,1390,82],'Outline','informal settlements');
-    html+=hit([427,948,250,70],'undo','Undo last area',{disabled:!g.polygons.length&&!g.draft.length});
-    html+=hit([710,948,250,70],'clear','Clear all drawn areas',{disabled:!g.polygons.length&&!g.draft.length});
-    html+=hit([1242,948,250,70],'review','Review drawn areas');
-   }else if(p==='easyResult'){
-    html+=patch([421,251,1100,45],`${g.easyScore}% overlap with the reference areas`,'mai-art-subtitle');
-    html+=buttonLabel([1242,949,250,68],'Continue')+hit([1242,949,250,68],'next','Continue to level 2');
-   }else if(p==='manual'){
-    html+=title([420,174,1390,82],'Mark','informal settlements');
-    html+=patch([701,951,440,68],`${g.markers.length} / ${MAIIA.config.scoring.markerLimit} Markers`,'mai-art-count');
-    html+=hit([427,948,250,70],'clear','Clear all markers',{disabled:!g.markers.length});
-    html+=hit([1242,948,250,70],'review','Review marked settlements');
+    html+=approvedButton([427,948,250,70],clearButton,'undo','Undo last area',{disabled:!g.polygons.length&&!g.draft.length});
+    html+=approvedButton([710,948,250,70],[622,960,250,70],'clear','Clear all drawn areas',{disabled:!g.polygons.length&&!g.draft.length});
+    html+=approvedButton([1242,948,250,70],reviewButton,'review','Review drawn areas');
+   }else if(p==='manual'||p==='assisted'){
+    html+=approvedButton([427,948,250,70],clearButton,'clear',p==='manual'?'Clear all markers':'Clear selected suggestions',{disabled:p==='manual'?!g.markers.length:!g.selected.length});
+    html+=patch([622,960,650,70],p==='manual'?`${g.markers.length} / ${MAIIA.config.scoring.markerLimit} Markers`:`${g.selected.length} Selected`,'mai-art-count');
+    html+=approvedButton([1242,948,250,70],reviewButton,'review',p==='manual'?'Review marked settlements':'Review MAIIA-assisted selections');
+   }else if(p==='easyResult'||final){
+    html+=patch([340,960,950,80],final?legend(s):MAIIA.legend(t,[['mai-reference-key',t.reference],['mai-user-key',t.your]]),'mai-art-final-legend');
+    html+=fragment(screen,[1242,948,250,70],reviewButton)+buttonLabel(reviewButton,final?'Play again':'Continue')+hit(reviewButton,final?'replay':'next',final?'Play again':'Continue to level 2');
    }else if(p==='manualResult'){
-    html+=patch([421,251,1100,45],`${g.manual.hits} / ${MAIIA.config.scoring.markerLimit} areas identified · ${g.manual.score}%`,'mai-art-subtitle');
-    html+=buttonLabel([1097,949,395,68],'Continue')+hit([1097,949,395,68],'next','Continue to Activate MAIIA');
+    const nextButton=[1185,960,395,70];
+    html+=fragment(screen,[1097,949,395,68],nextButton)+buttonLabel(nextButton,'Continue')+hit(nextButton,'next','Continue to Activate MAIIA');
    }else if(analysis){
-    html+=title([420,174,1430,82],'MAIIA is','scanning…');
-    html+='<div class="mai-art-progress mai-analysis-progress" style="'+box([427,933,1065,12])+'" aria-hidden="true"><i></i></div>';
-   }else if(p==='assisted'){
-    html+=patch([701,951,440,68],`${g.selected.length} Selected`,'mai-art-count');
-    html+=hit([427,948,250,70],'clear','Clear selected suggestions',{disabled:!g.selected.length});
-    html+=hit([1242,948,250,70],'review','Review MAIIA-assisted selections');
-   }else if(final){
-    html+=patch([421,251,1100,45],esc(t.reviewMapHint),'mai-art-subtitle');
-    html+=patch([421,949,810,79],legend(s),'mai-art-final-legend');
-    html+=buttonLabel([1242,949,250,68],'Play again')+hit([1242,949,250,68],'replay','Play again');
+    html+='<div class="mai-art-progress mai-analysis-progress" style="'+box([340,961,1240,8])+'" aria-hidden="true"><i></i></div>';
+    html+=patch([340,987,1240,40],esc(t.demo),'mai-tablet-scan-note');
    }
   }
   return {screen,html,cls};
@@ -95,15 +91,7 @@
   const g=s.game,p=g.phase,t=MAIIA.words.en;
   let screen='tvLanding',html='',cls='';
   if(s.mode==='info')return {screen:'info',html,cls:'mai-infographic'};
-  if(s.mode!=='game')return {screen,html:patch([64,257,710,48],'07 MAIIA','mai-art-project-label'),cls:'mai-landing'};
-  if(p==='intro')return {screen:'tvIntro',html,cls:'mai-intro'};
-  if(p==='activation'){
-   screen='tvIntro';cls='mai-activation';
-   html+=title([60,217,1790,115],'Activate','MAIIA',92);
-   html+=patch([60,345,675,610],`<div class="mai-art-activation-icon">${MAIIA.icon('chip')}</div><p>${esc(t.activationText)}</p><p class="mai-art-activation-cue">${esc(t.activationCue)}</p>`,'mai-art-activation-copy');
-   html+=liveMap(s,[785,349,1065,600],{readonly:true});
-   return {screen,html,cls};
-  }
+  if(s.mode!=='game')return televisionMap(s);
   if(p==='final'){
    const a=g.manual,b=g.assisted;
    screen='final';cls='mai-final';
@@ -112,29 +100,34 @@
    html+=patch([330,757,1280,100],`<h2>${esc(message)}</h2><p>${esc(t.closing)}</p>`,'mai-final-message');
    return {screen,html,cls};
   }
-  const easy=p==='easy'||p==='easyResult',analysis=p==='analysis';
-  const screens={easy:'tvEasy',easyResult:'tvEasyResult',manual:'tvManual',manualResult:'tvManualResult',analysis:'tvAnalysis',assisted:'tvAssisted'};
-  screen=screens[p];cls='mai-game-area';
-  const rect=p==='easyResult'||p==='manualResult'?[788,265,1065,600]:tvMap;
-  html+=liveMap(s,rect,{kind:easy?'easy':'hard',reference:p==='easyResult',candidates:analysis||p==='assisted',readonly:true,scan:analysis});
-  if(p==='easy'){
-   html+=title([60,222,1800,110],'Level 1 -','Find informal settlements',86);
-   html+=patch([66,598,650,48],`${g.polygons.length} Closed areas`,'mai-art-tv-count');
-  }else if(p==='easyResult')html+=patch([60,451,690,222],`${g.easyScore}%`,'mai-big-score');
-  else if(p==='manual'){
-   html+=title([60,222,1800,110],'Level 2 -','Locate informal settlements',86);
-   html+=patch([66,617,650,48],`${g.markers.length} / ${MAIIA.config.scoring.markerLimit} Markers`,'mai-art-tv-count');
-  }else if(p==='manualResult'){
-   html+=patch([60,451,690,222],`${g.manual.hits} / ${MAIIA.config.scoring.markerLimit}`,'mai-big-score');
-   html+=patch([66,725,655,130],`${g.manual.score}% · ${esc(t.metric)}`,'mai-art-manual-metric');
-   // The supplied example legend shows reference zones; these stay hidden before AI.
-   html+=patch([1093,882,440,63],'','mai-art-hidden-reference-legend');
-  }else if(analysis){
-   html+=title([60,222,1800,110],'MAIIA is active -','scanning the territory',83);
-   html+='<div class="mai-art-patch" style="'+box([66,632,660,24])+'"><div class="mai-art-progress mai-analysis-progress" aria-hidden="true"><i></i></div></div>';
-  }else if(p==='assisted')html+=patch([66,623,650,48],`${g.selected.length} Selected`,'mai-art-tv-count');
-  return {screen,html,cls};
+  return televisionMap(s);
  }
+ function televisionMap(s){
+  const g=s.game,p=g.phase,t=MAIIA.words.en,landing=s.mode!=='game';
+  const easy=landing||['intro','easy','easyResult'].includes(p),analysis=p==='analysis'&&!landing;
+  const screens={intro:'tvIntro',easy:'tvEasy',easyResult:'tvEasyResult',manual:'tvManual',manualResult:'tvManualResult',activation:'tvIntro',analysis:'tvAnalysis',assisted:'tvAssisted'};
+  const content={
+   intro:{stage:'MAIIA / SIMULATION',heading:t.introTitle,body:t.introText,help:t.duration},
+   easy:{stage:'LEVEL 1 / DRAW',heading:'Find informal settlements',body:t.easyInstruction,help:t.drawingHelp,count:`${g.polygons.length} Closed areas`},
+   easyResult:{stage:'LEVEL 1 / RESULT',heading:t.easyResult,body:t.match,help:t.iou,score:`${g.easyScore}%`},
+   manual:{stage:'LEVEL 2 / LOCATE',heading:'Locate informal settlements',body:t.manualInstruction,help:t.markerHelp,count:`${g.markers.length} / ${MAIIA.config.scoring.markerLimit} Markers`},
+   manualResult:{stage:'LEVEL 2 / RESULT',heading:t.manualResult,body:`${g.manual?.hits} / ${MAIIA.config.scoring.markerLimit} areas identified`,help:`${g.manual?.score}% \u00b7 ${t.metric}`,score:`${g.manual?.hits} / ${MAIIA.config.scoring.markerLimit}`},
+   activation:{stage:'ACTIVATE MAIIA',heading:t.activationTitle,body:t.activationText,help:t.activationCue},
+   analysis:{stage:'MAIIA / ANALYSIS',heading:'MAIIA is active',body:t.analysisText,help:'Scanning the territory...'},
+   assisted:{stage:'MAIIA / REVIEW',heading:t.assistedTitle,body:t.assistedInstruction,help:t.assistedHelp,count:`${g.selected.length} Selected`}
+  };
+  const c=landing?{stage:'07 / MAIIA',heading:'MAIIA',body:t.subtitle,help:t.tvInvite}:content[p];
+  let html=patch([0,126,1920,954],'','mai-art-body-mask');
+  html+=liveMap(s,tvMap,{kind:easy?'easy':'hard',decorative:landing||p==='intro',reference:p==='easyResult'&&!landing,candidates:!landing&&(analysis||p==='assisted'),readonly:true,scan:analysis});
+  html+=patch([48,170,1296,36],'MAIIA / TERRITORY & ARTIFICIAL INTELLIGENCE','mai-tv-map-kicker');
+  html+=`<span class="mai-tv-map-label" style="left:72px;top:248px">${esc(easy?t.closeMap:t.wideMap)}</span>`;
+  html+=`<aside class="mai-tv-copy mai-art-title" style="${box([1392,224,480,729])}"><p class="mai-tv-stage">${esc(c.stage)}</p><h1>${esc(c.heading)}</h1>${c.score?`<strong class="mai-big-score">${esc(c.score)}</strong>`:''}<p class="mai-tv-instruction">${esc(c.body)}</p><p class="mai-tv-detail">${esc(c.help)}</p>${c.count?`<p class="mai-art-tv-count">${esc(c.count)}</p>`:''}${analysis?'<div class="mai-art-progress mai-analysis-progress" aria-hidden="true"><i></i></div>':''}</aside>`;
+  const keys=p==='easyResult'?[['mai-reference-key',t.reference],['mai-user-key',t.your]]:analysis||p==='assisted'?[['mai-reference-key',t.suggested],['mai-selected-key',t.selected]]:[];
+  if(!landing&&keys.length)html+=patch([48,976,1296,58],MAIIA.legend(t,keys),'mai-art-final-legend');
+  html+=patch([48,1040,1824,28],esc(t.demo),'mai-tv-map-disclaimer');
+  return {screen:landing?'tvLanding':screens[p],html,cls:'mai-tv-map-layout '+(landing?'mai-landing':p==='intro'?'mai-intro':p==='activation'?'mai-activation':'mai-game-area')};
+ }
+
  function scale(){
   document.querySelectorAll('.mai-branded').forEach(main=>main.style.setProperty('--mai-art-scale',Math.min(main.clientWidth/1920,main.clientHeight/1080)));
  }

@@ -71,7 +71,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  assert.match(await tv.locator('.mai-art-title h1').textContent(),/informal settlements/);assert.match(await tablet.locator('.mai-controller-heading h1').textContent(),/informal settlements/);
  await fits(tablet,'drawing 1024×768');await fits(tv,'drawing TV');
  const drawingArea=await tablet.locator('[data-map]').boundingBox();
- assert.ok(Math.abs(drawingArea.width-1065*1024/1920)<1&&Math.abs(drawingArea.height-600*1024/1920)<1);
+ assert.ok(Math.abs(drawingArea.width-1240*1024/1920)<1&&Math.abs(drawingArea.height-697.5*1024/1920)<1);
  assert.equal(await tablet.locator('.mai-lead,.mai-help,.mai-legend').count(),0);
  checks.push('tablet map matches the approved artwork coordinate space; transparent controls remain aligned');
  // Reproduce two browser windows side by side, including a narrow CSS

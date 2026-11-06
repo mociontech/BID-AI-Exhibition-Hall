@@ -14,6 +14,8 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
    for(const phase of ['landing','info',...S.phases]){
     const markers=C.hard.reference.slice(0,2).map(z=>[0,1].map(i=>z.points.reduce((n,p)=>n+p[i],0)/z.points.length));
     const game={...S.fresh(true),phase:S.phases.includes(phase)?phase:'intro',polygons:C.easy.reference.map(z=>z.points),markers,selected:['C1','C3','C6'],easyScore:100,manual:S.manual(markers,C),assisted:S.assisted(['C1','C3','C6'],C),analysisAt:Date.now()-1500};
+    if(['landing','info','intro','easy','easyResult','manual'].includes(phase))game.manual=null;
+    if(phase!=='final')game.assisted=null;
     await page.evaluate(({game,phase,readonly})=>MAIIA.renderInto(document.getElementById('app'),{projectId:'07',language:'es',mode:['landing','info'].includes(phase)?phase:'game',game},{readonly}),{game,phase,readonly});
     await page.locator('.mai-approved-art').evaluate(img=>img.decode());await page.evaluate(()=>document.fonts.ready);
     const issues=await page.evaluate(({width,height,readonly})=>{
@@ -28,9 +30,14 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
       if(r.left<0||r.top<0||r.right>width+1||r.bottom>height+1)issues.push('clipped target '+n.dataset.action);
      }
      if(readonly&&document.querySelector('[data-action],[data-map],[data-candidate]'))issues.push('TV must stay passive');
-     for(const n of document.querySelectorAll('.mai-art-patch'))if(n.scrollWidth>n.clientWidth+1||n.scrollHeight>n.clientHeight+1)issues.push('clipped live data '+n.className);
+     for(const n of document.querySelectorAll('.mai-art-patch,.mai-tv-copy'))if(n.scrollWidth>n.clientWidth+1||n.scrollHeight>n.clientHeight+1)issues.push('clipped live data '+n.className);
      const map=document.querySelector('.mai-art-map');
-     if(map){const r=map.getBoundingClientRect(),svg=map.querySelector('svg.mai-map').getBoundingClientRect();if(Math.abs(r.width-svg.width)>1||Math.abs(r.height-svg.height)>1)issues.push('map and input bounds diverge');}
+     if(map){const r=map.getBoundingClientRect(),svg=map.querySelector('svg.mai-map').getBoundingClientRect();if(Math.abs(r.width-svg.width)>1||Math.abs(r.height-svg.height)>1)issues.push('map and input bounds diverge');
+      if(Math.abs(r.width/r.height-16/9)>.003)issues.push('map aspect ratio changed');
+      const copy=document.querySelector('.mai-tv-copy');
+      if(copy){const c=copy.getBoundingClientRect();if(r.right>c.left||r.width/board.width<.67)issues.push('TV map must be large and left of the text');}
+      for(const n of document.querySelectorAll('.mai-art-hit')){const c=n.getBoundingClientRect();if(c.left<r.right&&c.right>r.left&&c.top<r.bottom&&c.bottom>r.top)issues.push('control overlaps map '+n.dataset.action);}
+     }
      return issues;
     },{width,height,readonly});
     if(issues.length)findings.push({width,height,readonly,phase,issues});checked++;
