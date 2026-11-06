@@ -4,6 +4,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
 const S=require('./state.js'),C=require('./data/demo-maps.json');
 (async()=>{
  const base=process.env.TEST_URL||'http://localhost:4198',origin='https://maiia-preview.test',errors=[],writes=[],requests=[];
+ let delayedManual=false;
  let stored={stationId:7,updatedAt:Date.now(),payload:JSON.stringify({projectId:'07',view:'game',mode:'game',section:'easy',language:'es',game:{...S.fresh(true),phase:'easy'}})};
  const browser=await chromium.launch({channel:process.env.BROWSER_CHANNEL||'msedge',headless:true});
  try{
@@ -14,6 +15,7 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
    if(url.hostname==='f1-sap-default-rtdb.firebaseio.com'){
     assert.ok(url.pathname.endsWith('/stations/7.json'));
     if(request.method()==='PUT'){const value=request.postDataJSON();assert.ok(value.payload.length<=10000);stored={...value,updatedAt:Date.now()};writes.push(JSON.parse(value.payload));}
+    if(context===b&&request.method()==='GET'&&!delayedManual&&JSON.parse(stored.payload).game?.phase==='manual'){delayedManual=true;await new Promise(resolve=>setTimeout(resolve,3000));}
     return route.fulfill({json:stored,headers:{'Access-Control-Allow-Origin':'*'}});
    }
    // Other projects import this global stylesheet; MAIIA uses its local font.
@@ -31,6 +33,7 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
   await tv.waitForSelector('.mai-draft',{state:'attached'});await move([.1,.4]);await tablet.mouse.up();
   await tv.waitForFunction(()=>document.querySelectorAll('.mai-user').length===1);
   await click('review');await tv.waitForSelector('.mai-phase-easyResult');await click('next');await tv.waitForSelector('.mai-phase-manual');
+  assert.equal(delayedManual,true);assert.equal(await tv.locator('.mai-territory-zoom').count(),1);assert.ok(await tv.locator('.mai-map').evaluate(n=>n.viewBox.baseVal.width)<950);
   for(const p of [[.2,.15],[.45,.14],[.9,.9]]){const q=await at(p);await tablet.mouse.click(q.x,q.y);}
   await click('review');await tv.waitForSelector('.mai-phase-manualResult');
   for(const p of [tablet,tv])assert.equal(await p.locator('.mai-reference,.mai-candidate,.mai-reference-key').count(),0);
@@ -48,7 +51,7 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
   assert.equal(final.language,'en');await tv.reload();await tv.waitForSelector('.mai-phase-final');
   assert.equal(JSON.parse(stored.payload).game.assisted.score,20);assert.ok(Math.abs(await tv.evaluate(()=>AI_SYNC.now())-Date.now())<1800);
   assert.ok(writes.length>8);assert.ok(requests.some(r=>r.method==='HEAD'));assert.ok(!requests.some(r=>new URL(r.url).pathname==='/api/state'));assert.deepEqual(errors,[]);
-  const report={passed:true,transport:'Firebase REST PUT/GET (isolated test)',writeCount:writes.length,checks:['public entry and passive TV','freehand live synchronization','no pre-AI answer reveal','separate activation step survives reload','shared hosting clock with TV skew','assisted selections and actual final score','language and late receiver restoration'],errors};
+  const report={passed:true,transport:'Firebase REST PUT/GET (isolated test)',writeCount:writes.length,checks:['public entry and passive TV','freehand live synchronization','TV plays the full territory zoom despite a 3-second receive delay','no pre-AI answer reveal','separate activation step survives reload','shared hosting clock with TV skew','assisted selections and actual final score','language and late receiver restoration'],errors};
   fs.writeFileSync(path.join(__dirname,'verification/hosting-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

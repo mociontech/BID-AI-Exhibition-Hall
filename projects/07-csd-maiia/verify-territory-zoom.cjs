@@ -33,6 +33,19 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
   await tv.emulateMedia({reducedMotion:'reduce'});
   await tv.evaluate(()=>MAIIA.renderInto(document.getElementById('app'),{mode:'game',language:'en',game:{...MAIIA_STATE.fresh(),phase:'manual',easyScore:0,territoryAt:AI_SYNC.now()}},{readonly:true}));
   assert.equal(await width(tv),1000);assert.equal(await tv.locator('.mai-territory-zoom').count(),0);
-  assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:true,checks:['both views zoom out from the close-up crop','camera progresses without resetting on marker input','pointer coordinates track the moving camera','late TV resumes the shared transition','exact full territory and no pre-AI answers','completed transition does not replay on reload','reduced motion skips animation'],errors},null,2));
+  await tv.emulateMedia({reducedMotion:'no-preference'});await tv.bringToFront();
+  const delayed=await tv.evaluate(()=>{
+   const mount=document.getElementById('app'),game={...MAIIA_STATE.fresh(),phase:'easyResult',easyScore:0};
+   MAIIA.renderInto(mount,{mode:'game',game},{readonly:true});
+   const state={mode:'game',game:{...game,phase:'manual',territoryAt:AI_SYNC.now()-5000}};
+   MAIIA.renderInto(mount,state,{readonly:true});
+   return {state,width:mount.querySelector('.mai-map').viewBox.baseVal.width};
+  });
+  assert.ok(delayed.width<500,'a delayed TV update must start the complete zoom, even after the tablet finished');
+  await tv.waitForTimeout(300);const delayedProgress=await width(tv);assert.ok(delayedProgress>delayed.width&&delayedProgress<1000);
+  await tv.evaluate(s=>MAIIA.renderInto(document.getElementById('app'),s,{readonly:true}),delayed.state);
+  assert.ok(await width(tv)>=delayedProgress,'TV snapshot updates must preserve local playback progress');
+  await tv.waitForFunction(()=>!document.querySelector('.mai-territory-zoom'));assert.equal(await width(tv),1000);
+  assert.deepEqual(errors,[]);console.log(JSON.stringify({passed:true,checks:['both views zoom out from the close-up crop','camera progresses without resetting on marker input','pointer coordinates track the moving camera','late TV resumes the shared transition','exact full territory and no pre-AI answers','completed transition does not replay on reload','reduced motion skips animation','TV shows the full zoom after a delayed state update without restarting on redraw'],errors},null,2));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1});

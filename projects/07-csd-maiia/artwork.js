@@ -129,18 +129,26 @@
  }
 
  // Animate the SVG camera, including its overlays, in the same coordinate system
- // used by pointer input. The shared deadline survives renders and late TV joins.
- const cameras=new WeakMap(),territoryDuration=2200;
- function territoryCamera(mount,s){
+ // used by pointer input. TV playback starts on receipt so network delay cannot
+ // consume its transition; subsequent snapshots preserve that local playback.
+ const cameras=new WeakMap(),tvCameras=new WeakMap(),territoryDuration=2200;
+ function territoryCamera(mount,s,{readonly,wasCloseUp}){
   cancelAnimationFrame(cameras.get(mount));cameras.delete(mount);
   const svg=mount.querySelector('.mai-art-map .mai-map'),at=s.game.territoryAt;
-  if(!svg||s.mode!=='game'||s.game.phase!=='manual'||!at||matchMedia('(prefers-reduced-motion: reduce)').matches||AI_SYNC.now()-at>=territoryDuration)return;
+  if(s.mode!=='game'||s.game.phase!=='manual'){tvCameras.delete(mount);return;}
+  if(!svg||!at||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  let playback=tvCameras.get(mount);
+  if(readonly&&wasCloseUp&&playback?.at!==at){
+   playback={at,started:performance.now()};tvCameras.set(mount,playback);
+  }
+  const elapsed=readonly&&playback?.at===at?()=>performance.now()-playback.started:()=>AI_SYNC.now()-at;
+  if(elapsed()>=territoryDuration)return;
   const [ex,ey,ew,eh]=MAIIA.config.easy.crop,[hx,hy,hw,hh]=MAIIA.config.hard.crop;
   const from=[(ex-hx)/hw*1000,(ey-hy)/hh*562.5,ew/hw*1000,eh/hh*562.5],to=[0,0,1000,562.5];
   svg.classList.add('mai-territory-zoom');
   function frame(){
    if(!svg.isConnected){cameras.delete(mount);return;}
-   const progress=Math.max(0,Math.min(1,(AI_SYNC.now()-at)/territoryDuration)),ease=1-Math.pow(1-progress,3);
+   const progress=Math.max(0,Math.min(1,elapsed()/territoryDuration)),ease=1-Math.pow(1-progress,3);
    svg.setAttribute('viewBox',from.map((v,i)=>v+(to[i]-v)*ease).join(' '));
    if(progress<1)cameras.set(mount,requestAnimationFrame(frame));
    else{svg.setAttribute('viewBox','0 0 1000 562.5');svg.classList.remove('mai-territory-zoom');cameras.delete(mount);}
@@ -156,11 +164,12 @@
   const art=readonly?television(s):tablet(s),phase=s.mode==='game'?s.game.phase:s.mode==='info'&&readonly?'information':'landing';
   const titles={intro:'Become an urban detective',easy:'Level 1: find informal settlements',easyResult:'Your level 1 result',manual:'Level 2: locate informal settlements',manualResult:'Your observations without MAIIA',activation:'Activate MAIIA',analysis:'MAIIA is active and scanning the territory',assisted:'Select MAIIA suggestions',final:'Your results'};
   const label=s.mode==='game'?titles[s.game.phase]:s.mode==='info'&&readonly?'MAIIA information':'MAIIA main menu';
+  const wasCloseUp=!!mount.querySelector('.mai-phase-intro,.mai-phase-easy,.mai-phase-easyResult');
   document.documentElement.lang='en';
   mount.innerHTML=`<main class="mai-app mai-branded ${readonly?'mai-tv':'mai-tablet'} mai-phase-${phase}" data-language="en" aria-label="${label}"><div class="mai-artboard"><section class="mai-art-content ${art.cls}" aria-label="${label}"><img class="mai-approved-art" src="${asset(art.screen)}" alt="" draggable="false" aria-hidden="true"><p class="mai-art-sr">${label}. ${s.mode==='game'&&s.game.phase==='intro'?esc(MAIIA.words.en.introText):''}</p>${art.html}</section>${readonly?'':navigation(s)}${readonly||s.game.phase==='analysis'&&s.mode==='game'?'':`<small class="mai-art-disclaimer">${esc(MAIIA.words.en.demo)}</small>`}${readonly?'':'<div class="mai-feedback" role="status" aria-live="polite"></div>'}</div></main>`;
   mount.querySelectorAll('.mai-art-map .mai-map').forEach(svg=>svg.setAttribute('preserveAspectRatio','none'));
   if(s.game.phase==='analysis'&&s.game.analysisAt)mount.querySelector('.mai-app').style.setProperty('--elapsed',`-${Math.max(0,AI_SYNC.now()-s.game.analysisAt)}ms`);
-  territoryCamera(mount,s);
+  territoryCamera(mount,s,{readonly,wasCloseUp});
   warm(MAIIA.config.image);
   const image=mount.querySelector('.mai-approved-art'),preload=()=>{for(const name of next[art.screen]||[])warm(asset(name));};
   if(image.complete)preload();else image.addEventListener('load',preload,{once:true});
