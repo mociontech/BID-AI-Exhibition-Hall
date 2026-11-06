@@ -113,6 +113,12 @@ function renderDefault(data){
  app.innerHTML=`<main class="display-app"><header class="display-header">${AI_BRAND.header()}<span class="display-station">STATION ${String(sync.station).padStart(2,'0')} ? MAIN DISPLAY</span></header><section class="display-body"><div class="display-info"><div class="display-kicker">${isHome?'AI in Action':`PROJECT ${p.id} ? ${p.division}`}</div><h1 class="display-title">${title}</h1><p class="display-description">${intro}</p></div><div class="display-figure" aria-hidden="true">${isHome?'?':data.view==='game'?'?':data.view==='overview'?'?':'?'}</div></section><footer class="display-footer">IDB Group Projects Across The Region ? This screen is controlled by the tablet.</footer></main>`;
 }
 function render(data){
+ if(data?.projectId!=='11'||data?.view==='home')window.RISE_GAME?.stopDisplay();
+ if(data?.projectId==='11'&&data?.view!=='home'){
+  document.title='RSM RISE | AI in Action';
+  window.RSM_RISE.renderDisplay(app,data);
+  return;
+ }
  if(data?.projectId==='07'&&data?.view!=='home'){
   document.title='MAIIA | AI in Action';
   window.MAIIA.renderInto(app,data,{readonly:true});

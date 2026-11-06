@@ -1,0 +1,22 @@
+{
+  "game": "restored supplied prototype mechanics",
+  "transport": "mock Firebase, no production reads/writes",
+  "checks": [
+    "current landing design, real game lock, private room and landscape layouts",
+    "information gate, repeated taps, reload recovery and synchronized language",
+    "prototype proposals restored: SME credit line, urban metro and solar plant",
+    "case 1: simulated manual/RISE comparison, structured extraction and reload-safe progress",
+    "case 1: Why evidence and accept classification decision restored",
+    "case 1: year 2 warning versus year 3 review, action 1, memory document #8,201",
+    "case 2: simulated manual/RISE comparison, structured extraction and reload-safe progress",
+    "case 2: Why evidence and adjust classification decision restored",
+    "case 2: year 2 warning versus year 3 review, action 2, memory document #8,201",
+    "case 3: simulated manual/RISE comparison, structured extraction and reload-safe progress",
+    "case 3: Why evidence and accept classification decision restored",
+    "case 3: year 2 warning versus year 3 review, action 3, memory document #8,201",
+    "all three proposals, both classification decisions, all supervision actions and full replay",
+    "backtracking, changing proposal, project menu, Home and same-station room isolation",
+    "no JavaScript errors or failed requests"
+  ],
+  "errors": []
+}
