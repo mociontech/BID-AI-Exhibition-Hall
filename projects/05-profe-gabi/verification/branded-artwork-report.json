@@ -1,0 +1,17 @@
+{
+  "availableApprovedScreens": 10,
+  "originalBytesPreserved": true,
+  "dimensions": [
+    1920,
+    1080
+  ],
+  "languages": {
+    "en": "Approved artwork with current dialogue",
+    "es": "Native interface; Spanish artwork not supplied"
+  },
+  "gameAvailableFromStart": true,
+  "informationRequired": false,
+  "unlockDelayMs": 0,
+  "pathsCompleted": 16,
+  "integrationReport": "report.json"
+}

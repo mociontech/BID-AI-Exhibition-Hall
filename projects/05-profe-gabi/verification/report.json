@@ -1,15 +1,18 @@
 {
   "passed": true,
-  "ctaElapsedMs": 10049,
+  "gameAvailableFromStart": true,
   "pathsCompleted": 16,
   "checks": [
+    "Legacy locked session upgrades to immediate access on reload",
     "Menu, separate TV invitation, native fullscreen, keyboard focus, touch targets",
-    "Infographic ES/EN, survey denominator and causal-impact caveat, real 10-second CTA survives language/reload",
+    "Infographic ES/EN, survey denominator and causal-impact caveat, immediate game access survives language/reload without unlock timer",
+    "Original English TV PNG, 1920x1080 intrinsic size, proportional fit at three TV viewports, Spanish fallback and read-only TV",
     "Literal typing, auto-send, thinking, five-minute TV clock skew corrected, reload both devices mid-animation",
+    "English cover/info/game image hotspots work; career case stays current; proportional hit areas at three tablet sizes",
     "Official avatar loaded, source visible as plain text, no external navigation",
     "16 conversational paths completed (8 ES + 8 EN), every final takeaway received by separate TV",
     "Atomic language change during typing, Back cancels timers, offline cached TV and automatic latest-state replay",
-    "Restart clears choices, menu preserves unlock, fresh visitor locks again, Home cancels CTA, five landscape viewports, station isolation",
+    "Restart clears choices, menu and fresh visitor keep game available, Home cancels animations, five landscape viewports, station isolation",
     "Server rejects invalid 05 state; 01–04 controller and display smoke checks"
   ],
   "limitations": "Browser emulation and separate contexts; physical tablet/TV hardware not available."

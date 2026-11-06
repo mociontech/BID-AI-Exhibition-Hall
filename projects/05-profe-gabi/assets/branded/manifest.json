@@ -1,0 +1,89 @@
+{
+  "sourceArchive": "BID AI Exhibition hall.zip",
+  "assets": [
+    {
+      "sourceEntry": "Tablet/Mini-game state — EN.png",
+      "file": "tablet-cases-wait-en.png",
+      "sha256": "8fa2085628054a4bd54413decc09a66c8d194df16a62667bdc24314afe44f6c2",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "Tablet/Mini-game state — EN-1.png",
+      "file": "tablet-cases-en.png",
+      "sha256": "e394ac0633dec1ff84dd17b883bf22f02dce3174f797c29081e8b3556b7672d4",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "Tablet/Mini-game state — EN-2.png",
+      "file": "tablet-cases-thinking-en.png",
+      "sha256": "7b61910ca179e447816ae9a0fb63e413f533b9d3cd9d14698c8ecabfb3b86f0e",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "Tablet/Mini-game state — EN-3.png",
+      "file": "tablet-follow-en.png",
+      "sha256": "ebacae8dd1d5a4667c5439f7b7001f5f8b9a70c00687cf967ae90df5722b9acf",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "Tablet/Mini-game state — EN-4.png",
+      "file": "tablet-result-en.png",
+      "sha256": "edcdca8207d8c482271176cfc149b21ae90e0aff8b88d2a368c9c1a1577d4da7",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "TV/Information — EN.png",
+      "file": "tv-information-en.png",
+      "sha256": "d7f0ef8f46829afc54974cf02aa2560c642c8144c143e67354b0b4b1ffa78732",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "TV/Mini-game — EN.png",
+      "file": "tv-chat-en.png",
+      "sha256": "8c376e5c0636a9e193bd9669a397df19d6ad856972befafe77db0b3db826e2ee",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "TV/Mini-game — EN-1.png",
+      "file": "tv-situation-en.png",
+      "sha256": "ff09fd41737705674b8b0040bb5b7687800ae219f6f548231ab6b4d875fbdf6a",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "TV/Results or Final message — EN.png",
+      "file": "tv-result-en.png",
+      "sha256": "4d9030988e37c311f69297885d06709bab3e8c85b44e118b83c002d65e6c426f",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "TABLET/ES/00 Portada.png",
+      "file": "tablet-cover-en.png",
+      "sha256": "09c4ea22e5b60a1f1039e05b495504d9e44d83023538488e922499a280b40321",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    }
+  ],
+  "notes": [
+    "All source bytes preserved. Cover is English despite its ES folder name.",
+    "Outdated embedded case/chat text is covered by current dynamic text. Spanish keeps the native interface because Spanish exports were not supplied."
+  ]
+}

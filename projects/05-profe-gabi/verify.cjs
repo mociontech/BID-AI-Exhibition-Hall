@@ -37,13 +37,24 @@ const schema=require('./state.js');
  try{
   for(const station of [1,2,3,5])assert.equal((await request.post(`${base}/api/state?station=${station}`,{data:reset})).status(),200);
   const isolated=await Promise.all([1,2,3].map(async s=>clean(await state(s))));
+  await request.post(`${base}/api/state?station=5`,{data:{view:'project',projectId:'05',section:'menu',language:'en',mode:'landing',game:schema.fresh(false,Date.now()+10000)}});
   await tv.goto(`${base}/display.html?station=5`);
   await tablet.goto(`${base}/index.html?station=5`);await tablet.locator('[data-project="05"]').click();
   await tablet.waitForURL('**/projects/05-profe-gabi/index.html?station=5');await tv.locator('.gabi-tv-invite').waitFor();
   assert.equal(await tablet.locator('[data-language="en"]').getAttribute('aria-pressed'),'true');
+  await tablet.locator('.gabi-approved-artwork').evaluate(img=>img.decode());
+  assert.equal(await tablet.locator('.gabi-art-hotspot[data-action="game"]').isDisabled(),false);
+  await click('game');await tablet.locator('[data-topic="0"]').waitFor();
+  await click('menu');
+  await request.post(`${base}/api/state?station=5`,{data:{view:'project',projectId:'05',section:'menu',language:'en',mode:'landing',game:schema.fresh(false,Date.now()+10000)}});
+  await tablet.reload();
+  assert.equal(await tablet.locator('[data-action="game"]').first().isEnabled(),true);
+  await waitState(s=>s.game.ready&&s.game.unlockAt===0);
+  checks.push('Legacy locked session upgrades to immediate access on reload');
+  await shot(tablet,'branded-cover-en');
   await tablet.locator('[data-language="es"]').click();
   await tablet.evaluate(()=>document.fonts.ready);
-  assert.equal(await tablet.locator('[data-action="game"]').isDisabled(),true);
+  assert.equal(await tablet.locator('[data-action="game"]').first().isDisabled(),false);
   await fits(tablet,'menu');await shot(tablet,'menu-es');await shot(tv,'tv-invitation-es');
   assert.equal(await tv.locator('button,input,textarea').count(),0);
   await tablet.locator('[data-language="es"]').focus();
@@ -55,22 +66,34 @@ const schema=require('./state.js');
   await click('fullscreen');await tablet.waitForFunction(()=>!!document.fullscreenElement);
   await click('fullscreen');await tablet.waitForFunction(()=>!document.fullscreenElement);
   checks.push('Menu, separate TV invitation, native fullscreen, keyboard focus, touch targets');
-  const started=Date.now();await click('information');await tv.locator('.gabi-infographic').waitFor();
+  await click('information');await tv.locator('.gabi-infographic').waitFor();
   assert.equal(await tablet.locator('.gabi-hero').count(),1);
-  assert.equal(await tablet.locator('[data-action="game"]').isDisabled(),true);
+  assert.equal(await tablet.locator('[data-action="game"]').first().isDisabled(),false);
   await tablet.locator('[data-language="en"]').click();await tvText('136 survey respondents');
+  const artwork=tv.locator('.gabi-approved-artwork');await artwork.waitFor();
+  await artwork.evaluate(img=>img.decode());
+  assert.deepEqual(await artwork.evaluate(img=>({width:img.naturalWidth,height:img.naturalHeight})),{width:1920,height:1080});
+  assert.equal(await tv.locator('button,input,textarea').count(),0);
+  for(const size of [{width:1280,height:800},{width:3840,height:2160},{width:1920,height:1080}]){
+   await tv.setViewportSize(size);await fits(tv,'approved PNG '+size.width);
+   const bounds=await artwork.evaluate(img=>{const b=img.getBoundingClientRect();return {x:b.x,y:b.y,width:b.width,height:b.height,fit:getComputedStyle(img).objectFit};});
+   assert.ok(bounds.x>=-1&&bounds.y>=-1&&bounds.x+bounds.width<=size.width+1&&bounds.y+bounds.height<=size.height+1);
+   assert.ok(Math.abs(bounds.width/bounds.height-16/9)<.01);assert.equal(bounds.fit,'contain');
+  }
   await shot(tv,'infographic-en');await fits(tv,'infographic EN');
-  await tablet.waitForTimeout(2500);await tablet.reload();await tablet.locator('.gabi-hero').waitFor();
-  assert.equal(await tablet.locator('[data-action="game"]').isDisabled(),true);
+  await tablet.reload();await tablet.locator('.gabi-hero').waitFor();
+  assert.equal(await tablet.locator('[data-action="game"]').first().isDisabled(),false);
   await tablet.waitForFunction(()=>document.querySelector('.gabi-info-controls [data-action="game"]'));
-  const ctaElapsed=Date.now()-started;assert.ok(ctaElapsed>=9900&&ctaElapsed<13000,`CTA ${ctaElapsed}`);
+  assert.equal((await state()).game.unlockAt,0);
   await shot(tablet,'cta-en');
   await tablet.locator('[data-language="es"]').click();await tvText('136 personas');await fits(tv,'infographic ES');await shot(tv,'infographic-es');
-  await click('menu');assert.equal(await tablet.locator('[data-action="game"]').isEnabled(),true);
+  assert.equal(await tv.locator('.gabi-approved-artwork').count(),0);
+  await click('menu');assert.equal(await tablet.locator('[data-action="game"]').first().isEnabled(),true);
   await click('game');await tv.locator('.gabi-game-welcome').waitFor();
   assert.equal(await tablet.locator('[data-topic]').count(),4);
   await shot(tablet,'cases-es');await fits(tv,'four cases on TV');
-  checks.push('Infographic ES/EN, survey denominator and causal-impact caveat, real 10-second CTA survives language/reload');
+  checks.push('Infographic ES/EN, survey denominator and causal-impact caveat, immediate game access survives language/reload without unlock timer');
+  checks.push('Original English TV PNG, 1920x1080 intrinsic size, proportional fit at three TV viewports, Spanish fallback and read-only TV');
   // Run the first exchange at its real speed and inspect literal typing.
   await choose('topic',0);await tv.locator('[data-animate]').waitFor();
   await tv.waitForFunction(()=>document.querySelector('[data-draft]')?.textContent.length>=3);
@@ -104,6 +127,22 @@ const schema=require('./state.js');
    }
   }
   await shot(tablet,'completion-tablet-en');await shot(tv,'completion-tv-en');
+  await click('menu');
+  await tablet.locator('.gabi-approved-artwork').evaluate(img=>img.decode());
+  await click('information');await tv.locator('.gabi-infographic').waitFor();
+  await click('game');await tablet.locator('[data-topic="0"]').waitFor();
+  for(const size of [{width:960,height:600},{width:1180,height:820},{width:1920,height:1080}]){
+   await tablet.setViewportSize(size);await fits(tablet,'branded hotspots '+size.width);
+   for(const index of [0,1,2,3]){
+    const region=await tablet.locator(`[data-topic="${index}"]`).evaluate(el=>{const a=el.getBoundingClientRect(),c=el.closest('.gabi-artwork-canvas').getBoundingClientRect();return {x:(a.x-c.x)/c.width,y:(a.y-c.y)/c.height,w:a.width,h:a.height};});
+    const expected=await tablet.evaluate(i=>PROFE_GABI_ARTWORK.regions.topics[i],index);
+    assert.ok(Math.abs(region.x-expected[0]/1920)<.003&&Math.abs(region.y-expected[1]/1080)<.003);assert.ok(region.w>=44&&region.h>=44);
+   }
+   await choose('topic',2);await skip();await tvText('recognition');
+   await shot(tablet,'branded-career-follow-'+size.width);await choose('follow',1);await skip();await tv.locator('.is-complete').waitFor();
+   await tvText('human mentoring');if(size.width!==1920)await click('restart');
+  }
+  checks.push('English cover/info/game image hotspots work; career case stays current; proportional hit areas at three tablet sizes');
   assert.equal(await tablet.locator('a[href^="http"]').count(),0);
   assert.equal(await tv.locator('a[href^="http"]').count(),0);
   await tv.locator('.gabi-source').waitFor();
@@ -141,18 +180,20 @@ const schema=require('./state.js');
    await click('menu');await fits(tablet,'menu '+size.width);await click('game');
   }
   await choose('topic',0);await click('home');await tablet.waitForURL(`${base}/index.html?station=5`);
-  await tablet.locator('[data-project="05"]').click();await click('information');await click('home');
+  await tablet.locator('[data-project="05"]').click();
+  assert.equal(await tablet.locator('[data-action="game"]').first().isEnabled(),true);
+  await click('information');await click('home');
   await tablet.waitForURL(`${base}/index.html?station=5`);await tv.locator('.display-app').waitFor();
   await tablet.waitForTimeout(10500);assert.equal((await state()).view,'home');
   assert.deepEqual(await Promise.all([1,2,3].map(async s=>clean(await state(s)))),isolated);
-  checks.push('Restart clears choices, menu preserves unlock, fresh visitor locks again, Home cancels CTA, five landscape viewports, station isolation');
+  checks.push('Restart clears choices, menu and fresh visitor keep game available, Home cancels animations, five landscape viewports, station isolation');
   // Malformed new game state cannot replace current station state.
   for(const game of [{...schema.fresh(true),phase:'complete'},{...schema.fresh(true),topic:4},{...schema.fresh(true),version:2},{...schema.fresh(true),phase:'follow',topic:0,situation:1},{...schema.fresh(true),phase:'animating',turn:'follow',startedAt:Date.now()}]){
    const r=await request.post(`${base}/api/state?station=5`,{data:{view:'game',projectId:'05',mode:'game',game}});assert.equal(r.status(),400);
   }
   assert.equal((await state()).view,'home');
   // Existing project receivers still load their own assets and entry points.
-  for(const [id,slug,selector,mode] of [['01','aquadata','.aquadata-display','info'],['02','bogota-traffic-prediction','.bogota-display','overview'],['03','costa-rica-smart-borders','.crb-display','info'],['04','parque-tecnologico-guatiguara','.guatiguara-display','info']]){
+  for(const [id,slug,selector,mode] of [['01','aquadata','.aquadata-display','info'],['02','bogota-traffic-prediction','.ptd-tv-information','overview'],['03','costa-rica-smart-borders','.crb-display','info'],['04','parque-tecnologico-guatiguara','.guatiguara-display','info']]){
    await request.post(`${base}/api/state?station=1`,{data:{view:id==='02'?'overview':'project',projectId:id,section:'info',language:'es',mode,game:null}});
    const p=await browser.newPage();await p.goto(`${base}/display.html?station=1`);await p.locator(selector).waitFor();
    await p.waitForFunction(()=>[...document.images].every(img=>img.complete&&img.naturalWidth>0));
@@ -160,7 +201,7 @@ const schema=require('./state.js');
   }
   checks.push('Server rejects invalid 05 state; 01–04 controller and display smoke checks');
   assert.deepEqual(errors,[]);
-  const report={passed:true,ctaElapsedMs:ctaElapsed,pathsCompleted:traversed,checks,limitations:'Browser emulation and separate contexts; physical tablet/TV hardware not available.'};
+  const report={passed:true,gameAvailableFromStart:true,pathsCompleted:traversed,checks,limitations:'Browser emulation and separate contexts; physical tablet/TV hardware not available.'};
   fs.writeFileSync(path.join(output,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

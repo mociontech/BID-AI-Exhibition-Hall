@@ -2,7 +2,7 @@
 (function(root){
  const phases=['topics','follow','complete','animating'];
  const turns=['situation','follow'];
- function fresh(ready=false,unlockAt=0){return {version:3,phase:'topics',topic:null,situation:null,follow:null,turn:null,startedAt:0,ready,unlockAt};}
+ function fresh(ready=true,unlockAt=0){return {version:3,phase:'topics',topic:null,situation:null,follow:null,turn:null,startedAt:0,ready,unlockAt};}
  function sanitize(value){
   if(!value||typeof value!=='object'||value.version!==3||!phases.includes(value.phase)||typeof value.ready!=='boolean')return null;
   const index=(v,max)=>v===null||Number.isInteger(v)&&v>=0&&v<=max;

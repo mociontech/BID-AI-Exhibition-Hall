@@ -19,9 +19,7 @@ window.ProjectModule={
   function armTimer(){
    stopTimer();if(leaving)return;
    const g=state.game;
-   if(state.mode==='info'&&!g.ready&&g.unlockAt){
-    timer=setTimeout(()=>update({mode:'cta',game:{...state.game,ready:true,unlockAt:0}}),Math.max(0,g.unlockAt-api.now()));
-   }else if(state.mode==='game'&&g.phase==='animating'){
+   if(state.mode==='game'&&g.phase==='animating'){
     const animation=api.animation(state);
     timer=setTimeout(finishAnimation,Math.max(0,animation.total-animation.elapsed)+15);
    }
@@ -32,7 +30,7 @@ window.ProjectModule={
    render();void publish();armTimer();
   }
   function setGame(next){update({game:{...state.game,...next}});}
-  function menu(){update({view:'project',mode:'landing',game:schema.fresh(state.game.ready)});}
+  function menu(){update({view:'project',mode:'landing',game:schema.fresh()});}
   function restart(){update({view:'game',mode:'game',game:schema.fresh(true)});}
   function back(){
    const g=state.game;
@@ -69,9 +67,9 @@ window.ProjectModule={
    if(action==='back')return back();
    if(action==='information'){
     if(state.mode==='info'||state.mode==='cta')return;
-    return update({view:'project',mode:g.ready?'cta':'info',game:{...schema.fresh(g.ready),unlockAt:g.ready?0:api.now()+10000}});
+    return update({view:'project',mode:'info',game:schema.fresh()});
    }
-   if(action==='game'&&g.ready)return restart();
+   if(action==='game')return restart();
    if(state.mode!=='game')return;
    if(action==='restart'||action==='topics')return restart();
    if(action==='skip'&&g.phase==='animating')return finishAnimation();
@@ -99,8 +97,7 @@ window.ProjectModule={
    }
    const restored=schema.sanitize(remote?.game);
    if(remote?.projectId==='05'&&restored&&['landing','info','cta','game'].includes(remote.mode)){
-    state={...state,language:remote.language==='es'?'es':'en',mode:remote.mode,view:remote.mode==='game'?'game':'project',game:restored};
-    if(state.mode==='info'&&restored.unlockAt<=api.now())state={...state,mode:'cta',game:{...restored,ready:true,unlockAt:0}};
+    state={...state,language:remote.language==='es'?'es':'en',mode:remote.mode,view:remote.mode==='game'?'game':'project',game:{...restored,ready:true,unlockAt:0}};
    }else if(remote?.language==='es')state.language='es';
   }catch{}
   render();void publish();armTimer();

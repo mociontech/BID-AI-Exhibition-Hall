@@ -1,5 +1,11 @@
 # 05 — Profe Gabi
 
+## Pantallas aprobadas con branding
+
+Se incorporaron los 10 PNG originales de `BID AI Exhibition hall.zip` en la experiencia EN: portada, casos, espera, pensamiento, seguimiento, resultado, información y chat de TV. Los controles dibujados se activan mediante zonas HTML transparentes proporcionales. Los textos variables y el chat conservan los cuatro casos actuales. Los originales no se recomprimen ni modifican. Ver [inventario y correspondencias](assets/branded/README.md).
+
+El ZIP no incluye versiones reales en español (su portada en la carpeta ES también tiene textos ingleses). ES mantiene la interfaz nativa; el selector, Home, menú, fullscreen, reinicio y sincronización se conservan.
+
 Experiencia bilingüe de exhibición integrada en el shell existente: tableta para decidir, TV para información y conversación. Sin IA en vivo, entradas de texto libre, datos personales ni dependencias de ejecución añadidas.
 
 ## Ejecutar y abrir
@@ -40,9 +46,9 @@ Se omitieron los textos accidentales sobre Codex de la referencia de conversaci�
 
 ## Recorrido
 
-1. La tableta abre el menú con Información y Minijuego. Minijuego comienza gris y deshabilitado, sin superposiciones. La TV muestra una invitación, no tarjetas táctiles.
+1. La tableta abre el menú con Información y Minijuego activos desde el inicio. La TV muestra una invitación, no tarjetas táctiles.
 2. Información mantiene la tableta en su menú con controles sencillos y muestra una infografía HTML/CSS en TV. Incluye qué es, por qué importa, flujo de tres pasos, explicación sencilla de RAG, tres áreas de apoyo, cuatro cifras del piloto y el papel del criterio docente.
-3. Tras 10 segundos aparece el CTA dentro del menú y se habilita Minijuego. La espera sobrevive a cambios de idioma y recargas. Volver al menú después del desbloqueo conserva el acceso para esa visita.
+3. Se puede iniciar el minijuego directamente, sin consultar Información ni esperar un temporizador. El acceso se mantiene al recargar, cambiar idioma, volver al menú o iniciar una nueva visita.
 4. El minijuego presenta cuatro casos documentados: planificar una clase, incluir a un estudiante con TEA, entender la carrera docente y afrontar el agotamiento. Las tarjetas indican sus tres áreas de apoyo.
 5. Elegir un caso inicia directamente la consulta y la respuesta, con escritura y pensamiento simulados. No hay un paso intermedio para escoger otra situación.
 6. Una sola decisión de seguimiento, entre dos opciones, conduce a la respuesta final y a un aprendizaje breve. Las fuentes aparecen como texto en el chat, sin enlaces ni redirecciones.
@@ -55,6 +61,7 @@ Los guiones son adaptaciones editoriales de casos reales anonimizados de la fich
 
 - `index.html`: carga los recursos del proyecto y mantiene `shared/project-page.js` como shell.
 - `module.js`: contrato `ProjectModule.mountController`, transiciones, idioma, navegación, fullscreen, temporizadores y reenvío tras pérdida de conexión.
+- `artwork.js` y `artwork.css`: fondos PNG, zonas transparentes, textos variables y escala del nuevo branding EN.
 - `experience.js`: componentes distintos para tableta y TV, infografía, chat y línea de tiempo de las animaciones.
 - `module.css`: estilos bajo el prefijo `gabi-`, iconografía SVG, Inter local, estados hover/pressed/focus y adaptación a movimiento reducido.
 - `state.js`: esquema de estado versionado y validador común de navegador y servidor.
@@ -84,7 +91,7 @@ node projects/05-profe-gabi/verify.cjs
 
 La prueba utiliza Chrome instalado localmente. Se puede indicar otro servidor con `TEST_URL`.
 
-Comprueba 16 recorridos: los ocho desenlaces de cada idioma. Abre tableta y TV en contextos independientes de navegador, verifica escritura, envío, pensamiento, omisión, bloqueo de opciones, cambio de idioma durante animación, recargas de ambos equipos, reinicio, regreso, Home con temporizador pendiente, reconexión y reenvío sin duplicar mensajes. Simula un reloj de TV adelantado cinco minutos. Comprueba también rechazo de estado inválido, aislamiento de estaciones y entradas/receptores de 01–04 mediante pruebas de humo.
+Comprueba 16 recorridos: los ocho desenlaces de cada idioma. Abre tableta y TV en contextos independientes de navegador, verifica escritura, envío, pensamiento, omisión, bloqueo de opciones, cambio de idioma durante animación, recargas de ambos equipos, reinicio, regreso, Home durante una animación, reconexión y reenvío sin duplicar mensajes. Simula un reloj de TV adelantado cinco minutos. Comprueba también rechazo de estado inválido, aislamiento de estaciones y entradas/receptores de 01–04 mediante pruebas de humo.
 
 Dimensiones de tableta: 1180×820, 1024×768, 1280×800, 1366×768 y 960×600. TV: 1920×1080. Incluye comprobaciones de ausencia de desbordamiento de página, foco visible y objetivos táctiles de al menos 44 px en el menú. Los mensajes largos se desplazan dentro del chat.
 
