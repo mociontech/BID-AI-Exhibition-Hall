@@ -117,7 +117,7 @@ const server=http.createServer((req,res)=>{
       if(!Array.isArray(value.supports)||value.supports.length>2||value.supports.some(item=>!supports.includes(item))||new Set(value.supports).size!==value.supports.length)return sendJson(res,400,{error:'Invalid Guatiguara supports'});
       game={step:value.step,mission:value.mission||null,lab:value.lab||null,supports:[...value.supports]};
      }else{
-      if(typeof payload.game!=='object'||!Number.isInteger(payload.game.step)||payload.game.step<1||payload.game.step>6)return sendJson(res,400,{error:'Invalid game state'});
+      if(typeof payload.game!=='object'||!Number.isInteger(payload.game.step)||payload.game.step<1||payload.game.step>8)return sendJson(res,400,{error:'Invalid game state'});
       const cleanSelection=value=>Array.isArray(value)&&value.length<=3&&value.every(id=>/^A-0[1-8]$/.test(id))?[...new Set(value)]:null;
       const p1=cleanSelection(payload.game.p1),p2=cleanSelection(payload.game.p2);
       if(!p1||!p2)return sendJson(res,400,{error:'Invalid game selections'});
