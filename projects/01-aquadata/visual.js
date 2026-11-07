@@ -34,7 +34,7 @@
    s3Kicker:'How the AI thinks',s3Title:'This is how',s3Accent:'AquaData analyses',s3Body:'The model reads each contract’s consumption and estimates how likely an inspection is to find an irregularity.',
    s3Phases:['Collects the data','Reads consumption','Detects patterns','Scores and ranks'],s3Sources:['Billing','Readings','Inspections'],s3Trend:'Consumption',
    s3Inputs:[['Consumption history','Monthly readings and evolution'],['Billing','Company records'],['Past inspections','Known outcomes']],
-   s3Model:'AquaData · analysis agent',s3Working:'Analysing contracts…',s3Done:'Scores ready',s3Rank:'RIR risk ranking',s3RankBody:'Suggested inspection order',
+   s3Model:'AquaData · analysis agent',s3Working:'Analysing contracts…',s3Done:'Scores ready',s3Play:'Play on screen',s3NextAct:'Next step',s3Prev:'Previous step',s3Replay:'Replay',s3Intro:'Four steps to read the 8 contracts.',s3Rank:'RIR risk ranking',s3RankBody:'Suggested inspection order',
    s3Note:'A high score is not proof of fraud. The inspector verifies it in the field.',
    s5Kicker:'The result',s5Title:'Same contracts.',s5Accent:'A different way of looking.',s5Body:'This is what the field team found in each round.',s5Without:'Blind',s5With:'With AquaData',
    found:'Irregularity',clear:'Nothing found',
@@ -65,7 +65,7 @@
    s3Kicker:'Así piensa la IA',s3Title:'Así analiza',s3Accent:'AquaData',s3Body:'El modelo lee el consumo de cada contrato y calcula qué tan probable es que una inspección encuentre una irregularidad.',
    s3Phases:['Reúne los datos','Lee el consumo','Detecta patrones','Calcula y ordena'],s3Sources:['Facturación','Lecturas','Inspecciones'],s3Trend:'Consumo',
    s3Inputs:[['Historial de consumo','Lecturas y evolución mensual'],['Facturación','Registros de la empresa'],['Inspecciones previas','Resultados conocidos']],
-   s3Model:'AquaData · agente de análisis',s3Working:'Analizando contratos…',s3Done:'Puntajes listos',s3Rank:'Ranking de riesgo RIR',s3RankBody:'Orden sugerido de inspección',
+   s3Model:'AquaData · agente de análisis',s3Working:'Analizando contratos…',s3Done:'Puntajes listos',s3Play:'Ver en pantalla',s3NextAct:'Siguiente paso',s3Prev:'Paso anterior',s3Replay:'Repetir',s3Intro:'Cuatro pasos para leer los 8 contratos.',s3Rank:'Ranking de riesgo RIR',s3RankBody:'Orden sugerido de inspección',
    s3Note:'Un puntaje alto no es prueba de fraude. El inspector lo verifica en campo.',
    s5Kicker:'El resultado',s5Title:'Mismos contratos.',s5Accent:'Distinta forma de mirar.',s5Body:'Esto encontró el equipo de campo en cada ronda.',s5Without:'A ciegas',s5With:'Con AquaData',
    found:'Irregularidad',clear:'Sin hallazgo',
@@ -129,17 +129,15 @@
   return `<figure class="aqd-chart ${animate?'is-animated':''}" aria-label="${esc(x.s6Metric)}"><div class="aqd-bars"><div class="aqd-bar aqd-bar--reference" style="--value:${scale(EMCALI.reference)}"><b>${fmt(EMCALI.reference)}</b><i></i><span>${x.s6Reference}</span></div><div class="aqd-bar aqd-bar--aquadata" style="--value:${scale(EMCALI.withAquaData)}"><b>${fmt(EMCALI.withAquaData)}</b><i></i><span>${x.s6With}</span></div></div><figcaption>${x.s6Metric}<small>${x.s6Source}</small></figcaption></figure>`;
  }
  /* Four acts of about 3.5 s each: [start, length] in seconds. aquadata.css follows the same clock. */
- const PHASE_TIMING=[[0,3.4],[3.6,3.6],[7.4,3],[10.6,4]];
- /* One TV caption per act; the last one stays. */
- const CAPTION_TIMING=[[.2,3.3],[3.6,3.7],[7.4,3.1],[10.6,0]];
+ const ACTS=4;
  /* The agent panel: what the model is doing while the contract cards are scanned. */
- function agent(x,animate){
-  return `<aside class="aqd-agent ${animate?'is-animated':''}"><div class="aqd-agent-head"><span class="aqd-model-icon">${icons.brain}</span><span><strong>${x.s3Model}</strong><em class="aqd-agent-status"><span>${x.s3Working}</span><span>${x.s3Done}</span></em></span></div><ul class="aqd-agent-sources">${x.s3Sources.map((source,i)=>`<li style="--i:${i}">${source}</li>`).join('')}</ul><ol>${x.s3Phases.map((phase,i)=>`<li style="--d:${PHASE_TIMING[i][0]}s;--len:${PHASE_TIMING[i][1]}s"><i aria-hidden="true">${icons.check}</i><strong>${phase}</strong></li>`).join('')}</ol><span class="aqd-progress" role="progressbar" aria-label="${esc(x.s3Model)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${animate?0:100}"><i></i></span></aside>`;
+ function agent(x,act,animate){
+  return `<aside class="aqd-agent ${animate?'is-animated':''}" data-act="${act}"><div class="aqd-agent-head"><span class="aqd-model-icon">${icons.brain}</span><span><strong>${x.s3Model}</strong><em class="aqd-agent-status"><span>${x.s3Working}</span><span>${x.s3Done}</span></em></span></div><ul class="aqd-agent-sources">${x.s3Sources.map((source,i)=>`<li style="--i:${i}">${source}</li>`).join('')}</ul><ol>${x.s3Phases.map((phase,i)=>`<li class="${i+1<act?'is-done':i+1===act?'is-active':''}"><i aria-hidden="true"><b>${i+1}</b>${icons.check}</i><strong>${phase}</strong></li>`).join('')}</ol><span class="aqd-progress" role="progressbar" aria-label="${esc(x.s3Model)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${act*25}"><i style="--p:${act}"></i></span></aside>`;
  }
  /* Each contract is read in turn: consumption line, risk score, then its place in the ranking. */
- function scanGrid(data,x,animate){
+ function scanGrid(data,x,act,animate){
   const ranked=[...data.contracts].sort((a,b)=>b.risk-a.risk);
-  return `<ul class="aqd-scan ${animate?'is-animated':''}">${data.contracts.map((c,i)=>{const rank=ranked.indexOf(c)+1;return `<li class="aqd-scan-card aqd-risk--${riskLevel(c.risk)} ${rank<=MAX_PICKS?'is-top':''}" style="--i:${i}"><span class="aqd-scan-head"><b>${c.id}</b>${esc(c.es)}</span><span class="aqd-scan-trend">${x.s3Trend}</span>${spark(c.series)}<span class="aqd-scan-score"><i style="--value:${c.risk}"></i><b class="aqd-count" style="--to:${c.risk}" aria-label="${c.risk}"></b></span><em class="aqd-scan-rank">#${rank}</em></li>`;}).join('')}</ul>`;
+  return `<ul class="aqd-scan ${animate?'is-animated':''}" data-act="${act}">${data.contracts.map((c,i)=>{const rank=ranked.indexOf(c)+1;return `<li class="aqd-scan-card aqd-risk--${riskLevel(c.risk)} ${rank<=MAX_PICKS?'is-top':''}" style="--i:${i}"><span class="aqd-scan-head"><b>${c.id}</b>${esc(c.es)}</span><span class="aqd-scan-trend">${x.s3Trend}</span>${spark(c.series)}<span class="aqd-scan-score"><i style="--value:${c.risk}"></i><b class="aqd-count" style="--to:${c.risk}" aria-label="${c.risk}"></b></span><em class="aqd-scan-rank">#${rank}</em></li>`;}).join('')}</ul>`;
  }
  /* The explainer card: a consumption line and the score the model gives it. */
  function sample(x,animate){
@@ -220,9 +218,12 @@
    return `${header()}<section class="aqd-screen aqd-explain-screen">${title(x.e1Kicker,x.e1Title,x.e1Accent,'')}<div class="aqd-tutorial ${animate?'is-animated':''}"><p class="aqd-tutorial-score"><i aria-hidden="true">${icons.up}</i><b class="aqd-count" style="--to:${SAMPLE.risk};--cd:.3s" aria-label="${SAMPLE.risk}"></b><span>${x.e1Score}</span></p><p class="aqd-tutorial-body">${x.e1Body}</p></div>${action}</section>`;
   }
   function analysis(){
-   const ready=!!state.analysisReady;
-   const action=readonly?'':`<footer class="aqd-actions">${backBtn()}<button type="button" class="aqd-primary" data-action="next" ${ready?'':'disabled aria-disabled="true" hidden'}>${x.continue} ${icons.arrow}</button></footer>`;
-   return `${header()}<section class="aqd-screen aqd-analysis aqd-analysis--solo ${ready?'is-ready':''}">${title(x.s3Kicker,x.s3Title,x.s3Accent,'')}<div class="aqd-agent-solo">${agent(x,!ready)}</div>${watch(x.watch3)}${action}</section>`;
+   const act=Math.max(0,Math.min(4,Number(state.act)||0)),ready=!!state.analysisReady;
+   const play=fresh('tablet-act',`${step}:${act}:${state.take||0}`);
+   const main=act>=4?`<button type="button" class="aqd-primary" data-action="next" ${ready?'':'disabled aria-disabled="true"'}>${x.continue} ${icons.arrow}</button>`:`<button type="button" class="aqd-primary" data-action="play">${act?x.s3NextAct:x.s3Play} ${icons.arrow}</button>`;
+   const prev=act?`<button type="button" class="aqd-secondary" data-action="replay">${icons.replay} ${act>1?x.s3Prev:x.s3Replay}</button>`:'';
+   const action=readonly?'':`<footer class="aqd-actions">${backBtn()}${prev}${main}</footer>`;
+   return `${header()}<section class="aqd-screen aqd-analysis aqd-analysis--solo ${ready?'is-ready':''}">${title(x.s3Kicker,x.s3Title,x.s3Accent,'')}<div class="aqd-agent-solo">${agent(x,act,play)}</div>${watch(act?tvCopy[lang].s3Captions[act-1]:x.watch3)}${action}</section>`;
   }
   function results(){
    const action=readonly?'':`<footer class="aqd-actions"><span class="aqd-note aqd-note--inline">${x.simulation}</span>${backBtn()}<button type="button" class="aqd-primary" data-action="next">${x.continue} ${icons.arrow}</button></footer>`;
@@ -257,7 +258,7 @@
    s6Kicker:'Real case · EMCALI, Cali',s6Title:'More findings',s6Accent:'with the same effort',
    s6Facts:[['7×','higher detection in Cali'],['2×','findings in Monterrey and Urabá'],['17','water utilities in 7 countries']],
    selected:'Your inspections',
-   cta:{mission:'Press “Start” on the tablet',pick:'Tap 3 contracts on the tablet',confirm:'Press “Confirm selection” on the tablet',feedback:'Press “See how AI does it” on the tablet',explain:'Press “Got it” on the tablet',analysis:'Watch the analysis, then press “Continue”',results:'Press “Continue” to see the real case',impact:'Play again or go back to the menu'},
+   cta:{mission:'Press “Start” on the tablet',pick:'Tap 3 contracts on the tablet',confirm:'Press “Confirm selection” on the tablet',feedback:'Press “See how AI does it” on the tablet',explain:'Press “Got it” on the tablet',analysis:'Press “Play on screen” on the tablet',analysisNext:'Press “Next step” on the tablet',analysisDone:'Press “Continue” on the tablet',results:'Press “Continue” to see the real case',impact:'Play again or go back to the menu'},
    simulation:'Educational simulation · fictional data'
   },
   es:{
@@ -280,7 +281,7 @@
    s6Kicker:'Caso real · EMCALI, Cali',s6Title:'Más hallazgos',s6Accent:'con el mismo esfuerzo',
    s6Facts:[['7×','más detección en Cali'],['2×','hallazgos en Monterrey y Urabá'],['17','empresas de agua en 7 países']],
    selected:'Tus inspecciones',
-   cta:{mission:'Pulsa “Comenzar” en la tableta',pick:'Toca 3 contratos en la tableta',confirm:'Pulsa “Confirmar selección” en la tableta',feedback:'Pulsa “Ver cómo lo hace la IA” en la tableta',explain:'Pulsa “Entendido” en la tableta',analysis:'Mira el análisis y pulsa “Continuar”',results:'Pulsa “Continuar” para ver el caso real',impact:'Vuelve a jugar o regresa al menú'},
+   cta:{mission:'Pulsa “Comenzar” en la tableta',pick:'Toca 3 contratos en la tableta',confirm:'Pulsa “Confirmar selección” en la tableta',feedback:'Pulsa “Ver cómo lo hace la IA” en la tableta',explain:'Pulsa “Entendido” en la tableta',analysis:'Pulsa “Ver en pantalla” en la tableta',analysisNext:'Pulsa “Siguiente paso” en la tableta',analysisDone:'Pulsa “Continuar” en la tableta',results:'Pulsa “Continuar” para ver el caso real',impact:'Vuelve a jugar o regresa al menú'},
    simulation:'Simulación educativa · datos ficticios'
   }
  };
@@ -327,7 +328,9 @@
    return `${header()}<section class="aqd-screen aqd-tv aqd-tv-explain">${title(tv.e1Kicker,tv.e1Title,tv.e1Accent)}<div class="aqd-explain ${animate?'is-animated':''}">${sample(x,animate)}<ol class="aqd-explain-notes">${tv.e1Notes.map(([head,body],i)=>`<li style="--i:${i}"><b>${i+1}</b><span><strong>${head}</strong><small>${body}</small></span></li>`).join('')}</ol></div>${insight(tv.s4Hint,'',icons.alert)}</section>${cta(tv.cta.explain)}`;
   }
   function analysis(){
-   return `${header()}<section class="aqd-screen aqd-tv aqd-tv-analysis">${title(tv.s3Kicker,tv.s3Title,tv.s3Accent)}<div class="aqd-agent-grid">${agent(x,animate)}${scanGrid(data,x,animate)}</div><div class="aqd-captions ${animate?'is-animated':''}" role="status">${tv.s3Captions.map((text,i)=>insight(text,`style="--d:${CAPTION_TIMING[i][0]}s;--len:${CAPTION_TIMING[i][1]}s"`,i+1)).join('')}</div></section>${cta(tv.cta.analysis)}`;
+   const act=Math.max(0,Math.min(4,Number(state.act)||0));
+   const play=fresh('tv-act',`${step}:${act}:${state.take||0}`);
+   return `${header()}<section class="aqd-screen aqd-tv aqd-tv-analysis">${title(tv.s3Kicker,tv.s3Title,tv.s3Accent)}<div class="aqd-agent-grid">${agent(x,act,play)}${scanGrid(data,x,act,play)}</div><div class="aqd-captions ${play?'is-animated':''}" role="status">${act?insight(tv.s3Captions[act-1],'',act):insight(x.s3Intro)}</div></section>${cta(tv.cta[act>=4?'analysisDone':act?'analysisNext':'analysis'])}`;
   }
   function withAi(){
    const ranked=[...data.contracts].sort((a,b)=>b.risk-a.risk);

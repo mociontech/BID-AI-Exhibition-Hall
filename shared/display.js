@@ -19,7 +19,7 @@ function renderAquaData(data){
  const opts={data:aquaData,station:sync.station};
  if(data.mode==='game'){
   // TV guide: context for the current stage plus the call to action for the tablet.
-  app.innerHTML=V.renderTv({language,mode:'game',step:game.step,p1:game.p1||[],p2:game.p2||[]},opts);
+  app.innerHTML=V.renderTv({language,mode:'game',step:game.step,p1:game.p1||[],p2:game.p2||[],act:game.act,take:game.take},opts);
   return;
  }
  if(data.mode==='info'||data.mode==='cta'){

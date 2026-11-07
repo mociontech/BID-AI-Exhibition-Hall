@@ -111,7 +111,6 @@
 .aqd-agent-head strong{display:block;font-size:clamp(14px,1.3vw,26px);font-weight:800;line-height:1.1}
 .aqd-agent-status{display:grid;margin-top:.2em;font-style:normal;font-weight:700;font-size:clamp(12px,1.05vw,20px);opacity:.92}
 .aqd-agent-status span{grid-area:1/1}
-.aqd-agent:not(.is-animated) .aqd-agent-status span:first-child{visibility:hidden}
 .aqd-agent ol{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;gap:clamp(6px,1vh,14px);margin:0;padding:0;list-style:none}
 .aqd-agent li{display:flex;align-items:flex-start;gap:.7em}
 .aqd-agent li i{display:grid;place-items:center;flex:none;width:1.55em;height:1.55em;border-radius:50%;background:#fff;color:var(--aqd-blue);font-size:clamp(13px,1.1vw,21px)}
@@ -155,22 +154,6 @@
 @keyframes aqd-check{from{background:#ffffff33;color:transparent;transform:scale(.7)}}
 @keyframes aqd-think{50%{transform:scale(1.08);box-shadow:0 0 0 10px #ffffff2e}}
 @keyframes aqd-pulse{50%{transform:scale(1.5)}}
-.aqd-agent.is-animated .aqd-progress i{animation:aqd-grow 15s linear both}
-.aqd-agent.is-animated .aqd-agent-status span:first-child{animation:aqd-fade-out .3s ease 14.9s both}
-.aqd-agent.is-animated .aqd-agent-status span:last-child{animation:aqd-fade-in .3s ease 14.9s both}
-.aqd-agent.is-animated li{animation:aqd-dim .5s ease var(--d) both}
-.aqd-agent.is-animated li i{animation:aqd-check .35s ease calc(var(--d) + var(--len)) both}
-.aqd-agent.is-animated .aqd-model-icon{animation:aqd-think 1.1s ease-in-out 14}
-/* Act 1 the cards arrive, act 2 the lines are drawn, act 3 the drops are marked, act 4 scores and ranking. */
-.aqd-scan.is-animated .aqd-scan-card{animation:aqd-pop .45s cubic-bezier(.2,1.3,.4,1) var(--in) both,aqd-ring .5s ease 14.4s both}
-.aqd-scan.is-animated .aqd-scan-trend{animation:aqd-fade-in .4s ease 3.6s both}
-.aqd-scan.is-animated .aqd-scan-score{animation:aqd-fade-in .4s ease 10.6s both}
-.aqd-agent.is-animated .aqd-agent-sources li{animation:aqd-pop .4s cubic-bezier(.2,1.4,.4,1) calc(var(--i) * .8s + .5s) both}
-.aqd-scan.is-animated .aqd-scan-card::before{content:'';position:absolute;inset:0 auto 0 0;width:35%;background:linear-gradient(90deg,transparent,#005cff2e,transparent);animation:aqd-beam .9s ease-in-out var(--d) both}
-.aqd-scan.is-animated .aqd-spark polyline{animation:aqd-draw .9s ease-out var(--d) both}
-.aqd-scan.is-animated .aqd-spark-dot{animation:aqd-pop .35s ease var(--dot) both,aqd-pulse 1s ease-in-out calc(var(--dot) + .35s) 3}
-.aqd-scan.is-animated .aqd-scan-score>i::after{animation:aqd-grow .8s cubic-bezier(.2,.8,.2,1) var(--cd) both}
-.aqd-scan.is-animated .aqd-scan-rank{animation:aqd-pop .35s cubic-bezier(.2,1.4,.4,1) calc(14s + var(--i) * .05s) both}
 
 /* Results (step 5): two rounds side by side, each inspected contract as a photo with its outcome. */
 .aqd-results>*{width:min(100%,1300px);margin-left:auto;margin-right:auto}
@@ -396,8 +379,7 @@
 
 @media (prefers-reduced-motion:reduce){
  .aqd-app .is-animated,.aqd-app .is-animated *,.aqd-app .is-animated *::before,.aqd-app .is-animated *::after{animation:none!important}
- .aqd-agent.is-animated .aqd-agent-status span:first-child{visibility:hidden}
-}
+ }
 
 /* Tablet as a remote control: short instructions and controls; the detail plays on the TV. */
 .aqd-watch{display:flex;align-items:center;gap:.7em;align-self:center;margin:0;padding:.5em 1.3em .5em .5em;border-radius:99px;background:var(--aqd-tint);color:var(--aqd-ink);font-size:clamp(14px,1.5vw,28px);font-weight:700;line-height:1.2}
@@ -540,3 +522,103 @@
 .aqd-howto.is-animated li{animation-duration:1s;animation-delay:calc(var(--i) * .9s + 2.6s)}
 .aqd-howto.is-animated li>i{animation-duration:.8s;animation-delay:calc(var(--i) * .9s + 3s)}
 .aqd-tv-mission .aqd-bigstats.is-animated~.aqd-insight{animation:aqd-fade-in .8s ease 5.6s both}
+
+/* ===== Analysis controlled from the tablet: one act at a time =====
+   data-act on .aqd-agent and .aqd-scan says how far the story has gone (0 nothing yet, 4 scores ready).
+   Base styles are the finished state; the rules below hide what has not happened yet, and .is-animated
+   plays only the current act, slowly. */
+.aqd-agent[data-act="1"],.aqd-scan[data-act="1"]{--len:8s}
+.aqd-agent[data-act="2"],.aqd-scan[data-act="2"]{--len:8s}
+.aqd-agent[data-act="3"],.aqd-scan[data-act="3"]{--len:8.5s}
+.aqd-agent[data-act="4"],.aqd-scan[data-act="4"]{--len:10s}
+/* Agent panel: sources, phases and progress. */
+.aqd-agent[data-act="0"] .aqd-agent-sources li{opacity:0}
+.aqd-agent ol li{opacity:.38}
+.aqd-agent ol li.is-done,.aqd-agent ol li.is-active{opacity:1}
+.aqd-agent li i>*{grid-area:1/1}
+.aqd-agent li i b{font-style:normal;font-weight:800;line-height:1}
+.aqd-agent li i svg{opacity:0}
+.aqd-agent li.is-done i svg{opacity:1}
+.aqd-agent li.is-done i b{opacity:0}
+.aqd-agent .aqd-progress i{width:calc(var(--p,4) * 25%)}
+.aqd-agent .aqd-agent-status span:last-child{visibility:hidden}
+.aqd-agent:not(.is-animated)[data-act="4"] .aqd-agent-status span:first-child{visibility:hidden}
+.aqd-agent:not(.is-animated)[data-act="4"] .aqd-agent-status span:last-child{visibility:visible}
+.aqd-agent.is-animated .aqd-agent-sources li{animation:aqd-pop .7s cubic-bezier(.2,1.4,.4,1) calc(var(--i) * 1s + .4s) both}
+.aqd-agent.is-animated:not([data-act="1"]) .aqd-agent-sources li{animation:none}
+.aqd-agent.is-animated li.is-active{animation:aqd-dim .8s ease both}
+.aqd-agent.is-animated li.is-active i svg{animation:aqd-fade-in .5s ease var(--len) both}
+.aqd-agent.is-animated li.is-active i b{animation:aqd-fade-out .5s ease var(--len) both}
+.aqd-agent.is-animated li.is-active i svg{animation:aqd-reveal .5s ease var(--len) both}
+@keyframes aqd-reveal{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:none}}
+.aqd-agent.is-animated .aqd-progress i{animation:aqd-progress var(--len) linear both}
+@keyframes aqd-progress{from{width:calc((var(--p) - 1) * 25%)}}
+.aqd-agent.is-animated:not([data-act="0"]) .aqd-model-icon{animation:aqd-think 1.4s ease-in-out 6}
+.aqd-agent.is-animated[data-act="4"] .aqd-agent-status span:last-child{visibility:visible;animation:aqd-fade-in .5s ease 9.6s both}
+.aqd-agent.is-animated[data-act="4"] .aqd-agent-status span:first-child{animation:aqd-fade-out .5s ease 9.6s both}
+/* Contract cards: what each act reveals. */
+.aqd-scan-card{--in:calc(var(--i) * .55s + 3.2s);--d:calc(var(--i) * .75s + .4s);--dot:calc(var(--i) * .7s + .6s);--cd:calc(var(--i) * .6s + .6s)}
+.aqd-scan[data-act="0"] .aqd-scan-card{opacity:0}
+.aqd-scan:is([data-act="0"],[data-act="1"]) .aqd-scan-trend{opacity:0}
+.aqd-scan:is([data-act="0"],[data-act="1"]) .aqd-spark polyline{stroke-dashoffset:1}
+.aqd-scan:is([data-act="0"],[data-act="1"],[data-act="2"]) .aqd-spark-dot{opacity:0}
+.aqd-scan:not([data-act="4"]) .aqd-scan-score,.aqd-scan:not([data-act="4"]) .aqd-scan-rank{opacity:0}
+.aqd-scan:not([data-act="4"]) .aqd-scan-card.is-top{border-color:var(--aqd-line);box-shadow:none}
+/* Act 1: the cards arrive one by one. */
+.aqd-scan.is-animated[data-act="1"] .aqd-scan-card{animation:aqd-pop .7s cubic-bezier(.2,1.3,.4,1) var(--in) both}
+/* Act 2: a beam reads each card and its consumption line is drawn. */
+.aqd-scan.is-animated[data-act="2"] .aqd-scan-trend{animation:aqd-fade-in .6s ease .2s both}
+.aqd-scan.is-animated[data-act="2"] .aqd-scan-card::before{content:'';position:absolute;inset:0 auto 0 0;width:35%;background:linear-gradient(90deg,transparent,#005cff2e,transparent);animation:aqd-beam 1.3s ease-in-out var(--d) both}
+.aqd-scan.is-animated[data-act="2"] .aqd-spark polyline{animation:aqd-draw 1.6s ease-out var(--d) both}
+/* Act 3: the sudden drops are marked. */
+.aqd-scan.is-animated[data-act="3"] .aqd-spark-dot{animation:aqd-pop .6s ease var(--dot) both,aqd-pulse 1.2s ease-in-out calc(var(--dot) + .6s) 3}
+/* Act 4: scores grow, then the ranking. */
+.aqd-scan.is-animated[data-act="4"] .aqd-scan-score{animation:aqd-fade-in .6s ease .3s both}
+.aqd-scan.is-animated[data-act="4"] .aqd-scan-score>i::after{animation:aqd-grow 1.8s cubic-bezier(.2,.8,.2,1) var(--cd) both}
+.aqd-scan.is-animated[data-act="4"] .aqd-count{animation-duration:1.8s,.4s}
+.aqd-scan.is-animated[data-act="4"] .aqd-scan-rank{animation:aqd-pop .6s cubic-bezier(.2,1.4,.4,1) calc(7.2s + var(--i) * .2s) both}
+.aqd-scan.is-animated[data-act="4"] .aqd-scan-card.is-top{animation:aqd-ring .8s ease 8.8s both}
+.aqd-captions.is-animated .aqd-insight:last-child{animation-duration:.8s}
+/* Tablet: the four phases as a strip with their number. */
+.aqd-agent-solo .aqd-agent ol li{opacity:.38}
+.aqd-agent-solo .aqd-agent ol li.is-done,.aqd-agent-solo .aqd-agent ol li.is-active{opacity:1}
+.aqd-agent-solo .aqd-agent li i{width:1.9em;height:1.9em}
+.aqd-analysis--solo .aqd-actions .aqd-secondary svg{width:1em;height:1em;vertical-align:-.15em}
+
+/* ===== Slower entrances everywhere else ===== */
+.is-animated .aqd-count{animation-duration:2s,.5s}
+.aqd-contract{--cd:calc(var(--i,0) * .25s + .4s)}
+.aqd-contract-grid.is-animated .aqd-risk{animation-duration:.8s;animation-delay:calc(var(--i) * .25s + .2s)}
+.aqd-contract-grid.is-animated .aqd-risk-meter i{animation-duration:2s}
+.aqd-tv-ranking li{--cd:calc(var(--i,0) * .35s + .8s)}
+.aqd-tv-ranking ol.is-animated li{animation-duration:.9s;animation-delay:calc(var(--i) * .35s)}
+.aqd-tv-ranking ol.is-animated li i{animation-duration:2.2s}
+.aqd-tv-photos.is-animated li{animation-duration:.8s;animation-delay:calc(var(--i) * .2s)}
+.aqd-compare.is-animated .aqd-result{animation-duration:.9s}
+.aqd-compare.is-animated .aqd-result--with{animation-delay:.8s}
+.aqd-compare.is-animated .aqd-result li{animation-duration:.7s;animation-delay:calc(var(--i) * .6s + 1.2s)}
+.aqd-compare.is-animated .aqd-result--with li{animation-delay:calc(var(--i) * .6s + 4.2s)}
+.aqd-compare.is-animated .aqd-score b{animation-duration:.8s;animation-delay:3s}
+.aqd-compare.is-animated .aqd-result--with .aqd-score b{animation-delay:6s}
+.aqd-compare.is-animated .aqd-meter i.is-on{animation-duration:.6s;animation-delay:3s}
+.aqd-compare.is-animated .aqd-result--with .aqd-meter i.is-on{animation-delay:6s}
+.aqd-compare.is-animated~.aqd-note{animation-duration:.8s;animation-delay:7s}
+.aqd-chart.is-animated .aqd-bar i{animation-duration:2.2s;animation-delay:.5s}
+.aqd-chart.is-animated .aqd-bar--aquadata i{animation-delay:2.2s}
+.aqd-chart.is-animated .aqd-bar b{animation-duration:.6s;animation-delay:2.4s}
+.aqd-chart.is-animated .aqd-bar--aquadata b{animation-delay:4.1s}
+.aqd-facts.is-animated li{animation-duration:.9s;animation-delay:calc(var(--i) * .6s + 4.6s)}
+.aqd-feedback.is-animated .aqd-dice{animation-duration:1.8s}
+.aqd-feedback.is-animated .aqd-feedback-score span,.aqd-feedback.is-animated .aqd-feedback-score small,.aqd-feedback.is-animated .aqd-feedback-body{animation-duration:.8s;animation-delay:2.4s}
+.aqd-feedback.is-animated .aqd-slots{animation-duration:.8s;animation-delay:3.2s}
+.aqd-sample.is-animated .aqd-count{--cd:4.4s}
+.aqd-sample.is-animated .aqd-spark polyline{animation-duration:2.4s;animation-delay:.8s}
+.aqd-sample.is-animated .aqd-spark-dot{animation:aqd-pop .6s ease 2.8s both,aqd-pulse 1.2s ease-in-out 3.4s 3}
+.aqd-sample.is-animated .aqd-scan-score>i::after{animation-duration:2s;animation-delay:4.4s}
+.aqd-explain.is-animated .aqd-explain-notes li{animation-duration:.9s;animation-delay:calc(var(--i) * 3.4s + 1s)}
+.aqd-tutorial.is-animated .aqd-tutorial-score i{animation-duration:2.2s}
+@media (prefers-reduced-motion:reduce){
+ .aqd-agent.is-animated[data-act="4"] .aqd-agent-status span:first-child{visibility:hidden}
+ .aqd-agent.is-animated li.is-active i svg{opacity:1}
+ .aqd-agent.is-animated li.is-active i b{opacity:0}
+}

@@ -124,7 +124,9 @@ const server=http.createServer((req,res)=>{
       const result=value=>Number.isInteger(value)&&value>=0&&value<=3?value:null;
       const p1Result=result(payload.game.p1Result),p2Result=result(payload.game.p2Result);
       if(p1Result===null||p2Result===null)return sendJson(res,400,{error:'Invalid game results'});
-      game={step:payload.game.step,p1,p2,p1Result,p2Result};
+      const act=Number.isInteger(payload.game.act)&&payload.game.act>=0&&payload.game.act<=4?payload.game.act:0;
+      const take=Number.isInteger(payload.game.take)&&payload.game.take>=0&&payload.game.take<=100000?payload.game.take:0;
+      game={step:payload.game.step,p1,p2,p1Result,p2Result,act,take};
      }
     }
     const nextState={stationId:station,view:payload.view,projectId:payload.projectId??null,section:typeof payload.section==='string'?payload.section:null,language:payload.language==='en'?'en':payload.language==='es'? 'es':null,mode:payload.mode||null,screenIndex:payload.screenIndex??null,game,updatedAt:Date.now()};
