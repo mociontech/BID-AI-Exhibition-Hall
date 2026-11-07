@@ -100,7 +100,7 @@ function renderBogotaGame(data){
   app.innerHTML='<main class="pulse-command pulse-command--loading"><p>Loading PredictToDo?</p></main>';
   return;
  }
- if(window.PREDICTTODO_INSIGHTS){app.innerHTML=window.PREDICTTODO_INSIGHTS.gameView({data:bogotaGameData,game:data.game||{},language,station:sync.station});return;}
+ if(window.PREDICTTODO_INSIGHTS){window.PREDICTTODO_INSIGHTS.renderGameInto(app,{data:bogotaGameData,game:data.game||{},language,station:sync.station});return;}
  window.PULSE_VIAL.renderInto(app,{data:bogotaGameData,game:data.game||{},language,readonly:true});
 }
 function renderDefault(data){
@@ -113,6 +113,7 @@ function renderDefault(data){
  app.innerHTML=`<main class="display-app"><header class="display-header">${AI_BRAND.header()}<span class="display-station">STATION ${String(sync.station).padStart(2,'0')} ? MAIN DISPLAY</span></header><section class="display-body"><div class="display-info"><div class="display-kicker">${isHome?'AI in Action':`PROJECT ${p.id} ? ${p.division}`}</div><h1 class="display-title">${title}</h1><p class="display-description">${intro}</p></div><div class="display-figure" aria-hidden="true">${isHome?'?':data.view==='game'?'?':data.view==='overview'?'?':'?'}</div></section><footer class="display-footer">IDB Group Projects Across The Region ? This screen is controlled by the tablet.</footer></main>`;
 }
 function render(data){
+ if(data?.projectId!=='02'||data?.view!=='game')window.PREDICTTODO_CONTROL?.release(app);
  if(data?.projectId!=='11'||data?.view==='home')window.RISE_GAME?.stopDisplay();
  if(data?.projectId==='10'&&data?.view!=='home'){
   document.title='Country Intelligence | AI in Action';

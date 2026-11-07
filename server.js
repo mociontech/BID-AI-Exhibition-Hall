@@ -77,7 +77,7 @@ const server=http.createServer((req,res)=>{
       if(!game)return sendJson(res,400,{error:'Invalid Country Intelligence state'});
      }else if(payload.projectId==='02'){
       const value=payload.game;
-      const phases=['intro','player','explore','decision','result','final'];
+      const phases=['intro','player','explore','decision','result','final','resources'];
       const players=['valentina','camila','santiago','andres'];
       const actions=['signals','reversible','agents','monitor'];
       if(typeof value!=='object'||!phases.includes(value.phase)||!Number.isInteger(value.scenarioIndex)||value.scenarioIndex<0||value.scenarioIndex>3||!Number.isInteger(value.hour)||value.hour<0||value.hour>23||!players.includes(value.playerId))return sendJson(res,400,{error:'Invalid PredictToDo game state'});
@@ -89,7 +89,13 @@ const server=http.createServer((req,res)=>{
        if(!/^(0|1|2|3)$/.test(key)||!Number.isInteger(score)||score<0||score>100)return sendJson(res,400,{error:'Invalid PredictToDo scores'});
        cleanResults[key]=score;
       }
-      game={phase:value.phase,playerId:value.playerId,playerName:value.playerName,hour:value.hour,scenarioIndex:value.scenarioIndex,actionId:value.actionId||null,results:cleanResults};
+       const viewState=require('./projects/02-bogota-traffic-prediction/view-state.js');
+       const caseRoads=viewState.caseRoads;
+       const selectedCorridor=caseRoads[value.scenarioIndex].includes(value.selectedCorridor)?value.selectedCorridor:null;
+       game={phase:value.phase,playerId:value.playerId,playerName:value.playerName,hour:value.hour,scenarioIndex:value.scenarioIndex,selectedCorridor,mapView:viewState.camera(value.mapView,value.scenarioIndex),mapPopup:viewState.popup(value.mapPopup,value.scenarioIndex),actionId:value.actionId||null,results:cleanResults};
+       game.sessionId=/^[a-f0-9-]{36}$/.test(value.sessionId||'')?value.sessionId:null;
+       game.durationMs=Number.isInteger(value.durationMs)&&value.durationMs>=0&&value.durationMs<=86400000?value.durationMs:0;
+       game.rankStatus=['saving','saved','error'].includes(value.rankStatus)?value.rankStatus:null;
      }else if(payload.projectId==='03'){
       const value=payload.game;
       game=cleanCostaRica(value);

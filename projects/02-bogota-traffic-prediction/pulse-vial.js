@@ -10,8 +10,8 @@
  const total=game=>Object.values(game.results||{}).reduce((sum,value)=>sum+Number(value||0),0);
  const playedCount=game=>Object.keys(game.results||{}).length;
  const freeCopy=language=>language==='es'
-  ? {menu:'Menú',replay:'Jugado · volver a jugar',chooseEvent:'Elegir otro evento',finishNow:'Terminar y ver resultados',continue:'Jugar otro evento',completed:'Eventos jugados'}
-  : {menu:'Menu',replay:'Played · play again',chooseEvent:'Choose another event',finishNow:'Finish and see results',continue:'Play another event',completed:'Events played'};
+  ? {menu:'Menú',replay:'Jugado · volver a jugar',chooseEvent:'Elegir otro evento',finishNow:'Ver resultados',continue:'Volver al mapa',completed:'Casos jugados'}
+  : {menu:'Menu',replay:'Played · play again',chooseEvent:'Choose another event',finishNow:'View results',continue:'Back to map',completed:'Cases played'};
  const player=(data,game)=>data.characters.find(item=>item.id===game.playerId)||data.characters[0];
  const scenario=(data,game)=>data.scenarios[game.scenarioIndex]||data.scenarios[0];
  const action=(data,id)=>data.actions.find(item=>item.id===id);
@@ -24,9 +24,9 @@
   const copy=t(language),person=player(data,game),free=freeCopy(language);
   const exit=readonly?`<span class="pulse-command-exit" aria-hidden="true">← ${free.menu}</span>`:`<button type="button" class="pulse-command-exit" data-action="exit-game" aria-label="${free.menu}">← ${free.menu}</button>`;
   const score=playedCount(game)?`${total(game)}<i>/${playedCount(game)*100}</i>`:`0<i> pts</i>`;
-  return `<header class="pulse-command-header"><div class="pulse-command-brand"><span>●</span><p>${copy.center}</p></div><div class="pulse-command-user"><span class="pulse-avatar-small">${person.avatar}</span><div><b>${esc(game.playerName||person.name)}</b><small>${esc(person[`role_${language}`])}</small></div></div><div class="pulse-command-clock"><small>${copy.timeline}</small><strong>${String(game.hour).padStart(2,'0')}:00</strong></div><div class="pulse-command-score"><small>${copy.score}</small><strong>${score}</strong></div><div class="pulse-command-language"><button type="button" data-language="es" aria-pressed="${language==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${language==='en'}">EN</button></div>${exit}</header>`;
+  return `<header class="pulse-command-header"><div class="pulse-command-brand"><span>●</span><p>${copy.center}</p></div><div class="pulse-command-user"><span class="pulse-avatar-small">${person.avatar}</span><div><b>${esc(game.playerName||person.name)}</b><small>${esc(person[`role_${language}`])}</small></div></div><div class="pulse-command-clock"><small>${copy.timeline}</small><strong>${String(game.hour).padStart(2,'0')}:00</strong></div><div class="pulse-command-score"><small>${copy.score}</small><strong>${score}</strong></div>${readonly?`<span class="ptd-readonly-language">${language.toUpperCase()}</span>`:`<div class="pulse-command-language"><button type="button" data-language="es" aria-pressed="${language==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${language==='en'}">EN</button></div>`}${exit}</header>`;
  }
- function meter(label,value,unit,kind){return `<div class="pulse-meter"><span>${label}</span><strong>${value}${unit||''}</strong><i class="pulse-meter-track"><b class="pulse-meter-fill pulse-meter-fill--${kind}" style="width:${Math.max(5,Math.min(100,value))}%"></b></i></div>`;}
+ function meter(label,value,unit,kind){return `<div class="pulse-meter" data-meter="${kind}"><span>${label}</span><strong>${value}${unit?`<small class="pulse-meter-unit">${unit}</small>`:''}</strong><i class="pulse-meter-track"><b class="pulse-meter-fill pulse-meter-fill--${kind}" style="width:${Math.max(5,Math.min(100,value))}%"></b></i></div>`;}
  function hud(data,game,language,scenarioItem,preview){const copy=t(language),baseline=scenarioItem.baseline;const effect=preview&&scenarioItem.effects[preview]||{congestion:0,speed:0,critical:0};const congestion=Math.max(0,Math.min(100,stateForHour(game.hour,baseline.congestion,scenarioItem.hour)+effect.congestion));const speed=Math.max(0,baseline.speed+effect.speed);const critical=Math.max(0,baseline.critical+effect.critical);return `<section class="pulse-hud"><div class="pulse-hud-title"><span>${scenarioItem.icon}</span><div><small>${copy.scenario}</small><strong>${esc(scenarioItem[`title_${language}`])}</strong><em>${esc(scenarioItem[`zone_${language}`])}</em></div></div><div class="pulse-hud-meters">${meter(copy.congestion,congestion,'%',congestion>=65?'danger':'good')}${meter(copy.speed,speed,' km/h','speed')}${meter(copy.critical,critical,'','critical')}</div></section>`;}
  function missions(data,game,language){
   const copy=t(language),free=freeCopy(language);
@@ -36,8 +36,23 @@
   }).join('')}</div></section>`;
  }
  function mapPanel(data,game,language,scenarioItem,preview){const copy=t(language),effect=preview?scenarioItem.effects[preview]:null,traffic=stateForHour(game.hour,scenarioItem.baseline.congestion+(effect?.congestion||0),scenarioItem.hour);return `<section class="pulse-map-panel"><div class="pulse-map-topline"><span>${copy.map}</span><b>${level(traffic,copy)}</b></div>${mapSvg(traffic,scenarioItem,copy)}<div class="pulse-legend"><span><i class="normal"></i>${copy.normal}</span><span><i class="busy"></i>${copy.busy}</span><span><i class="dense"></i>${copy.dense}</span><span><i class="critical"></i>${copy.criticalState}</span></div><label class="pulse-timeline"><span>${copy.timeline}<b>${String(game.hour).padStart(2,'0')}:00</b></span><input type="range" min="6" max="23" value="${game.hour}" data-hour aria-label="${copy.timeline}"><i><em style="left:${((game.hour-6)/17)*100}%"></em></i><small>06:00 <b>12:00</b> <b>18:00</b> 23:00</small></label>${preview?`<div class="pulse-preview-chip">${copy.impact}: ${action(data,preview).icon} ${esc(action(data,preview)[language])}</div>`:''}</section>`;}
- function intro(data,game,language){const copy=t(language);return `<main class="pulse-command pulse-command--intro">${header(data,game,language,false)}<section class="pulse-intro-card"><p>${copy.simulation}</p><h1>Pulso vial Bogotá</h1><h2>${copy.intro}</h2><ol>${copy.items.map((item,index)=>`<li><b>${index+1}.</b><span>${item}</span></li>`).join('')}</ol><button type="button" class="pulse-command-primary" data-action="to-player">${copy.next} <span>→</span></button><small>${copy.live}</small></section></main>`;}
- function playerScreen(data,game,language,readonly){const copy=t(language);return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-player-screen"><div><p>${copy.profile}</p><h1>${copy.chooseRole}</h1><span>${copy.roleHint}</span></div><label>${copy.name}<input data-name maxlength="40" value="${esc(game.playerName)}" placeholder="${copy.nameHint}" ${readonly?'readonly':''}></label><div class="pulse-role-grid">${data.characters.map(item=>`<button type="button" class="pulse-role-card ${item.id===game.playerId?'is-selected':''}" data-role="${item.id}"><span>${item.avatar}</span><b>${item.name}</b><small>${item[`role_${language}`]}</small><em>${item[`focus_${language}`]}</em><i>${item.bonus.points > 0?`+${item.bonus.points} ${copy.score.toLowerCase()}`:''}</i></button>`).join('')}</div><footer><button type="button" class="pulse-command-secondary" data-action="to-intro">${copy.back}</button><button type="button" class="pulse-command-primary" data-action="start-explore">${copy.start} <span>→</span></button></footer></section></main>`;}
+ function intro(data,game,language,readonly=false){
+  const copy=t(language),es=language==='es';
+  const steps=es?['Explora el mapa','Entra al centro de control','Gana puntos','Mira tus resultados']:['Explore the map','Enter the control center','Earn points','View your results'];
+  const instructions=es?[
+   'Mueve el reloj en la tableta y toca una vía para ver cómo cambian la congestión y la velocidad a lo largo del día.',
+   'Elige cualquiera de los cuatro casos. Decide si ajustas semáforos, habilitas un carril reversible, envías agentes o sigues observando.',
+   'Cada decisión suma entre 0 y 100 puntos según lo adecuada que sea para ese caso. Compara el resultado de tu acción.',
+   'Revisa tu puntaje y compara tus decisiones. Puedes terminar después de un caso, repetir o jugar los demás.'
+  ]:[
+   'Move the clock on the tablet and tap a road to see how congestion and speed change throughout the day.',
+   'Choose any of the four cases. Decide whether to adjust signals, open a reversible lane, send officers or keep watching.',
+   'Each decision earns 0 to 100 points based on how well it suits the case. Compare the result of your action.',
+   'Review your score and compare your decisions. Finish after one case, try again or play the others.'
+  ];
+  return `<main class="pulse-command pulse-command--intro">${header(data,game,language,readonly)}<section class="pulse-intro-card ${readonly?'ptd-tv-intro-instructions':''}"><p>${copy.center}</p><h1>${es?'Pulso vial Bogotá':'Bogotá Traffic Pulse'}</h1><h2>${readonly?copy.intro:es?'Decide dónde actuar.':'Decide where to act.'}</h2><ol>${steps.map((item,index)=>`<li><b>${String(index+1).padStart(2,'0')}</b>${readonly?`<div class="ptd-tv-step-copy"><h3>${item}</h3><p>${instructions[index]}</p></div>`:`<span>${item}</span>`}</li>`).join('')}</ol>${readonly?'':`<button type="button" class="pulse-command-primary" data-action="to-player">${es?'Elegir mi rol':'Choose my role'} <span>→</span></button>`}</section></main>`;
+ }
+ function playerScreen(data,game,language,readonly){const copy=t(language);return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-player-screen"><div><p>${copy.profile}</p><h1>${copy.chooseRole}</h1><span>${copy.roleHint}</span></div><label>${copy.name}${readonly?`<output class="pulse-name-mirror">${esc(game.playerName)||copy.nameHint}</output>`:`<input data-name maxlength="40" value="${esc(game.playerName)}" placeholder="${copy.nameHint}">`}</label><div class="pulse-role-grid">${data.characters.map(item=>`<${readonly?'div':'button type="button"'} class="pulse-role-card ${item.id===game.playerId?'is-selected':''}" ${readonly?`data-role-mirror="${item.id}"`:`data-role="${item.id}"`}><span>${item.avatar}</span><b>${item.name}</b><small>${item[`role_${language}`]}</small><em>${item[`focus_${language}`]}</em><i>${item.bonus.points > 0?`+${item.bonus.points} ${copy.score.toLowerCase()}`:''}</i></${readonly?'div':'button'}>`).join('')}</div><footer>${readonly?`<span class="pulse-command-primary">${language==='es'?'En la tableta, elige tu rol y pulsa «Empezar turno».':'On the tablet, choose your role and press “Start shift”.'}</span>`:`<button type="button" class="pulse-command-secondary" data-action="to-intro">${copy.back}</button><button type="button" class="pulse-command-primary" data-action="start-explore">${copy.start} <span>→</span></button>`}</footer></section></main>`;}
  function exploreScreen(data,game,language,readonly){
   const copy=t(language),free=freeCopy(language),scenarioItem=scenario(data,game);
   const finish=playedCount(game)?`<button type="button" class="ptd-finish-link" data-action="finish-session">${free.finishNow}</button>`:'';
@@ -55,7 +70,7 @@
   const copy=t(language),free=freeCopy(language),score=total(game),count=playedCount(game),possible=count*100;
   const average=possible?score/possible:0;
   const played=data.scenarios.map((item,index)=>({item,index})).filter(({index})=>Object.hasOwn(game.results||{},index));
-  return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-final-screen"><p>${free.completed}: ${count}/4</p><h1>${score}<small>/${possible}</small></h1><span>${average>=.8?'★★★':average>=.5?'★★☆':'★☆☆'}</span><h2>${average>=.8?(language==='es'?'Tomaste decisiones informadas':'You made informed decisions'):(language==='es'?'Cada escenario es una oportunidad de aprendizaje':'Each scenario is an opportunity to learn')}</h2><div>${played.map(({item,index})=>`<article><span>${item.icon}</span><b>${esc(item[`title_${language}`])}</b><strong>${game.results[index]}</strong></article>`).join('')}</div><em>${language==='es'?'La IA no reemplaza al equipo humano: aporta señales para explorar, contrastar y decidir con mejor información.':'AI does not replace the human team: it provides signals to explore, validate and decide with better information.'}</em><div class="ptd-final-actions"><button type="button" class="pulse-command-secondary" data-action="resume-events">${free.continue}</button><button type="button" class="pulse-command-primary" data-action="reset-game">${copy.restart} <span>↻</span></button></div></section></main>`;
+  return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-final-screen"><p>${free.completed}: ${count}/4</p><h1>${score}<small>/${possible}</small></h1><span>${average>=.8?'★★★':average>=.5?'★★☆':'★☆☆'}</span><h2>${average>=.8?(language==='es'?'Tomaste decisiones informadas':'You made informed decisions'):(language==='es'?'Cada escenario es una oportunidad de aprendizaje':'Each scenario is an opportunity to learn')}</h2><div>${played.map(({item,index})=>`<article><span>${item.icon}</span><b>${esc(item[`title_${language}`])}</b><strong>${game.results[index]}</strong></article>`).join('')}</div><div class="ptd-final-actions"><button type="button" class="pulse-command-secondary" data-action="resume-events">${free.continue}</button><button type="button" class="pulse-command-secondary" data-action="reset-game">${copy.restart} <span>↻</span></button><button type="button" class="pulse-command-primary" data-action="to-ranking">${language==='es'?'Continuar':'Continue'} <span>→</span></button></div></section></main>`;
  }
  function gpsRoadState(value){return value>=82?'critical':value>=65?'dense':value>=42?'busy':'normal';}
  function gpsRoadStates(congestion,scenarioId){
@@ -68,7 +83,21 @@
   const pattern=patterns[scenarioId]||patterns.cali_peak;
   return Object.fromEntries(Object.entries(pattern).map(([road,offset])=>[road,gpsRoadState(Math.max(0,Math.min(100,congestion+offset)))]));
  }
- function gpsMapSvg(congestion,scenarioItem,copy){
+ function criticalCount(scenarioItem,actionId){return Math.max(0,scenarioItem.baseline.critical+(scenarioItem.effects[actionId]?.critical||0));}
+ function pointsAlongRoute(points,count){
+  if(points.length<2||count===0)return [];
+  const distances=[0];
+  for(let i=1;i<points.length;i++)distances.push(distances[i-1]+Math.hypot(points[i][0]-points[i-1][0],points[i][1]-points[i-1][1]));
+  return Array.from({length:count},(_,i)=>{
+   const target=distances.at(-1)*(i+1)/(count+1);
+   let end=1;while(end<distances.length-1&&distances[end]<target)end++;
+   const fraction=(target-distances[end-1])/(distances[end]-distances[end-1]||1);
+   return points[end-1].map((value,axis)=>value+(points[end][axis]-value)*fraction);
+  });
+ }
+ const eventFlag='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V3m0 1h12l-3 5 3 5H6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+ function hotspotText(language,index){return language==='en'?`Hotspot ${index}: a place where traffic backs up in this simulation.`:`Punto crítico ${index}: un lugar donde se atasca el tráfico en esta simulación.`;}
+ function gpsMapSvg(congestion,scenarioItem,copy,critical=scenarioItem.baseline.critical){
   const roads=gpsRoadStates(congestion,scenarioItem.id);
   const events={
    cali_peak:{x:208,y:373,label:'Av. Ciudad de Cali'},
@@ -80,10 +109,10 @@
   const language=copy===words.en?'en':'es';
   const reference=language==='en'?'Bogota road reference · simulated traffic':'Referencia vial de Bogota · trafico simulado';
   const routes={
-   cali_peak:{d:'M600 512L501 470L501 383L350 373L208 373',start:{x:600,y:512}},
-   campin_arrival:{d:'M601 511L501 470L501 318L467 242L467 204',start:{x:601,y:511}},
-   campin_exit:{d:'M601 511L501 470L501 318L467 242L467 225',start:{x:601,y:511}},
-   calle100_quiet:{d:'M344 511L344 383L475 318L620 242L620 83',start:{x:344,y:511}}
+   cali_peak:{d:'M600 512L501 470L501 383L350 373L208 373',start:{x:600,y:512},points:[[600,512],[501,470],[501,383],[350,373],[208,373]]},
+   campin_arrival:{d:'M601 511L501 470L501 318L467 242L467 204',start:{x:601,y:511},points:[[601,511],[501,470],[501,318],[467,242],[467,204]]},
+   campin_exit:{d:'M601 511L501 470L501 318L467 242L467 225',start:{x:601,y:511},points:[[601,511],[501,470],[501,318],[467,242],[467,225]]},
+   calle100_quiet:{d:'M344 511L344 383L475 318L620 242L620 83',start:{x:344,y:511},points:[[344,511],[344,383],[475,318],[620,242],[620,83]]}
   };
   const route=routes[scenarioItem.id]||routes.cali_peak;
   const routeLabel=language==='en'?'Simulated route to event':'Ruta simulada al evento';
@@ -126,7 +155,7 @@
    <g class="pulse-route-overlay">
     <path class="pulse-route-shadow" d="${route.d}"/><path class="pulse-route-line" d="${route.d}"/>
     <circle class="pulse-route-start" cx="${route.start.x}" cy="${route.start.y}" r="10"/><path class="pulse-route-arrow" d="M${route.start.x-5} ${route.start.y+3}l5-9 5 9h-3v7h-4V${route.start.y+3}Z"/>
-    <circle class="pulse-route-destination" cx="${event.x}" cy="${event.y}" r="13"/><circle class="pulse-route-destination-core" cx="${event.x}" cy="${event.y}" r="5"/>
+    <g class="pulse-event-flag" transform="translate(${event.x-16} ${event.y-16})"><title>${language==='en'?'Event':'Evento'}</title><rect width="32" height="32" rx="8" fill="#fff" stroke="#005cff" stroke-width="2"/><path d="M10 26V6m0 1h14l-4 6 4 6H10" fill="none" stroke="#005cff" stroke-width="2"/></g>
    </g>
    <g class="pulse-map-zone"><text x="127" y="92">SUBA</text><text x="116" y="290">ENGATIVA</text><text x="542" y="91">USAQUEN</text><text x="540" y="285">CHAPINERO</text><text x="164" y="444">KENNEDY</text><text x="594" y="442">TUNJUELITO</text></g>
    <g class="pulse-road-label"><rect x="233" y="142" width="74" height="22" rx="8"/><text x="242" y="157">Calle 80</text></g>
@@ -139,7 +168,7 @@
    <g class="pulse-road-label"><rect x="628" y="123" width="99" height="22" rx="8"/><text x="637" y="138">Autopista Norte</text></g>
    <g class="pulse-map-north"><path d="M816 52l-9 23 9-4 9 4-9-23Z"/><text x="811" y="93">N</text></g>
    <g class="pulse-route-card"><rect x="28" y="27" width="184" height="50" rx="14"/><circle cx="50" cy="52" r="9"/><path d="M46 54l4-7 4 7h-2v5h-4v-5Z"/><text x="68" y="49">${routeLabel}</text><text x="68" y="65">${esc(event.label)} · ${esc(scenarioItem.time)}</text></g>
-   <g filter="url(#pulse-gps-glow)" class="pulse-event-marker"><circle cx="${event.x}" cy="${event.y}" r="24"/><circle cx="${event.x}" cy="${event.y}" r="9"/></g>
+   ${pointsAlongRoute(route.points,critical).map(([x,y],i)=>`<g class="pulse-critical-marker" transform="translate(${x} ${y})"><title>${hotspotText(language,i+1)}</title><circle r="16" fill="#e6334d" stroke="#fff" stroke-width="3"/><text text-anchor="middle" dominant-baseline="central" fill="#fff" font-size="17" font-weight="800">${i+1}</text></g>`).join('')}
    <g class="pulse-event-tag"><rect x="${Math.min(640,event.x+25)}" y="${Math.min(470,event.y+18)}" width="198" height="54" rx="12"/><text x="${Math.min(657,event.x+42)}" y="${Math.min(491,event.y+39)}">${scenarioItem.icon} ${esc(scenarioItem.time)} · ${esc(event.label)}</text><text x="${Math.min(657,event.x+42)}" y="${Math.min(510,event.y+58)}">${esc(scenarioItem[`zone_${language}`]||scenarioItem.zone_es)}</text></g>
    <text class="pulse-map-attribution" x="27" y="535">${reference}</text>
   </svg>`;
@@ -205,11 +234,29 @@
   const scenarioItem=scenario(options.data,options.game),scene=liveMapScenes[scenarioItem.id]||liveMapScenes.cali_peak;
   const effect=options.game.actionId?scenarioItem.effects[options.game.actionId]:null;
   const congestion=stateForHour(options.game.hour,scenarioItem.baseline.congestion+(effect?.congestion||0),scenarioItem.hour);
-  return {scenarioItem,scene,congestion,language:options.language};
+  return {scenarioItem,scene,congestion,critical:criticalCount(scenarioItem,options.game.actionId),language:options.language};
+ }
+ function fitLiveRoute(record,options){
+  if(!options||!record.canvas.isConnected)return;
+  const {scene,scenarioItem}=mapSceneState(options),route=record.routes[scenarioItem.id]||[];
+  if(record.provider==='osm'){
+   record.map.invalidateSize({animate:false});
+   if(route.length>1)record.map.fitBounds([...route,scene.event],{padding:[38,38],maxZoom:14.5,animate:false});
+  }else if(route.length>1){
+   const bounds=new record.api.LatLngBounds();[...route,scene.event].forEach(([lat,lng])=>bounds.extend({lat,lng}));record.map.fitBounds(bounds,44);
+  }
+ }
+ function watchMapSize(record){
+  if(typeof ResizeObserver==='undefined')return;
+  record.resizeObserver=new ResizeObserver(()=>fitLiveRoute(record,record.canvas._pulseLatest));
+  record.resizeObserver.observe(record.canvas);
  }
  function updateGoogleMap(G,record,options){
-  const {scene,scenarioItem,congestion,language}=mapSceneState(options),route=record.routes[scenarioItem.id]||[];
-  if(record.sceneId!==scenarioItem.id)record.map.setCenter({lat:scene.center[0],lng:scene.center[1]});
+  const {scene,scenarioItem,congestion,critical,language}=mapSceneState(options),route=record.routes[scenarioItem.id]||[];
+  if(record.sceneId!==scenarioItem.id){
+   if(route.length>1){const bounds=new G.LatLngBounds();[...route,scene.event].forEach(([lat,lng])=>bounds.extend({lat,lng}));record.map.fitBounds(bounds,44);}
+   else record.map.setCenter({lat:scene.center[0],lng:scene.center[1]});
+  }
   record.overlays.forEach(item=>item.setMap(null));record.overlays=[];
   if(route.length>1){
    const path=route.map(([lat,lng])=>({lat,lng}));
@@ -220,8 +267,10 @@
    record.overlays.push(new G.Marker({map:record.map,position:path[0],title:language==='en'?'Route start':'Inicio de ruta',
     icon:{path:G.SymbolPath.CIRCLE,scale:7,fillColor:'#24b6f1',fillOpacity:1,strokeColor:'#fff',strokeWeight:3}}));
   }
+  pointsAlongRoute(route,critical).forEach(([lat,lng],i)=>record.overlays.push(new G.Marker({map:record.map,position:{lat,lng},title:hotspotText(language,i+1),
+   label:{text:String(i+1),color:'#fff',fontWeight:'800',fontSize:'14px'},icon:{path:G.SymbolPath.CIRCLE,scale:16,fillColor:'#e6334d',fillOpacity:1,strokeColor:'#fff',strokeWeight:3}})));
   record.overlays.push(new G.Marker({map:record.map,position:{lat:scene.event[0],lng:scene.event[1]},title:scenarioItem['title_'+language],
-   icon:{path:G.SymbolPath.CIRCLE,scale:9,fillColor:'#f65463',fillOpacity:1,strokeColor:'#fff',strokeWeight:3}}));
+   label:{text:'⚑',color:'#005cff',fontWeight:'800',fontSize:'20px'},icon:{path:G.SymbolPath.CIRCLE,scale:16,fillColor:'#fff',fillOpacity:1,strokeColor:'#005cff',strokeWeight:2}}));
   record.sceneId=scenarioItem.id;
   record.credit.textContent=language==='en'?'Simulated route © OpenStreetMap contributors':'Ruta simulada © colaboradores de OpenStreetMap';
   if(record.loaded)showMap(record.canvas,language==='en'?'Google Maps · current traffic · simulated route':'Google Maps · tráfico actual · ruta simulada','google');
@@ -234,8 +283,9 @@
   });
   const traffic=new G.TrafficLayer();traffic.setMap(map);
   const credit=document.createElement('span');credit.className='pulse-route-credit';canvas.append(credit);
-  const record={provider:'google',map,traffic,canvas,routes,credit,overlays:[],sceneId:null,loaded:false};
+  const record={provider:'google',api:G,map,traffic,canvas,routes,credit,overlays:[],sceneId:null,loaded:false};
   liveMapInstances.set(target,record);
+  watchMapSize(record);
   G.event.addListenerOnce(map,'tilesloaded',()=>{
    record.loaded=true;
    if(canvas.isConnected)updateGoogleMap(G,record,canvas._pulseLatest);
@@ -243,19 +293,26 @@
   updateGoogleMap(G,record,latest);
  }
  function updateOsmMap(L,record,options){
-  const {scene,scenarioItem,congestion,language}=mapSceneState(options),route=record.routes[scenarioItem.id]||[];
-  if(record.sceneId!==scenarioItem.id)record.map.setView(scene.center,13.5,{animate:false});
+  const {scene,scenarioItem,congestion,critical,language}=mapSceneState(options),route=record.routes[scenarioItem.id]||[];
+  if(record.sceneId!==scenarioItem.id){
+   if(route.length>1)record.map.fitBounds([...route,scene.event],{padding:[38,38],maxZoom:14.5,animate:false});
+   else record.map.setView(scene.center,13.5,{animate:false});
+  }
   record.overlays.clearLayers();
   if(route.length>1){
    L.polyline(route,{color:'#101b33',weight:12,opacity:.9,interactive:false,lineCap:'round',lineJoin:'round'}).addTo(record.overlays);
    roadRouteSegments(route,congestion).forEach(segment=>L.polyline(segment.points,{color:segment.color,weight:7,opacity:1,interactive:false,lineCap:'round',lineJoin:'round'}).addTo(record.overlays));
-   L.circleMarker(route[0],{radius:7,color:'#fff',weight:3,fillColor:'#24b6f1',fillOpacity:1,interactive:false}).addTo(record.overlays);
+   L.circleMarker(route[0],{radius:7,color:'#fff',weight:3,fillColor:'#24b6f1',fillOpacity:1,interactive:true}).bindTooltip(language==='en'?'Route start':'Inicio de la ruta').addTo(record.overlays);
   }
-  L.circleMarker(scene.event,{radius:9,color:'#fff',weight:3,fillColor:'#f65463',fillOpacity:1,interactive:false})
-   .bindTooltip(scenarioItem.icon+' '+esc(scenarioItem['title_'+language]),{permanent:true,direction:'top',offset:[0,-10],className:'pulse-live-map-tooltip'}).addTo(record.overlays);
+  pointsAlongRoute(route,critical).forEach((position,i)=>{
+   L.marker(position,{icon:L.divIcon({className:'pulse-critical-pin',html:`<span>${i+1}</span>`,iconSize:[44,44],iconAnchor:[22,22]}),title:hotspotText(language,i+1),alt:hotspotText(language,i+1)})
+    .bindPopup(hotspotText(language,i+1)).addTo(record.overlays);
+  });
+  L.marker(scene.event,{icon:L.divIcon({className:'pulse-event-pin',html:eventFlag,iconSize:[36,36],iconAnchor:[18,18]}),title:scenarioItem['title_'+language],alt:scenarioItem['title_'+language]})
+   .bindTooltip(scenarioItem.icon+' '+esc(scenarioItem['title_'+language]),{direction:'top',offset:[0,-12],className:'pulse-live-map-tooltip'}).addTo(record.overlays);
   record.sceneId=scenarioItem.id;
   if(record.loaded)showMap(record.canvas,language==='en'?'OpenStreetMap · simulated congestion':'OpenStreetMap · congestión simulada','osm');
-  setTimeout(()=>{if(record.canvas.isConnected)record.map.invalidateSize({animate:false});},0);
+  setTimeout(()=>fitLiveRoute(record,record.canvas._pulseLatest),0);
  }
  function renderOsmMap(L,canvas,target,routes){
   const latest=canvas._pulseLatest,{scene}=mapSceneState(latest);
@@ -267,6 +324,7 @@
   const overlays=L.layerGroup().addTo(map);
   const record={provider:'osm',map,canvas,routes,overlays,sceneId:null,loaded:false};
   liveMapInstances.set(target,record);
+  watchMapSize(record);
   tiles.once('tileload',()=>{
    record.loaded=true;
    if(canvas.isConnected)updateOsmMap(L,record,canvas._pulseLatest);
@@ -277,6 +335,7 @@
   const canvas=root?.querySelector?.('[data-pulse-map-canvas]'),target=canvas?.querySelector?.('[data-pulse-live-map]');
   if(!canvas||!target)return;
   canvas._pulseLatest=options;
+  canvas.dataset.criticalCount=criticalCount(scenario(options.data,options.game),options.game.actionId);
   const record=liveMapInstances.get(target);
   if(record){
    if(record.provider==='google')updateGoogleMap(window.google.maps,record,options);
@@ -325,10 +384,6 @@
    const intro=page.querySelector('.pulse-intro-card');
    const heading=intro?.querySelector('h1');
    if(heading)heading.textContent=language==='es'?'Pulso vial Bogotá':'Bogotá Traffic Pulse';
-   const steps=language==='es'
-     ? ['Explora el mapa y mueve el reloj','Elige cualquiera de los cuatro eventos','Decide y vuelve a jugar cuando quieras','Termina después de uno o más eventos']
-     : ['Explore the map and move the clock','Choose any of the four events','Decide and replay whenever you like','Finish after one or more events'];
-   intro?.querySelectorAll('ol li').forEach((item,index)=>{item.querySelector('b').textContent=String(index+1).padStart(2,'0');item.querySelector('span').textContent=steps[index];});
    const next=intro?.querySelector('[data-action="to-player"]');
    if(next){const actions=document.createElement('div');actions.className='ptd-intro-actions';actions.innerHTML=`<button type="button" class="pulse-command-secondary" data-action="exit-game">${language==='es'?'Atrás':'Back'}</button>`;next.before(actions);actions.appendChild(next);}
   }
@@ -353,26 +408,32 @@
     const heroTitle=hero.querySelector('h2');
     const score=hero.querySelector('h1');
     if(heroTitle&&score){
-     heroTitle.textContent=language==='es'?'Tu impacto en la movilidad':'Your mobility impact';
+     heroTitle.textContent=language==='es'?'Tus resultados':'Your results';
      hero.insertBefore(heroTitle,score);
     }
     const summaryTitle=document.createElement('div');
     summaryTitle.className='ptd-final-summary-heading';
     summaryTitle.innerHTML=language==='es'
-     ? '<h2>Resumen de tus decisiones</h2><p>Así respondió la ciudad a cada decisión que tomaste.</p>'
-     : '<h2>Summary of your decisions</h2><p>How the city responded to each decision you made.</p>';
+     ? '<h2>Casos que jugaste</h2>'
+     : '<h2>Cases you played</h2>';
     summary.prepend(summaryTitle);
     final.append(hero,summary);
    }
   }
  }
  function renderInto(root,options){
+  if(window.PREDICTTODO_CONTROL&&['explore','decision','result'].includes(options.game?.phase)){
+   window.PREDICTTODO_CONTROL.renderInto(root,options);return;
+  }
+  window.PREDICTTODO_CONTROL?.release(root);
   const current=root.querySelector('[data-pulse-map-canvas]');
-  root.innerHTML=render(options);
+  const html=render(options);
+  root.innerHTML=options.readonly&&window.PREDICTTODO_CONTROL?window.PREDICTTODO_CONTROL.displayOnly(html):html;
   const next=root.querySelector('[data-pulse-map-canvas]');
   if(current?.classList.contains('has-live-map')&&next)next.replaceWith(current);
   else if(current){
    const record=liveMapInstances.get(current.querySelector('[data-pulse-live-map]'));
+   record?.resizeObserver?.disconnect();
    if(record?.provider==='osm')record.map.remove();
    if(record?.provider==='google'){
     record.traffic.setMap(null);
@@ -381,12 +442,31 @@
   }
   mountLiveMap(root,options);
   decorate(root,options);
+  if(options.game?.phase==='resources'){window.PREDICTTODO_COMPLETION.mount(root,options);return;}
+  const page=root.querySelector('.ptd-game'),control=window.PREDICTTODO_CONTROL;
+  if(page&&control&&options.readonly){
+   const fragment=document.createElement('div');fragment.innerHTML=control.insight(options);
+   const card=fragment.firstElementChild,phase=options.game.phase;
+   if(phase==='intro'){
+    const actions=page.querySelector('.ptd-intro-actions');
+    if(actions)actions.before(card);else page.querySelector('.pulse-intro-card')?.append(card);
+   }
+   else if(phase==='player')page.querySelector('.pulse-player-screen footer')?.before(card);
+   else page.querySelector('.ptd-final-hero')?.append(card);
+   if(options.readonly){
+    const holder=document.createElement('div');holder.innerHTML=control.notice(options);page.append(holder.firstElementChild);
+    page.querySelectorAll('button,input').forEach(el=>{el.disabled=true;el.tabIndex=-1;});
+   }
+  }
  }
  function mapPanel(data,game,language,scenarioItem,preview){
   const copy=t(language),effect=preview?scenarioItem.effects[preview]:null;
   const traffic=stateForHour(game.hour,scenarioItem.baseline.congestion+(effect?.congestion||0),scenarioItem.hour);
-  return `<section class="pulse-map-panel"><div class="pulse-map-topline"><span>${copy.map}<small data-pulse-map-source>${language==='en'?'Road route · simulated traffic':'Ruta vial · tráfico simulado'}</small></span><b>${level(traffic,copy)}</b></div><div class="pulse-map-canvas" data-pulse-map-canvas><div class="pulse-live-map" data-pulse-live-map aria-label="${copy.map}"></div>${gpsMapSvg(traffic,scenarioItem,copy)}</div><div class="pulse-legend"><span><i class="normal"></i>${copy.normal}</span><span><i class="busy"></i>${copy.busy}</span><span><i class="dense"></i>${copy.dense}</span><span><i class="critical"></i>${copy.criticalState}</span></div><label class="pulse-timeline"><span>${copy.timeline}<b>${String(game.hour).padStart(2,'0')}:00</b></span><input type="range" min="6" max="23" value="${game.hour}" data-hour aria-label="${copy.timeline}"><i><em style="left:${((game.hour-6)/17)*100}%"></em></i><small>06:00 <b>12:00</b> <b>18:00</b> 23:00</small></label>${preview?`<div class="pulse-preview-chip">${copy.impact}: ${action(data,preview).icon} ${esc(action(data,preview)[language])}</div>`:''}</section>`;
+  const critical=criticalCount(scenarioItem,preview);
+  const countLabel=language==='en'?`${critical} congestion hotspot${critical===1?'':'s'}`:`${critical} punto${critical===1?'':'s'} crítico${critical===1?'':'s'}`;
+  const explanation=language==='en'?'Numbered red markers show where traffic backs up in this simulation.':'Los marcadores rojos numerados indican dónde se atasca el tráfico en esta simulación.';
+  return `<section class="pulse-map-panel"><div class="pulse-map-topline"><span>${copy.map}<small data-pulse-map-source>${language==='en'?'Road route · simulated traffic':'Ruta vial · tráfico simulado'}</small></span><b>${level(traffic,copy)}</b></div><div class="pulse-map-canvas" data-pulse-map-canvas data-critical-count="${critical}"><div class="pulse-live-map" data-pulse-live-map aria-label="${copy.map}"></div>${gpsMapSvg(traffic,scenarioItem,copy,critical)}</div><div class="pulse-legend"><span><i class="normal"></i>${copy.normal}</span><span><i class="busy"></i>${copy.busy}</span><span><i class="dense"></i>${copy.dense}</span><span><i class="critical"></i>${copy.criticalState}</span></div><div class="pulse-map-key"><span class="pulse-hotspot-key"><b aria-hidden="true">1</b> ${countLabel}</span><span><i class="pulse-start-key" aria-hidden="true"></i>${language==='en'?'Route start':'Inicio de ruta'}</span><span class="pulse-event-key">${eventFlag}${language==='en'?'Event':'Evento'}</span><small>${critical===0?(language==='en'?'No congestion hotspots in this simulation.':'No hay puntos críticos en esta simulación.'):explanation}</small></div><label class="pulse-timeline"><span>${copy.timeline}<b>${String(game.hour).padStart(2,'0')}:00</b></span><input type="range" min="6" max="23" value="${game.hour}" data-hour aria-label="${copy.timeline}"><i><em style="left:${((game.hour-6)/17)*100}%"></em></i><small>06:00 <b>12:00</b> <b>18:00</b> 23:00</small></label>${preview?`<div class="pulse-preview-chip">${copy.impact}: ${action(data,preview).icon} ${esc(action(data,preview)[language])}</div>`:''}</section>`;
  }
- function render({data,game,language='es',readonly=false}){if(!data||!game)return '';const phase=game.phase||'intro';if(phase==='intro')return intro(data,game,language);if(phase==='player')return playerScreen(data,game,language,readonly);if(phase==='explore')return exploreScreen(data,game,language,readonly);if(phase==='decision')return decisionScreen(data,game,language,readonly);if(phase==='result')return resultScreen(data,game,language,readonly);return finalScreen(data,game,language,readonly);}
+ function render({data,game,language='es',readonly=false}){if(!data||!game)return '';const phase=game.phase||'intro';if(phase==='resources')return window.PREDICTTODO_COMPLETION.render({data,game,language,readonly},header(data,game,language,readonly));if(phase==='intro')return intro(data,game,language,readonly);if(phase==='player')return playerScreen(data,game,language,readonly);if(phase==='explore')return exploreScreen(data,game,language,readonly);if(phase==='decision')return decisionScreen(data,game,language,readonly);if(phase==='result')return resultScreen(data,game,language,readonly);return finalScreen(data,game,language,readonly);}
  window.PULSE_VIAL=Object.freeze({render,renderInto,roleScore,roleBonus,mountLiveMap});
 })();
