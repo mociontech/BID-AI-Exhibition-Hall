@@ -62,15 +62,14 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
  assert.match(server,/Invalid Costa Rica Smart Borders game state/);
 });
 
-test('PredictToDo uses only its approved bilingual information pair',()=>{
- const infoDir=path.join(root,'assets','img','predicttodo');
- assert.ok(fs.existsSync(path.join(infoDir,'PredictToDo_Infografia_TV_ES_1920x1080.png')));
- assert.ok(fs.existsSync(path.join(infoDir,'PredictToDo_Infografia_TV_EN_1920x1080.png')));
- assert.ok(fs.existsSync(path.join(infoDir,'PredictToDo_Mapa_Satelital_Simulado.png')));
+test('PredictToDo information uses the new client-supplied 1920 x 1080 PNG',()=>{
+ const imagePath='projects/02-bogota-traffic-prediction/assets/PredicToDo_Infographic_1920x1080.png';
+ const artwork=fs.readFileSync(path.join(root,imagePath));
+ assert.equal(artwork.readUInt32BE(16),1920);assert.equal(artwork.readUInt32BE(20),1080);
  const context={window:{}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'shared','bogota-traffic.js'),'utf8'),context);
- assert.match(context.window.BOGOTA_TRAFFIC.infoImagePath('es'),/PredictToDo_Infografia_TV_ES_1920x1080\.png$/);
- assert.match(context.window.BOGOTA_TRAFFIC.infoImagePath('en'),/PredictToDo_Infografia_TV_EN_1920x1080\.png$/);
+ assert.equal(context.window.BOGOTA_TRAFFIC.infoImagePath('es'),imagePath);
+ assert.equal(context.window.BOGOTA_TRAFFIC.infoImagePath('en'),imagePath);
  assert.match(context.window.BOGOTA_TRAFFIC.SATELLITE_MAP_IMAGE,/PredictToDo_Mapa_Satelital_Simulado\.png$/);
  const controller=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','module.js'),'utf8');
  const visual=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','visual.js'),'utf8');
@@ -89,7 +88,7 @@ test('PredictToDo keeps information ungated and announces game entry unobtrusive
  assert.doesNotMatch(controller,/infoTimer|infoCtaActive|10000|90000/);
  assert.match(controller,/mode:state\.informationActive\?'overview':state\.mode/);
  assert.match(display,/PREDICTTODO_INSIGHTS\.information/);
- assert.match(display,/PREDICTTODO_INSIGHTS\.gameView/);
+ assert.match(display,/PREDICTTODO_INSIGHTS\.renderGameInto/);
  assert.doesNotMatch(display,/bogota-cta-overlay/);
 });
 
@@ -245,6 +244,7 @@ test('Costa Rica Smart Borders mini-game drives one truck through 3 agency stops
  assert.ok(tvCss.includes('.crtv-scene.is-merged .crtv-booth--vuce'));
  assert.ok(server.includes('![1,2].includes(value.v)'));
 });
+
 test('Costa Rica Smart Borders mirrors the mini-game on the TV through the station state (no documents, only stage, lights and clocks)',()=>{
  const project=path.join(root,'projects','03-costa-rica-smart-borders');
  const game=fs.readFileSync(path.join(project,'game','game.js'),'utf8');

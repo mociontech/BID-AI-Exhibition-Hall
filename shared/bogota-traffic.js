@@ -1,9 +1,10 @@
-/* Approved PredictToDo information artwork shared by the tablet controller
-   and the independent TV receiver. No individual topic deck is active. */
+/* User-supplied PredictToDo information artwork, shared by controller and TV. */
 (function(){
   const INFO_IMAGES=Object.freeze({
-    es:'assets/img/predicttodo/PredictToDo_Infografia_TV_ES_1920x1080.png',
-    en:'assets/img/predicttodo/PredictToDo_Infografia_TV_EN_1920x1080.png'
+    // The replacement supplied by the client is a single English PNG.
+    // Both interface languages use that exact artwork; the UI stays bilingual.
+    es:'projects/02-bogota-traffic-prediction/assets/PredicToDo_Infographic_1920x1080.png',
+    en:'projects/02-bogota-traffic-prediction/assets/PredicToDo_Infographic_1920x1080.png'
   });
   const SATELLITE_MAP_IMAGE='/assets/img/predicttodo/PredictToDo_Mapa_Satelital_Simulado.png';
   function infoImagePath(language){return INFO_IMAGES[language==='es'?'es':'en'];}

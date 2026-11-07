@@ -1,0 +1,26 @@
+(function(){
+ 'use strict';
+ const service=window.PREDICTTODO_RANKING,esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ function status(game,es){return game.rankStatus==='saved'?(es?'Tu resultado está guardado.':'Your result is saved.'):game.rankStatus==='error'?(es?'No se pudo guardar. Reintenta desde la tableta.':'Could not save. Retry on the tablet.'):(es?'Guardando tu resultado…':'Saving your result…');}
+ function qr(url,label){const code=window.qrcode(0,'M');code.addData(url);code.make();return `<div class="ptd-qr" role="img" aria-label="QR: ${esc(label)}">${code.createSvgTag({cellSize:5,margin:20,scalable:true})}</div>`;}
+ function render(options,header){
+  const {game,language,readonly}=options,es=language==='es',score=Object.values(game.results||{}).reduce((a,b)=>a+b,0);
+  const actions=`<div class="ptd-completion-actions"><button class="pulse-command-secondary" data-action="back-summary">${es?'Volver a resultados':'Back to results'}</button>${game.rankStatus==='error'?`<button class="pulse-command-primary" data-action="retry-ranking">${es?'Reintentar guardado':'Retry saving'}</button>`:''}<button class="pulse-command-primary" data-action="reset-game">${es?'Nuevo participante':'New participant'} →</button></div>`;
+  const resources=[['GITHUB','Code4Dev',service.links.github],['BID · IDB','Blog',service.links.project]];
+  return `<main class="pulse-command ptd-completion ${readonly?'ptd-completion--tv':''}" data-phase="resources">${header}<section class="ptd-completion-content"><div class="ptd-completion-title"><p>PREDICTTODO · ${es?'SIGUE EXPLORANDO':'KEEP EXPLORING'}</p><h1>${readonly?(es?'De la experiencia a la acción':'From experience to action'):(es?'Tu turno queda registrado':'Your shift is recorded')}</h1><p>${readonly?(es?'Escanea los QR para conocer PredictToDo y su código.':'Scan the QR codes to discover PredictToDo and its code.'):(es?'Mira el ranking y los dos QR en la pantalla principal.':'View the ranking and both QR codes on the main screen.')}</p></div>${readonly?`<div class="ptd-completion-grid"><section class="ptd-resource-cards" aria-label="${es?'Recursos del proyecto':'Project resources'}">${resources.map(([tag,title,url])=>`<article><span>${tag}</span><h2>${title}</h2>${qr(url,title)}<p>${tag==='GITHUB'?'github.com/EL-BID/PredictToDo':'knowledge.iadb.org'}</p></article>`).join('')}</section><section class="ptd-leaderboard"><div class="ptd-ranking-heading"><p>${es?'PUNTAJES DE LA EXPERIENCIA':'EXPERIENCE SCORES'}</p><h2>${es?'Ranking de participantes':'Participant leaderboard'}</h2><span>${es?'Más puntos primero. En empate, menor tiempo de juego.':'Highest score first. Ties are broken by shorter playing time.'}</span></div><div data-ranking-rows aria-live="polite"><p>${es?'Consultando ranking…':'Loading leaderboard…'}</p></div><div class="ptd-current-result"><strong>${esc(game.playerName||'Visitor')}</strong><span>${score}<small>/400 ${es?'puntos':'points'}</small></span><span>${service.time(game.durationMs)}<small>${es?'tiempo de juego':'playing time'}</small></span><small>${Object.keys(game.results||{}).length}/4 ${es?'casos':'cases'}</small></div><p class="ptd-ranking-status" data-save-status>${status(game,es)}</p></section></div><footer class="ptd-completion-notice">${es?'Para empezar otro turno, pulsa «Nuevo participante» en la tableta.':'To start another shift, press “New participant” on the tablet.'}</footer>`:`<section class="ptd-controller-completion"><strong>${score}<small>/400 ${es?'puntos':'points'}</small></strong><p>${service.time(game.durationMs)} · ${Object.keys(game.results||{}).length}/4 ${es?'casos jugados':'cases played'}</p><p role="status">${status(game,es)}</p>${actions}</section>`}</section></main>`;
+ }
+ function mount(root,options){
+  if(!options.readonly)return;
+  const target=root.querySelector('[data-ranking-rows]');let busy=false;
+  async function refresh(){
+   if(!target.isConnected||busy)return;busy=true;
+   try{
+    const rows=await service.list();if(!target.isConnected)return;
+    const es=options.language==='es';
+    target.innerHTML=rows.length?`<table><thead><tr><th>#</th><th>${es?'Participante':'Participant'}</th><th>${es?'Puntos':'Points'}</th><th>${es?'Tiempo':'Time'}</th></tr></thead><tbody>${rows.map((row,i)=>`<tr class="${row.sessionId===options.game.sessionId?'is-current':''}"><td>${String(i+1).padStart(2,'0')}</td><td>${esc(row.displayName)}<small>${row.casesPlayed}/4 ${es?'casos':'cases'}</small></td><td>${row.score}<small>/400</small></td><td>${service.time(row.durationMs)}</td></tr>`).join('')}</tbody></table>`:`<p class="ptd-ranking-empty">${es?'Aún no hay resultados guardados. Tu turno puede ser el primero.':'No saved results yet. Your shift could be the first.'}</p>`;
+   }catch{if(target.isConnected)target.innerHTML=`<p role="status">${options.language==='es'?'Sin conexión al ranking. Volveremos a intentarlo.':'Leaderboard unavailable. Reconnecting automatically.'}</p>`;}finally{busy=false;}
+  }
+  void refresh();const timer=setInterval(()=>{if(!target.isConnected){clearInterval(timer);return;}void refresh();},5000);
+ }
+ window.PREDICTTODO_COMPLETION=Object.freeze({render,mount});
+})();
