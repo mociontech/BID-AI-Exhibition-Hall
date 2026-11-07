@@ -403,3 +403,186 @@
 .crtv--results .crtv-res2 .crtv-learn--row b{font-size:3.6vh;flex:none}
 .crtv--results .crtv-res2 .crtv-learn--row small{font-size:2.3vh;line-height:1.35}
 .crtv--results .crtv-res2 .crtv-learn--row{border-left-color:var(--bid)}
+
+/* ---------- paso 4 en la pantalla: cada institución confirma ---------- */
+.crtv-flash--bid{background:var(--bid)}
+.crtv-confirm{display:flex;gap:1vw;margin-top:1.6vh}
+.crtv-confirm em{flex:1;display:flex;align-items:center;gap:.8vw;padding:1.2vh 1.2vw;border-radius:999px;background:var(--white);border:.4vh solid var(--black3);font-style:normal;font-size:2.2vh;font-weight:800;transition:border-color .3s,background .3s}
+.crtv-confirm em span{font-size:3.2vh;line-height:1}
+.crtv-confirm em b{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crtv-confirm em i{width:3.4vh;height:3.4vh;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:900;font-size:2.2vh;color:transparent;background:var(--black4);transition:background .3s,color .3s}
+.crtv-confirm em.is-next{border-color:var(--bid);animation:crtvDot 1s infinite}
+.crtv-confirm em.is-confirmed{border-color:var(--bid);background:var(--blue4);color:var(--bid)}
+.crtv-confirm em.is-confirmed i{background:var(--bid);color:#fff;animation:crtvPop .4s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes crtvPop{from{transform:scale(.2)}to{transform:scale(1)}}
+.crtv-vuce-rules em.is-confirmed{border-color:var(--bid);color:var(--bid);background:var(--blue4)}
+.crtv-tick{width:2.4vh;height:2.4vh;border-radius:50%;background:var(--bid);color:#fff;font-style:normal;font-weight:900;font-size:1.6vh;display:inline-grid;place-items:center;margin-left:.2vw}
+/* ---------- final: gráfico de barras + lo que te llevas ---------- */
+.crtv-res3-body{flex:1;min-height:0;display:grid;grid-template-columns:1.15fr 1fr;gap:1.6vw}
+.crtv-chart{display:flex;flex-direction:column;gap:1.6vh;padding:2.4vh 2.4vw;border-radius:var(--r);background:var(--white);box-shadow:var(--sh);min-height:0}
+.crtv-chart header{display:flex;justify-content:space-between;align-items:center;gap:1vw;flex-wrap:wrap}
+.crtv-chart header h2{font-size:3.2vh;font-weight:900;color:var(--bid)}
+.crtv-chart header div{display:flex;gap:1.6vw;font-size:2vh;font-weight:700}
+.crtv-chart header b{display:flex;align-items:center;gap:.5vw}
+.crtv-key{width:2vh;height:2vh;border-radius:.5vh;background:var(--black)}.crtv-key--ai{background:var(--bid)}
+.crtv-groups{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.6vw}
+.crtv-group{display:flex;flex-direction:column;min-height:0;gap:1vh}
+.crtv-group small{text-align:center;font-size:1.7vh;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--black1)}
+.crtv-cols{flex:1;min-height:0;display:flex;align-items:stretch;justify-content:center;gap:.8vw;padding:0 .6vw;border-bottom:.4vh solid var(--black3)}
+.crtv-col{flex:1;max-width:7vw;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:.8vh;min-height:0}
+.crtv-col i{display:block;width:100%;border-radius:1vh 1vh 0 0;background:var(--black);transform-origin:bottom;animation:crtvGrowY 1.2s cubic-bezier(.2,.9,.3,1) both}
+.crtv-col--ai i{background:var(--bid)}
+.crtv-col em{font-style:normal;font-size:2.4vh;font-weight:900;white-space:nowrap}
+.crtv-col--ai em{color:var(--bid)}
+@keyframes crtvGrowY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.crtv-res3-side{display:flex;flex-direction:column;gap:1.2vh;min-height:0}
+.crtv-res3 .crtv-res2-title{font-size:3.2vh}
+.crtv-ins3--col{grid-template-columns:1fr;gap:1.2vh}
+.crtv-ins3--col .crtv-ins{flex-direction:row;align-items:center;gap:1.4vw;padding:1.6vh 1.6vw}
+.crtv-ins3--col .crtv-ins span{width:7vh;height:7vh;font-size:3.6vh;flex:none}
+.crtv-ins3--col .crtv-ins>b{font-size:2.8vh;flex:none;min-width:12vw}
+.crtv-ins3--col .crtv-ins p{font-size:2vh;line-height:1.3}
+.crtv-res3 .crtv-res2-head{padding:1.6vh 2.4vw}
+.crtv-res3 .crtv-res2-head h1{font-size:3.6vh}
+.crtv-res3 .crtv-res2-head p{font-size:2.1vh}
+.crtv--results .crtv-res3 .crtv-learn--row{padding:1.8vh 2.4vw}
+
+/* barras del final: posición absoluta (altura fiable) · chips del paso 4 que caben */
+.crtv-col{position:relative;min-height:0}
+.crtv-col i{position:absolute;left:0;right:0;bottom:0}
+.crtv-col em{position:absolute;left:0;right:0;text-align:center}
+.crtv-status--confirm>div{flex:1;min-width:0}
+.crtv-confirm em{flex:1 1 0;min-width:0;font-size:2vh;padding:1vh .9vw;gap:.5vw}
+.crtv-confirm em span{font-size:2.8vh}
+/* chips del paso 4: rejilla de 3, nombre completo */
+.crtv-confirm{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8vw}
+.crtv-confirm em{flex:none;font-size:1.9vh;padding:.9vh .8vw;gap:.4vw}
+.crtv-confirm em b{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.1}
+.crtv-confirm em span{font-size:2.6vh}
+.crtv-confirm em i{width:3vh;height:3vh;font-size:2vh;flex:none}
+.crtv-status--confirm .crtv-bot{font-size:7vh}
+
+/* ---------- 5 instituciones: casetas rediseñadas, unión de 5 cajas, tablero limpio ---------- */
+.crtv--manual .crtv-booth,.crtv--ai .crtv-booth,.crtv--intro .crtv-booth{width:12.4vw;padding:1vh .6vw .9vh;gap:.3vh;overflow:visible;border-radius:1.6vh}
+.crtv-roof{position:absolute;left:-.5vh;right:-.5vh;top:-2.6vh;width:calc(100% + 1vh);height:3vh}
+.crtv-booth-win{display:grid;place-items:center;width:6.4vh;height:5.6vh;border-radius:1.2vh;background:var(--blue4);border:.4vh solid var(--black3)}
+.crtv--manual .crtv-booth-win .crtv-booth-icon,.crtv--ai .crtv-booth-win .crtv-booth-icon{font-size:3.4vh}
+.crtv-booth.is-current .crtv-booth-win{border-color:var(--bid)}
+.crtv--manual .crtv-booth b,.crtv--ai .crtv-booth b,.crtv--intro .crtv-booth b{font-size:1.9vh;line-height:1.1}
+.crtv--manual .crtv-booth,.crtv--ai .crtv-booth{top:3.6vh}
+.crtv-booth .crtv-beam{display:none}
+.crtv-booth.is-checking .crtv-beam{display:block}
+.crtv-scene.is-merged .crtv-booth:not(.crtv-booth--vuce){left:42% !important;opacity:0;transform:translateX(-50%) scale(.4)}
+.crtv-scene.is-merged .crtv-booth--3{transition-delay:2.1s,2.1s,4s}
+.crtv-scene.is-merged .crtv-booth--4{transition-delay:2.8s,2.8s,4.4s}
+.crtv-scene.is-merged .crtv-booth--vuce{transition:opacity 1.6s ease 6.4s,transform 1.8s cubic-bezier(.2,.9,.3,1.2) 6.4s}
+.crtv--ai .crtv-booth--vuce,.crtv--manual .crtv-booth--vuce{width:40vw;top:1.2vh}
+.crtv-vuce-rules{flex-wrap:wrap;justify-content:center;gap:.5vw}
+.crtv--ai .crtv-vuce-rules em{font-size:1.6vh;padding:.45vh .7vw}
+.crtv-scene.is-animating .crtv-vuce-rules em:nth-child(1){animation-delay:8s}.crtv-scene.is-animating .crtv-vuce-rules em:nth-child(2){animation-delay:8.5s}.crtv-scene.is-animating .crtv-vuce-rules em:nth-child(3){animation-delay:9s}.crtv-scene.is-animating .crtv-vuce-rules em:nth-child(4){animation-delay:9.5s}.crtv-scene.is-animating .crtv-vuce-rules em:nth-child(5){animation-delay:10s}
+.crtv-confirm{grid-template-columns:repeat(5,minmax(0,1fr));gap:.5vw}
+.crtv-confirm em{font-size:1.7vh;padding:.8vh .5vw;gap:.3vw}
+.crtv-confirm em span{font-size:2.3vh}
+.crtv-confirm em i{width:2.6vh;height:2.6vh;font-size:1.7vh}
+.crtv-remind{margin-top:auto;padding:1.4vh 1.8vw;border-radius:999px;background:var(--black);color:#fff;font-size:2.3vh;font-weight:700;text-align:center;animation:crtvUp .4s}
+.crtv-clocks--one{grid-template-rows:1fr}
+.crtv-clocks--one .crtv-clock{justify-content:center;gap:1vh}
+.crtv-clocks--one .crtv-clock span{font-size:2vh}
+.crtv-clocks--one .crtv-clock b{font-size:8vh}
+.crtv-status--wait>div,.crtv-status--done>div{flex:1;text-align:center}
+/* paso 4 con 5 instituciones: chips verticales, sin icono grande */
+.crtv-status--confirm .crtv-bot{display:none}
+.crtv-confirm{grid-template-columns:repeat(5,minmax(0,1fr));gap:.7vw;margin-top:1.4vh}
+.crtv-confirm em{flex-direction:column;justify-content:center;gap:.6vh;padding:1.2vh .4vw;border-radius:1.6vh;font-size:1.8vh;line-height:1.1}
+.crtv-confirm em span{font-size:3.2vh}
+.crtv-confirm em b{flex:none;text-align:center;white-space:normal;overflow:visible}
+.crtv-confirm em i{width:3vh;height:3vh;font-size:2vh}
+
+/* ---------- escena ilustrada: cielo, montañas, peaje con techo y columnas, frontera con bandera ---------- */
+.crtv-scene--v3 .crtv-road2{background:#F3F8FF;border:0;box-shadow:0 0 0 .4vh #DDE4F0 inset;overflow:hidden;border-radius:2vh}
+.crtv-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.crtv-asphalt{position:absolute;left:0;right:0;bottom:0;height:27%;background:linear-gradient(#4A4D54,#3B3E44);border-top:.9vh solid #C9CCD4;z-index:0}
+.crtv-asphalt::before{content:'';position:absolute;left:0;right:0;top:-2.4vh;height:1.5vh;background:#A7B5A0}
+.crtv-asphalt::after{content:'';position:absolute;left:0;right:0;top:52%;height:.7vh;background:repeating-linear-gradient(90deg,#fff 0 3vw,transparent 3vw 5.5vw);opacity:.85}
+.crtv-scene--v3 .crtv-start{top:auto;bottom:1.4vh;left:1vw;color:#fff;opacity:.8;z-index:2}
+.crtv-canopy{position:absolute;top:20.6vh;height:3vh;border-radius:.8vh;background:linear-gradient(#E9ECF3,#B7BCC7);box-shadow:0 .6vh 1.2vh rgba(0,0,0,.18);z-index:1}
+.crtv-canopy::after{content:'';position:absolute;left:1%;right:1%;bottom:-1vh;height:1vh;background:#8F939C;border-radius:0 0 .6vh .6vh}
+.crtv-pillar{position:absolute;top:23.4vh;bottom:22%;width:1.4vw;transform:translateX(-50%);background:linear-gradient(90deg,#D5D8E0,#8F939C);border-radius:.3vh;z-index:1}
+.crtv-pillar::after{content:'';position:absolute;left:-.25vw;right:-.25vw;bottom:0;height:3.4vh;background:repeating-linear-gradient(135deg,#FFCB52 0 .9vh,#141414 .9vh 1.8vh);border-radius:.4vh}
+.crtv--intro .crtv-canopy{top:20.6vh}
+.crtv-scene--v3 .crtv-booth{z-index:2;box-shadow:0 .8vh 1.6vh rgba(0,0,0,.22)}
+.crtv-scene--v3 .crtv-booth--vuce{z-index:3}
+.crtv-scene--v3 .crtv-gate{height:38vh;width:20vw;transform:translateX(-42%);bottom:1.6vh}
+.crtv-scene--v3 .crtv-arm{transform-origin:127px 158px}
+.crtv-scene--v3 .crtv-line{border-left-color:rgba(255,255,255,.55);top:auto;height:27%}
+.crtv-scene--v3 .crtv-rig{width:15vw;bottom:.8vh}
+.crtv--manual .crtv-scene--v3 .crtv-rig,.crtv--ai .crtv-scene--v3 .crtv-rig{width:14vw;bottom:.6vh}
+.crtv-scene--v3 .crtv-rig .crtv-svg{filter:drop-shadow(0 .6vh .8vh rgba(0,0,0,.35))}
+.crtv-scene--v3 .crtv-puff{bottom:1.6vh;left:-.6vw}
+.crtv-scene--v3 .crtv-start{top:1.2vh;bottom:auto;left:1.2vw;color:#1F3B5B;opacity:.75}
+.crtv--manual .crtv-scene--v3 .crtv-rig,.crtv--ai .crtv-scene--v3 .crtv-rig{width:13vw}
+.crtv--manual .crtv-booth b,.crtv--ai .crtv-booth b,.crtv--intro .crtv-booth b{font-size:1.75vh}
+.crtv--manual .crtv-scene--v3 .crtv-rig,.crtv--ai .crtv-scene--v3 .crtv-rig{width:14.5vw}
+
+/* ---------- escena fotorrealista (v4): foto generada + capas HTML ---------- */
+.crtv-scene--v4 .crtv-road2{height:50vh;background:#3B3E44;border:0;box-shadow:none;overflow:hidden;border-radius:2vh}
+.crtv--intro .crtv-scene--v4 .crtv-road2{height:50vh}
+.crtv-photo{position:absolute;left:0;top:-13.9vh;width:100%;height:auto;display:block;z-index:0;pointer-events:none}
+.crtv-scene--v4 .crtv-start{top:1.4vh;left:1.4vw;color:#fff;opacity:.9;text-shadow:0 .2vh .6vh rgba(0,0,0,.45);z-index:2}
+/* tarjetas de las instituciones sobre los letreros en blanco de la foto */
+.crtv-scene--v4 .crtv-booth{top:7.6vh;width:12.6vw;padding:.9vh .6vw .9vh;gap:.3vh;border-radius:1.4vh;border-width:.4vh;box-shadow:0 1vh 2vh rgba(0,0,0,.28);z-index:2}
+.crtv-scene--v4 .crtv-roof{display:none}
+.crtv-scene--v4 .crtv-booth-win{width:5.2vh;height:4.6vh;border-radius:1vh}
+.crtv-scene--v4 .crtv-booth-win .crtv-booth-icon{font-size:2.9vh}
+.crtv-scene--v4 .crtv-booth b{font-size:1.7vh}
+.crtv-scene--v4 .crtv-booth-light .crtv-light--big{width:4.2vh;height:4.2vh}
+.crtv-scene--v4 .crtv-booth.is-current{transform:translateX(-50%) scale(1.08)}
+.crtv-scene--v4.is-merged .crtv-booth:not(.crtv-booth--vuce){left:46% !important;opacity:0;transform:translateX(-50%) scale(.4)}
+.crtv-scene--v4 .crtv-booth--vuce{top:3vh;width:40vw;z-index:3}
+/* letrero de frontera sobre la caseta de la foto */
+.crtv-bsign{position:absolute;left:85.2%;top:19.2vh;width:9.2%;height:4.6vh;display:flex;align-items:center;gap:.5vw;padding:0 .5vw;border-radius:.5vh;background:#0B3C8C;box-shadow:0 .4vh 1vh rgba(0,0,0,.35);z-index:2}
+.crtv-bsign i{flex:none;width:2.4vh;height:3vh;border-radius:.3vh;background:linear-gradient(#002B7F 0 17%,#fff 17% 33%,#CE1126 33% 67%,#fff 67% 83%,#002B7F 83%)}
+.crtv-bsign span{display:flex;flex-direction:column;line-height:1;color:#fff;min-width:0}
+.crtv-bsign b{font-size:1.75vh;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.crtv-bsign small{font-size:1.3vh;font-weight:600;color:#CFE1FF}
+/* barrera propia */
+.crtv-scene--v4 .crtv-gate{height:12vh;width:12vw;bottom:7vh;transform:translateX(-98%);z-index:3}
+.crtv-barrier{width:100%;height:100%;display:block;overflow:visible}
+.crtv-scene--v4 .crtv-arm{transform-box:view-box;transform-origin:214px 46px;transition:transform 1.8s cubic-bezier(.4,0,.2,1)}
+.crtv-scene--v4 .crtv-gate.is-open .crtv-arm{transform:rotate(78deg)}
+.crtv-scene--v4 .crtv-line{display:none}
+/* camión real (foto recortada) + rótulo en el furgón */
+.crtv-scene--v4 .crtv-rig{width:17vw;bottom:.6vh;z-index:4}
+.crtv-lorry{position:relative;width:100%;line-height:0}
+.crtv-lorry img{width:100%;height:auto;display:block;filter:drop-shadow(0 .8vh 1vh rgba(0,0,0,.4))}
+.crtv-lorry-tag{position:absolute;left:3%;top:10%;width:56%;height:50%;display:flex;flex-direction:column;justify-content:center;gap:.5vh;padding:0 .7vw;color:#0B3C8C;line-height:1.05;text-align:left}
+.crtv-lorry-tag b{font-size:2.6vh;font-weight:900;letter-spacing:-.01em;margin:0;padding:0;background:none;border-radius:0;color:#0B3C8C}
+.crtv-lorry-tag small{font-size:1.35vh;font-weight:700;color:#005CFF}
+.crtv-rig.is-moving .crtv-lorry img{animation:crtvRumble .22s ease-in-out infinite}
+.crtv-rig.is-crossed .crtv-lorry img{animation:crtvCheer 1.2s ease-in-out 3.2s 2}
+.crtv-scene--v4 .crtv-puff{bottom:1.2vh;left:-.4vw;background:rgba(120,120,120,.5)}
+/* tarjeta del tablero: mismo camión */
+.crtv-current .crtv-lorry{width:16vw;margin:.6vh auto}
+.crtv-current .crtv-lorry-tag b{font-size:2vh}.crtv-current .crtv-lorry-tag small{font-size:1.1vh}
+/* placas que tapan los letreros en blanco de la foto cuando las cajas ya se unieron */
+.crtv-signcover{position:absolute;top:9.3vh;width:7.4%;height:6.2vh;transform:translateX(-50%);display:grid;place-items:center;border-radius:.6vh;background:linear-gradient(#FFFFFF,#E9EDF5);color:var(--bid);font-style:normal;font-size:1.5vh;font-weight:900;letter-spacing:.04em;opacity:0;transition:opacity 1s ease 8.2s;z-index:1}
+.crtv-scene--v4.is-merged .crtv-signcover{opacity:1}
+.crtv-current .crtv-lorry-tag{gap:.2vh;padding:0 .5vw}
+.crtv-current .crtv-lorry-tag b{font-size:1.8vh}.crtv-current .crtv-lorry-tag small{font-size:1vh;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crtv-current .crtv-lorry-tag{top:6%%;height:46%%;gap:.1vh}
+.crtv-current .crtv-lorry-tag b{font-size:1.7vh}.crtv-current .crtv-lorry-tag small{font-size:.95vh}
+.crtv-signcover{display:none}
+.crtv-scene--v4 .crtv-booth--vuce{top:4vh;padding-top:1.6vh}
+/* tarjetas de estado sin iconos grandes */
+.crtv-status>div{flex:1;min-width:0}
+/* final sin cabecera: gráfico + lo que te llevas + cierre */
+.crtv-res3{padding-top:1vh}
+.crtv-res3 .crtv-res3-body{gap:1.8vw}
+.crtv-res3 .crtv-res2-title{font-size:3.6vh}
+.crtv-res3 .crtv-chart header h2{font-size:3.6vh}
+.crtv-results.crtv-res3>.crtv-res3-body:first-child{display:grid;grid-template-columns:1.15fr 1fr;align-items:stretch;justify-content:stretch;flex:1;min-height:0;padding:0;background:none;box-shadow:none;border-radius:0}
+.crtv-res3 .crtv-chart{min-height:0}
+.crtv-res3 .crtv-ins3--col .crtv-ins span{width:9vh;height:9vh;font-size:4.6vh}
+.crtv-res3 .crtv-ins3--col .crtv-ins>b{font-size:3.4vh;min-width:13vw}
+.crtv-res3 .crtv-ins3--col .crtv-ins p{font-size:2.5vh;line-height:1.35}
+.crtv-res3 .crtv-ins3--col .crtv-ins{padding:2vh 2vw;gap:1.8vw}

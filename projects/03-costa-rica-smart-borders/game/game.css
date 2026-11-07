@@ -594,3 +594,52 @@ h1,h2,h3{text-align:left}
 .rc-col em{font-style:normal;font-size:clamp(14px,1.4vw,20px);font-weight:900;white-space:nowrap}
 .rc-col--ai em{color:var(--bid)}
 @keyframes rcGrowY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+
+/* paso 4: cada institución confirma (✓) · destello azul · letrero final */
+.vrow.is-confirmed{border-left-color:var(--bid);background:var(--blue4)}
+.vrow.is-confirmed b{color:var(--bid)}
+.vtick{flex:none;width:34px;height:34px;border-radius:50%;background:var(--bid);color:#fff;font-style:normal;font-weight:900;font-size:20px;display:grid;place-items:center;animation:popIn .4s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes popIn{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+.flash--bid{background:var(--bid)}
+.res-sign{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,28px);padding:clamp(14px,2vh,24px) clamp(16px,2vw,28px);border-radius:var(--radius-lg);background:var(--black);color:#fff;min-height:0}
+.res-sign>span{font-size:clamp(40px,5vw,64px);line-height:1}
+.res-sign b{display:block;font-size:clamp(22px,2.6vw,36px);font-weight:900;line-height:1.1}
+.res-sign p{margin:6px 0 0;font-size:clamp(14px,1.4vw,20px);color:rgba(255,255,255,.85);line-height:1.35}
+.screen--results .res-bottom--simple .res-tv{display:none}
+
+/* tableta final: tarjetas Tu/IA grandes, letrero compacto */
+.screen--results .compare{grid-template-rows:minmax(0,1fr) auto}
+.res-sign{padding:clamp(16px,2.6vh,28px) clamp(16px,2vw,28px)}
+.res-sign>span{font-size:clamp(34px,4.2vw,56px)}
+.res-sign b{font-size:clamp(20px,2.4vw,32px)}
+/* tableta final sin gráfico: tarjetas Tú / IA grandes de nuevo */
+.screen--results .compare .who{flex:1;flex-direction:column;flex-wrap:nowrap;align-items:stretch;justify-content:center;gap:clamp(10px,2vh,20px);padding:clamp(14px,2.4vh,26px) clamp(16px,2vw,28px);min-height:0;overflow:hidden}
+.screen--results .compare .who header{margin:0}
+.screen--results .compare .who header b{font-size:clamp(24px,2.6vw,36px)}
+.screen--results .compare .stat--row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.screen--results .compare .stat{gap:4px}
+.screen--results .compare .stat b{font-size:clamp(34px,4.4vw,60px);line-height:1}
+.screen--results .compare .stat--row b{font-size:clamp(28px,3.4vw,46px)}
+.screen--results .compare .stat small{font-size:clamp(11px,1vw,14px)}
+.screen--results .compare .stat .bar{display:none}
+.screen--results .compare .link-btn{margin-top:4px}
+
+/* 5 instituciones: filas más compactas en el panel VUCE de la tableta */
+.ai-grid .vrows{gap:5px}
+.ai-grid .vrow{padding:5px 12px}
+.ai-grid .vrow b{font-size:clamp(12px,1.15vw,15px)}
+.ai-grid .vrow small{font-size:clamp(10px,.95vw,12px);line-height:1.25}
+.ai-grid .vrow .light--big{width:22px;height:22px}
+.ai-grid .vtick{width:26px;height:26px;font-size:15px}
+/* tableta final: solo el letrero «Mira la pantalla» y los botones */
+.res-only{flex:1;min-height:0;display:flex}
+.res-sign--big{flex:1;flex-direction:column;text-align:center;gap:clamp(12px,2vh,24px)}
+.res-sign--big>span{font-size:clamp(64px,9vw,120px)}
+.res-sign--big b{font-size:clamp(36px,4.4vw,64px)}
+.res-sign--big p{font-size:clamp(18px,2vw,30px);max-width:60ch;margin:8px auto 0}
+/* popup «¿Cómo lo hace VUCE 3.0?»: las 3 fichas abiertas de entrada */
+.tap--open{cursor:default;border-color:var(--bid);background:var(--blue4);align-items:flex-start}
+.tap--open p{display:block}
+.tap--open::after{content:none}
+.tap--open b{font-size:clamp(15px,1.4vw,19px)}
+.tap--open p{font-size:clamp(12px,1.1vw,15px);line-height:1.4}

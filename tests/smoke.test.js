@@ -220,10 +220,10 @@ test('Costa Rica Smart Borders mini-game drives one truck through 3 agency stops
  const tvCss=fs.readFileSync(path.join(project,'module.css'),'utf8');
  const server=fs.readFileSync(path.join(root,'server.js'),'utf8');
  // Un camión, tres instituciones (paradas) y una sola ventanilla con la IA
- for(const key of ['aduana','sanidad','salud'])assert.ok(game.includes("key:'"+key+"'"));
- assert.ok(game.includes("steps:['Llega un camión','Tú revisas: 3 paradas','La IA revisa: 1 parada','Comparación']"));
- assert.ok(game.includes("steps:['A truck arrives','You check: 3 stops','AI checks: 1 stop','Comparison']"));
- assert.ok(game.includes('Parada {i} de 3'));
+ for(const key of ['aduana','policia','salud','animal','vegetal'])assert.ok(game.includes("key:'"+key+"'"));
+ assert.ok(game.includes("steps:['Llega un camión','Tú revisas: 5 paradas','La IA revisa: 1 parada','Comparación']"));
+ assert.ok(game.includes("steps:['A truck arrives','You check: 5 stops','AI checks: 1 stop','Comparison']"));
+ assert.ok(game.includes('Parada {i} de 5'));
  assert.ok(game.includes('una sola ventanilla'));
  assert.ok(game.includes("phase='merging'"));
  assert.ok(game.includes('const SIM={stop:20,ai:5}'));
