@@ -36,7 +36,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  const shot=async(p,name)=>p.screenshot({path:path.join(out,name+'.png'),fullPage:true});
  async function fits(p,label){const d=await p.evaluate(()=>({w:innerWidth,h:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}));assert.ok(d.sw<=d.w+1&&d.sh<=d.h+1,label+' '+JSON.stringify(d));checks.push(label);}
  async function phase(p){await tablet.waitForSelector('.mai-phase-'+p);await tv.waitForSelector('.mai-phase-'+p);}
- async function tap(p){const b=await tablet.locator('[data-map]').boundingBox();await tablet.touchscreen.tap(b.x+p[0]*b.width,b.y+p[1]*b.height);}
+ async function tap(p){await tablet.bringToFront();await tablet.waitForFunction(()=>!document.querySelector('.mai-territory-zoom'));const b=await tablet.locator('[data-map]').boundingBox();await tablet.touchscreen.tap(b.x+p[0]*b.width,b.y+p[1]*b.height);}
  const touch=await controller.newCDPSession(tablet);
  async function draw(vertices,{mouse=false,cancel=false,live=false,closePath=true}={}){
   const b=await tablet.locator('[data-map]').boundingBox(),xy=p=>({x:b.x+p[0]*b.width,y:b.y+p[1]*b.height}),path=closePath?[...vertices,vertices[0]]:vertices;
@@ -71,7 +71,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  assert.match(await tv.locator('.mai-art-title h1').textContent(),/informal settlements/);assert.match(await tablet.locator('.mai-controller-heading h1').textContent(),/informal settlements/);
  await fits(tablet,'drawing 1024×768');await fits(tv,'drawing TV');
  const drawingArea=await tablet.locator('[data-map]').boundingBox();
- assert.ok(Math.abs(drawingArea.width-1065*1024/1920)<1&&Math.abs(drawingArea.height-600*1024/1920)<1);
+ assert.ok(Math.abs(drawingArea.width-1240*1024/1920)<1&&Math.abs(drawingArea.height-697.5*1024/1920)<1);
  assert.equal(await tablet.locator('.mai-lead,.mai-help,.mai-legend').count(),0);
  checks.push('tablet map matches the approved artwork coordinate space; transparent controls remain aligned');
  // Reproduce two browser windows side by side, including a narrow CSS
@@ -143,7 +143,7 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  await tv.reload();await tv.waitForSelector('.mai-phase-assisted');assert.equal(await tv.locator('.is-selected').count(),4);checks.push('4-second simulated scan resumes; exact same hard image; candidate toggle/sync; late TV recovery');
  await click('review');await phase('final');const result=(await remote()).game;
  assert.deepEqual(result.assisted,{hits:3,errors:1,score:40});assert.deepEqual(result.manual,manual);
- assert.ok((await tv.locator('.mai-final-message').textContent()).includes('helped'));
+ assert.ok((await tv.locator('.mai-final-message').textContent()).includes('score went up'));
  assert.equal(await tablet.locator('.mai-scorecard,.mai-final-message').count(),0);
  assert.equal(await tablet.locator('.mai-summary-scores article').count(),0);
  assert.equal(await tablet.locator('.mai-final-map .mai-reference').count(),config.hard.reference.length);
@@ -171,10 +171,10 @@ const out=path.join(__dirname,'verification');fs.mkdirSync(out,{recursive:true})
  // Show equal/lower dynamic messages with genuine precomputed geometry scores.
  const synthetic={...S.fresh(true),phase:'final',markers:centers,selected:['C6'],manual:S.manual(centers,config),assisted:S.assisted(['C6'],config)};
  await tv.evaluate(s=>MAIIA.renderInto(document.getElementById('app'),s,{readonly:true}),{view:'game',mode:'game',projectId:'07',language:'en',game:synthetic});
- assert.match(await tv.locator('.mai-final-message').textContent(),/human interpretation/);
+ assert.match(await tv.locator('.mai-final-message').textContent(),/human check/);
  synthetic.markers=[[.99,.99]];synthetic.manual=S.manual(synthetic.markers,config);
  await tv.evaluate(s=>MAIIA.renderInto(document.getElementById('app'),s,{readonly:true}),{view:'game',mode:'game',projectId:'07',language:'en',game:synthetic});
- assert.match(await tv.locator('.mai-final-message').textContent(),/same result/);checks.push('equal and lower outcomes; assisted score is not forced to improve');
+ assert.match(await tv.locator('.mai-final-message').textContent(),/scores match/);checks.push('equal and lower outcomes; assisted score is not forced to improve');
  const strip=s=>{const {serverNow,...rest}=s;return rest;};
  for(const [i,n] of [1,2,3,5,6].entries())assert.deepEqual(strip(await remote(n)),strip(other[i]));
  const bad=await controller.request.post(base+'/api/state?station=7',{data:{view:'game',projectId:'07',mode:'game',game:{...S.fresh(),markers:[[2,.1]]}}});assert.equal(bad.status(),400);

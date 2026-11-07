@@ -124,3 +124,29 @@
 .mai-art-disclaimer{position:absolute;left:40px;right:40px;bottom:8px;font-size:15px;line-height:20px;text-align:center;color:#53657f;pointer-events:none}
 .mai-branded .mai-feedback{position:absolute;left:427px;right:427px;bottom:18px;margin:0;text-align:center;color:#9e263d;font-size:20px;pointer-events:none}
 .mai-art-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* Map-first layout requested for the large display; original branding stays intact. */
+.mai-branded .mai-tablet-map-hint{font-size:26px;line-height:33px}
+.mai-branded .mai-tablet-scan-note{font-size:24px;line-height:40px;color:#53657f}
+.mai-branded .mai-tv-map-kicker{font-size:22px;line-height:36px;font-weight:650;letter-spacing:3px;color:#005cff}
+.mai-tv-map-label{position:absolute;z-index:2;background:#05234fe6;color:#fff;font-size:20px;line-height:30px;padding:6px 12px;letter-spacing:2px;text-transform:uppercase;border-radius:4px;pointer-events:none}
+.mai-branded .mai-tv-copy{position:absolute;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start;gap:22px;padding:28px;border:1px solid #d0e0ff;border-radius:14px;background:#fff;overflow:hidden;letter-spacing:0}
+.mai-tv-map-layout .mai-tv-copy h1{font-size:46px;line-height:1.1;font-weight:750;letter-spacing:-1.5px;white-space:normal;margin:0;color:#005cff;max-width:100%}
+.mai-branded .mai-tv-copy p{margin:0;max-width:100%}
+.mai-branded .mai-tv-copy .mai-tv-stage{font-size:20px;line-height:28px;font-weight:700;letter-spacing:2px;color:#53657f}
+.mai-branded .mai-tv-copy .mai-tv-instruction{font-size:28px;line-height:1.35;color:#141414;letter-spacing:-.25px}
+.mai-branded .mai-tv-copy .mai-tv-detail{font-size:24px;line-height:1.4;color:#53657f;letter-spacing:-.15px}
+.mai-branded .mai-tv-copy .mai-art-tv-count{font-size:28px;line-height:38px;margin-top:auto}
+.mai-branded .mai-tv-copy .mai-big-score{font-size:120px;line-height:1.05;letter-spacing:-6px;margin:0;color:#005cff}
+.mai-branded .mai-tv-copy .mai-art-progress{position:relative;flex-shrink:0;width:100%;height:12px;margin-top:auto}
+.mai-branded .mai-tv-map-disclaimer{font-size:20px;line-height:28px;color:#53657f}
+.mai-branded .mai-tv-map-layout .mai-art-final-legend .mai-legend{font-size:24px;gap:12px 32px;justify-content:center}
+/* Conversational copy reuses the supplied artwork and button shapes. */
+.mai-branded .mai-conversation-landing{font-size:34px;line-height:1.25;letter-spacing:-.5px}
+.mai-branded .mai-conversation-menu-label{font-size:34px;line-height:44px;font-weight:700;letter-spacing:-.6px}
+.mai-branded .mai-art-activation-copy h1{font-size:76px;line-height:1.08}
+.mai-branded .mai-art-activation-copy p{font-size:32px;line-height:1.35}
+.mai-branded .mai-conversation-intro ol{padding-left:34px;margin:20px 0 0;display:grid;gap:16px;font-size:28px;line-height:1.3;color:#53657f}
+.mai-branded .mai-conversation-final-subtitle{font-size:26px;line-height:1.4;letter-spacing:-.25px}
+.mai-branded .mai-conversation-score-label{font-size:32px;line-height:54px;font-weight:700;color:white;background:#5c97ff;letter-spacing:-.7px}
+.mai-branded .mai-conversation-with-ai{background:#005cff}
+.mai-branded .mai-conversation-metric{font-size:22px;line-height:28px;text-align:center;color:#53657f;padding:8px 0}

@@ -58,7 +58,7 @@ const server=http.createServer((req,res)=>{
   if(url.searchParams.has('room')&&!roomParam(url))return sendJson(res,400,{error:'Invalid room code'});
   const room=roomParam(url);
   const current=room?(rooms.get(room)||initialState(station)):stations[station];
-  if(req.method==='GET')return sendJson(res,200,station===5||station===6||station===7||['05','06','07','11'].includes(current.projectId)?{...current,serverNow:Date.now()}:current);
+  if(req.method==='GET')return sendJson(res,200,station===5||station===6||station===7||station===10||['05','06','07','10','11'].includes(current.projectId)?{...current,serverNow:Date.now()}:current);
   if(req.method!=='POST')return sendJson(res,405,{error:'Method not allowed'});
   let buffer='';
   req.on('data',chunk=>{buffer+=chunk;if(buffer.length>10000)req.destroy();});
@@ -72,7 +72,10 @@ const server=http.createServer((req,res)=>{
     if(payload.screenIndex!==undefined && payload.screenIndex!==null && (!Number.isInteger(payload.screenIndex)||payload.screenIndex<1||payload.screenIndex>9))return sendJson(res,400,{error:'Invalid screen index'});
     let game=null;
     if(payload.game!==undefined&&payload.game!==null){
-     if(payload.projectId==='02'){
+     if(payload.projectId==='10'){
+      game=require('./projects/10-vpc-country-intelligence/state.js').sanitize(payload.game);
+      if(!game)return sendJson(res,400,{error:'Invalid Country Intelligence state'});
+     }else if(payload.projectId==='02'){
       const value=payload.game;
       const phases=['intro','player','explore','decision','result','final'];
       const players=['valentina','camila','santiago','andres'];
@@ -114,14 +117,16 @@ const server=http.createServer((req,res)=>{
       if(!Array.isArray(value.supports)||value.supports.length>2||value.supports.some(item=>!supports.includes(item))||new Set(value.supports).size!==value.supports.length)return sendJson(res,400,{error:'Invalid Guatiguara supports'});
       game={step:value.step,mission:value.mission||null,lab:value.lab||null,supports:[...value.supports]};
      }else{
-      if(typeof payload.game!=='object'||!Number.isInteger(payload.game.step)||payload.game.step<1||payload.game.step>6)return sendJson(res,400,{error:'Invalid game state'});
+      if(typeof payload.game!=='object'||!Number.isInteger(payload.game.step)||payload.game.step<1||payload.game.step>8)return sendJson(res,400,{error:'Invalid game state'});
       const cleanSelection=value=>Array.isArray(value)&&value.length<=3&&value.every(id=>/^A-0[1-8]$/.test(id))?[...new Set(value)]:null;
       const p1=cleanSelection(payload.game.p1),p2=cleanSelection(payload.game.p2);
       if(!p1||!p2)return sendJson(res,400,{error:'Invalid game selections'});
       const result=value=>Number.isInteger(value)&&value>=0&&value<=3?value:null;
       const p1Result=result(payload.game.p1Result),p2Result=result(payload.game.p2Result);
       if(p1Result===null||p2Result===null)return sendJson(res,400,{error:'Invalid game results'});
-      game={step:payload.game.step,p1,p2,p1Result,p2Result};
+      const act=Number.isInteger(payload.game.act)&&payload.game.act>=0&&payload.game.act<=4?payload.game.act:0;
+      const take=Number.isInteger(payload.game.take)&&payload.game.take>=0&&payload.game.take<=100000?payload.game.take:0;
+      game={step:payload.game.step,p1,p2,p1Result,p2Result,act,take};
      }
     }
     const nextState={stationId:station,view:payload.view,projectId:payload.projectId??null,section:typeof payload.section==='string'?payload.section:null,language:payload.language==='en'?'en':payload.language==='es'? 'es':null,mode:payload.mode||null,screenIndex:payload.screenIndex??null,game,updatedAt:Date.now()};

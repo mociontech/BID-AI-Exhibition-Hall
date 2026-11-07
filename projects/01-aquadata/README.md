@@ -15,10 +15,10 @@ Tablet controller for the AquaData station. The TV (`display.html`) is rendered 
 
 1. Landing: Information and Interactive experience (both always available). The TV shows the two options with a call to action; the tablet landing cards use `aquadata/card-information.jpg` and `aquadata/card-experience.jpg`.
 2. Information: the tablet shows a small notice, the TV shows the technical sheet in the chosen language with a slim call to action at the bottom.
-3. Game (tablet, with Back buttons on every step): mission → selection without AI → analysis (3.2 s bar) → selection with AquaData → results → documented EMCALI case. The TV does not mirror the tablet: it shows guide screens per stage (manual round, AquaData ranking, comparison, real results) with instructions. Both rounds use the same eight businesses; selections are independent and results are computed from `hallazgos_simulados_DEMO.json`.
+3. Game (tablet, with Back buttons on every step): mission → selection without AI → round-1 result (only the number) → how to read the risk score → analysis (four acts played on the TV one at a time from the tablet, with “Play on screen / Next step” and “Previous step” to replay: collects the data, reads consumption, detects patterns, scores and ranks; “Continue” unlocks about 10 s after the last act) → selection with AquaData → results → documented EMCALI case. The TV does not mirror the tablet: it shows guide screens per stage (manual round, AquaData ranking, comparison, real results) with instructions. Both rounds use the same eight businesses; selections are independent and results are computed from `hallazgos_simulados_DEMO.json`.
 4. Results are fictional (educational simulation). The 1.4 % / 11.6 % EMCALI figures live only on the last screen.
 
-State packet: `{view, projectId:'01', section, language, mode:'landing'|'info'|'cta'|'game', screenIndex, game:{step,p1,p2,p1Result,p2Result}}`.
+State packet: `{view, projectId:'01', section, language, mode:'landing'|'info'|'cta'|'game', screenIndex, game:{step (1–8),p1,p2,p1Result,p2Result,act (0–4, analysis act shown on the TV),take (counter so a repeated act plays again)}}`.
 
 ## Test
 

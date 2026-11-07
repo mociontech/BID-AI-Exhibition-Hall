@@ -118,7 +118,7 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
    if(g.phase==='manual'){if(!g.markers.length)return feedback('needMarker');return setGame({phase:'manualResult',manual:S.manual(g.markers,config)});}
    if(g.phase==='assisted'){if(!g.selected.length)return feedback('needSelection');return setGame({phase:'final',assisted:S.assisted(g.selected,config)});}
   }
-  if(action==='next'&&g.phase==='easyResult')return setGame({phase:'manual'});
+  if(action==='next'&&g.phase==='easyResult')return setGame({phase:'manual',territoryAt:now()});
   if(action==='next'&&g.phase==='manualResult')return setGame({phase:'activation'});
   if(action==='activate'&&g.phase==='activation')return setGame({phase:'analysis',analysisAt:now()});
  });

@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "Both options available immediately, game starts without Information, keyboard focus, 1024×768 layout",
+    "Independent bilingual infographic, no game screens used for Information, reload recovery, no unlock timer",
+    "Eight original signals, duplicate taps, Connect all, reload recovery",
+    "Three 5.2 second comparisons, no auto decision, all decisions synchronized, run timestamp survives reload",
+    "Final decisions, synchronized EN, replay, project menu, 1180×820 layout, 45 second inactivity reset",
+    "General Home, station 1 isolation, malformed state rejected, display timer cleanup"
+  ],
+  "errors": []
+}

@@ -1,7 +1,7 @@
 /* Shared, versioned state for the restored prototype game. No real deal data. */
 (function(root){
  const stages=['deal','read','decide','sup','loop'];
- const fresh=()=>({version:2,sc:'deal',deal:null,unlocked:false,infoStartedAt:0,readStartedAt:0,supStartedAt:0,why:false,dec:null,act:null,decisionAt:0,actionAt:0,simulation:true});
+ const fresh=()=>({version:2,sc:'deal',deal:null,unlocked:true,infoStartedAt:0,readStartedAt:0,supStartedAt:0,why:false,dec:null,act:null,decisionAt:0,actionAt:0,simulation:true});
  function sanitize(v){
   if(!v||typeof v!=='object'||v.version!==2||!stages.includes(v.sc))return null;
   if(v.deal!==null&&(!Number.isInteger(v.deal)||v.deal<0||v.deal>2))return null;
@@ -12,7 +12,7 @@
   if(['decide','sup','loop'].includes(v.sc)&&!v.readStartedAt)return null;
   if(['sup','loop'].includes(v.sc)&&!v.dec)return null;
   if(v.sc==='loop'&&(v.act===null||!v.supStartedAt))return null;
-  return Object.fromEntries(Object.keys(fresh()).map(k=>[k,k==='simulation'?true:v[k]]));
+  return Object.fromEntries(Object.keys(fresh()).map(k=>[k,(k==='simulation'||k==='unlocked')?true:v[k]]));
  }
  function snapshot(v,now){
   const g=sanitize(v)||fresh();
