@@ -41,7 +41,7 @@
    }}
  };
  const langOf=language=>language==='es'?'es':'en';
- function cta(text){return `<footer class="ptd-tv-cta"><div role="status"><span>${tabletIcon}</span><strong>${esc(text)}</strong><b aria-hidden="true">→</b></div></footer>`;}
+ function cta(text){return `<footer class="ptd-tv-cta"><div role="status"><span>${tabletIcon}</span><strong>${esc(text)}</strong><b aria-hidden="true">↓</b></div></footer>`;}
  function factCard(language,index=0){const lang=langOf(language),c=copy[lang],f=facts[lang][index%facts[lang].length];return `<article class="ptd-fact"><p class="ptd-guide-kicker">${c.didYouKnow}</p><b class="ptd-fact-number">${esc(f[0])}</b><h2>${esc(f[1])}</h2><p>${esc(f[2])}</p><small>${c.source}</small></article>`;}
  function information({language,image,label}){const lang=langOf(language);return `<main class="ptd-tv-information" lang="${lang}"><div class="ptd-tv-art">${window.AI_ARTWORK(image,`class="ptd-tv-infographic" alt="${esc(label)}"`)}</div>${cta(copy[lang].infoCta)}</main>`;}
  function gameView(options){

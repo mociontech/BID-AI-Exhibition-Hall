@@ -308,7 +308,7 @@
    game.phase==='player'?(es?'Elige tu rol y pulsa «Empezar turno».':'Choose your role and press “Start shift”.'):
    game.phase==='final'?(es?'Pulsa «Continuar» en la tableta para ver el ranking y los QR.':'Press “Continue” on the tablet to see the leaderboard and QR codes.'):
    game.phase==='explore'?(es?'Mueve la hora o toca una vía en la tableta para explorar.':'Move the clock or tap a road on the tablet to explore.'):game.phase==='result'?t.ctaResult:game.actionId?t.ctaPreview:t.ctaDecision;
-  return `<footer class="cc-notice" role="status"><span class="cc-notice-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg></span><div><small>${es?'CONTROLA DESDE LA TABLETA':'CONTROL FROM THE TABLET'}</small><strong>${esc(prompt)}</strong></div><span class="cc-notice-arrow" aria-hidden="true">→</span></footer>`;
+  return `<footer class="cc-notice" role="status"><span class="cc-notice-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg></span><div><small>${es?'CONTROLA DESDE LA TABLETA':'CONTROL FROM THE TABLET'}</small><strong>${esc(prompt)}</strong></div><span class="cc-notice-arrow" aria-hidden="true">↓</span></footer>`;
  }
  function render(options){
   const fallbackItem=options.data.scenarios[options.game.scenarioIndex]||options.data.scenarios[0];

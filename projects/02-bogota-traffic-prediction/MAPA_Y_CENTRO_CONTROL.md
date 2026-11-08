@@ -91,3 +91,5 @@ La ficha lateral de la vía seleccionada (congestión, velocidad, comparación a
 En 4176 se revisó el espejo del mapa con tableta a 1024×768, 1280×720 y 1920×1080 frente a TV a 1920×1080. La prueba compara los límites geográficos completos y comprueba que zoom/desplazamiento no separan el lienzo WebGL del DOM. Las cuatro vías de El Campín (NQS, calles 53/63 y Av. 68) se probaron individualmente: cada botón del ranking centra su propia geometría real y abre una ficha sincronizada. Los corredores principales se colorean incluso cuando parte de su recorrido queda fuera del radio del evento.
 
 La TV recupera el título original «Pulso vial Bogotá» y los títulos/descripciones de `GAME_DATA.json`. El CTA mantiene una sola superficie azul, sin borde exterior ni sombra gruesa. Se revisaron las pantallas ES/EN a 1280×720 y 1920×1080. Evidencia en `artifacts/predicttodo-corridor-focus/`.
+
+El Back decorativo incluido en el PNG se cubre en la vista de información; la navegación permanece en la tableta. Las flechas de las indicaciones de la TV apuntan hacia abajo y se desplazan sutilmente 3 px en ciclos de 2,4 s, con animación desactivada al solicitar movimiento reducido.

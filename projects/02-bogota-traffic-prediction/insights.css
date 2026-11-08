@@ -54,3 +54,9 @@
 /* Keep the supplied infographic edge to edge; guidance overlays its bottom safe area. */
 .ptd-tv-information>.ptd-tv-cta{position:absolute;z-index:2;left:0;right:0;bottom:max(8px,env(safe-area-inset-bottom));min-height:0;padding:0 20px;background:transparent;pointer-events:none}
 .ptd-tv-information>.ptd-tv-cta>div{gap:12px;padding:6px 18px 6px 6px;box-shadow:none}
+
+/* The supplied PNG includes a decorative Back button; navigation is on the tablet. */
+.ptd-tv-art::after{content:"";position:absolute;z-index:1;left:82.8%;top:81.8%;width:14%;height:8%;background:#fff;pointer-events:none}
+.ptd-tv-cta>div>b,.cc-notice-arrow{animation:ptd-guidance-down 2.4s ease-in-out infinite}
+@keyframes ptd-guidance-down{0%,100%{transform:translateY(-1.5px)}50%{transform:translateY(1.5px)}}
+@media(prefers-reduced-motion:reduce){.ptd-tv-cta>div>b,.cc-notice-arrow{animation:none;transform:none}}
