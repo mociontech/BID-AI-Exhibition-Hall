@@ -33,3 +33,28 @@
 .guatiguara-video-placeholder h1{margin:0;font-size:clamp(32px,4vw,72px);line-height:1.12}
 .guatiguara-video-placeholder h2{margin:0;color:#005cff;font-size:clamp(22px,2.5vw,44px)}
 .guatiguara-video-placeholder p{margin:0;max-width:900px;font-size:clamp(18px,1.8vw,32px);line-height:1.5;color:#53657f}
+
+/* Portada nov 2026 ("AI en acción", 1619x972). El arte se ancla arriba a ancho completo y se
+   recorta por abajo en pantallas 16:9; las zonas táctiles usan % del lienzo para coincidir con las tarjetas. */
+.gt-art{position:relative;width:100dvw;height:100dvh;overflow:hidden;background:#fdfdfd}/* mismo tono que el fondo del PNG */
+.gt-artboard{position:relative;width:100%;aspect-ratio:1619/966;overflow:hidden}/* 966: oculta la línea gris inferior del PNG */
+.gt-artboard>img{display:block;width:100%;height:auto;user-select:none;pointer-events:none}
+.gt-art-controls{position:absolute;inset:0}
+.gt-hit{position:absolute;border:0;background:transparent;cursor:pointer;border-radius:22px}
+.gt-hit:focus-visible,.gt-language button:focus-visible,.gt-home:focus-visible{outline:4px solid #ffb000;outline-offset:-4px}
+.gt-hit--info{left:4.4%;top:55.5%;width:44.4%;height:28.3%}
+.gt-hit--video{left:51.8%;top:55.5%;width:44.6%;height:28.3%}
+.gt-hit[aria-pressed="true"]{box-shadow:inset 0 0 0 3px #005cff}
+.gt-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Barra superior: ES/EN · Back · Home — mismas medidas que .crb-nav de la Station 03 */
+.gt-nav{position:absolute;right:3.6%;top:0;height:11.8%;display:flex;align-items:center;gap:clamp(10px,1.3vw,24px);color:#fff}
+.gt-language{display:flex;gap:3px;padding:4px;border:1px solid #ffffff88;border-radius:30px;background:#ffffff22}
+.gt-language button{min-width:clamp(40px,2.8vw,52px);min-height:clamp(32px,2.3vw,42px);padding:0;border:0;border-radius:24px;background:transparent;color:#fff;font:800 clamp(13px,.95vw,17px)/1 Inter,Arial,sans-serif;cursor:pointer;transition:background .2s,color .2s}
+.gt-language button[aria-pressed="true"]{background:#fff;color:#005CFF}
+.gt-home{display:inline-flex;align-items:center;gap:8px;min-height:clamp(40px,2.8vw,50px);padding:0 clamp(12px,1vw,18px);border:1px solid #ffffff88;border-radius:30px;background:#ffffff22;color:#fff;font:800 clamp(13px,.95vw,17px)/1 Inter,Arial,sans-serif;cursor:pointer}
+.gt-home svg{width:clamp(18px,1.2vw,22px);height:auto}
+.gt-back span:first-child{font-size:1.1em;line-height:1}
+/* TV: portada mientras la tablet está en la pantalla principal */
+.guatiguara-cover{width:100dvw;height:100dvh;overflow:hidden;background:#fdfdfd}
+.guatiguara-cover>img{display:block;width:100%;aspect-ratio:1619/972;object-fit:fill}
+.guatiguara-cover>img{height:auto;clip-path:inset(0 0 4px 0)}

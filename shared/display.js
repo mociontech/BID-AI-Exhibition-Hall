@@ -42,15 +42,21 @@ const COSTA_RICA_ART={
  es:{home:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-1.png',info:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-2.png'},
  en:{home:'projects/03-costa-rica-smart-borders/public/cover-en-1920x1080.png',info:'projects/03-costa-rica-smart-borders/public/info-en-1920x1080.png'}
 };
+/* Infografía nov 2026 aprobada (EN); la ES conserva la anterior hasta recibir su versión. */
 const GUATIGUARA_ART={
+ cover:'projects/04-parque-tecnologico-guatiguara/Parque Tecnológico Guatiguará_ AI en acción.png',
  es:{info:'projects/04-parque-tecnologico-guatiguara/04_Guatiguara_BID_Bilingue/04_Guatiguara_Infografia_ES_1920x1080.png'},
- en:{info:'projects/04-parque-tecnologico-guatiguara/04_Guatiguara_BID_Bilingue/04_Guatiguara_Infographic_EN_1920x1080.png'}
+ en:{info:'projects/04-parque-tecnologico-guatiguara/Infografia 4 - Parque Tecnológico Guatiguará.png'}
 };
 function renderTeachy(data){
  window.TEACHY.renderDisplay(app,data);
 }
 function renderGuatiguara(data){
  const language=data.language==='es'?'es':'en';
+ if(data.mode!=='info'){
+  app.innerHTML=`<main class="guatiguara-cover" aria-label="Parque Tecnológico Guatiguará"><img src="${GUATIGUARA_ART.cover}" alt="Parque Tecnológico Guatiguará"></main>`;
+  return;
+ }
  const image=GUATIGUARA_ART[language].info;
  app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information">${AI_ARTWORK(`${image}`,`alt="Parque Tecnológico Guatiguará information"`)}</main>`;
 }
