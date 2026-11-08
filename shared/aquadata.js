@@ -16,9 +16,8 @@
   function screen(index){return screens.find(item=>item.index===Number(index))||screens[0];}
   function imagePath(index,language){const item=screen(index);const lang=language==='es'?'es':'en';return `${root}${lang}/${item.files[lang]}`;}
   function technicalSheetPath(language){
-    return language==='en'
-      ? 'projects/01-aquadata/ahorasi/AquaData_ Inteligencia para el Agua.png'
-      : 'projects/01-aquadata/ahorasi/Infografía AquaData_ IA para el agua.png';
+    // One infographic for both languages (client-supplied, 1920x1080).
+    return 'projects/01-aquadata/ahorasi/AquaData_Infografia_TV_1920x1080.png';
   }
   function gameReferencePath(step,language){
     const lang=language==='en'?'EN':'ES';
