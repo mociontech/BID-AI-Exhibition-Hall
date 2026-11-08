@@ -370,9 +370,9 @@ function clock(label){return `<div class="clock"><span>${esc(label)}</span><b da
 function header(){
  const steps=t('steps');const index={intro:0,manual:1,ai:2,results:3}[state.screen];
  return `<header class="top">
-  <div class="top-brand"><img class="top-idb-group" src="../../../assets/brand/idb-group.jpg" alt="IDB Group"><span class="top-sep"></span><span><b>${esc(t('brand'))}</b><small>IDB Group Projects Across The Region</small></span></div>
+  <div class="top-brand"><img class="top-idb-group" src="../public/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="top-sep"></span><span><b>${esc(t('brand'))}</b><small>IDB Group Projects Across the Region</small></span></div>
   <ol class="stepper">${steps.map((s,i)=>`<li class="${i<index?'done':i===index?'current':''}"><span>${i+1}</span><em>${esc(s)}</em></li>`).join('')}</ol>
-  <div class="top-tools"><div class="langs" aria-label="Language"><button id="es" type="button" aria-pressed="${state.lang==='es'}">ES</button><button id="en" type="button" aria-pressed="${state.lang==='en'}">EN</button></div><button type="button" class="home-btn" data-act="home">${esc(t('home'))}</button></div>
+  <div class="top-tools"><div class="langs" aria-label="Language"><button id="es" type="button" aria-pressed="${state.lang==='es'}">ES</button><button id="en" type="button" aria-pressed="${state.lang==='en'}">EN</button></div><button type="button" class="home-btn" data-act="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg><span>${esc(t('home'))}</span></button></div>
  </header>`;
 }
 

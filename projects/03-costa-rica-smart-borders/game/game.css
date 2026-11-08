@@ -643,3 +643,25 @@ h1,h2,h3{text-align:left}
 .tap--open::after{content:none}
 .tap--open b{font-size:clamp(15px,1.4vw,19px)}
 .tap--open p{font-size:clamp(12px,1.1vw,15px);line-height:1.4}
+/* barra superior del minijuego como la referencia (franja azul, logo blanco, fases, ES/EN y Home en píldoras) */
+.top{margin:calc(clamp(10px,1.4vh,18px)*-1) calc(clamp(14px,2vw,28px)*-1) 0;padding:0 clamp(16px,2.4vw,36px);min-height:clamp(64px,9.5vh,84px);background:var(--bid);color:#fff;gap:clamp(12px,1.8vw,28px)}
+.top-brand{gap:clamp(12px,1.4vw,24px)}
+.top-idb-group{width:auto;height:clamp(26px,4vh,40px)}
+.top-sep{background:#fff;opacity:.9;height:clamp(30px,4.2vh,44px)}
+.top-brand b{display:block;color:#fff;font-size:clamp(15px,1.35vw,20px);font-weight:800;line-height:1.05}
+.top-brand small{display:block;color:#fff;font-size:clamp(11px,1.05vw,15px);line-height:1.1}
+.stepper{gap:clamp(6px,.9vw,14px)}
+.stepper li{background:#ffffff22;border:1px solid #ffffff88;color:#fff;font-weight:700;padding:5px 14px 5px 5px}
+.stepper li em{font-style:normal}
+.stepper li span{background:#fff;color:var(--bid)}
+.stepper li.current{background:#fff;border-color:#fff;color:var(--bid)}
+.stepper li.current span{background:var(--bid);color:#fff}
+.stepper li.done{border-color:#fff;color:#fff}
+.stepper li.done span{font-size:0;background:#fff;color:var(--bid)}
+.stepper li.done span::after{content:"✓";font-size:14px;font-weight:900}
+.top-tools{gap:clamp(10px,1.3vw,24px)}
+.langs{gap:3px;padding:4px;border:1px solid #ffffff88;border-radius:30px;background:#ffffff22;overflow:visible}
+.langs button{min-width:clamp(40px,2.8vw,52px);min-height:clamp(32px,2.3vw,42px);border-radius:24px;color:#fff;font-weight:800}
+.langs button[aria-pressed="true"]{background:#fff;color:var(--bid)}
+.home-btn{display:inline-flex;align-items:center;gap:8px;min-height:clamp(40px,2.8vw,50px);padding:0 clamp(12px,1vw,18px);border:1px solid #ffffff88;background:#ffffff22;color:#fff;font-weight:800}
+.home-btn svg{width:clamp(18px,1.2vw,22px);height:auto}
