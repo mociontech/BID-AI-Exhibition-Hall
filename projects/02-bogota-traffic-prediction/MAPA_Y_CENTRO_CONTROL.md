@@ -19,7 +19,7 @@ Los indicadores siguen siendo una simulación educativa. No se ejecuta un modelo
 
 ## Infografía de Información
 
-La imagen activa es `assets/PredicToDo_Infographic_1920x1080.png`, suministrada por el usuario, a 1920×1080. `../../shared/bogota-traffic.js` apunta a ese archivo tanto para ES como para EN. El PNG proporcionado contiene texto en inglés; no se modifica su contenido ni se genera una traducción gráfica. Controles, CTA y explicaciones siguen siendo bilingües. Se conserva la precarga existente, `object-fit: contain` y el CTA fuera de la imagen. El nuevo archivo ya incluye su marca y no recibe otro logotipo superpuesto.
+La imagen activa es `assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png`, suministrada por el usuario, a 1920×1080. `../../shared/bogota-traffic.js` apunta a ese archivo tanto para ES como para EN. El PNG proporcionado contiene texto en inglés; no se modifica su contenido ni se genera una traducción gráfica. Controles, CTA y explicaciones siguen siendo bilingües. Se conserva la precarga existente, `object-fit: contain` y el CTA fuera de la imagen. El nuevo archivo ya incluye su marca y no recibe otro logotipo superpuesto.
 
 ## Referencias de diseño
 
@@ -68,7 +68,7 @@ Datos: © OpenStreetMap contributors, [ODbL 1.0](https://www.openstreetmap.org/c
 - `view-state.js` y `../../server.js`: validación de los campos de cámara y avisos.
 - `../../tests/predicttodo-view-state.test.js`: cámaras, coordenadas finitas, avisos de corredores válidos y aislamiento por caso.
 - `index.html` y `../../display.html`: cargan el mapa y actualizan las versiones de los recursos.
-- `../../shared/bogota-traffic.js` y `assets/PredicToDo_Infographic_1920x1080.png`: nueva imagen de información.
+- `../../shared/bogota-traffic.js` y `assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png`: nueva imagen de información.
 - `../../tests/predicttodo-control.test.js`: navegación libre, confirmación, explicación de IA sin iniciar un mapa en la TV y pintura nativa sin alterar geometría.
 - `../../tests/smoke.test.js`: referencia y resolución de la nueva infografía.
 

@@ -63,7 +63,7 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
 });
 
 test('PredictToDo information uses the new client-supplied 1920 x 1080 PNG',()=>{
- const imagePath='projects/02-bogota-traffic-prediction/assets/PredicToDo_Infographic_1920x1080.png';
+ const imagePath='projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png';
  const artwork=fs.readFileSync(path.join(root,imagePath));
  assert.equal(artwork.readUInt32BE(16),1920);assert.equal(artwork.readUInt32BE(20),1080);
  const context={window:{}};

@@ -3,8 +3,8 @@
   const INFO_IMAGES=Object.freeze({
     // The replacement supplied by the client is a single English PNG.
     // Both interface languages use that exact artwork; the UI stays bilingual.
-    es:'projects/02-bogota-traffic-prediction/assets/PredicToDo_Infographic_1920x1080.png',
-    en:'projects/02-bogota-traffic-prediction/assets/PredicToDo_Infographic_1920x1080.png'
+    es:'projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png',
+    en:'projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png'
   });
   const SATELLITE_MAP_IMAGE='/assets/img/predicttodo/PredictToDo_Mapa_Satelital_Simulado.png';
   function infoImagePath(language){return INFO_IMAGES[language==='es'?'es':'en'];}
