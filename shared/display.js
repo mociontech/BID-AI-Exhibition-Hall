@@ -58,7 +58,8 @@ function renderGuatiguara(data){
   return;
  }
  const image=GUATIGUARA_ART[language].info;
- app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information">${AI_ARTWORK(`${image}`,`alt="Parque Tecnológico Guatiguará information"`)}</main>`;
+ const cta=language==='es'?'Cuando estés listo, toca «Video institucional» en la tableta':'When you are ready, press “Institutional video” on the tablet';
+ app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information">${AI_ARTWORK(`${image}`,`alt="Parque Tecnológico Guatiguará information"`)}<section class="gt-display-cta"><i class="gt-cta-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m8 5 11 7-11 7z"/></svg></i><b>${cta}</b><span class="gt-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5.5 13l6.5 6.5 6.5-6.5"/></svg></span></section></main>`;
 }
 function renderGuatiguaraVideo(data){
  const english=data.language!=='es';
