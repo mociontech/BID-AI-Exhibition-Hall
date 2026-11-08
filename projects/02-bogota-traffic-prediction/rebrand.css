@@ -242,36 +242,40 @@
  .ptd-final-hero{min-height:300px}
 }
 
-/* The approved 1920 × 1080 main screen remains a single image. Tablet controls
-   use percentage-based hit areas so they stay aligned at landscape sizes. */
-.ptd-art-shell{display:grid;place-items:center;width:100%;height:100dvh;overflow:hidden;background:#eef3fb;color:#141414;font-family:Inter,Arial,sans-serif}
-.ptd-art-frame{position:relative;width:min(100vw,177.77778dvh);max-height:100dvh;aspect-ratio:16/9;overflow:hidden;background:#fff}
-.ptd-art-image{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}
-.ptd-art-station{position:absolute;top:4.2%;right:14%;color:#fff;font-size:clamp(10px,1vw,19px);font-weight:800;white-space:nowrap}
-.ptd-art-language{position:absolute;z-index:4;top:2.7%;right:3.5%;display:flex;gap:2px;padding:4px;border:1px solid #ffffff99;border-radius:30px;background:#ffffff22}
-.ptd-art-language button{min-width:52px;min-height:42px;border:0;border-radius:24px;background:transparent;color:#fff;font:800 clamp(13px,.9vw,18px) Inter,Arial,sans-serif;cursor:pointer}
-.ptd-art-language button[aria-pressed=true]{background:#fff;color:#005cff}
-.ptd-art-hit{position:absolute;z-index:3;top:51.3%;height:31.9%;padding:0;border:0;border-radius:20px;background:transparent;cursor:pointer}
-.ptd-art-hit--info{left:3.45%;width:44.55%}
-.ptd-art-hit--game{left:50.25%;width:44.45%}
+/* Native header matches the exhibition controls; the approved body artwork keeps its proportions. */
+.ptd-art-shell{--ptd-nav-height:clamp(68px,11.6vh,126px);display:flex;flex-direction:column;width:100%;height:100dvh;overflow:hidden;background:#fff;color:#141414;font-family:Inter,Arial,sans-serif}
+.ptd-art-header{box-sizing:border-box;flex:none;height:var(--ptd-nav-height);width:100%;display:flex;align-items:center;gap:clamp(14px,2vw,32px);padding:0 clamp(22px,3.6vw,70px);background:#005cff;color:#fff}
+.ptd-art-brand{display:flex;align-items:center;gap:clamp(12px,1.4vw,27px);min-width:0;margin-right:auto}
+.ptd-art-brand img{display:block;height:clamp(26px,4vh,44px);width:auto;flex:none}
+.ptd-art-brand-divider{width:2px;height:clamp(30px,4.2vh,46px);background:#fff;opacity:.9;flex:none}
+.ptd-art-brand-copy{display:flex;flex-direction:column;line-height:1.05;white-space:nowrap}
+.ptd-art-brand-copy strong{font-size:clamp(15px,1.35vw,26px);font-weight:800}
+.ptd-art-brand-copy small{font-size:clamp(11px,1.15vw,22px);font-weight:400}
+.ptd-art-tools{display:flex;align-items:center;gap:clamp(10px,1.3vw,24px);flex:none}
+.ptd-art-station{font-size:clamp(11px,1vw,18px);font-weight:750;letter-spacing:.04em;white-space:nowrap}
+.ptd-art-language{display:flex;gap:3px;padding:4px;border:1px solid #ffffff88;border-radius:30px;background:#ffffff22}
+.ptd-art-language button,.ptd-art-language b{display:grid;place-items:center;min-width:clamp(40px,2.8vw,52px);min-height:clamp(40px,2.3vw,42px);border:0;border-radius:24px;background:transparent;color:#fff;font:800 clamp(13px,.95vw,17px)/1 Inter,Arial,sans-serif}
+.ptd-art-language button{cursor:pointer}
+.ptd-art-language [aria-pressed=true]{background:#fff;color:#005cff}
+.ptd-art-home{display:inline-flex;align-items:center;gap:8px;min-height:clamp(44px,2.8vw,50px);padding:0 clamp(12px,1vw,18px);border:1px solid #ffffff88;border-radius:30px;background:#ffffff22;color:#fff;font:800 clamp(13px,.95vw,17px)/1 Inter,Arial,sans-serif;cursor:pointer;white-space:nowrap}
+.ptd-art-home svg{width:clamp(18px,1.2vw,22px);height:auto}
+.ptd-art-body{display:grid;place-items:center;flex:1;min-height:0;width:100%;overflow:hidden;background:#fff}
+.ptd-art-frame{position:relative;width:min(100%,calc((100dvh - var(--ptd-nav-height))*2.012578616));aspect-ratio:1920/954;overflow:hidden;background:#fff}
+.ptd-art-frame::before{content:"";position:absolute;z-index:1;top:0;left:0;right:0;height:2px;background:#fff;pointer-events:none}
+.ptd-art-image{position:absolute;left:0;top:-13.207547%;display:block;width:100%;height:113.207547%;object-fit:fill;pointer-events:none;user-select:none}
+.ptd-art-hit{position:absolute;z-index:3;top:44.867925%;height:36.113208%;padding:0;border:0;border-radius:20px;background:transparent;cursor:pointer}
+.ptd-art-hit--info{left:3.45%;width:44.55%}.ptd-art-hit--game{left:50.25%;width:44.45%}
 .ptd-art-hit:hover,.ptd-art-hit.is-selected{box-shadow:inset 0 0 0 4px #005cff}
-.ptd-art-hit:focus-visible,.ptd-art-language button:focus-visible,.ptd-art-footer button:focus-visible{outline:4px solid #f8b944;outline-offset:3px}
-.ptd-art-footer{position:absolute;z-index:4;right:3.45%;bottom:2.2%;left:3.45%;display:flex;justify-content:space-between;pointer-events:none}
-.ptd-art-footer button{min-height:46px;padding:6px 13px;border:1px solid #cfe1ff;border-radius:24px;background:#fff;color:#005cff;font:800 clamp(13px,1vw,20px) Inter,Arial,sans-serif;cursor:pointer;pointer-events:auto}
-.ptd-art-footer button:hover{border-color:#005cff;background:#eef4ff}
-.ptd-art-intro-es{position:absolute;z-index:2;top:37.8%;left:3.6%;width:45%;height:9.7%;background:#fff;font-size:clamp(14px,1.85vw,36px);line-height:1.07}
-.ptd-art-card-es{position:absolute;z-index:2;top:52.8%;display:flex;flex-direction:column;width:26.65%;height:29.2%;padding:1.1% 1.45%;background:#fff;line-height:1.08;pointer-events:none}
+.ptd-art-hit:focus-visible,.ptd-art-language button:focus-visible,.ptd-art-home:focus-visible{outline:4px solid #f8b944;outline-offset:3px}
+.ptd-art-intro-es{position:absolute;z-index:2;top:29.584906%;left:3.6%;width:45%;height:10.981132%;background:#fff;font-size:clamp(14px,1.85vw,36px);line-height:1.07}
+.ptd-art-card-es{position:absolute;z-index:2;top:46.566038%;display:flex;flex-direction:column;width:26.65%;height:33.056604%;padding:1.1% 1.45%;background:#fff;line-height:1.08;pointer-events:none}
 .ptd-art-card-es--info{left:3.9%}.ptd-art-card-es--game{left:50.7%}
 .ptd-art-card-es b{margin-bottom:1%;color:#005cff;font-size:clamp(28px,2.8vw,54px);font-weight:900;line-height:1}
 .ptd-art-card-es strong{margin-bottom:1%;font-size:clamp(22px,2.2vw,43px);font-weight:850}
 .ptd-art-card-es span{font-size:clamp(14px,1.55vw,30px);font-weight:400}
-@media(max-width:1100px){
- .ptd-art-language{top:2%;right:2%;padding:2px}
- .ptd-art-language button{min-width:38px;min-height:32px}
- .ptd-art-station{right:12%;top:3.5%}
- .ptd-art-footer button{min-height:34px;padding:3px 9px}
- .ptd-art-card-es{padding-top:1.4%}
-}
+@media(max-width:1100px){.ptd-art-card-es{padding-top:1.4%}}
+@media(max-width:900px){.ptd-art-brand-copy small{display:none}.ptd-art-header{gap:12px}.ptd-art-tools{gap:8px}}
+@media(max-width:700px){.ptd-art-brand-copy,.ptd-art-brand-divider{display:none}}
 
 /* Explain and distinguish simulated congestion hotspots from route endpoints. */
 .ptd-game .pulse-critical-pin{display:grid;place-items:center;background:transparent;border:0}
