@@ -230,7 +230,9 @@
 .aqd-cta i{display:grid;place-items:center;width:clamp(28px,2.2vw,42px);height:clamp(28px,2.2vw,42px);flex:none;animation:aqd-cta-nudge 1.4s ease-in-out infinite}
 .aqd-cta i svg{width:100%;height:100%}
 @keyframes aqd-cta-in{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translate(-50%,0)}}
-@keyframes aqd-cta-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+/* The arrow points down at the tablet and bobs gently. */
+@keyframes aqd-cta-nudge{0%,100%{transform:rotate(90deg) translateX(0)}50%{transform:rotate(90deg) translateX(6px)}}
+.aqd-cta i{transform:rotate(90deg)}
 .aquadata-display--entered{position:relative}
 
 /* TV guide screens (not a mirror): context for each stage plus the call to action. */
