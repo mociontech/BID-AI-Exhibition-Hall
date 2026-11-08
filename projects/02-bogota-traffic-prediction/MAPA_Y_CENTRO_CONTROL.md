@@ -19,7 +19,7 @@ Los indicadores siguen siendo una simulación educativa. No se ejecuta un modelo
 
 ## Infografía de Información
 
-La imagen activa es `assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png`, suministrada por el usuario, a 1920×1080. `../../shared/bogota-traffic.js` apunta a ese archivo tanto para ES como para EN. El PNG proporcionado contiene texto en inglés; no se modifica su contenido ni se genera una traducción gráfica. Controles, CTA y explicaciones siguen siendo bilingües. Se conserva la precarga existente, `object-fit: contain` y el CTA fuera de la imagen. El nuevo archivo ya incluye su marca y no recibe otro logotipo superpuesto.
+La imagen activa es `assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png`, suministrada por el usuario, a 1920×1080. `../../shared/bogota-traffic.js` apunta a ese archivo tanto para ES como para EN. El PNG proporcionado contiene texto en inglés; no se modifica su contenido ni se genera una traducción gráfica. Controles, CTA y explicaciones siguen siendo bilingües. Se conserva la precarga existente. La imagen ocupa todo el ancho y alto con `object-fit: fill`; el CTA se superpone en el margen inferior de la propia imagen, sin reservar una franja ni reducir el arte. El nuevo archivo ya incluye su marca y no recibe otro logotipo superpuesto.
 
 ## Referencias de diseño
 
