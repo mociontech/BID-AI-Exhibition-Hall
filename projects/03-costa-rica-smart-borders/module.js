@@ -9,7 +9,7 @@ window.ProjectModule={
   const legacyGame=new URLSearchParams(location.search).get('legacy')==='1';
   const gameUrl=legacyGame?'./Codex_Paquete_CR_Smart_Borders_VUCE/Codex_Paquete_CR_Smart_Borders_VUCE/03_HTML_BASE/prototipo_actual_V5.html':'./game/index.html';
   let timer=null;
-  let state={language:'en',screen:'home',displayMode:'landing',gameReady:false};
+  let state={language:'en',screen:'home',displayMode:'landing',gameReady:true}; // elección libre: Información y minijuego disponibles desde el inicio
   /* Resumen del minijuego (etapa, camión, cronómetro, semáforos) que el iframe envía por postMessage; la TV lo pinta con tv.js. Nunca incluye documentos. */
   let gameState=null;
   function packet(){const isGame=state.screen==='game',mode=isGame?'game':state.displayMode;return {view:isGame?'game':'project',projectId:'03',section:mode,language:state.language,mode,screenIndex:isGame?3:(mode==='landing'?1:2),game:isGame?gameState:null};}
@@ -17,11 +17,10 @@ window.ProjectModule={
   function cancelTimer(){if(timer){clearTimeout(timer);timer=null;}}
   function render(){mount.innerHTML=state.screen==='game'?game():home();bind();}
   function update(next){state={...state,...next};render();void sync.send(packet());}
-  function unlockGame(){timer=null;if(state.screen!=='home'||state.displayMode!=='info')return;update({displayMode:'cta',gameReady:true});}
-  function startInformation(){cancelTimer();update({screen:'home',displayMode:'info',gameReady:false});timer=setTimeout(unlockGame,10000);}
-  function returnToMenu(){cancelTimer();update({screen:'home',displayMode:'landing',gameReady:false});}
+  function startInformation(){cancelTimer();update({screen:'home',displayMode:'info',gameReady:true});}
+  function returnToMenu(){cancelTimer();update({screen:'home',displayMode:'landing',gameReady:true});}
   async function goExhibitionHome(){cancelTimer();await sync.send({view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null});location.assign('/index.html'+sync.stationQuery);}
-  function openGame(){if(!state.gameReady)return;cancelTimer();gameState=null;update({screen:'game',displayMode:'game'});}
+  function openGame(){cancelTimer();gameState=null;update({screen:'game',displayMode:'game'});}
   function home(){const image=asset+art[state.language],disabled=state.gameReady?'':' disabled aria-disabled="true"';return `<main class="crb-art" aria-label="Costa Rica Smart Borders controller">${AI_ARTWORK(`${image}`,`alt="Costa Rica Smart Borders"`,'none')}<div class="crb-art-controls"><nav class="crb-nav" aria-label="Station tools"><div class="crb-language" aria-label="Language"><button type="button" data-language="es" aria-pressed="${state.language==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${state.language==='en'}">EN</button></div><button class="crb-home" type="button" data-action="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg><span>${state.language==='es'?'Inicio':'Home'}</span></button></nav><button class="crb-hit crb-hit--info" type="button" data-action="information" aria-label="${state.language==='es'?'Mostrar información en la pantalla principal':'Show information on the main display'}"></button><button class="crb-hit crb-hit--game" type="button" data-action="game" aria-label="${state.language==='es'?'Abrir minijuego':'Open mini-game'}"${disabled}></button><button class="crb-hit crb-hit--home-left" type="button" data-action="home" aria-label="${state.language==='es'?'Inicio: ver los 11 proyectos':'Home: view the 11 projects'}"></button><button class="crb-hit crb-hit--home-right" type="button" data-action="home" aria-label="${state.language==='es'?'Inicio: ver los 11 proyectos':'Home: view the 11 projects'}"></button><button class="crb-hit crb-hit--back" type="button" data-action="home" aria-label="${state.language==='es'?'Volver a proyectos':'Back to projects'}"></button><button class="crb-hit crb-hit--next" type="button" data-action="information" aria-label="${state.language==='es'?'Siguiente: información':'Next: information'}"></button><span class="crb-sr" aria-live="polite">${state.displayMode==='info'?'Information is playing on the main display.':state.displayMode==='cta'?'The mini-game is available.':''}</span></div></main>`;}
   function game(){return `<main class="crb-prototype" aria-label="Costa Rica Smart Borders mini-game"><iframe src="${gameUrl}" title="Costa Rica Smart Borders mini-game"></iframe>${legacyGame?`<button class="crb-exit" type="button" data-action="home">${state.language==='es'?'Inicio':'Home'}</button>`:''}</main>`;}
   function connectGame(frame){
@@ -47,7 +46,7 @@ window.ProjectModule={
    mount.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{const action=button.dataset.action;if(action==='information')startInformation();if(action==='game')openGame();if(action==='menu')returnToMenu();if(action==='home')void goExhibitionHome();});
    const frame=mount.querySelector('.crb-prototype iframe');if(frame)connectGame(frame);
   }
-  try{const remote=await sync.read();if(remote?.projectId==='03'){state.language=remote.language==='es'?'es':'en';if(remote.mode==='game')state={...state,screen:'game',displayMode:'game',gameReady:true};else if(remote.mode==='cta')state={...state,displayMode:'cta',gameReady:true};else if(remote.mode==='info'){state={...state,displayMode:'info',gameReady:false};timer=setTimeout(unlockGame,10000);}}}catch{}
+  try{const remote=await sync.read();if(remote?.projectId==='03'){state.language=remote.language==='es'?'es':'en';if(remote.mode==='game')state={...state,screen:'game',displayMode:'game',gameReady:true};else if(remote.mode==='cta')state={...state,displayMode:'cta',gameReady:true};else if(remote.mode==='info')state={...state,displayMode:'info',gameReady:true};}}catch{}
   render();void sync.send(packet());
  }
 };
