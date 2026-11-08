@@ -50,7 +50,7 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
  const display=fs.readFileSync(path.join(root,'shared','display.js'),'utf8');
  const server=fs.readFileSync(path.join(root,'server.js'),'utf8');
  assert.ok(fs.existsSync(path.join(project,'public','Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-1.png')));
- assert.ok(fs.existsSync(path.join(project,'public','Imagen de ChatGPT 29 oct 2026, 03_20_42 p.m-3.png')));
+ assert.ok(fs.existsSync(path.join(project,'public','cover-en-1920x1080.png')));assert.ok(fs.existsSync(path.join(project,'public','info-en-1920x1080.png')));
  assert.ok(fs.existsSync(path.join(project,'Costa_Rica_Smart_Borders_03_Minigame_Prototipo_ES_EN','Costa_Rica_Smart_Borders_03','camion-frontera.jpg')));
  assert.match(controller,/projectId:'03'/);
  assert.match(controller,/setTimeout\(unlockGame,10000\)/);

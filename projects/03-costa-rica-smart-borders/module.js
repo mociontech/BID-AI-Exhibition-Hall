@@ -4,7 +4,7 @@ window.ProjectModule={
  id:'03',
  async mountController({sync,mount,home}){
   const asset='./public/';
-  const art={es:'Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-1.png',en:'Imagen de ChatGPT 29 oct 2026, 03_20_42 p.m-4.png'};
+  const art={es:'Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-1.png',en:'cover-en-1920x1080.png'}; // portada EN aprobada (nov 2026); la ES conserva el arte anterior hasta recibir su versión
   /* Minijuego rediseñado (HTML/CSS/JS propios). El prototipo V5 original queda disponible con ?legacy=1 para comparar. */
   const legacyGame=new URLSearchParams(location.search).get('legacy')==='1';
   const gameUrl=legacyGame?'./Codex_Paquete_CR_Smart_Borders_VUCE/Codex_Paquete_CR_Smart_Borders_VUCE/03_HTML_BASE/prototipo_actual_V5.html':'./game/index.html';

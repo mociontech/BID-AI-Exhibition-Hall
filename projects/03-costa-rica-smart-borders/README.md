@@ -11,6 +11,12 @@ Módulo individual del AI Exhibition Hall (tableta = mando, TV = visual sincroni
 - `Codex_Paquete_CR_Smart_Borders_VUCE/`: material de referencia; el prototipo V5 sigue disponible
   como respaldo abriendo la página del proyecto con `?station=X&legacy=1`.
 
+## Artes aprobadas (nov 2026)
+
+- Portada de la tableta en inglés: `public/cover-en-1920x1080.png` (tarjetas 01 Information · 02 Interactive experience). Las zonas táctiles están en `module.css` (`.crb-hit--info` y `.crb-hit--game`). El selector ES/EN se dibuja con CSS sobre la franja azul.
+- Ficha de Información en la TV en inglés: `public/info-en-1920x1080.png`. El aviso «The mini-game is now available» se muestra sobre el panel azul izquierdo para no tapar las cifras.
+- Las versiones en español conservan las artes anteriores hasta recibir las nuevas (`COSTA_RICA_ART.es` en `shared/display.js` y `art.es` en `module.js`).
+
 ## Dinámica del minijuego (`game/`): un camión, una frontera
 
 1. **Llega un camión** — un solo camión (`CR-104` alimentos envasados, `CR-117` frutas o `CR-126` lácteos,

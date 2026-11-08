@@ -40,7 +40,7 @@ function renderBogotaTraffic(data){
 }
 const COSTA_RICA_ART={
  es:{home:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-1.png',info:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-2.png'},
- en:{home:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_42 p.m-4.png',info:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_42 p.m-3.png'}
+ en:{home:'projects/03-costa-rica-smart-borders/public/cover-en-1920x1080.png',info:'projects/03-costa-rica-smart-borders/public/info-en-1920x1080.png'}
 };
 const GUATIGUARA_ART={
  es:{info:'projects/04-parque-tecnologico-guatiguara/04_Guatiguara_BID_Bilingue/04_Guatiguara_Infografia_ES_1920x1080.png'},

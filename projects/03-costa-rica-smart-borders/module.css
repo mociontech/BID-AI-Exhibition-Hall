@@ -586,3 +586,14 @@
 .crtv-res3 .crtv-ins3--col .crtv-ins>b{font-size:3.4vh;min-width:13vw}
 .crtv-res3 .crtv-ins3--col .crtv-ins p{font-size:2.5vh;line-height:1.35}
 .crtv-res3 .crtv-ins3--col .crtv-ins{padding:2vh 2vw;gap:1.8vw}
+
+/* portada nov 2026: zonas táctiles sobre las tarjetas 01 Information y 02 Interactive experience */
+.crb-hit--info{left:3.6%;top:51%;width:44.3%;height:32%;border-radius:22px}
+.crb-hit--game{left:50.2%;top:51%;width:44.4%;height:32%;border-radius:22px}
+/* portada nov 2026: el arte ya no trae ES/EN dibujado, el selector se muestra como píldora */
+.crb-language{right:clamp(16px,3.3%,64px);top:clamp(14px,3.6%,40px);gap:0;padding:4px;border-radius:999px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.55)}
+.crb-language button{opacity:1;border-radius:999px;color:#fff;font:700 clamp(13px,1.2vw,17px)/1 Inter,Arial,sans-serif;background:transparent;transition:background .2s,color .2s}
+.crb-language button[aria-pressed="true"]{background:#fff;color:#005CFF}
+/* infografía nov 2026: el aviso del minijuego va sobre el panel azul, sin tapar las cifras */
+.crb-display-cta{left:3.6%;right:auto;bottom:4%;top:auto;width:33%;max-width:none;background:#fff;color:#141414;box-shadow:0 1.2vh 3vh rgba(0,0,0,.25)}
+.crb-display-cta p{color:#005CFF}.crb-display-cta h1{color:#141414}.crb-display-cta span{color:#6A6B6F}
