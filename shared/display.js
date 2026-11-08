@@ -67,8 +67,8 @@ function renderCostaRica(data){
  if(window.CRB_TV)window.CRB_TV.stop();
  const isInfo=data.mode==='info'||data.mode==='cta'||data.mode==='game'||data.mode==='results';
  const image=COSTA_RICA_ART[language][isInfo?'info':'home'];
- const cta=data.mode==='cta'?(language==='en'?{eyebrow:'COSTA RICA SMART BORDERS',title:'The mini-game is now available.',body:'Return to the tablet and start the experience.'}:{eyebrow:'COSTA RICA SMART BORDERS',title:'El minijuego ya está disponible.',body:'Regresa a la tableta para iniciar la experiencia.'}):null;
- app.innerHTML=`<main class="crb-display ${cta?'crb-display--cta':''}" aria-label="Costa Rica Smart Borders">${AI_ARTWORK(`${image}`,`alt="Costa Rica Smart Borders"`)}${cta?`<section class="crb-display-cta"><p>${cta.eyebrow}</p><h1>${cta.title}</h1><span>${cta.body}</span></section>`:''}</main>`;
+ const cta=data.mode==='cta'?(language==='en'?'When you are ready, press “Interactive experience” on the tablet':'Cuando estés listo, toca «Experiencia interactiva» en la tableta'):null;
+ app.innerHTML=`<main class="crb-display ${cta?'crb-display--cta':''}" aria-label="Costa Rica Smart Borders">${AI_ARTWORK(`${image}`,`alt="Costa Rica Smart Borders"`)}${cta?`<section class="crb-display-cta crb-display-cta--pill"><i class="crb-cta-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M12 16.2h.01"/></svg></i><b>${cta}</b><span class="crb-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5.5 13l6.5 6.5 6.5-6.5"/></svg></span></section>`:''}</main>`;
 }
 let bogotaGameData=null;
 fetch('projects/02-bogota-traffic-prediction/GAME_DATA.json',{cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{bogotaGameData=data;last='';}).catch(()=>{});

@@ -597,3 +597,21 @@
 /* infografía nov 2026: el aviso del minijuego va sobre el panel azul, sin tapar las cifras */
 .crb-display-cta{left:3.6%;right:auto;bottom:4%;top:auto;width:33%;max-width:none;background:#fff;color:#141414;box-shadow:0 1.2vh 3vh rgba(0,0,0,.25)}
 .crb-display-cta p{color:#005CFF}.crb-display-cta h1{color:#141414}.crb-display-cta span{color:#6A6B6F}
+
+/* portada nov 2026: barra superior Station 03 · ES/EN · Home (como AquaData) */
+.crb-nav{position:absolute;right:3.6%;top:0;height:11.6%;display:flex;align-items:center;gap:clamp(10px,1.3vw,24px);color:#fff}
+.crb-station{font-size:clamp(11px,1vw,18px);font-weight:750;letter-spacing:.04em;white-space:nowrap}
+.crb-nav .crb-language{position:static;right:auto;top:auto;gap:3px;padding:4px;border:1px solid #ffffff88;border-radius:30px;background:#ffffff22}
+.crb-nav .crb-language button{min-width:clamp(40px,2.8vw,52px);min-height:clamp(32px,2.3vw,42px);width:auto;height:auto;border-radius:24px;font-size:clamp(13px,.95vw,17px);font-weight:800}
+.crb-home{display:inline-flex;align-items:center;gap:8px;min-height:clamp(40px,2.8vw,50px);padding:0 clamp(12px,1vw,18px);border:1px solid #ffffff88;border-radius:30px;background:#ffffff22;color:#fff;font:800 clamp(13px,.95vw,17px)/1 Inter,Arial,sans-serif;cursor:pointer}
+.crb-home svg{width:clamp(18px,1.2vw,22px);height:auto}
+/* TV · aviso del minijuego: píldora azul con icono, texto y flecha animada */
+.crb-display-cta.crb-display-cta--pill{left:2%;right:auto;top:auto;bottom:11%;width:auto;max-width:60vw;display:flex;align-items:center;gap:1.2vw;padding:1.2vh 2.4vw 1.2vh 1.2vw;border:0;border-radius:999px;background:#005CFF;color:#fff;box-shadow:0 1.2vh 3vh rgba(0,40,120,.35);animation:crbCtaIn .5s ease-out both}
+.crb-cta-icon{flex:none;width:4.6vh;height:4.6vh;border-radius:50%;background:#fff;color:#005CFF;display:grid;place-items:center}
+.crb-cta-icon svg{width:2.6vh;height:2.6vh}
+.crb-display-cta--pill b{font-size:2.6vh;font-weight:800;line-height:1.15;color:#fff}
+.crb-cta-arrow{flex:none;font-size:3.2vh;font-weight:900;line-height:1;color:#fff;animation:crbArrowDown 1.2s ease-in-out infinite}
+@keyframes crbArrowDown{0%,100%{transform:translateY(-.5vh)}50%{transform:translateY(.6vh)}}
+@keyframes crbCtaIn{from{opacity:0;transform:translateY(2vh)}to{opacity:1;transform:none}}
+.crb-display-cta--pill .crb-cta-arrow{color:#fff;width:3.4vh;height:3.4vh;display:grid;place-items:center}
+.crb-display-cta--pill .crb-cta-arrow svg{width:3.2vh;height:3.2vh}
