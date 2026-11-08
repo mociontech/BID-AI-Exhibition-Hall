@@ -173,8 +173,8 @@
   function header(){
    const steps=state.mode==='game'?`<ol class="aqd-steps" aria-label="${esc(lang==='es'?'Etapas':'Stages')}">${[1,2,3,4,5,6].map(n=>`<li class="${n===chapter?'is-current':n<chapter?'is-done':''}" ${n===chapter?'aria-current="step"':''}>${n}</li>`).join('')}</ol>`:'';
    const tools=readonly
-    ?`<div class="aqd-tools"><span class="aqd-station">${x.station} ${String(station).padStart(2,'0')}</span><span class="aqd-language aqd-language--readonly"><b aria-pressed="${lang==='es'}">ES</b><b aria-pressed="${lang==='en'}">EN</b></span></div>`
-    :`<div class="aqd-tools"><span class="aqd-station">${x.station} ${String(station).padStart(2,'0')}</span><nav class="aqd-language" aria-label="Language"><button type="button" data-language="es" aria-pressed="${lang==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${lang==='en'}">EN</button></nav><button type="button" class="aqd-home" data-action="home">${icons.home}<span>${x.home}</span></button></div>`;
+    ?`<div class="aqd-tools"><span class="aqd-language aqd-language--readonly"><b aria-pressed="${lang==='es'}">ES</b><b aria-pressed="${lang==='en'}">EN</b></span></div>`
+    :`<div class="aqd-tools"><nav class="aqd-language" aria-label="Language"><button type="button" data-language="es" aria-pressed="${lang==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${lang==='en'}">EN</button></nav>${state.mode==='landing'?'':`<button type="button" class="aqd-home aqd-home--back" data-action="back">${icons.back}<span>${x.back}</span></button>`}<button type="button" class="aqd-home" data-action="home">${icons.home}<span>${x.home}</span></button></div>`;
    return `<header class="aqd-header"><div class="aqd-brand"><img src="${logo}" width="216" height="44" alt="IDB Group"><span class="aqd-brand-divider" aria-hidden="true"></span><span class="aqd-brand-copy"><strong>${x.brand}</strong><small>${x.brandSub}</small></span></div>${steps}${tools}</header>`;
   }
   function title(kicker,plain,accent,body,joiner=' '){
@@ -299,7 +299,7 @@
   const animate=fresh('tv',`${state.mode}:${step}`);
   const header=()=>{
    const steps=state.mode==='game'?`<ol class="aqd-steps" aria-hidden="true">${[1,2,3,4,5,6].map(n=>`<li class="${n===chapter?'is-current':n<chapter?'is-done':''}">${n}</li>`).join('')}</ol>`:'';
-   return `<header class="aqd-header"><div class="aqd-brand"><img src="${logo}" width="216" height="44" alt="IDB Group"><span class="aqd-brand-divider" aria-hidden="true"></span><span class="aqd-brand-copy"><strong>${x.brand}</strong><small>${x.brandSub}</small></span></div>${steps}<div class="aqd-tools"><span class="aqd-station">${x.station} ${String(station).padStart(2,'0')}</span><span class="aqd-language aqd-language--readonly"><b aria-pressed="${lang==='es'}">ES</b><b aria-pressed="${lang==='en'}">EN</b></span></div></header>`;
+   return `<header class="aqd-header"><div class="aqd-brand"><img src="${logo}" width="216" height="44" alt="IDB Group"><span class="aqd-brand-divider" aria-hidden="true"></span><span class="aqd-brand-copy"><strong>${x.brand}</strong><small>${x.brandSub}</small></span></div>${steps}<div class="aqd-tools"><span class="aqd-language aqd-language--readonly"><b aria-pressed="${lang==='es'}">ES</b><b aria-pressed="${lang==='en'}">EN</b></span></div></header>`;
   };
   const cta=(text,extra='')=>`<aside class="aqd-cta ${extra}" role="status"><span class="aqd-cta-icon">${icons.tablet}</span><span><small>${tv.onTablet}</small><strong>${text}</strong></span><i aria-hidden="true">${icons.arrow}</i></aside>`;
   const title=(kicker,plain,accent,lead='',joiner=' ')=>`<div class="aqd-title aqd-tv-title"><p class="aqd-kicker">${kicker}</p><h1>${plain}${joiner}<span>${accent}</span></h1>${lead?`<p class="aqd-lead">${lead}</p>`:''}</div>`;
