@@ -3,7 +3,7 @@
 Módulo individual del AI Exhibition Hall (tableta = mando, TV = visual sincronizado).
 
 - `index.html`: envoltorio de navegación del proyecto.
-- `module.js`: controlador de la tableta (portada con key visuals, Información → CTA a los 10 s → Minijuego).
+- `module.js`: controlador de la tableta (portada con key visuals; Información y Minijuego se eligen libremente, sin espera; la TV muestra el aviso «press Interactive experience» mientras está la ficha).
 - `module.css`: estilos de integración (zonas táctiles sobre la portada, iframe del juego).
 - `game/`: **minijuego** (HTML, CSS y JS propios, sin dependencias, bilingüe ES/EN, manual de marca BID).
   - `game/index.html` · `game/game.css` · `game/game.js`

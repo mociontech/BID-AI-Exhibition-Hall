@@ -53,12 +53,12 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
  assert.ok(fs.existsSync(path.join(project,'public','cover-en-1920x1080.png')));assert.ok(fs.existsSync(path.join(project,'public','info-en-1920x1080.png')));
  assert.ok(fs.existsSync(path.join(project,'Costa_Rica_Smart_Borders_03_Minigame_Prototipo_ES_EN','Costa_Rica_Smart_Borders_03','camion-frontera.jpg')));
  assert.match(controller,/projectId:'03'/);
- assert.match(controller,/setTimeout\(unlockGame,10000\)/);
- assert.match(controller,/gameReady/);
+ assert.doesNotMatch(controller,/setTimeout\(unlockGame|10000/);
+ assert.match(controller,/gameReady:true/);
  assert.match(controller,/prototipo_actual_V5\.html/);
  assert.match(controller,/language==='en'/);
  assert.match(display,/renderCostaRica/);
- assert.match(display,/data\.mode==='cta'/);
+ assert.match(display,/data\.mode==='info'\|\|data\.mode==='cta'/);
  assert.match(server,/Invalid Costa Rica Smart Borders game state/);
 });
 
