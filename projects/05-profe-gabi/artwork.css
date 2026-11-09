@@ -14,3 +14,24 @@
 .gabi-art-live-chat .gabi-message{animation:none;opacity:1}
 
 .gabi-art-outline{box-shadow:0 0 0 4px #fff}
+.gabi-art-topic-label{display:flex;align-items:center;gap:22px;padding:0 10px;color:#151515}
+.gabi-art-topic-label b{font-size:38px;color:#005cff;flex:none}
+.gabi-art-topic-label span{font-size:27px;font-weight:650;line-height:1.05}
+.gabi-art-reading{pointer-events:auto;padding:10px}
+.gabi-art-reading .gabi-reading-panel{gap:24px}
+.gabi-art-reading .gabi-reading-panel h1{font-size:72px;line-height:1.05}
+.gabi-art-reading .gabi-reading-panel>p{font-size:32px;line-height:1.25}
+.gabi-art-reading .gabi-reading-progress{font-size:30px;padding:12px 24px}
+.gabi-art-reading .gabi-button{font-size:30px;min-height:max(78px,calc(44px / var(--gabi-art-scale,1)));min-width:320px;padding:18px 32px}
+.gabi-art-live-chat .gabi-message p{font-size:22px;line-height:1.35}
+.gabi-art-toolbar .gabi-language>span{padding:12px 18px;color:#005cff;font-size:21px;font-weight:700}
+
+.gabi-art-toolbar .gabi-language>.is-active{color:#fff}
+.gabi-art-tv-heading .gabi-heading-line{display:block}
+.gabi-art-tv-heading .gabi-heading-name{display:block;white-space:nowrap}
+.gabi-art-welcome.gabi-game-welcome{display:grid!important;grid-template-rows:80px auto auto minmax(0,1fr);gap:20px;align-items:start;align-content:stretch;padding:36px 40px!important}
+.gabi-art-welcome.gabi-game-welcome>.gabi-official-avatar{width:80px;height:80px;margin:0}
+.gabi-art-welcome.gabi-game-welcome>h2{margin:0;line-height:1.15}
+.gabi-art-welcome.gabi-game-welcome>p{margin:0!important;font-size:26px;line-height:1.25}
+.gabi-art-welcome.gabi-game-welcome>.gabi-art-case-list{display:grid;grid-template-rows:repeat(4,minmax(0,1fr));gap:12px;align-self:stretch;min-height:0}
+.gabi-art-welcome.gabi-game-welcome .gabi-art-case-list>p{display:flex;flex-direction:column;justify-content:center;margin:0;padding:12px 24px;min-height:0}

@@ -1,28 +1,24 @@
-# Branding recibido y conectado
+# Branding del evento — interfaz EN y conversación ES
 
-Se incorporaron los 10 PNG originales de `BID AI Exhibition hall.zip`, todos a 1920 × 1080 y sin modificar sus bytes. `manifest.json` conserva sus nombres originales y SHA-256. La imagen de Información coincide con la recibida antes en `Profe Gabi.zip`.
+Fuente actual: `BID AI Exhibition hall (1).zip`. Sus nueve PNG se copiaron sin modificar sus bytes, todos a 1920 × 1080. `manifest.json` identifica cada entrada original y su SHA-256. La pantalla de Información EN se conserva de la entrega anterior porque no viene en este ZIP.
 
-## Correspondencia con el flujo
-
-| Archivo | Uso |
+| Archivo local | Uso |
 |---|---|
-| `tablet-cover-en.png` | Menú e Información en tableta. Ambas tarjetas están activas desde el inicio. |
-| `tablet-cases-en.png` | Cuatro casos, con zonas transparentes conectadas a sus identificadores reales. |
-| `tablet-cases-wait-en.png` | Escritura de la consulta inicial. |
-| `tablet-cases-thinking-en.png` | Pensamiento inicial; también aporta los dibujos de Back y Skip animation que se reutilizan durante otras animaciones. |
-| `tablet-follow-en.png` | Dos seguimientos, incluyendo sus estados de espera y selección. |
-| `tablet-result-en.png` | Resultado, Back y Play again. |
-| `tv-information-en.png` | Información, disponible desde el inicio. |
-| `tv-chat-en.png` | Conversación durante las animaciones. |
+| `tablet-cover-en.png` | Portada, con Información y experiencia interactiva activas. |
+| `tablet-cases-en.png` | Cuatro tarjetas con las etiquetas EN del guion actual. |
+| `tablet-cases-wait-en.png` | Escritura inicial de una consulta. |
+| `tablet-cases-thinking-en.png` | Estado de pensamiento inicial y controles Back/Skip. |
+| `tablet-follow-en.png` | Decisiones y lectura manual con Continue. |
+| `tablet-result-en.png` | Resultado de la tableta. |
+| `tv-chat-en.png` | Conversación durante la animación. |
 | `tv-situation-en.png` | Conversación y bienvenida entre decisiones. |
-| `tv-result-en.png` | Resultado y conversación final. |
+| `tv-result-en.png` | Nuevo cierre, procedente de `TV/Mini-game — EN-2.png`. |
+| `tv-information-en.png` | Infografía EN aprobada anteriormente, conservada. |
 
-Las imágenes son la base visual; los controles dibujados se activan con botones HTML transparentes. Las coordenadas están en `artwork.js`, dentro de un lienzo lógico de 1920 × 1080. Un ResizeObserver aplica la misma escala a imagen, zonas y textos, con encaje proporcional y sin recortes. Las zonas conservan nombres accesibles, foco de teclado y bloqueo real durante esperas. Los controles existentes de idioma, Home, menú y fullscreen se mantienen sobre el espacio libre del encabezado.
+La portada está en `TABLET/ES` dentro del ZIP, pero su contenido es inglés. El marcador «Cambiar Cambiar» se cubre con texto real del proyecto. El resto de regiones con temas o diálogos anteriores se cubre con HTML para reflejar el guion actual. Las fotografías y fondos conservan los originales.
 
-## Textos variables
+La interfaz queda fija en inglés; las consultas y respuestas de WhatsApp se obtienen siempre de `source/conversations.es.json`. Las etiquetas, instrucciones, progreso y resultados se obtienen de EN. Las respuestas se mantienen por partes con avance manual, sin cambiar las consultas reales ni añadir decisiones.
 
-Los PNG incluyen consultas antiguas de fracciones, el tema fijo “Prepare a lesson” y el marcador “05 Cambiar Cambiar”. Se cubren esas regiones con capas HTML y se muestran los títulos, decisiones, respuestas y aprendizajes del guion vigente. La imagen original permanece intacta en disco. El chat funciona con su historial, escritura y pensamiento actuales; no se reproduce la conversación obsoleta de la imagen.
+Los botones dibujados se activan con zonas HTML transparentes proporcionales. Continue, Home, Back, menú y fullscreen son controles funcionales. La TV permanece de solo lectura y recibe el estado de la tableta mediante la sincronización compartida.
 
-La portada ubicada dentro de `TABLET/ES` tiene textos en inglés, por lo que se usa en EN. ES conserva la interfaz nativa funcional. Faltan los PNG equivalentes en español; no se presenta contenido inglés como traducción española.
-
-La TV sigue siendo de solo lectura y recibe las elecciones desde la tableta mediante la sincronización compartida. Los archivos no se utilizan como una reproducción táctil de la tableta en TV.
+La conversación dibujada en los PNG se reemplaza íntegramente por el chat HTML en español. Su fuente es de 22 px lógicos en HD. El único disclaimer visible es exactamente: `English translation of adapted, anonymised real cases. Profe Gabi can make mistakes; the teacher decides.` No hay una línea adicional de fuentes en el chat. La procedencia de los mensajes se conserva en los datos y documentos de revisión.

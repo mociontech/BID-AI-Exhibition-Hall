@@ -12,6 +12,12 @@ for(const language of ['es','en']){
   }
  }
  data[language]=topics;
+ const schema=require('../state.js');
+ const normal=text=>text.replace(/\s+/g,' ').trim();
+ topics.forEach((topic,i)=>[topic.options[0],...topic.options[0].follow].forEach((pair,j)=>{
+  if(!Array.isArray(pair.gabiParts)||pair.gabiParts.some(p=>typeof p!=='string'||!p.trim())||normal(pair.gabiParts.join(' '))!==normal(pair.gabi))throw Error('Response parts must preserve all script text');
+  if(pair.gabiParts.length!==schema.partCount(i,j?'follow':'situation',j-1))throw Error('Response parts do not match shared state schema');
+ }));
 }
-fs.writeFileSync(path.join(__dirname,'../conversations.js'),'/* Exhibition adaptations of documented cases (brief, section 4 A-D); follow-ups are editorial adaptations, not verbatim transcripts. English is a translation. */\nwindow.PROFE_GABI_CONVERSATIONS='+JSON.stringify(data,null,2)+';\n');
+fs.writeFileSync(path.join(__dirname,'../conversations.js'),'/* LOCAL REVIEW DRAFT 2026-11-09. Based on PROFE GABI textos.docx; original extracts and editorial adaptations are identified per exchange. English is a translation for review. */\nwindow.PROFE_GABI_CONVERSATIONS='+JSON.stringify(data,null,2)+';\n');
 console.log('Generated scripts: 4 documented cases, 8 endings per language, one follow-up decision.');

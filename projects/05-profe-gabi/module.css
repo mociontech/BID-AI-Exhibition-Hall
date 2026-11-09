@@ -1,4 +1,18 @@
 @font-face{font-family:GabiInter;src:url('./assets/fonts/Inter.ttf') format('truetype');font-weight:100 900;font-display:swap}
+.gabi-reading-panel{display:flex;flex-direction:column;align-items:flex-start;gap:24px;max-width:900px}
+.gabi-reading-panel h1{font-size:clamp(30px,3.7vw,62px)}
+.gabi-reading-panel>p{font-size:clamp(18px,1.8vw,28px);color:#587da3;max-width:760px}
+.gabi-reading-progress{display:inline-block;padding:12px 20px;border-radius:30px;background:#e5f4fd;color:#005cff;font-size:24px}
+.gabi-reading-panel .gabi-button{min-height:54px;min-width:200px;font-size:22px}
+.gabi-chat-header .gabi-message-part{color:white;font-weight:700}
+.gabi-display .gabi-message p{font-size:clamp(20px,1.15vw,22px);line-height:1.35}
+@media(max-height:720px) and (min-width:761px){
+ .gabi-tablet:not(.gabi-approved-screen) .gabi-reading-panel{gap:12px}
+ .gabi-tablet:not(.gabi-approved-screen) .gabi-reading-panel h1{font-size:36px}
+ .gabi-tablet:not(.gabi-approved-screen) .gabi-reading-panel>p{font-size:16px}
+ .gabi-tablet:not(.gabi-approved-screen) .gabi-reading-progress{font-size:20px;padding:8px 16px}
+ .gabi-tablet:not(.gabi-approved-screen) .gabi-reading-panel .gabi-button{min-height:48px;font-size:19px}
+}
 .gabi-app.gabi-approved-screen{width:100%;height:100dvh;min-height:0;overflow:hidden;display:grid;place-items:center;background:#fff}
 .gabi-artwork-canvas{position:relative;width:min(100vw,calc(100dvh * 16 / 9));aspect-ratio:16/9;flex:none}
 .gabi-approved-artwork{display:block;width:100%;height:100%;object-fit:contain}

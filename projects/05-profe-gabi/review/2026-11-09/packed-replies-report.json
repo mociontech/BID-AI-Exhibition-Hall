@@ -1,0 +1,101 @@
+{
+  "font": "22px",
+  "preservesAllText": true,
+  "userAndReplyFitTogether": true,
+  "counts": [
+    [
+      1,
+      2,
+      2
+    ],
+    [
+      2,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      2,
+      1,
+      2
+    ]
+  ],
+  "report": [
+    {
+      "topic": 0,
+      "turn": 0,
+      "before": 3,
+      "after": 1
+    },
+    {
+      "topic": 0,
+      "turn": 1,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "topic": 0,
+      "turn": 2,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "topic": 1,
+      "turn": 0,
+      "before": 2,
+      "after": 2
+    },
+    {
+      "topic": 1,
+      "turn": 1,
+      "before": 2,
+      "after": 1
+    },
+    {
+      "topic": 1,
+      "turn": 2,
+      "before": 2,
+      "after": 1
+    },
+    {
+      "topic": 2,
+      "turn": 0,
+      "before": 2,
+      "after": 1
+    },
+    {
+      "topic": 2,
+      "turn": 1,
+      "before": 2,
+      "after": 1
+    },
+    {
+      "topic": 2,
+      "turn": 2,
+      "before": 1,
+      "after": 1
+    },
+    {
+      "topic": 3,
+      "turn": 0,
+      "before": 3,
+      "after": 2
+    },
+    {
+      "topic": 3,
+      "turn": 1,
+      "before": 2,
+      "after": 1
+    },
+    {
+      "topic": 3,
+      "turn": 2,
+      "before": 3,
+      "after": 2
+    }
+  ]
+}
