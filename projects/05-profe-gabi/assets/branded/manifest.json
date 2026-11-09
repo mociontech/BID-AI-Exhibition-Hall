@@ -1,5 +1,5 @@
 {
-  "sourceArchive": "BID AI Exhibition hall.zip",
+  "sourceArchive": "BID AI Exhibition hall (1).zip",
   "assets": [
     {
       "sourceEntry": "Tablet/Mini-game state — EN.png",
@@ -42,17 +42,9 @@
       "language": "en"
     },
     {
-      "sourceEntry": "TV/Information — EN.png",
-      "file": "tv-information-en.png",
-      "sha256": "d7f0ef8f46829afc54974cf02aa2560c642c8144c143e67354b0b4b1ffa78732",
-      "width": 1920,
-      "height": 1080,
-      "language": "en"
-    },
-    {
       "sourceEntry": "TV/Mini-game — EN.png",
       "file": "tv-chat-en.png",
-      "sha256": "8c376e5c0636a9e193bd9669a397df19d6ad856972befafe77db0b3db826e2ee",
+      "sha256": "031834acf3504b9ce743e444b04254acbd8f6e055324be5a3a852d70060b32a9",
       "width": 1920,
       "height": 1080,
       "language": "en"
@@ -60,15 +52,15 @@
     {
       "sourceEntry": "TV/Mini-game — EN-1.png",
       "file": "tv-situation-en.png",
-      "sha256": "ff09fd41737705674b8b0040bb5b7687800ae219f6f548231ab6b4d875fbdf6a",
+      "sha256": "9582dfc29747f520bb73a6324b10f61545a30e9cbc81c3de3a01f9135bfcaed3",
       "width": 1920,
       "height": 1080,
       "language": "en"
     },
     {
-      "sourceEntry": "TV/Results or Final message — EN.png",
+      "sourceEntry": "TV/Mini-game — EN-2.png",
       "file": "tv-result-en.png",
-      "sha256": "4d9030988e37c311f69297885d06709bab3e8c85b44e118b83c002d65e6c426f",
+      "sha256": "41f80139d5b60fe30487ee460fff45346b09d30b576cc61943fab86dd32e27a0",
       "width": 1920,
       "height": 1080,
       "language": "en"
@@ -76,14 +68,14 @@
     {
       "sourceEntry": "TABLET/ES/00 Portada.png",
       "file": "tablet-cover-en.png",
-      "sha256": "09c4ea22e5b60a1f1039e05b495504d9e44d83023538488e922499a280b40321",
+      "sha256": "111204ac6740d12d57fffe79ef1c82f0bb2c142c476d9d8f0ed1df57946ddb54",
       "width": 1920,
       "height": 1080,
       "language": "en"
     }
   ],
-  "notes": [
-    "All source bytes preserved. Cover is English despite its ES folder name.",
-    "Outdated embedded case/chat text is covered by current dynamic text. Spanish keeps the native interface because Spanish exports were not supplied."
-  ]
+  "retainedFromPreviousArchive": [
+    "tv-information-en.png"
+  ],
+  "notes": "Original English artwork; Spanish messages are rendered as live HTML. The cover is English despite the TABLET/ES folder name."
 }

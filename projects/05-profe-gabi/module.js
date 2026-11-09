@@ -13,8 +13,7 @@ window.ProjectModule={
   function render(){api.renderInto(mount,state);}
   function finishAnimation(){
    if(state.game.phase!=='animating')return;
-   const phase={situation:'follow',follow:'complete'}[state.game.turn];
-   setGame({phase,turn:null,startedAt:0});
+   setGame({phase:'reading',startedAt:0});
   }
   function armTimer(){
    stopTimer();if(leaving)return;
@@ -36,12 +35,12 @@ window.ProjectModule={
    const g=state.game;
    if(state.mode!=='game')return menu();
    if(g.phase==='topics')return menu();
-   if(g.phase==='animating'){
+   if(g.phase==='animating'||g.phase==='reading'){
     if(g.turn==='situation')return restart();
-    return setGame({phase:'follow',follow:null,turn:null,startedAt:0});
+    return setGame({phase:'follow',follow:null,turn:null,startedAt:0,part:0});
    }
    if(g.phase==='follow')return restart();
-   return setGame({phase:'follow',follow:null});
+   return setGame({phase:'follow',follow:null,part:0});
   }
   async function goHome(){
    if(leaving)return;leaving=true;stopTimer();clearInterval(heartbeat);
@@ -52,9 +51,7 @@ window.ProjectModule={
    const button=event.target.closest('button');if(!button||button.disabled||leaving)return;
    const g=state.game,action=button.dataset.action;
    if(button.dataset.language){
-    const language=button.dataset.language;if(language===state.language)return;
-    // Rebuild the entire conversation in one language. Active typing restarts safely.
-    update({language,game:g.phase==='animating'?{...g,startedAt:api.now()}:g});return;
+    return; // Event interface is English; WhatsApp messages are always Spanish.
    }
    if(action==='home')return goHome();
    if(action==='fullscreen'){
@@ -73,17 +70,23 @@ window.ProjectModule={
    if(state.mode!=='game')return;
    if(action==='restart'||action==='topics')return restart();
    if(action==='skip'&&g.phase==='animating')return finishAnimation();
+   if(action==='continue'&&g.phase==='reading'){
+    if(g.part+1<api.replyParts(g,state.language).length)
+     return setGame({phase:'animating',part:g.part+1,startedAt:api.now()});
+    return setGame({phase:g.turn==='situation'?'follow':'complete',part:0,turn:null,startedAt:0});
+   }
+   if(g.phase==='reading')return;
    if(g.phase==='animating')return;
    const choose=(kind,expected,max)=>{
     if(button.dataset[kind]===undefined||g.phase!==expected)return false;
     const choice=Number(button.dataset[kind]);
     if(!Number.isInteger(choice)||choice<0||choice>max)return false;
-    setGame({[kind]:choice,phase:'animating',turn:kind,startedAt:api.now()});return true;
+    setGame({[kind]:choice,phase:'animating',turn:kind,part:0,startedAt:api.now()});return true;
    };
    if(button.dataset.topic!==undefined&&g.phase==='topics'){
     const topic=Number(button.dataset.topic);
     if(Number.isInteger(topic)&&topic>=0&&topic<window.PROFE_GABI_CONVERSATIONS[state.language].length)
-     setGame({topic,situation:0,follow:null,phase:'animating',turn:'situation',startedAt:api.now()});
+     setGame({topic,situation:0,follow:null,phase:'animating',turn:'situation',part:0,startedAt:api.now()});
     return;
    }
    choose('follow','follow',1);
@@ -97,8 +100,8 @@ window.ProjectModule={
    }
    const restored=schema.sanitize(remote?.game);
    if(remote?.projectId==='05'&&restored&&['landing','info','cta','game'].includes(remote.mode)){
-    state={...state,language:remote.language==='es'?'es':'en',mode:remote.mode,view:remote.mode==='game'?'game':'project',game:{...restored,ready:true,unlockAt:0}};
-   }else if(remote?.language==='es')state.language='es';
+    state={...state,language:'en',mode:remote.mode,view:remote.mode==='game'?'game':'project',game:{...restored,ready:true,unlockAt:0}};
+   }
   }catch{}
   render();void publish();armTimer();
   // Re-send only the newest local command after a lost connection, including

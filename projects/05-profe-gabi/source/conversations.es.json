@@ -1,118 +1,251 @@
 [
   {
-    "title": "Planificar una clase",
+    "title": "Preparar una clase",
     "sub": "Práctica pedagógica",
     "icon": "book",
-    "question": "¡Claro! Puedo ayudarte a organizar una unidad, proponer actividades para un objetivo de aprendizaje o pensar indicadores de evaluación.\n\nPartimos del currículo chileno y de lo que necesita tu curso. ¿Qué te ayudaría más para preparar tu clase?",
-    "source": "Base: ficha Profe Gabi, §4.A · Currículum Nacional",
+    "lead": "Actividades y planificación",
+    "question": "Aquí va una propuesta de 5 min para activar el cuerpo y la mente antes de entrar en materia:\n1. Estiramiento breve (1 min)\n• De pie, brazos arriba y respiraciones profundas.\n• Inclina tronco a cada lado.\n2. “Simón dice” con movimientos (2 min)\n• Simón dice: “Salta en el lugar”, “Toca tus rodillas”, “Gira 360°”\n• Variar rápido para mantener el ritmo.\n3. Mini circuito (1 min)\n• 30 s de saltos suaves\n• 30 s de talones al glúteo\n4. Cierre con energía (1 min)\n• Aplauso rítmico mientras cuentas en voz alta hasta 8\n• Grito de ánimo colectivo\n¿Te gusta? ¿O prefieres otra idea?",
+    "source": "Fuente: PROFE GABI textos · M01, M03, M04 · Adaptación para exhibición",
     "options": [
       {
-        "label": "Objetivos de Matemática de 3.º básico",
-        "user": "¿Me ayudas con los objetivos de aprendizaje de Matemática de 3.º básico?",
-        "gabi": "¡Claro! Puedo ayudarte a organizar una unidad, proponer actividades para un objetivo de aprendizaje o pensar indicadores de evaluación.\n\nPartimos del currículo chileno y de lo que necesita tu curso. ¿Qué te ayudaría más para preparar tu clase?",
+        "label": "Iniciar la clase con energía",
+        "user": "Necesito una actividad de 5 minutos para iniciar mi clase con energía",
+        "gabi": "Aquí va una propuesta de 5 min para activar el cuerpo y la mente antes de entrar en materia:\n1. Estiramiento breve (1 min)\n• De pie, brazos arriba y respiraciones profundas.\n• Inclina tronco a cada lado.\n2. “Simón dice” con movimientos (2 min)\n• Simón dice: “Salta en el lugar”, “Toca tus rodillas”, “Gira 360°”\n• Variar rápido para mantener el ritmo.\n3. Mini circuito (1 min)\n• 30 s de saltos suaves\n• 30 s de talones al glúteo\n4. Cierre con energía (1 min)\n• Aplauso rítmico mientras cuentas en voz alta hasta 8\n• Grito de ánimo colectivo\n¿Te gusta? ¿O prefieres otra idea?",
+        "provenance": {
+          "sourceIds": [
+            "M01"
+          ],
+          "userTreatment": "Literal",
+          "responseTreatment": "Extracto literal; selección de párrafos originales"
+        },
         "follow": [
           {
-            "label": "Organizar una unidad",
-            "user": "Quiero organizar una unidad.",
-            "gabi": "Partamos por el objetivo de aprendizaje. Después podemos ordenar las actividades y definir qué evidencia recoger para saber cómo avanzan tus estudiantes.\n\nAsí, la planificación conecta lo que quieres enseñar, lo que harán y lo que vas a observar.",
-            "take": "El objetivo de aprendizaje orienta las actividades y la evaluación."
+            "label": "Clase de separación de mezclas",
+            "user": "Diseña una clase para séptimo básico, separación de mezclas decantación y destilación) dame el objetivo, inicio, desarrollo y cierre meta cognitivo. Que sea lúdica-dinámica",
+            "gabi": "Objetivo: investigar los métodos de decantación y destilación para separar mezclas y explicar cómo funcionan.\n\nInicio (10 min): presentar agua con aceite y agua salada. Preguntar en parejas cómo separarían cada mezcla y recoger sus ideas.\n\nDesarrollo (35 min): la propuesta organiza actividades de decantación (15 min) y destilación (20 min), con observación y registro de lo aprendido.\n\nCierre metacognitivo (10 min): ¿qué aprendimos de cada método? ¿En qué situaciones cotidianas los usaríamos? Completar: “Lo que más me sorprendió fue…”",
+            "provenance": {
+              "sourceIds": [
+                "M03"
+              ],
+              "userTreatment": "Literal",
+              "responseTreatment": "Adaptación abreviada del mensaje real; sin instrucciones de montaje o calentamiento"
+            },
+            "take": "Un objetivo, una secuencia y una reflexión final ayudan a organizar la clase.",
+            "gabiParts": [
+              "Objetivo: investigar los métodos de decantación y destilación para separar mezclas y explicar cómo funcionan.\nInicio (10 min): presentar agua con aceite y agua salada. Preguntar en parejas cómo separarían cada mezcla y recoger sus ideas.\nDesarrollo (35 min): la propuesta organiza actividades de decantación (15 min) y destilación (20 min), con observación y registro de lo aprendido.",
+              "Cierre metacognitivo (10 min): ¿qué aprendimos de cada método? ¿En qué situaciones cotidianas los usaríamos? Completar: “Lo que más me sorprendió fue…”"
+            ]
           },
           {
-            "label": "Pensar cómo evaluar",
-            "user": "Necesito pensar cómo evaluar ese aprendizaje.",
-            "gabi": "Podemos trabajar con indicadores de evaluación vinculados al objetivo de aprendizaje. Te ayudan a precisar qué observar en el trabajo de tus estudiantes.\n\nLa planificación y la evaluación se piensan juntas; tú ajustas la propuesta a tu curso.",
-            "take": "Profe Gabi apoya la planificación; el docente adapta y decide."
+            "label": "Habilidades motrices en 1.º básico",
+            "user": "hola me puedes hacer una planificación para primero basico sobre las habilidades motrices basicas que contenga Objetivo de la clase - OA(s) - Indicadores - Inicio, desarrollo y cierre - Tipo de evaluación - Recursos",
+            "gabi": "Aquí va una planificación breve para 1º básico sobre habilidades motrices básicas:\n\nObjetivo: demostrar y controlar desplazamientos y equilibrio.\n\nInicio (5 min): “Simón dice”. Desarrollo (20 min): estaciones de salto, equilibrio y un circuito de conos. Cierre (5 min): ¿qué habilidad te gustó más y por qué?\n\nEvaluación formativa: lista de cotejo durante las estaciones y autoevaluación oral al cierre. Recursos: aros o tiza, cinta, conos o botellas plásticas y un reloj.",
+            "provenance": {
+              "sourceIds": [
+                "M04"
+              ],
+              "userTreatment": "Literal",
+              "responseTreatment": "Adaptación abreviada del mensaje real"
+            },
+            "take": "Profe Gabi propone una planificación; el docente la ajusta a su curso y espacio.",
+            "gabiParts": [
+              "Aquí va una planificación breve para 1º básico sobre habilidades motrices básicas:\nObjetivo: demostrar y controlar desplazamientos y equilibrio.\nInicio (5 min): “Simón dice”. Desarrollo (20 min): estaciones de salto, equilibrio y un circuito de conos. Cierre (5 min): ¿qué habilidad te gustó más y por qué?",
+              "Evaluación formativa: lista de cotejo durante las estaciones y autoevaluación oral al cierre. Recursos: aros o tiza, cinta, conos o botellas plásticas y un reloj."
+            ]
           }
+        ],
+        "gabiParts": [
+          "Aquí va una propuesta de 5 min para activar el cuerpo y la mente antes de entrar en materia: 1. Estiramiento breve (1 min) • De pie, brazos arriba y respiraciones profundas. • Inclina tronco a cada lado.\n2. “Simón dice” con movimientos (2 min) • Simón dice: “Salta en el lugar”, “Toca tus rodillas”, “Gira 360°” • Variar rápido para mantener el ritmo.\n3. Mini circuito (1 min) • 30 s de saltos suaves • 30 s de talones al glúteo\n4. Cierre con energía (1 min) • Aplauso rítmico mientras cuentas en voz alta hasta 8 • Grito de ánimo colectivo ¿Te gusta? ¿O prefieres otra idea?"
         ]
       }
     ],
-    "lead": "Objetivos de Matemática de 3.º básico"
+    "reviewNotes": "M03: se omite el procedimiento de montaje y calentamiento de destilación; se conserva la estructura pedagógica. M04: se resume la planificación y se omite la numeración OA hasta validar su referencia curricular. No se añade ninguna práctica experimental a la experiencia.",
+    "scriptRevision": "2026-11-09-draft"
   },
   {
-    "title": "Incluir a un estudiante con TEA",
+    "title": "Crear actividades y evaluar",
     "sub": "Práctica pedagógica",
-    "icon": "people",
-    "question": "Podemos partir con actividades de apoyo visual: emparejar imágenes y palabras o clasificar tarjetas por categorías.\n\nUsa instrucciones claras y rutinas conocidas, adaptando los apoyos a cómo se comunica el estudiante. ¿Qué idea te gustaría trabajar?",
-    "source": "Base: ficha Profe Gabi, §4.B · Inclusión y manejo de aula",
-    "options": [
-      {
-        "label": "Actividades con apoyos visuales",
-        "user": "Busco actividades de aula para un estudiante con TEA que no se comunica oralmente.",
-        "gabi": "Podemos partir con actividades de apoyo visual: emparejar imágenes y palabras o clasificar tarjetas por categorías.\n\nUsa instrucciones claras y rutinas conocidas, adaptando los apoyos a cómo se comunica el estudiante. ¿Qué idea te gustaría trabajar?",
-        "follow": [
-          {
-            "label": "Emparejar imágenes y palabras",
-            "user": "Quiero probar con imágenes y palabras.",
-            "gabi": "Prepara pares de tarjetas con una imagen y su palabra. Presenta una palabra e invita al estudiante a señalar o entregar la imagen correspondiente.\n\nAcompaña la actividad con apoyos visuales y ajusta la forma de responder a sus necesidades.",
-            "take": "La actividad se adapta al estudiante y a su forma de comunicarse."
-          },
-          {
-            "label": "Clasificar tarjetas",
-            "user": "Me gustaría trabajar con clasificación de tarjetas.",
-            "gabi": "Ofrece tarjetas de colores, objetos o números para agrupar por categorías. Mantén los apoyos visuales y una rutina clara.\n\nObserva cómo participa el estudiante y adapta los materiales junto con los apoyos de tu establecimiento.",
-            "take": "Los apoyos visuales son un punto de partida, no una receta igual para todos."
-          }
-        ]
-      }
-    ],
-    "lead": "Actividades con apoyos visuales"
-  },
-  {
-    "title": "Entender mi carrera docente",
-    "sub": "Desarrollo profesional",
     "icon": "document",
-    "question": "El Tramo Inicial es una etapa de incorporación a la profesión, con apoyo formativo y acompañamiento.\n\nTu tramo registrado y tu convocatoria se revisan en los sistemas oficiales. Puedo orientarte sobre el reconocimiento o sobre los apoyos de inducción y mentoría. ¿Qué necesitas conocer?",
-    "source": "Base: ficha Profe Gabi, §4.C · CPEIP y Portal Docente",
+    "lead": "Guías y evaluación",
+    "question": "Te propongo esta guía para trabajo en parejas, Unidad 1 Biología:\n\n1) Comprensión lectora\n“Los seres vivos cumplen funciones como nutrición, relación y reproducción. Gracias a ellas, mantienen el equilibrio interno (homeostasis) y se adaptan al entorno.”\n¿Qué funciones cumplen los seres vivos? ¿Para qué sirve la homeostasis?\n\n2) Selección múltiple: identificar qué es la homeostasis.\n3) Términos pareados: relacionar conceptos como nutrición, reproducción y homeostasis con sus definiciones.\n4) Completar oraciones sobre las funciones de los seres vivos.",
+    "source": "Fuente: PROFE GABI textos · M02, M05, M06 · Adaptación para exhibición",
     "options": [
       {
-        "label": "Tramos y acompañamiento",
-        "user": "Estoy en mi segundo año como profesora. ¿Cómo me oriento sobre mi carrera docente?",
-        "gabi": "El Tramo Inicial es una etapa de incorporación a la profesión, con apoyo formativo y acompañamiento.\n\nTu tramo registrado y tu convocatoria se revisan en los sistemas oficiales. Puedo orientarte sobre el reconocimiento o sobre los apoyos de inducción y mentoría. ¿Qué necesitas conocer?",
+        "label": "Una guía de Biología en parejas",
+        "user": "Una guía en parejas, con ítem de comprensión lectora, de selección múltiple, de términos pareados y completar oraciones. De la unidad 1 de biología",
+        "gabi": "Te propongo esta guía para trabajo en parejas, Unidad 1 Biología:\n\n1) Comprensión lectora\n“Los seres vivos cumplen funciones como nutrición, relación y reproducción. Gracias a ellas, mantienen el equilibrio interno (homeostasis) y se adaptan al entorno.”\n¿Qué funciones cumplen los seres vivos? ¿Para qué sirve la homeostasis?\n\n2) Selección múltiple: identificar qué es la homeostasis.\n3) Términos pareados: relacionar conceptos como nutrición, reproducción y homeostasis con sus definiciones.\n4) Completar oraciones sobre las funciones de los seres vivos.",
+        "provenance": {
+          "sourceIds": [
+            "M02"
+          ],
+          "userTreatment": "Literal",
+          "responseTreatment": "Adaptación abreviada; conserva un fragmento literal de lectura"
+        },
         "follow": [
           {
-            "label": "Entender el reconocimiento",
-            "user": "Quiero entender el Sistema de Reconocimiento.",
-            "gabi": "El Sistema de Reconocimiento forma parte de la progresión en la Carrera Docente. La participación depende de la convocatoria oficial y de tu situación registrada.\n\nPara tu caso, el CPEIP y el Portal Docente son las referencias. La orientación del chat no determina una fecha de evaluación.",
-            "take": "La orientación ayuda a comprender la carrera; la información personal se confirma oficialmente."
+            "label": "Cuándo aplicar una sumativa",
+            "user": "Hola, puedo iniciar una unidad y hacer una evaluación sumativa el mismo dia?",
+            "gabi": "¡Hola! La evaluación sumativa se enfoca en medir logros al cierre de la unidad, tras procesos de enseñanza y retroalimentación formativa.\nSi inicias y aplicas la sumativa el mismo día, tus estudiantes no habrán tenido tiempo para practicar ni incorporar feedback.\nTe sugiero:\n• Planificar actividades formativas (rúbricas, coevaluación, autoevaluación).\n• Dar retroalimentación durante la unidad.\n• Programar la sumativa al final, cuando ya se cumplieron los OA.",
+            "provenance": {
+              "sourceIds": [
+                "M05"
+              ],
+              "userTreatment": "Literal",
+              "responseTreatment": "Extracto literal; selección de párrafos originales"
+            },
+            "take": "La evaluación se planifica junto con la enseñanza y la retroalimentación.",
+            "gabiParts": [
+              "¡Hola! La evaluación sumativa se enfoca en medir logros al cierre de la unidad, tras procesos de enseñanza y retroalimentación formativa. Si inicias y aplicas la sumativa el mismo día, tus estudiantes no habrán tenido tiempo para practicar ni incorporar feedback. Te sugiero: • Planificar actividades formativas (rúbricas, coevaluación, autoevaluación). • Dar retroalimentación durante la unidad. • Programar la sumativa al final, cuando ya se cumplieron los OA."
+            ]
           },
           {
-            "label": "Conocer los apoyos disponibles",
-            "user": "Quiero conocer los apoyos de inducción y mentoría.",
-            "gabi": "La inducción y mentoría acompaña a docentes principiantes mediante apoyo formativo y un mentor con experiencia.\n\nProfe Gabi complementa ese acompañamiento con orientación por WhatsApp. Puedes conversar con tu establecimiento sobre los apoyos disponibles para tu situación.",
-            "take": "Profe Gabi complementa la mentoría humana durante los primeros años de docencia."
+            "label": "Una rúbrica para Música",
+            "user": "debo crear una rubrica para evaluar el desempeño de los estudiantes de 2do básico en la asignatura de musica frente al aprendizaje de una cancion con instrumentos (metalofono o flauta) ayudame a crear los criterios de evaluacion que sean pertinentes a esta actividad",
+            "gabi": "Te propongo 4 criterios con 4 niveles de logro (4-Excelente; 3-Bueno; 2-Aceptable; 1-Necesita apoyo):\n\n1) Ritmo y afinación\n2) Técnica instrumental\n3) Expresión y dinámica\n4) Responsabilidad y cuidado\n\nPor ejemplo, en responsabilidad y cuidado, el nivel 4 describe a quien prepara, guarda y cuida el instrumento siempre; el nivel 2 indica que requiere recordatorios constantes.",
+            "provenance": {
+              "sourceIds": [
+                "M06"
+              ],
+              "userTreatment": "Literal",
+              "responseTreatment": "Adaptación abreviada del mensaje real"
+            },
+            "take": "Una rúbrica hace explícitos los criterios y los niveles de logro.",
+            "gabiParts": [
+              "Te propongo 4 criterios con 4 niveles de logro (4-Excelente; 3-Bueno; 2-Aceptable; 1-Necesita apoyo):\n1) Ritmo y afinación 2) Técnica instrumental\n3) Expresión y dinámica 4) Responsabilidad y cuidado\nPor ejemplo, en responsabilidad y cuidado, el nivel 4 describe a quien prepara, guarda y cuida el instrumento siempre; el nivel 2 indica que requiere recordatorios constantes."
+            ]
           }
+        ],
+        "gabiParts": [
+          "Te propongo esta guía para trabajo en parejas, Unidad 1 Biología:\n1) Comprensión lectora “Los seres vivos cumplen funciones como nutrición, relación y reproducción. Gracias a ellas, mantienen el equilibrio interno (homeostasis) y se adaptan al entorno.” ¿Qué funciones cumplen los seres vivos? ¿Para qué sirve la homeostasis?\n2) Selección múltiple: identificar qué es la homeostasis.\n3) Términos pareados: relacionar conceptos como nutrición, reproducción y homeostasis con sus definiciones.",
+          "4) Completar oraciones sobre las funciones de los seres vivos."
         ]
       }
     ],
-    "lead": "Tramos y acompañamiento"
+    "reviewNotes": "M02: no se reproduce el ítem «¿Cuál NO es función vital?» ni su listado de opciones; requiere revisión pedagógica. M06: se resume la matriz de 16 descriptores y se omite «embocadura», que no corresponde por igual a flauta y metalófono. M05 es un extracto del mensaje recibido, no una certificación normativa.",
+    "scriptRevision": "2026-11-09-draft"
   },
   {
-    "title": "Estoy agotada y no alcanzo a planificar",
+    "title": "Orientarme en mi desarrollo",
+    "sub": "Desarrollo profesional",
+    "icon": "calendar",
+    "lead": "Formación y evaluación docente",
+    "question": "Sí. El CPEIP ofrece formación gratuita para docentes de educación básica, aunque la oferta cambia según cada convocatoria.\nPuedes encontrar:\n• Cursos y talleres en línea.\n• Cursos de perfeccionamiento con certificación.\n• Acciones formativas vinculadas a la Carrera Docente.\n• En algunas convocatorias, diplomados o postítulos ejecutados junto a universidades.",
+    "source": "Fuente: PROFE GABI textos · M10, M09 · Adaptación para exhibición",
+    "options": [
+      {
+        "label": "Formación gratuita del CPEIP",
+        "user": "El cpeip tiene diplomados o postítulos para profesores de educación básica? Gratis ?",
+        "gabi": "Sí. El CPEIP ofrece formación gratuita para docentes de educación básica, aunque la oferta cambia según cada convocatoria.\nPuedes encontrar:\n• Cursos y talleres en línea.\n• Cursos de perfeccionamiento con certificación.\n• Acciones formativas vinculadas a la Carrera Docente.\n• En algunas convocatorias, diplomados o postítulos ejecutados junto a universidades.",
+        "provenance": {
+          "sourceIds": [
+            "M10"
+          ],
+          "userTreatment": "Literal",
+          "responseTreatment": "Extracto literal; selección de párrafos originales"
+        },
+        "follow": [
+          {
+            "label": "Evaluación en un colegio particular",
+            "user": "Si trabajo en un colegio particular libre, puedo realizar la evaluación docente?",
+            "gabi": "Para confirmar si tu establecimiento está incluido, revisa su RBD y la información oficial de DocenteMás, en la sección sobre quiénes se evalúan.\n\nLa orientación del chat no confirma por sí sola tu participación. Es importante verificar la situación de tu establecimiento y los requisitos vigentes.",
+            "provenance": {
+              "sourceIds": [
+                "M09"
+              ],
+              "userTreatment": "Literal",
+              "responseTreatment": "Adaptación editorial; evita convertir la respuesta recibida en una regla de elegibilidad"
+            },
+            "take": "La orientación general no reemplaza la confirmación oficial de una situación individual.",
+            "gabiParts": [
+              "Para confirmar si tu establecimiento está incluido, revisa su RBD y la información oficial de DocenteMás, en la sección sobre quiénes se evalúan.\nLa orientación del chat no confirma por sí sola tu participación. Es importante verificar la situación de tu establecimiento y los requisitos vigentes."
+            ]
+          },
+          {
+            "label": "Requisitos de las convocatorias",
+            "user": "¿Qué debo revisar antes de postular a una formación del CPEIP?",
+            "gabi": "Te recomiendo revisar periódicamente la plataforma y leer los requisitos de cada convocatoria, porque no todos los programas están abiertos para todos los docentes.",
+            "provenance": {
+              "sourceIds": [
+                "M10"
+              ],
+              "userTreatment": "Continuación editorial",
+              "responseTreatment": "Extracto literal; selección de párrafos originales"
+            },
+            "take": "La oferta de formación y sus requisitos deben revisarse en cada convocatoria.",
+            "gabiParts": [
+              "Te recomiendo revisar periódicamente la plataforma y leer los requisitos de cada convocatoria, porque no todos los programas están abiertos para todos los docentes."
+            ]
+          }
+        ],
+        "gabiParts": [
+          "Sí. El CPEIP ofrece formación gratuita para docentes de educación básica, aunque la oferta cambia según cada convocatoria. Puedes encontrar: • Cursos y talleres en línea. • Cursos de perfeccionamiento con certificación. • Acciones formativas vinculadas a la Carrera Docente. • En algunas convocatorias, diplomados o postítulos ejecutados junto a universidades."
+        ]
+      }
+    ],
+    "reviewNotes": "M09: pendiente validar con el equipo la afirmación del documento sobre adhesión de colegios particulares pagados. El borrador no repite esa afirmación ni determina elegibilidad. M10: no se afirma que exista hoy una convocatoria abierta; el segundo mensaje del docente es una transición editorial, no una consulta real adicional. Las fuentes se muestran como texto, sin enlaces externos.",
+    "scriptRevision": "2026-11-09-draft"
+  },
+  {
+    "title": "Cuidar mi bienestar",
     "sub": "Bienestar docente",
     "icon": "heart",
-    "question": "Siento que estés pasando por esto. Estar muy cansada puede hacer que aparezcan dudas, pero no significa que seas una mala profesora.\n\nPedir apoyo también es parte de cuidar tu práctica. Tu bienestar no depende solo de ti: las condiciones del establecimiento también importan. ¿Qué te está agotando más?",
-    "source": "Base: ficha Profe Gabi, §4.D · Bienestar y carga laboral",
+    "lead": "Carga de trabajo y convivencia",
+    "question": "Entiendo cómo te sientes. Equilibrar correcciones y tiempo personal es todo un desafío.\nAquí van unas ideas:\n• Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente.\n• Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales.\n• Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado.\n• Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas.\nY no olvides tu autocuidado:\n1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana.",
+    "source": "Fuente: PROFE GABI textos · M08, M07 · Adaptación para exhibición",
     "options": [
       {
-        "label": "Carga de trabajo y apoyo",
-        "user": "Estoy muy cansada y siento que no soy una buena profesora.",
-        "gabi": "Siento que estés pasando por esto. Estar muy cansada puede hacer que aparezcan dudas, pero no significa que seas una mala profesora.\n\nPedir apoyo también es parte de cuidar tu práctica. Tu bienestar no depende solo de ti: las condiciones del establecimiento también importan. ¿Qué te está agotando más?",
+        "label": "Correcciones y tiempo personal",
+        "user": "Me siento mal, porque tengo que revisar trabajos, evaluaciones y más.. Pero tampoco quiero utilizar mi tiempo libre de fin de semana y en la semana no alcanzo porque termino agotado por la jornada escolar",
+        "gabi": "Entiendo cómo te sientes. Equilibrar correcciones y tiempo personal es todo un desafío.\nAquí van unas ideas:\n• Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente.\n• Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales.\n• Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado.\n• Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas.\nY no olvides tu autocuidado:\n1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana.",
+        "provenance": {
+          "sourceIds": [
+            "M08"
+          ],
+          "userTreatment": "Literal",
+          "responseTreatment": "Extracto literal; selección de párrafos originales"
+        },
         "follow": [
           {
-            "label": "No tengo tiempo para planificar",
-            "user": "La carga de trabajo no me deja tiempo para planificar mis clases.",
-            "gabi": "Te entiendo. Cuando la carga ocupa todo el tiempo, la creatividad se transforma en otra exigencia.\n\nPuedes conversar con tu equipo sobre trabajo colaborativo y un banco de planificaciones. Revisen qué tareas priorizar, distribuir o postergar para recuperar tiempo de preparación.",
-            "take": "El bienestar también necesita condiciones de trabajo y apoyo del establecimiento."
+            "label": "Organizar mis correcciones",
+            "user": "Quiero organizar mis correcciones y proteger mi tiempo libre.",
+            "gabi": "• Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente.\n• Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales.\n• Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado.\n• Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas.\nY no olvides tu autocuidado:\n1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana.",
+            "provenance": {
+              "sourceIds": [
+                "M08"
+              ],
+              "userTreatment": "Continuación editorial",
+              "responseTreatment": "Extracto literal; selección de párrafos originales"
+            },
+            "take": "Poner límites, priorizar y compartir la carga ayuda a cuidar el tiempo personal.",
+            "gabiParts": [
+              "• Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente. • Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales. • Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado. • Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas. Y no olvides tu autocuidado: 1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana."
+            ]
           },
           {
-            "label": "Necesito pedir apoyo a mi jefatura",
-            "user": "Necesito conversar con mi jefatura sobre esta carga de trabajo.",
-            "gabi": "Puedes llevar una petición concreta:\n\n“Necesito que revisemos mis tareas y prioricemos. El tiempo no lectivo debe permitirme planificar y preparar la enseñanza. ¿Qué podemos postergar, distribuir o hacer colaborativamente?”\n\nBuscar apoyo no es falta de compromiso.",
-            "take": "Pedir apoyo y revisar la carga laboral también es cuidar la práctica docente."
+            "label": "Recuperar el foco del curso",
+            "user": "Actúa como experto en convivencia. Necesito una estrategia de foco para 1 medio, El principal desafío es que se distraen fácil hablan mucho",
+            "gabi": "Claro, aquí va una propuesta simple para 1° medio:\n1. Señal de atención\n• Define un sonido o gesto (p. ej., “1-2-3, ojos en mí”).\n• Practícalo 2–3 veces al inicio para que responda al instante.\n2. Tiempos cortos y claros\n• Divide las actividades en tramos de 5–10 min.\n• Usa un cronómetro visible para que controlen el tiempo.\n3. Roles en grupos\n• Forma equipos de 3–4 alumnos.\n• Asigna un “guardián del foco” que avise si alguien se dispersa.\n4. Pausas activas\n• Cada 15–20 min haz un break de 1–2 min (estirarse, respirar).\n• Así vuelven con más energía y menos charla improductiva.\n5. Refuerzo positivo\n• Al apagar la charla, felicita en voz alta a quien colabore.\n• Los incentivos simples (5 segundos de aplausos, stickers) ayudan mucho.",
+            "provenance": {
+              "sourceIds": [
+                "M07"
+              ],
+              "userTreatment": "Literal",
+              "responseTreatment": "Extracto literal; selección de párrafos originales"
+            },
+            "take": "Las rutinas claras, los roles y las pausas ofrecen ideas para organizar el trabajo del curso.",
+            "gabiParts": [
+              "Claro, aquí va una propuesta simple para 1° medio: 1. Señal de atención • Define un sonido o gesto (p. ej., “1-2-3, ojos en mí”). • Practícalo 2–3 veces al inicio para que responda al instante.\n2. Tiempos cortos y claros • Divide las actividades en tramos de 5–10 min. • Usa un cronómetro visible para que controlen el tiempo.\n3. Roles en grupos • Forma equipos de 3–4 alumnos. • Asigna un “guardián del foco” que avise si alguien se dispersa.\n4. Pausas activas • Cada 15–20 min haz un break de 1–2 min (estirarse, respirar). • Así vuelven con más energía y menos charla improductiva.",
+              "5. Refuerzo positivo • Al apagar la charla, felicita en voz alta a quien colabore. • Los incentivos simples (5 segundos de aplausos, stickers) ayudan mucho."
+            ]
           }
+        ],
+        "gabiParts": [
+          "Entiendo cómo te sientes. Equilibrar correcciones y tiempo personal es todo un desafío. Aquí van unas ideas: • Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente. • Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales. • Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado. • Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas. Y no olvides tu autocuidado: 1. Pon horarios límites y respétalos.",
+          "2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana."
         ]
       }
     ],
-    "lead": "Carga de trabajo y apoyo"
+    "reviewNotes": "M08: la primera respuesta es un extracto literal; se retira la pregunta abierta final para conservar una decisión cerrada. El seguimiento sobre correcciones reorganiza párrafos reales y usa una transición editorial. M07 se vincula con convivencia y carga cotidiana; no se presenta como atención de salud mental.",
+    "scriptRevision": "2026-11-09-draft"
   }
 ]

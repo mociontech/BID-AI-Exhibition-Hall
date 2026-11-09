@@ -6,19 +6,19 @@
  function dispose(mount){observers.get(mount)?.disconnect();observers.delete(mount);}
  function paint(mount,state,api){
   const image=mount.querySelector('[data-art-initial]');
-  if(image){const a=api.animation(state),file=a?.sent?'tablet-cases-thinking-en.png':'tablet-cases-wait-en.png';if(image.dataset.file!==file){image.src=api.assets('branded/'+file);image.dataset.file=file;}}
+  if(image){const a=api.animation(state),file=a?.sent?'tablet-cases-thinking-en.png':'tablet-cases-wait-en.png';if(image.dataset.file!==file){image.src=api.assets('branded/'+file)+'?v=20261109-event-en-chat-es';image.dataset.file=file;}}
  }
  function render({mount,state,readonly,api}){
   if(state.language!=='en')return false;
   const {assets,escape,icon,avatar,chat,words:t,scripts,header,footer,content,connectionLabel}=api;
   const g=state.game,isGame=state.mode==='game'||state.mode==='results',isInfo=['info','cta'].includes(state.mode),busy=isGame&&g.phase==='animating',complete=isGame&&g.phase==='complete';
   const topic=scripts.en[g.topic],branch=topic?.options[0],follow=branch?.follow[g.follow];
-  const path=name=>assets('branded/'+name);
+  const path=name=>assets('branded/'+name)+'?v=20261109-event-en-chat-es';
   const hot=(r,label,attrs,disabled=false)=>`<button type="button" class="gabi-art-hotspot" style="${rect(r)}" aria-label="${escape(label)}" ${attrs} ${disabled?'disabled aria-disabled="true"':''}><span class="gabi-artwork-accessible">${escape(label)}</span></button>`;
   const crop=(file,r,cls='')=>`<div class="gabi-art-crop ${cls}" style="${rect(r)}"><img src="${path(file)}" alt="" style="left:${-r[0]}px;top:${-r[1]}px"></div>`;
   const mask=(r,html,cls='')=>`<div class="gabi-art-mask ${cls}" style="${rect(r)}">${html}</div>`;
   const outline=(r,selected,disabled=false)=>`<span class="gabi-art-outline ${selected?'is-selected':''} ${disabled?'is-disabled':''}" style="${rect(r)}" aria-hidden="true"></span>`;
-  const toolbar=readonly?'':`<div class="gabi-art-toolbar"><div class="gabi-language" aria-label="Language">${['es','en'].map(l=>`<button type="button" data-language="${l}" aria-label="${l==='es'?'Español':'English'}" aria-pressed="${l==='en'}">${l.toUpperCase()}</button>`).join('')}</div><button type="button" class="gabi-button gabi-icon" data-action="home" aria-label="${t.home}" title="${t.home}">${icon('home')}</button><button type="button" class="gabi-button" data-action="menu">${t.menu}</button><button type="button" class="gabi-button gabi-icon" data-action="fullscreen" aria-label="${t.fullscreen}" title="${t.fullscreen}">${icon('expand')}</button><span class="gabi-art-connection" data-gabi-connection data-status="connected" role="status">${connectionLabel('en')}</span></div>`;
+  const toolbar=readonly?'':`<div class="gabi-art-toolbar"><div class="gabi-language" aria-label="Interface language"><span class="is-active">EN</span></div><button type="button" class="gabi-button gabi-icon" data-action="home" aria-label="${t.home}" title="${t.home}">${icon('home')}</button><button type="button" class="gabi-button" data-action="menu">${t.menu}</button><button type="button" class="gabi-button gabi-icon" data-action="fullscreen" aria-label="${t.fullscreen}" title="${t.fullscreen}">${icon('expand')}</button><span class="gabi-art-connection" data-gabi-connection data-status="connected" role="status">${connectionLabel('en')}</span></div>`;
   let file,overlays='',semantic='',marker='',initial=false;
   if(readonly&&isInfo){file='tv-information-en.png';semantic=`<section class="gabi-artwork-accessible">${header}${content}${footer}</section>`;}
   else if(!readonly&&!isGame){
@@ -28,15 +28,22 @@
    overlays+=hot(R.info,t.info,'data-action="information"');
    const game=hot(R.game,g.ready?t.start:t.game,'data-action="game"',!g.ready);
    overlays+=isInfo&&g.ready?`<div class="gabi-info-controls gabi-art-cta">${game}</div>`:game;
-   overlays+=mask([995,650,480,105],`<h2>${g.ready?t.start:'Interactive experience'}</h2>`,'gabi-art-cover-game');
-   overlays+=mask([995,755,480,125],`<p>${t.gameHelp}</p>`,'gabi-art-cover-help');
+   // Keep the newly supplied English card title and description visible.
    overlays+=mask([70,930,1745,70],`<p>${isInfo?(g.ready?t.ready:t.watch):g.ready?'':t.locked}</p>`,'gabi-art-status');
    semantic=`<section class="gabi-artwork-accessible"><h1>Profe Gabi</h1><p>${t.description}</p></section>`;
   }else if(!readonly){
    const cases=g.phase==='topics'||busy&&g.turn==='situation';
-   if(cases){
+   if(g.phase==='reading'||busy&&g.part>0){
+    file='tablet-follow-en.png';marker='gabi-reading';
+    overlays+=mask([130,260,1000,567],api.readingPanel(),'gabi-art-reading');
+    overlays+=hot(R.back,t.back,'data-action="back"');
+   }else if(cases){
     initial=busy;file=busy?(api.animation(state)?.sent?'tablet-cases-thinking-en.png':'tablet-cases-wait-en.png'):'tablet-cases-en.png';
-    for(let i=0;i<4;i++){overlays+=outline(R.topics[i],busy&&g.topic===i,busy&&g.topic!==i);overlays+=hot(R.topics[i],scripts.en[i].title,`data-topic="${i}"`,busy);}
+    for(let i=0;i<4;i++){
+     const r=R.topics[i];
+     overlays+=mask([r[0]+14,r[1]+10,r[2]-28,r[3]-20],`<b>${String(i+1).padStart(2,'0')}</b><span>${escape(scripts.en[i].title)}</span>`,'gabi-art-topic-label');
+     overlays+=outline(r,busy&&g.topic===i,busy&&g.topic!==i);overlays+=hot(r,scripts.en[i].title,`data-topic="${i}"`,busy);
+    }
     if(busy){overlays+=crop('tablet-cases-thinking-en.png',R.back)+crop('tablet-cases-thinking-en.png',R.skip);overlays+=hot(R.back,t.back,'data-action="back"')+hot(R.skip,t.skip,'data-action="skip"');}
    }else if(complete){
     file='tablet-result-en.png';marker='gabi-summary';
@@ -54,9 +61,9 @@
    overlays+=mask([1240,744,510,35],`<p>${t.tag}</p>`,'gabi-art-tag');
   }else{
    file=complete?'tv-result-en.png':busy?'tv-chat-en.png':'tv-situation-en.png';
-   if(complete){overlays+=mask([78,816,823,120],`<p>${escape(follow.take)}</p>`,'gabi-art-takeaway');}
-   else overlays+=mask([135,265,655,435],`<h1>${!isGame?'Profe <em>Gabi</em>':g.phase==='topics'?'What do you <em>need today?</em>':'Virtual assistant <em>Profe Gabi</em>'}</h1><p>${topic?`${t.selectedTopic}: ${escape(topic.title)}`:t.inviteAction}</p>`,'gabi-art-tv-heading');
-   const r=complete?[935,215,922,779]:[860,206,920,778];
+   if(complete){overlays+=mask([135,790,655,180],`<p>${escape(follow.take)}</p>`,'gabi-art-takeaway');}
+   else overlays+=mask([135,265,655,435],`<h1>${!isGame?'Profe <em>Gabi</em>':g.phase==='topics'?'What do you <em>need today?</em>':'<span class="gabi-heading-line">Virtual</span><span class="gabi-heading-line">assistant</span><em class="gabi-heading-name">Profe Gabi</em>'}</h1><p>${topic?`${t.selectedTopic}: ${escape(topic.title)}`:t.inviteAction}</p>`,'gabi-art-tv-heading');
+   const r=[860,206,920,778];
    if(!isGame||g.phase==='topics'){
     overlays+=`<section class="gabi-art-welcome ${isGame?'gabi-game-welcome':'gabi-tv-invite'}" style="${rect(r)}">${avatar()}<h2>${isGame?t.topicTitle:t.invite}</h2><p>${isGame?t.topicBody:t.inviteAction}</p>${isGame?`<div class="gabi-art-case-list">${scripts.en.map(c=>`<p><strong>${escape(c.title)}</strong><small>${escape(c.sub)}</small></p>`).join('')}</div>`:''}</section>`;
    }else overlays+=`<div class="gabi-art-live-chat ${complete?'is-complete':''}" style="${rect(r)}">${chat()}</div>`;
