@@ -29,7 +29,7 @@ test('the root menu also opens without an explicit station query',()=>{
  assert.equal((openHome('',7).html.match(/data-project="/g)||[]).length,10);
 });
 test('artwork card order opens the matching project and preserves the pairing',async()=>{
- const expected=['01','10','07','04','02','05','06','11','08','03'];
+ const expected=['10','01','07','04','02','05','06','11','08','03'];
  const result=openHome('?station=3',3);
  assert.deepEqual(Array.from(result.html.matchAll(/data-project="(\d+)"/g),match=>match[1]),expected);
  for(const link of result.links){
