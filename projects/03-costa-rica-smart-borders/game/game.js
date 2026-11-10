@@ -26,23 +26,64 @@ const SIM={stop:20,ai:5};
 /* Instituciones (paradas). Cada una revisa sus 3 documentos con su propia regla.
    red: inconsistencia posible · yellow: documento que puede faltar. */
 const ENTITIES=[
- {key:'aduana',icon:'🏛️',docs:['factura','declaracion','manifiesto'],fields:['producto','cantidad','peso','placa'],red:{field:'cantidad',doc:'declaracion',value:b=>String(parseInt(b.cantidad,10)-30)},yellow:'manifiesto'},
- {key:'policia',icon:'👮',docs:['licencia','circulacion','manifiesto'],fields:['conductor','placa','cantidad'],red:{field:'placa',doc:'circulacion',value:b=>b.placa.slice(0,-1)+(b.placa.endsWith('0')?'7':'0')},yellow:'licencia'},
- {key:'salud',icon:'🏥',docs:['registro','libreventa','factura'],fields:['producto','registro','cantidad','lote'],red:{field:'registro',doc:'libreventa',value:b=>b.registro.slice(0,-2)+'00'},yellow:'registro'},
- {key:'animal',icon:'🐄',docs:['certzoo','permiso','factura'],fields:['producto','origen','cantidad','lote'],red:{field:'origen',doc:'certzoo',value:b=>b.origen==='Nicaragua'?'Honduras':'Nicaragua'},yellow:'permiso'},
- {key:'vegetal',icon:'🌱',docs:['fito','permisofito','factura'],fields:['producto','origen','lote','peso'],red:{field:'lote',doc:'fito',value:b=>b.lote.slice(0,-2)+'51'},yellow:'permisofito'}
+ {key:'aduana',icon:'aduana',docs:['factura','declaracion','manifiesto'],fields:['producto','cantidad','peso','placa'],red:{field:'cantidad',doc:'declaracion',value:b=>String(parseInt(b.cantidad,10)-30)},yellow:'manifiesto'},
+ {key:'policia',icon:'policia',docs:['licencia','circulacion','manifiesto'],fields:['conductor','placa','cantidad'],red:{field:'placa',doc:'circulacion',value:b=>b.placa.slice(0,-1)+(b.placa.endsWith('0')?'7':'0')},yellow:'licencia'},
+ {key:'salud',icon:'salud',docs:['registro','libreventa','factura'],fields:['producto','registro','cantidad','lote'],red:{field:'registro',doc:'libreventa',value:b=>b.registro.slice(0,-2)+'00'},yellow:'registro'},
+ {key:'animal',icon:'animal',docs:['certzoo','permiso','factura'],fields:['producto','origen','cantidad','lote'],red:{field:'origen',doc:'certzoo',value:b=>b.origen==='Nicaragua'?'Honduras':'Nicaragua'},yellow:'permiso'},
+ {key:'vegetal',icon:'vegetal',docs:['fito','permisofito','factura'],fields:['producto','origen','lote','peso'],red:{field:'lote',doc:'fito',value:b=>b.lote.slice(0,-2)+'51'},yellow:'permisofito'}
 ];
 const N=ENTITIES.length; // paradas manuales; el camión cruza en pos N+1
 const CARGOS={
- alimentos:{icon:'🥫',id:104,base:{cantidad:'240',peso:'4.800',origen:'Costa Rica',placa:'SJO-2210',lote:'L-2409',registro:'RS-18.442',conductor:'M. Rojas'}},
- frutas:{icon:'🍌',id:117,base:{cantidad:'900',peso:'9.000',origen:'Costa Rica',placa:'LIM-0453',lote:'L-0917',registro:'RS-20.118',conductor:'A. Vargas'}},
- lacteos:{icon:'🧀',id:126,base:{cantidad:'320',peso:'2.560',origen:'Panamá',placa:'PTY-7731',lote:'L-3301',registro:'RS-17.905',conductor:'L. Mora'}}
+ alimentos:{icon:'box',id:104,base:{cantidad:'240',peso:'4.800',origen:'Costa Rica',placa:'SJO-2210',lote:'L-2409',registro:'RS-18.442',conductor:'M. Rojas'}},
+ frutas:{icon:'box',id:117,base:{cantidad:'900',peso:'9.000',origen:'Costa Rica',placa:'LIM-0453',lote:'L-0917',registro:'RS-20.118',conductor:'A. Vargas'}},
+ lacteos:{icon:'box',id:126,base:{cantidad:'320',peso:'2.560',origen:'Panamá',placa:'PTY-7731',lote:'L-3301',registro:'RS-17.905',conductor:'L. Mora'}}
 };
 const CARGO_ORDER=['alimentos','frutas','lacteos'];
 /* Posición del camión (0 salida · 1-3 paradas · 4 cruzó): la pantalla (tv.js) la convierte en % de la carretera. */
 /* Ritmo lento a propósito: cada paso se ve y se explica en la pantalla. */
 const MERGE_MS=11000,TRAVEL_MS=5200,SCAN_MS=2600,CONFIRM_MS=1700;
-const AI_STEPS=['merging','toVuce','scanning','verdict','toBorder']; // pasos de la IA, uno por toque en la tableta
+/* Iconos de línea fina (24×24, trazo 1.6). Sustituyen a los emojis en tableta y TV. */
+const ICONS={
+ aduana:'<path d="M3 21h18M5 21V10m4.7 11V10m4.6 11V10M19 21V10M3 10l9-6 9 6H3z"/>',
+ policia:'<path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/><path d="M9.5 12l2 2 3.5-4"/>',
+ salud:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+ animal:'<circle cx="12" cy="14.5" r="3.5"/><circle cx="7" cy="9.5" r="1.6"/><circle cx="17" cy="9.5" r="1.6"/><circle cx="9.5" cy="5.5" r="1.6"/><circle cx="14.5" cy="5.5" r="1.6"/>',
+ vegetal:'<path d="M5 19C5 10 11 5 20 5c0 9-5 15-14 15z"/><path d="M5 19c3-5 7-8 11-10"/>',
+ doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M9.5 13h5M9.5 17h5"/>',
+ screen:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
+ flag:'<path d="M5 21V4"/><path d="M5 5h12l-2.5 3.5L17 12H5"/>',
+ replay:'<path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v5h5"/>',
+ globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+ info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+ eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+ cpu:'<rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
+ timer:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/>',
+ rules:'<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
+ network:'<circle cx="5" cy="12" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 11l10-4M7 13l10 4"/>',
+ dice:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 8.5h.01M15.5 8.5h.01M12 12h.01M8.5 15.5h.01M15.5 15.5h.01"/>',
+ check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+ box:'<path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/>',
+ arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
+};
+function ico(name,cls){return `<svg class="ico ico--${name} ${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.doc}</svg>`;}
+const AI_STEPS=['merging','toVuce','scanning','verdict','toBorder'];
+/* Apariencia de «papel» de cada documento (simulado): emisor, icono del sello y prefijo del número. */
+const PAPER={
+ factura:{es:'Exportadora del Pacífico S.A.',en:'Exportadora del Pacífico S.A.',icon:'doc',code:'FAC'},
+ declaracion:{es:'Dirección General de Aduanas · DUA',en:'Customs Directorate · DUA',icon:'doc',code:'DUA'},
+ manifiesto:{es:'Transportes Centroamérica · Guía de carga',en:'Transportes Centroamérica · Freight bill',icon:'doc',code:'MAN'},
+ certificado:{es:'SENASA · Certificado',en:'SENASA · Certificate',icon:'doc',code:'CSA'},
+ permiso:{es:'SENASA · Importaciones',en:'SENASA · Imports',icon:'doc',code:'PIM'},
+ registro:{es:'Ministerio de Salud · Registro',en:'Ministry of Health · Registry',icon:'doc',code:'RSA'},
+ libreventa:{es:'Ministerio de Salud · Regulación',en:'Ministry of Health · Regulation',icon:'doc',code:'CLV'},
+ licencia:{es:'COSEVI · Licencias de conducir',en:'COSEVI · Driver licensing',icon:'doc',code:'LIC'},
+ circulacion:{es:'Registro Nacional · Vehículos',en:'National Registry · Vehicles',icon:'doc',code:'TCV'},
+ certzoo:{es:'SENASA · Salud animal',en:'SENASA · Animal health',icon:'doc',code:'CZO'},
+ fito:{es:'Servicio Fitosanitario del Estado',en:'State Phytosanitary Service',icon:'doc',code:'CFS'},
+ permisofito:{es:'SFE · Permisos',en:'SFE · Permits',icon:'doc',code:'PFS'}
+};
+function paperNo(doc){const pp=PAPER[doc]||{code:'DOC'};return pp.code+'-2026-'+String(cargoOf().id).padStart(5,'0');}
+function paperDate(){const d=new Date();const z=n=>String(n).padStart(2,'0');return z(d.getDate())+'/'+z(d.getMonth()+1)+'/'+d.getFullYear();} // pasos de la IA, uno por toque en la tableta
 
 /* ---------- Copys bilingües ---------- */
 const COPY={
@@ -60,14 +101,14 @@ const COPY={
   // Intro
   introTitle:'Un camión llega a la frontera.',
   introBig:'Debe pasar por 5 instituciones.',
-  introBody:'En <b>Peñas Blancas</b> cada institución revisa sus propios documentos: <b>Aduana</b>, <b>Policía</b>, <b>Ministerio de Salud</b>, <b>Sanidad Animal</b> y <b>Sanidad Vegetal</b>. Primero lo revisas tú, parada por parada. Luego la IA de la VUCE 3.0 lo hace en una sola.',
-  introHow:[['👀','Tú revisas','5 paradas. En cada una lees 3 documentos y pones el semáforo.'],['🤖','La IA revisa','Las 5 instituciones se unen en una sola parada.'],['⏱️','Comparamos','Paradas, tiempo y aciertos.']],
+  introBody:'Primero lo revisas tú, parada por parada. Luego la IA de VUCE 3.0 lo hace en una sola.',
+  introHow:[['eye','Tú revisas','5 paradas, 3 documentos en cada una.'],['cpu','La IA revisa','Una sola parada.'],['timer','Comparamos','Paradas, tiempo y aciertos.']],
   introWhat:'Hoy llega el camión <b>{id}</b> con <b>{cargo}</b>. Mira la pantalla: el camión avanza con cada decisión tuya.',
   introLearn:'Tres filas, tres revisiones, el mismo camión. Así era antes.',
   introCta:'Empezar la revisión',
   // Manual
-  manualTitle:'Tú revisas, parada por parada',
-  manualBody:'Parada {i} de 5: <b>{entity}</b>. Lee sus 3 documentos y pon el semáforo.',
+  manualTitle:'Busca irregularidades',
+  manualBody:'Compara los 3 documentos de <b>{entity}</b>. ¿Coinciden? ¿Falta alguno?',manualHint:'Elige el semáforo a la derecha',guide:{title:'Cómo decidir',check:'Revisa:',steps:[['green','Todo coincide','Verde · Dejar pasar'],['yellow','Falta un documento','Amarillo · Revisar documentos'],['red','Un dato no coincide','Rojo · Inspección conjunta']]},
   stopOf:'Parada {i} de 5',
   yourTime:'Tu tiempo',aiTime:'Tiempo de la IA',simLabel:'En la frontera · simulado',
   lights:{green:{name:'Verde',action:'Dejar pasar',when:'Todo coincide'},yellow:{name:'Amarillo',action:'Revisar documentos',when:'Falta un documento'},red:{name:'Rojo',action:'Inspección conjunta',when:'Algo no coincide'}},
@@ -75,9 +116,9 @@ const COPY={
   manualWhat:'Aquí decides tú. Cada institución revisa por separado: lee las filas, compara los 3 documentos y pon el semáforo.',
   manualDecided:'Todavía nadie te ayuda. El camión espera en cada fila y el cronómetro corre.',
   manualLearn:'Un detalle pequeño, como una cifra o una letra, puede esconder un problema.',
-  missingDoc:'Falta un documento',
+  missingDoc:'Falta un documento',paper:{date:'Fecha',sign:'Firma y sello',stamp:'ORIGINAL',no:'N.º',section:'Datos declarados'},
   fbRight:'¡Correcto!',fbWrong:'Ups, no era así.',
-  why:{green:'Los documentos de {entity} coinciden: el camión sigue a la siguiente parada.',yellow:'Faltaba un documento ({doc}): se pide antes de decidir.',red:'Había una diferencia en {field}: {entity} pide una inspección.'},
+  why:{green:'Los 3 documentos coinciden.',yellow:'Faltaba un documento: {doc}.',red:'{field} no coincide.'},
   moving:'El camión avanza a la siguiente parada…',
   crossed:'¡Cruzó la frontera!',
   crossedManual:'5 paradas · 5 filas · 5 revisiones por separado.',
@@ -87,7 +128,7 @@ const COPY={
   manualCta:'Ver cómo lo hace la IA',
   // IA
   aiTitle:'La IA revisa en una sola parada',
-  aiBody:'El <b>mismo camión</b> y los <b>mismos documentos</b>. VUCE 3.0 une las 5 instituciones en una sola revisión.',
+  aiBody:'El <b>mismo camión</b>, los <b>mismos documentos</b>, una sola revisión.',
   merging:'Las 5 instituciones se unen en una sola ventanilla…',
   aiScanning:'Revisando {entity}…',aiComparing:'Aplicando las 5 reglas a la vez…',
   aiWhat:'La IA aplica las reglas de las 5 instituciones al mismo tiempo y pone un solo semáforo al camión.',
@@ -110,31 +151,31 @@ const COPY={
   resDecided:'La IA aplicó las 5 reglas en {t} segundos con una sola parada. Tú hiciste 5 paradas en {m} segundos.',
   resLearnTitle:'La IA une las revisiones y señala pistas.',resLearnBig:'La persona decide.',
   resLearn:'No se trata de inspeccionar más. Se trata de priorizar mejor, revisar una sola vez y ganar tiempo para lo importante.',
-  resSimulated:'Resultados simulados con fines educativos. Los tiempos «en frontera» son ilustrativos, no datos reales de Costa Rica ni de la VUCE.',
+  resSimulated:'Datos simulados con fines educativos.',
   again:'Jugar otro turno',toHome:'Volver al inicio',
   truckAria:'Camión {id}, {cargo}',
-  tv:{intro:'Toca «Empezar la revisión» en la tableta.',deciding:'Decidiendo el semáforo de {entity} en la tableta…',feedback:'Toca «Siguiente parada» en la tableta.',moving:'El camión avanza a la siguiente parada…',crossedManual:'Toca «Ver cómo lo hace la IA» en la tableta.',waiting:'Lee el paso 1 en la tableta y toca «Ver en la pantalla».',nextStep:'Lee el paso {n} en la tableta y toca «Ver en la pantalla».',merging:'Las 5 instituciones se unen en una sola ventanilla',toVuce:'El camión llega a la ventanilla única…',scanning:'La IA aplica las 5 reglas a la vez',verdict:'Cada institución confirma la decisión final',toBorder:'Semáforo listo: el camión cruza…',crossedAi:'Toca «Comparar resultados» en la tableta.',results:'Toca «Jugar otro turno» o «Inicio» en la tableta.',reading:'Se está leyendo en la tableta'},
-  watchTv:'Mira la pantalla',watchTvIntro:'El camión aparece en la pantalla grande. Aquí decides tú; allá se ve cómo avanza.',
-  explain:{deciding:['Parada {i} de 5','{entity} revisa con sus propias reglas, por separado. El camión espera en esta fila.'],feedback:['Semáforo de {entity}','Cada institución pone su propio semáforo. Faltan {left} paradas.'],moving:['Otra fila','El camión avanza a la siguiente institución y vuelve a esperar.'],crossedManual:['Así era antes','Tres filas, tres revisiones, el mismo camión abierto varias veces.'],waiting:['VUCE 3.0','Ventanilla Única de Comercio Exterior: una sola puerta para todas las instituciones.'],merging:['Paso 1 · Una sola ventanilla','VUCE 3.0 recibe los documentos de las 5 instituciones en un solo lugar.'],toVuce:['Paso 2 · Una sola parada','El camión ya no hace 5 filas: se detiene una sola vez.'],scanning:['Paso 3 · Cinco reglas a la vez','Reglas de cada institución + aprendizaje automático (330.000 registros) + selección aleatoria.'],verdict:['Paso 4 · Cada institución decide','La IA propone un semáforo, pero no decide sola: las 5 instituciones conservan la última palabra y confirman la decisión final una por una.'],toBorder:['Paso 5 · Cruza','Un solo semáforo para las 5 instituciones. Sin abrir el camión varias veces: una decisión para todas.'],crossedAi:['Resultado','El mismo camión cruzó con una sola parada.']},
-  aiSteps:['Una sola ventanilla','Una sola parada','Cinco reglas a la vez','Cada institución decide','Cruza la frontera'],
-  replay:'Repetir paso {n}',stepOf:'Paso {i} de 5',confirmCta:'Cada institución decide la decisión final',confirms:'{entity} confirma la decisión final',confirmWait:'{entity} decide…',resOnScreenTitle:'Mira la pantalla',resOnScreen:'Ahí están los resultados comparativos: revisión humana vs VUCE 3.0.',chartTitle:'Revisión humana vs VUCE 3.0',seeTv:'Ver en la pantalla',watchingTv:'Mira la pantalla…',stepDone:'Listo',nextStop:'Siguiente parada',crossNow:'Cruzar la frontera',
-  aiIntro:'Tú controlas la revisión de la IA: lee cada paso, toca el botón y mira lo que pasa en la pantalla.',
+  tv:{intro:'Toca «Empezar la revisión» en la tableta.',deciding:'Decidiendo el semáforo de {entity} en la tableta…',feedback:'Toca «Siguiente parada» en la tableta.',moving:'El camión avanza a la siguiente parada…',crossedManual:'Toca «Ver cómo lo hace la IA» en la tableta.',waiting:'Lee el paso 1 en la tableta y toca «Ver en la pantalla».',nextStep:'Lee el paso {n} en la tableta y toca «Ver en la pantalla».',merging:'Las 5 instituciones se unen en una sola ventanilla',toVuce:'El camión llega a la ventanilla única…',scanning:'El sistema híbrido revisa las 5 instituciones a la vez',verdict:'Cada institución confirma la decisión final',toBorder:'Semáforo listo: el camión cruza…',crossedAi:'Toca «Comparar resultados» en la tableta.',results:'Toca «Jugar otro turno» o «Inicio» en la tableta.',reading:'Se está leyendo en la tableta'},
+  watchTv:'Mira la pantalla',watchTvIntro:'Aquí decides tú; allá avanza el camión.',
+  explain:{deciding:['Parada {i} de 5','{entity} revisa con sus propias reglas.'],feedback:['Semáforo de {entity}','Cada institución pone su semáforo.'],moving:['Otra fila','El camión pasa a la siguiente fila.'],crossedManual:['Así era antes','5 filas, 5 revisiones, el mismo camión.'],waiting:['VUCE 3.0','Una sola puerta para las 5 instituciones.'],merging:['Paso 1 · Una sola ventanilla','Los documentos llegan a un solo lugar.'],toVuce:['Paso 2 · Una sola parada','El camión se detiene una sola vez.'],scanning:['Paso 3 · Sistema híbrido','Reglas + aprendizaje automático + azar, en una sola revisión.'],verdict:['Paso 4 · Cada institución decide','La IA propone; cada institución confirma.'],toBorder:['Paso 5 · Cruza','Un solo semáforo para las 5.'],crossedAi:['Resultado','Cruzó con una sola parada.']},
+  aiSteps:['Una sola ventanilla','Una sola parada','Sistema híbrido','Cada institución decide','Cruza la frontera'],
+  replay:'Repetir paso {n}',stepOf:'Paso {i} de 5',confirmCta:'Cada institución confirma',confirms:'{entity} confirma la decisión final',confirmWait:'{entity} decide…',resOnScreenTitle:'Mira la pantalla',resOnScreen:'Ahí están los resultados comparativos: revisión humana vs VUCE 3.0.',chartTitle:'Revisión humana vs VUCE 3.0',seeTv:'Ver en la pantalla',watchingTv:'Mira la pantalla…',stepDone:'Listo',nextStop:'Siguiente parada',crossNow:'Cruzar la frontera',
+  aiIntro:'Toca cada paso y mira la pantalla.',
   solTitle:'Solución del reto',solBody:'Esto era lo que había que ver en cada institución.',solFinal:'Semáforo final del camión',solYou:'Tu semáforo',
   resChallenge:['El reto','En Peñas Blancas cruzan unos 650 camiones al día. Cada uno pasaba por 5 instituciones: 5 filas, 5 revisiones separadas y el mismo camión abierto varias veces.'],
   resHow:'Cómo lo resolvió la IA',resInsightsTitle:'Lo que te llevas de VUCE 3.0',
-  insights:[['1','Una sola ventanilla','Las 5 instituciones reciben los documentos en un mismo lugar.'],['5','Reglas a la vez','Reglas de cada institución + aprendizaje automático con 330.000 registros + selección aleatoria.'],['1','Un solo semáforo','Verde sigue, amarillo revisa papeles, rojo una inspección conjunta. El camión se abre una sola vez.']],
+  insights:[['1','Una sola ventanilla','Las 5 instituciones reciben los documentos en un mismo lugar.'],['3','Mecanismos','Reglas + aprendizaje automático + selección aleatoria.'],['1','Un solo semáforo','Verde sigue, amarillo revisa papeles, rojo una inspección conjunta. El camión se abre una sola vez.']],
   seeTvResults:'En la pantalla: lo que te llevas de VUCE 3.0.',whyLight:'¿Qué significa el semáforo?',realLife:'¿Y en la vida real?',factsTitle:'Datos de VUCE 3.0 · toca para saber más',
   facts:[['650','camiones al día en Peñas Blancas','place'],['5','instituciones, 1 sola inspección conjunta','real'],['330.000','registros históricos entrenaron la IA','how'],['360.000','trámites en un año','real'],['3','mecanismos: reglas, IA y azar','how']],
   chips:[['📍','Peñas Blancas, Costa Rica'],['🚛','650 camiones al día'],['🏛️','5 instituciones']],
   pop:{
    eyebrow:'Dato del proyecto · VUCE 3.0',close:'Cerrar',
-   play:{title:'¿Cómo se juega?',lead:'El camión se detiene en <b>5 instituciones</b>. En cada parada lee sus 3 documentos y ponle el <b>semáforo</b>, como hace la VUCE 3.0. Mira la pantalla: el camión avanza con cada decisión.',
-    foot:'El cronómetro arranca cuando cierres esta ventana.',cta:'Empezar'},
+   play:{title:'¿Cómo se juega?',lead:'El camión pasa por 5 instituciones. En cada parada:',steps:[['Compara','los 3 documentos'],['Busca irregularidades','¿coinciden? ¿falta alguno?'],['Elige el semáforo','según lo que encuentres']],
+    foot:'El cronómetro arranca al tocar Empezar.',cta:'Empezar'},
    place:{title:'El reto en Peñas Blancas',
-    lead:'Peñas Blancas es la frontera entre Costa Rica y Nicaragua. Cada día cruzan unas <b>650 unidades de transporte</b> con mercancías, y cada una debía pasar por <b>5 instituciones</b> que revisaban por separado, con sus propias reglas.',
+    lead:'En la frontera de Peñas Blancas, Costa Rica, cinco instituciones evaluaban por separado qué mercancías inspeccionar. El Módulo de Gestión de Riesgos de la VUCE 3.0 combina reglas, aprendizaje automático y selección aleatoria para clasificar cada operación con un semáforo de riesgo. Así se focalizan los controles y se coordinan inspecciones conjuntas.',
     stats:[['650','camiones al día'],['5','instituciones revisaban por separado'],['1','frontera: Peñas Blancas']],
     tapTitle:'Toca cada institución: así se revisaba el mismo camión, una fila tras otra.',
-    inst:[['🏛️','Aduana'],['👮','Policía'],['🏥','Ministerio de Salud'],['🐄','Sanidad Animal'],['🌱','Sanidad Vegetal']],
+    inst:[['aduana','Aduana'],['policia','Policía'],['salud','Ministerio de Salud'],['animal','Sanidad Animal'],['vegetal','Sanidad Vegetal']],
     closed:'Cerrado',opened:'Abierto',
     count:'El mismo camión se abrió <b>{n}</b> de 5 veces',
     done:'Reglas fijas y sin una herramienta compartida: controles poco focalizados, el mismo camión abierto varias veces y demoras para el comercio legítimo.',
@@ -143,9 +184,9 @@ const COPY={
     next:'Lo que sigue: toca «Ver cómo lo hace la IA». En la tableta lees cada paso y en la pantalla ves qué pasa con el camión.',
     cta:'Entendido'},
    how:{title:'¿Cómo lo hace VUCE 3.0?',
-    lead:'El Módulo de Gestión de Riesgos de la Ventanilla Única de Comercio Exterior combina <b>tres mecanismos</b> en un sistema híbrido. Así funciona cada uno:',
-    items:[['📏','Reglas','Cada institución define qué documentos y datos exige. Si falta algo o un dato no coincide, la regla lo marca al instante.'],['🧠','Aprendizaje automático','Un modelo entrenado con más de 330.000 registros históricos de operaciones reales aprende qué combinaciones de producto, origen y ruta suelen traer problemas, y señala las que se parecen.'],['🎲','Selección aleatoria','Un porcentaje de camiones se revisa al azar aunque todo esté en orden. Así nadie puede predecir cuándo le tocará revisión.']],
-    foot:'Los tres se combinan en un solo semáforo: verde sigue, amarillo revisa papeles, rojo una inspección conjunta.',
+    lead:'Un <b>sistema híbrido</b> con tres mecanismos:',
+    items:[['rules','Reglas','Lo que exige cada institución.'],['network','Aprendizaje automático','Aprende de 330.000 registros históricos.'],['dice','Selección aleatoria','Revisiones al azar, imposibles de predecir.']],
+    foot:'Resultado: un solo semáforo para el camión.',
     cta:'Ver a la IA en acción'},
    light:{title:'El semáforo de riesgo',
     lead:'La IA clasifica cada operación con un color. Toca cada luz.',
@@ -175,13 +216,13 @@ const COPY={
   border:'Border',start:'Start',vuce:'VUCE 3.0 · one single window',
   introTitle:'A truck arrives at the border.',
   introBig:'It must clear 5 agencies.',
-  introBody:'At <b>Peñas Blancas</b> each agency checks its own documents: <b>Customs</b>, <b>Police</b>, <b>Ministry of Health</b>, <b>Animal Health</b> and <b>Plant Health</b>. First you check it, stop by stop. Then the VUCE 3.0 AI does it in a single stop.',
-  introHow:[['👀','You check','5 stops. At each one you read 3 documents and set the light.'],['🤖','AI checks','The 5 agencies merge into a single stop.'],['⏱️','We compare','Stops, time and correct answers.']],
+  introBody:'First you check it, stop by stop. Then the VUCE 3.0 AI does it in a single stop.',
+  introHow:[['eye','You check','5 stops, 3 documents each.'],['cpu','AI checks','One single stop.'],['timer','We compare','Stops, time and correct answers.']],
   introWhat:'Today truck <b>{id}</b> arrives with <b>{cargo}</b>. Watch the screen: the truck moves with every decision you make.',
   introLearn:'Three queues, three checks, the same truck. That is how it used to be.',
   introCta:'Start checking',
-  manualTitle:'You check, stop by stop',
-  manualBody:'Stop {i} of 5: <b>{entity}</b>. Read its 3 documents and set the light.',
+  manualTitle:'Look for irregularities',
+  manualBody:'Compare the 3 <b>{entity}</b> documents. Do they match? Is one missing?',manualHint:'Choose the light on the right',guide:{title:'How to decide',check:'Check:',steps:[['green','Everything matches','Green · Let it pass'],['yellow','A document is missing','Yellow · Review documents'],['red','A value does not match','Red · Joint inspection']]},
   stopOf:'Stop {i} of 5',
   yourTime:'Your time',aiTime:'AI time',simLabel:'At the border · simulated',
   lights:{green:{name:'Green',action:'Let it pass',when:'Everything matches'},yellow:{name:'Yellow',action:'Review documents',when:'A document is missing'},red:{name:'Red',action:'Joint inspection',when:'Something is off'}},
@@ -189,9 +230,9 @@ const COPY={
   manualWhat:'You decide here. Each agency checks separately: read the rows, compare the 3 documents and set the light.',
   manualDecided:'Nobody is helping you yet. The truck waits in every queue and the clock is running.',
   manualLearn:'A small detail, like a digit or a letter, can hide a problem.',
-  missingDoc:'Missing document',
+  missingDoc:'Missing document',paper:{date:'Date',sign:'Signature and stamp',stamp:'ORIGINAL',no:'No.',section:'Declared data'},
   fbRight:'Correct!',fbWrong:'Oops, not quite.',
-  why:{green:'The {entity} documents match: the truck moves to the next stop.',yellow:'A document was missing ({doc}): it is requested before deciding.',red:'There was a difference in {field}: {entity} asks for an inspection.'},
+  why:{green:'The 3 documents match.',yellow:'A document was missing: {doc}.',red:'{field} does not match.'},
   moving:'The truck moves to the next stop…',
   crossed:'It crossed the border!',
   crossedManual:'5 stops · 5 queues · 5 separate checks.',
@@ -200,7 +241,7 @@ const COPY={
   manualDone:'Done! Now the AI will check the same truck in a single stop.',
   manualCta:'See how the AI does it',
   aiTitle:'AI checks in a single stop',
-  aiBody:'The <b>same truck</b> and the <b>same documents</b>. VUCE 3.0 merges the 5 agencies into one single check.',
+  aiBody:'The <b>same truck</b>, the <b>same documents</b>, one single check.',
   merging:'The 5 agencies merge into one single window…',
   aiScanning:'Checking {entity}…',aiComparing:'Applying the 5 rules at once…',
   aiWhat:'The AI applies the rules of the 5 agencies at the same time and gives the truck a single traffic light.',
@@ -222,31 +263,31 @@ const COPY={
   resDecided:'The AI applied the 5 rules in {t} seconds with a single stop. You made 5 stops in {m} seconds.',
   resLearnTitle:'AI merges the checks and points out clues.',resLearnBig:'The person decides.',
   resLearn:'It is not about inspecting more. It is about prioritizing better, checking once and saving time for what matters.',
-  resSimulated:'Simulated results for educational purposes. “At the border” times are illustrative, not real data from Costa Rica or VUCE.',
+  resSimulated:'Simulated data for educational purposes.',
   again:'Play another round',toHome:'Back to start',
   truckAria:'Truck {id}, {cargo}',
-  tv:{intro:'Tap “Start checking” on the tablet.',deciding:'Deciding the {entity} light on the tablet…',feedback:'Tap “Next stop” on the tablet.',moving:'The truck moves to the next stop…',crossedManual:'Tap “See how the AI does it” on the tablet.',waiting:'Read step 1 on the tablet and tap “Watch on the screen”.',nextStep:'Read step {n} on the tablet and tap “Watch on the screen”.',merging:'The 5 agencies merge into one single window',toVuce:'The truck reaches the single window…',scanning:'The AI applies the 5 rules at once',verdict:'Each institution confirms the final decision',toBorder:'Light ready: the truck crosses…',crossedAi:'Tap “Compare results” on the tablet.',results:'Tap “Play another round” or “Home” on the tablet.',reading:'Being read on the tablet'},
-  watchTv:'Watch the screen',watchTvIntro:'The truck appears on the big screen. You decide here; over there you see it move.',
-  explain:{deciding:['Stop {i} of 5','{entity} checks with its own rules, separately. The truck waits in this queue.'],feedback:['{entity} light','Each agency sets its own light. {left} stops to go.'],moving:['Another queue','The truck moves to the next agency and waits again.'],crossedManual:['How it used to be','Three queues, three checks, the same truck opened several times.'],waiting:['VUCE 3.0','Foreign Trade Single Window: one door for every agency.'],merging:['Step 1 · One single window','VUCE 3.0 receives the documents of the 5 agencies in one place.'],toVuce:['Step 2 · One single stop','No more 5 queues: the truck stops only once.'],scanning:['Step 3 · Five rules at once','Each agency\'s rules + machine learning (330,000 records) + random selection.'],verdict:['Step 4 · Each institution decides','The AI suggests a light but does not decide alone: all 5 agencies keep the final say and confirm the final decision one by one.'],toBorder:['Step 5 · It crosses','One single light for the 5 agencies. Without opening the truck several times: one decision for all.'],crossedAi:['Result','The same truck crossed with a single stop.']},
-  aiSteps:['One single window','One single stop','Five rules at once','Each institution decides','Crosses the border'],
-  replay:'Replay step {n}',stepOf:'Step {i} of 5',confirmCta:'Each institution decides the final decision',confirms:'{entity} confirms the final decision',confirmWait:'{entity} is deciding…',resOnScreenTitle:'Look at the screen',resOnScreen:'There you will find the comparative results: human review vs VUCE 3.0.',chartTitle:'Human review vs VUCE 3.0',seeTv:'Watch on the screen',watchingTv:'Watch the screen…',stepDone:'Done',nextStop:'Next stop',crossNow:'Cross the border',
-  aiIntro:'You control the AI check: read each step, tap the button and watch what happens on the screen.',
+  tv:{intro:'Tap “Start checking” on the tablet.',deciding:'Deciding the {entity} light on the tablet…',feedback:'Tap “Next stop” on the tablet.',moving:'The truck moves to the next stop…',crossedManual:'Tap “See how the AI does it” on the tablet.',waiting:'Read step 1 on the tablet and tap “Watch on the screen”.',nextStep:'Read step {n} on the tablet and tap “Watch on the screen”.',merging:'The 5 agencies merge into one single window',toVuce:'The truck reaches the single window…',scanning:'The hybrid system checks the 5 agencies at once',verdict:'Each institution confirms the final decision',toBorder:'Light ready: the truck crosses…',crossedAi:'Tap “Compare results” on the tablet.',results:'Tap “Play another round” or “Home” on the tablet.',reading:'Being read on the tablet'},
+  watchTv:'Watch the screen',watchTvIntro:'You decide here; the truck moves over there.',
+  explain:{deciding:['Stop {i} of 5','{entity} checks with its own rules.'],feedback:['{entity} light','Each agency sets its own light.'],moving:['Another queue','The truck moves to the next queue.'],crossedManual:['How it used to be','5 queues, 5 checks, the same truck.'],waiting:['VUCE 3.0','One door for the 5 agencies.'],merging:['Step 1 · One single window','Documents arrive in one place.'],toVuce:['Step 2 · One single stop','The truck stops only once.'],scanning:['Step 3 · Hybrid system','Rules + machine learning + chance, in one check.'],verdict:['Step 4 · Each institution decides','The AI suggests; each agency confirms.'],toBorder:['Step 5 · It crosses','One single light for all 5.'],crossedAi:['Result','It crossed with a single stop.']},
+  aiSteps:['One single window','One single stop','Hybrid system','Each institution decides','Crosses the border'],
+  replay:'Replay step {n}',stepOf:'Step {i} of 5',confirmCta:'Each institution confirms',confirms:'{entity} confirms the final decision',confirmWait:'{entity} is deciding…',resOnScreenTitle:'Look at the screen',resOnScreen:'There you will find the comparative results: human review vs VUCE 3.0.',chartTitle:'Human review vs VUCE 3.0',seeTv:'Watch on the screen',watchingTv:'Watch the screen…',stepDone:'Done',nextStop:'Next stop',crossNow:'Cross the border',
+  aiIntro:'Tap each step and watch the screen.',
   solTitle:'Challenge solution',solBody:'This is what had to be spotted at each agency.',solFinal:'Final light for the truck',solYou:'Your light',
   resChallenge:['The challenge','About 650 trucks cross Peñas Blancas every day. Each one went through 5 agencies: 5 queues, 5 separate checks and the same truck opened several times.'],
   resHow:'How the AI solved it',resInsightsTitle:'What to take away from VUCE 3.0',
-  insights:[['1','One single window','The 5 agencies receive the documents in one place.'],['5','Rules at once','Each agency\'s rules + machine learning with 330,000 records + random selection.'],['1','One single light','Green moves on, yellow reviews paperwork, red one joint inspection. The truck is opened only once.']],
+  insights:[['1','One single window','The 5 agencies receive the documents in one place.'],['3','Mechanisms','Rules + machine learning + random selection.'],['1','One single light','Green moves on, yellow reviews paperwork, red one joint inspection. The truck is opened only once.']],
   seeTvResults:'On the screen: what to take away from VUCE 3.0.',whyLight:'What does the traffic light mean?',realLife:'And in real life?',factsTitle:'VUCE 3.0 facts · tap to learn more',
   facts:[['650','trucks a day at Peñas Blancas','place'],['5','agencies, 1 single joint inspection','real'],['330,000','historical records trained the AI','how'],['360,000','procedures in one year','real'],['3','mechanisms: rules, AI and chance','how']],
   chips:[['📍','Peñas Blancas, Costa Rica'],['🚛','650 trucks a day'],['🏛️','5 agencies']],
   pop:{
    eyebrow:'Project fact · VUCE 3.0',close:'Close',
-   play:{title:'How to play?',lead:'The truck stops at <b>5 agencies</b>. At each stop read its 3 documents and set the <b>traffic light</b>, just like VUCE 3.0 does. Watch the screen: the truck moves with every decision.',
-    foot:'The clock starts when you close this window.',cta:'Start'},
+   play:{title:'How to play?',lead:'The truck goes through 5 agencies. At each stop:',steps:[['Compare','the 3 documents'],['Look for irregularities','do they match? is one missing?'],['Choose the light','based on what you find']],
+    foot:'The clock starts when you tap Start.',cta:'Start'},
    place:{title:'The challenge at Peñas Blancas',
-    lead:'Peñas Blancas is the border between Costa Rica and Nicaragua. About <b>650 transport units</b> with goods cross it every day, and each one had to go through <b>5 agencies</b> checking separately, each with its own rules.',
+    lead:'At the Peñas Blancas border, Costa Rica, five institutions assessed separately which goods to inspect. The VUCE 3.0 Risk Management Module combines rules, machine learning and random selection to classify each transaction with a risk traffic light. Controls are better targeted and joint inspections are coordinated.',
     stats:[['650','trucks a day'],['5','agencies checked separately'],['1','border: Peñas Blancas']],
     tapTitle:'Tap each agency: this is how the same truck was checked, one queue after another.',
-    inst:[['🏛️','Customs'],['👮','Police'],['🏥','Ministry of Health'],['🐄','Animal Health'],['🌱','Plant Health']],
+    inst:[['aduana','Customs'],['policia','Police'],['salud','Ministry of Health'],['animal','Animal Health'],['vegetal','Plant Health']],
     closed:'Closed',opened:'Opened',
     count:'The same truck was opened <b>{n}</b> of 5 times',
     done:'Fixed rules and no shared tool: poorly targeted controls, the same truck opened several times and delays for legitimate trade.',
@@ -255,9 +296,9 @@ const COPY={
     next:'Next: tap “See how the AI does it”. You read each step on the tablet and watch what happens to the truck on the screen.',
     cta:'Got it'},
    how:{title:'How does VUCE 3.0 do it?',
-    lead:'The Risk Management Module of the Foreign Trade Single Window combines <b>three mechanisms</b> into a hybrid system. This is how each one works:',
-    items:[['📏','Rules','Each agency defines which documents and data it requires. If something is missing or does not match, the rule flags it instantly.'],['🧠','Machine learning','A model trained on more than 330,000 historical trade records learns which combinations of product, origin and route tend to bring problems, and flags the ones that look alike.'],['🎲','Random selection','A share of trucks is checked at random even when everything is in order, so nobody can predict when a check will come.']],
-    foot:'The three combine into one single light: green moves on, yellow reviews paperwork, red one joint inspection.',
+    lead:'A <b>hybrid system</b> with three mechanisms:',
+    items:[['rules','Rules','What each agency requires.'],['network','Machine learning','Learns from 330,000 historical trade records.'],['dice','Random selection','Random checks nobody can predict.']],
+    foot:'Result: one single light for the truck.',
     cta:'See the AI in action'},
    light:{title:'The risk traffic light',
     lead:'The AI classifies each transaction with a color. Tap each light.',
@@ -334,7 +375,7 @@ function simMinutes(){
 /* ---------- Componentes ---------- */
 function truckSvg(color,icon){
  const wheel=cx=>`<g class="wheel"><circle cx="${cx}" cy="70" r="12" fill="#141414"/><circle cx="${cx}" cy="70" r="6" fill="#EBEDF7"/><path d="M${cx} 60v20M${cx-10} 70h20" stroke="#141414" stroke-width="2"/><circle cx="${cx}" cy="70" r="2" fill="#141414"/></g>`;
- return `<svg class="truck-svg" viewBox="0 0 200 90" aria-hidden="true"><ellipse cx="100" cy="82" rx="92" ry="5" fill="rgba(20,20,20,.18)"/><rect x="4" y="10" width="120" height="54" rx="8" fill="#fff" stroke="#C0C2CA" stroke-width="2"/><rect x="4" y="42" width="120" height="8" fill="${color||'#005CFF'}"/><circle cx="42" cy="32" r="16" fill="#CFE1FF"/><text x="42" y="38" text-anchor="middle" font-size="18">${icon||'📦'}</text><rect x="126" y="22" width="58" height="42" rx="9" fill="#005CFF"/><rect x="134" y="27" width="30" height="18" rx="4" fill="#CFE1FF"/><rect x="184" y="44" width="8" height="12" rx="2" fill="#FFCB52"/><rect x="4" y="62" width="184" height="7" rx="3" fill="#141414"/><rect x="124" y="58" width="68" height="7" rx="3" fill="#6A6B6F"/>${wheel(36)}${wheel(98)}${wheel(158)}</svg>`;
+ return `<svg class="truck-svg" viewBox="0 0 200 90" aria-hidden="true"><ellipse cx="100" cy="82" rx="92" ry="5" fill="rgba(20,20,20,.18)"/><rect x="4" y="10" width="120" height="54" rx="8" fill="#fff" stroke="#C0C2CA" stroke-width="2"/><rect x="4" y="42" width="120" height="8" fill="${color||'#005CFF'}"/><circle cx="42" cy="32" r="16" fill="#CFE1FF"/><text x="42" y="38" text-anchor="middle" font-size="18"></text><rect x="126" y="22" width="58" height="42" rx="9" fill="#005CFF"/><rect x="134" y="27" width="30" height="18" rx="4" fill="#CFE1FF"/><rect x="184" y="44" width="8" height="12" rx="2" fill="#FFCB52"/><rect x="4" y="62" width="184" height="7" rx="3" fill="#141414"/><rect x="124" y="58" width="68" height="7" rx="3" fill="#6A6B6F"/>${wheel(36)}${wheel(98)}${wheel(158)}</svg>`;
 }
 const lightDot=(c,big)=>`<span class="light ${c?'light--'+c:''} ${big?'light--big':''}"></span>`;
 function stopLight(i){
@@ -343,9 +384,10 @@ function stopLight(i){
  return null;
 }
 /* Aviso en la tableta: la escena del camión se ve en la pantalla. */
-function tvCue(text){return `<div class="tv-cue"><span>📺</span><div><b>${esc(t('watchTv'))}</b><p>${esc(text)}</p></div></div>`;}
+function tvCue(text){return `<div class="tv-cue"><span>${ico('screen')}</span><div><b>${esc(t('watchTv'))}</b><p>${esc(text)}</p></div></div>`;}
 function docCard(c,doc,{reveal=false,scan=false}={}){
- if(c.missing===doc)return `<article class="doc doc--missing ${reveal?'is-flag':''}"><header><span class="doc-icon">📄</span><b>${esc(t('docs')[doc])}</b></header><div class="doc-missing"><span>❔</span><p>${esc(t('missingDoc'))}</p></div></article>`;
+ const pp=PAPER[doc]||{es:'',en:'',icon:'doc',code:'DOC'},P=t('paper');
+ if(c.missing===doc)return `<article class="doc doc--missing ${reveal?'is-flag':''}"><header><span class="doc-icon">${ico('doc')}</span><b>${esc(t('docs')[doc])}</b></header><div class="doc-missing"><span>${ico('doc')}</span><p>${esc(t('missingDoc'))}</p></div></article>`;
  const rows=c.fields.map(f=>{
   const v=f==='producto'?t('cargo')[state.cargo]:docValue(c,doc,f);
   const unit=t('units')[f]?' '+t('units')[f]:'';
@@ -353,17 +395,19 @@ function docCard(c,doc,{reveal=false,scan=false}={}){
   const own=bad&&c.issue.doc===doc;
   return `<div class="row ${bad?'row--bad':''} ${own?'row--own':''}" data-field="${f}"><span>${esc(t('fields')[f])}</span><b>${esc(v)}${f==='producto'?'':esc(unit)}</b></div>`;
  }).join('');
- return `<article class="doc ${scan?'is-scan':''}"><header><span class="doc-icon">📄</span><b>${esc(t('docs')[doc])}</b></header>${rows}</article>`;
+ return `<article class="doc ${scan?'is-scan':''}"><header><span class="doc-icon">${ico('doc')}</span><b>${esc(t('docs')[doc])}</b></header>${rows}</article>`;
 }
 function entityCard(s,i){
  const E=t('entities')[s.key];
- return `<div class="desk-truck desk-entity"><span class="desk-counter">${esc(fill(t('stopOf'),{i:i+1}))}</span><span class="entity-icon">${s.icon}</span><b>${esc(E.name)}</b><small>${esc(E.rule)}</small></div>`;
+ const G=t('guide'),F=t('fields');const fieldsToCheck=s.fields.filter(f=>f!=='producto').map(f=>`<span class="chk">${esc(F[f])}</span>`).join('');
+ return `<div class="desk-truck desk-entity"><span class="desk-counter">${esc(fill(t('stopOf'),{i:i+1}))}</span><span class="entity-icon">${ico(s.icon)}</span><b>${esc(E.name)}</b>
+  <div class="guide"><p class="guide-title">${esc(G.check)}</p><div class="guide-fields">${fieldsToCheck}</div></div></div>`;
 }
 function stopPanel(s,{reveal=false,scan=false}={}){
  return `<div class="desk">${entityCard(s,state.idx)}<div class="docs">${s.docs.map(d=>docCard(s,d,{reveal,scan})).join('')}</div></div>`;
 }
 function box(kind,title,body){
- const icon={what:'👀',decided:'🧭',learned:'💡'}[kind];
+ const icon=ico({what:'eye',decided:'check',learned:'info'}[kind]);
  return `<section class="box box--${kind}"><h3><span>${icon}</span>${esc(title)}</h3><div class="box-body" data-box="${kind}">${body}</div></section>`;
 }
 function clock(label){return `<div class="clock"><span>${esc(label)}</span><b data-clock>${fmt(state.screen==='ai'?state.ai.time:state.manual.time)} s</b></div>`;}
@@ -372,7 +416,7 @@ function header(){
  return `<header class="top">
   <div class="top-brand"><img class="top-idb-group" src="../public/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="top-sep"></span><span><b>${esc(t('brand'))}</b><small>IDB Group Projects Across the Region</small></span></div>
   <ol class="stepper">${steps.map((s,i)=>`<li class="${i<index?'done':i===index?'current':''}"><span>${i+1}</span><em>${esc(s)}</em></li>`).join('')}</ol>
-  <div class="top-tools"><div class="langs" aria-label="Language"><button id="es" type="button" aria-pressed="${state.lang==='es'}">ES</button><button id="en" type="button" aria-pressed="${state.lang==='en'}">EN</button></div><button type="button" class="home-btn" data-act="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg><span>${esc(t('home'))}</span></button></div>
+  <div class="top-tools"><button type="button" class="home-btn back-btn" data-act="back"><span aria-hidden="true">←</span><span>${state.lang==='es'?'Volver':'Back'}</span></button><div class="langs" aria-label="Language"><button id="es" type="button" aria-pressed="${state.lang==='es'}">ES</button><button id="en" type="button" aria-pressed="${state.lang==='en'}">EN</button></div><button type="button" class="home-btn" data-act="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg><span>${esc(t('home'))}</span></button></div>
  </header>`;
 }
 
@@ -382,20 +426,17 @@ function modalHtml(){
  const P=t('pop'),p=P[k];let body='';
  if(k==='play'){
   const L=t('lights');
-  body=`<div class="taps taps--light">${['green','yellow','red'].map(c=>`<div class="tap tap--card tap--${c} is-on"><span class="light light--${c} light--big"></span><b>${esc(L[c].name)} · ${esc(L[c].action)}</b><p>${esc(L[c].when)}.</p></div>`).join('')}</div>
-   <p class="pop-foot">⏱️ ${esc(p.foot)}</p>`;
+  body=`<ol class="play-steps">${p.steps.map(([h,d],k)=>`<li><span class="play-n">${k+1}</span><div><b>${esc(h)}</b><small>${esc(d)}</small></div></li>`).join('')}</ol>
+   <div class="taps taps--light taps--plain">${['green','yellow','red'].map(c=>`<div class="tap tap--card tap--${c} is-on"><span class="light light--${c} light--big"></span><b>${esc(L[c].name)} · ${esc(L[c].action)}</b><p>${esc(L[c].when)}</p></div>`).join('')}</div>
+   <p class="pop-foot">${ico('timer')} ${esc(p.foot)}</p>`;
  }else if(k==='place'){
-  body=`<p class="pop-sub">${esc(p.tapTitle)}</p>
-   <div class="taps taps--inst">${p.inst.map(([i,l])=>`<button type="button" class="tap" data-tap="inst"><span class="tap-icon">${i}</span><b>${esc(l)}</b><em data-closed="${esc(p.closed)}" data-opened="${esc(p.opened)}"></em></button>`).join('')}</div>
-   <p class="pop-count" data-count>${fill(p.count,{n:0})}</p>
-   <p class="pop-note" data-note hidden>${esc(p.done)}</p>
-   <div class="pop-sol"><b>🤖 ${esc(p.solTitle)}</b><p>${p.solText}</p><p class="pop-next">📺 ${esc(p.next)}</p></div>`;
+  body=`<div class="taps taps--inst taps--plain">${p.inst.map(([i,l])=>`<div class="tap" data-tap="inst"><span class="tap-icon">${ico(i)}</span><b>${esc(l)}</b></div>`).join('')}</div>`;
  }else if(k==='how'){
-  body=`<div class="taps taps--how">${p.items.map(([i,a,b])=>`<div class="tap tap--card tap--open"><span class="tap-icon">${i}</span><b>${esc(a)}</b><p>${esc(b)}</p></div>`).join('')}</div>
+  body=`<div class="taps taps--how">${p.items.map(([i,a,b])=>`<div class="tap tap--card tap--open"><span class="tap-icon">${ico(i)}</span><b>${esc(a)}</b><p>${esc(b)}</p></div>`).join('')}</div>
    <p class="pop-foot"><span class="light light--green"></span><span class="light light--yellow"></span><span class="light light--red"></span>${esc(p.foot)}</p>`;
  }else if(k==='light'){
   body=`<div class="taps taps--light">${p.items.map(([c,a,b])=>`<button type="button" class="tap tap--card tap--${c}" data-tap="light"><span class="light light--${c} light--big"></span><b>${esc(a)}</b><p>${esc(b)}</p></button>`).join('')}</div>
-   <p class="pop-foot">🤝 ${esc(p.foot)}</p>`;
+   <p class="pop-foot">${esc(p.foot)}</p>`;
  }else if(k==='real'){
   body=`<div class="before-after">
     <div class="ba ba--before"><h4>${esc(p.before)}</h4><ul>${p.beforeItems.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
@@ -403,7 +444,7 @@ function modalHtml(){
     <div class="ba ba--after"><h4>${esc(p.after)}</h4><ul>${p.afterItems.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
    </div>
    <div class="stats">${p.stats.map(([n,l])=>`<div class="stat-big"><b>${esc(n)}</b><small>${esc(l)}</small></div>`).join('')}</div>
-   <p class="pop-foot">🚀 ${p.next}</p>`;
+   <p class="pop-foot">${p.next}</p>`;
  }
  return `<div class="modal" data-modal role="dialog" aria-modal="true"><div class="modal-card">
   <button type="button" class="modal-x" data-act="close" aria-label="${esc(P.close)}">✕</button>
@@ -427,40 +468,40 @@ function closeModal(){
  if(state.screen==='manual'&&state.resume){state.resume=false;startClock('manual');}
 }
 function flash(color){const el=document.createElement('div');el.className='flash flash--'+color;app.appendChild(el);setTimeout(()=>el.remove(),1100);}
-function infoBtn(k){return `<button type="button" class="info-btn" data-act="pop:${k}" aria-label="${esc(t('pop')[k].title)}">ⓘ</button>`;}
+function infoBtn(k){return `<button type="button" class="info-btn" data-act="pop:${k}" aria-label="${esc(t('pop')[k].title)}">${ico('info')}</button>`;}
 function factsStrip(){return `<div class="facts"><p class="facts-title">${esc(t('factsTitle'))}</p><div class="facts-grid">${t('facts').map(([n,l,k])=>`<button type="button" class="fact" data-act="pop:${k}"><b>${esc(n)}</b><small>${esc(l)}</small></button>`).join('')}</div></div>`;}
 
 /* ---------- Pantallas ---------- */
 function screenIntro(){
  return `<main class="screen screen--intro">
   <section class="intro-hero">
-   <p class="eyebrow">${esc(t('simulated'))}</p>
+   
    <h1>${esc(t('introTitle'))}</h1>
    <p class="intro-big">${esc(t('introBig'))}</p>
    <p class="intro-body">${t('introBody')}</p>
-   <div class="chips">${t('chips').map(([i,l])=>`<button type="button" class="chip" data-act="pop:place"><span>${i}</span>${esc(l)}<em>ⓘ</em></button>`).join('')}</div>
-   <ol class="how">${t('introHow').map(([i,a,b],k)=>`<li><span class="how-num">${k+1}</span><span class="how-icon">${i}</span><span><b>${esc(a)}</b><small>${esc(b)}</small></span></li>`).join('')}</ol>
+   <button type="button" class="link-btn intro-place" data-act="pop:place">${ico('info')} ${esc(t('pop').place.title)}</button>
+   <ol class="how">${t('introHow').map(([i,a,b],k)=>`<li><span class="how-num">${k+1}</span><span class="how-icon">${ico(i)}</span><span><b>${esc(a)}</b><small>${esc(b)}</small></span></li>`).join('')}</ol>
    <button type="button" class="cta" data-act="start">${esc(t('introCta'))} →</button>
   </section>
   <section class="intro-visual" aria-hidden="true">
-   <div class="intro-truck">${truckSvg('#CFE1FF',cargoOf().icon)}<span><b>${esc(truckId())}</b><small>${esc(t('cargo')[state.cargo])}</small></span></div>
+   <div class="intro-truck"><img class="intro-truck-img" src="../public/tv-truck.png" alt=""><span><b>${esc(truckId())}</b><small>${esc(t('cargo')[state.cargo])}</small></span></div>
    ${tvCue(t('watchTvIntro'))}
   </section>
  </main>`;
 }
 function crossedCard(){
  const hits=state.manual.answers.filter(a=>a.ok).length;
- if(state.screen==='ai'){const l=overall();return `<div class="done-card done-card--ai"><span class="done-icon">🏁</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedAi'))}</p><p>${fill(t('crossedAiTime'),{t:fmt(state.ai.time),light:esc(t('lights')[l].name)})}</p><p class="done-sim">${fill(t('crossedAiSim'),{m:fmtMin(SIM.ai)})}</p><div class="step-actions"><button type="button" class="cta" data-act="to-results">${esc(t('aiCta'))} →</button><button type="button" class="cta cta--ghost" data-act="replay">↺ ${esc(fill(t('replay'),{n:5}))}</button></div></div></div>`;}
- return `<div class="done-card"><span class="done-icon">🏁</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedManual'))}</p><p>${fill(t('crossedTime'),{t:fmt(state.manual.time),h:hits})}</p><p class="done-sim">${fill(t('crossedSim'),{m:fmtMin(N*SIM.stop)})}</p><button type="button" class="cta" data-act="to-ai">${esc(t('manualCta'))} →</button></div></div>`;
+ if(state.screen==='ai'){const l=overall();return `<div class="done-card done-card--ai"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedAi'))}</p><p>${fill(t('crossedAiTime'),{t:fmt(state.ai.time),light:esc(t('lights')[l].name)})}</p><p class="done-sim">${fill(t('crossedAiSim'),{m:fmtMin(SIM.ai)})}</p><div class="step-actions"><button type="button" class="cta" data-act="to-results">${esc(t('aiCta'))} →</button><button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:5}))}</button></div></div></div>`;}
+ return `<div class="done-card"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedManual'))}</p><p>${fill(t('crossedTime'),{t:fmt(state.manual.time),h:hits})}</p><p class="done-sim">${fill(t('crossedSim'),{m:fmtMin(N*SIM.stop)})}</p><button type="button" class="cta" data-act="to-ai">${esc(t('manualCta'))} →</button></div></div>`;
 }
 function screenManual(){
  const s=state.stops[state.idx];const done=state.manual.done;
  const E=t('entities');
  return `<main class="screen screen--manual">
   <section class="stage">
-   <div class="stage-head"><div><p class="eyebrow">${esc(t('simulated'))}</p><h1>${esc(t('manualTitle'))} ${infoBtn('play')}</h1><p class="stage-lead">${done?esc(t('manualDone')):fill(t('manualBody'),{i:state.idx+1,entity:esc(E[s.key].name)})}</p></div>${clock(t('yourTime'))}</div>
-   <div data-desk>${done?crossedCard():stopPanel(s)}</div>
-   <div class="actions actions--3" data-actions>${done?'':['green','yellow','red'].map(c=>`<button type="button" class="btn btn--${c}" data-act="${c}"><span class="light light--big light--${c}"></span><span><b>${esc(t('lights')[c].name)}</b><small>${esc(t('lights')[c].action)}</small></span></button>`).join('')}</div>
+   <div class="stage-head"><div><h1>${esc(t('manualTitle'))} ${infoBtn('play')}</h1><p class="stage-lead">${done?esc(t('manualDone')):fill(t('manualBody'),{i:state.idx+1,entity:esc(E[s.key].name)})}</p></div>${clock(t('yourTime'))}</div>
+   <div class="manual-body ${done?'is-done':''}"><div data-desk>${done?crossedCard():stopPanel(s)}</div>${done?'':`<div class="actions actions--col" data-actions>${['green','yellow','red'].map(c=>`<button type="button" class="btn btn--${c}" data-act="${c}"><span class="light light--big light--${c}"></span><span><b>${esc(t('lights')[c].name)} · ${esc(t('lights')[c].action)}</b><small>${esc(t('lights')[c].when)}</small></span></button>`).join('')}</div>`}</div>
+   ${done?'':`<div class="manual-foot" data-feedback><p class="manual-hint">${esc(t('manualHint'))} ${ico('arrow')}</p></div>`}
   </section>
  </main>`;
 }
@@ -473,7 +514,7 @@ function aiPanel(){
  const ex=t('explain')[AI_STEPS[i]];
  const prev=i>0&&!busy?`<p class="step-prev">✓ ${esc(t('stepDone'))}: ${esc(t('aiSteps')[i-1])}</p>`:'';
  const card=`<div class="step-card ${busy?'is-busy':''}"><span class="desk-counter">${esc(fill(t('stepOf'),{i:i+1}))}</span><h2>${esc(t('aiSteps')[i])}</h2><p>${esc(ex[1])}</p>${prev}
-  <div class="step-actions">${busy?`<button type="button" class="cta cta--tv" disabled><span class="tv-anim">📺</span>${esc(t('watchingTv'))}</button>`:`<button type="button" class="cta cta--tv" data-act="ai-step">${i===3?'🏛️ '+esc(t('confirmCta')):'📺 '+esc(t('seeTv'))} →</button>`}${i>0&&!busy?`<button type="button" class="cta cta--ghost" data-act="replay">↺ ${esc(fill(t('replay'),{n:i}))}</button>`:''}</div></div>`;
+  <div class="step-actions">${busy?`<button type="button" class="cta cta--tv" disabled><span class="tv-anim">${ico('screen')}</span>${esc(t('watchingTv'))}</button>`:`<button type="button" class="cta cta--tv" data-act="ai-step">${i===3?ico('aduana')+' '+esc(t('confirmCta')):ico('screen')+' '+esc(t('seeTv'))} →</button>`}${i>0&&!busy?`<button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:i}))}</button>`:''}</div></div>`;
  let vuce='';
  if(i>=2&&(i>2||busy)){
   const rows=state.stops.map((s,k)=>{
@@ -491,7 +532,7 @@ function screenAi(){
  const done=state.ai.step>=5;
  return `<main class="screen screen--ai">
   <section class="stage">
-   <div class="stage-head"><div><p class="eyebrow">${esc(t('simulated'))}</p><h1>${esc(t('aiTitle'))} ${infoBtn('how')}</h1><p class="stage-lead">${t('aiBody')} ${esc(t('aiIntro'))}</p></div>${clock(t('aiTime'))}</div>
+   <div class="stage-head"><div><h1>${esc(t('aiTitle'))} ${infoBtn('how')}</h1><p class="stage-lead">${t('aiBody')} ${esc(t('aiIntro'))}</p></div>${clock(t('aiTime'))}</div>
    <div data-desk>${aiPanel()}</div>
   </section>
  </main>`;
@@ -516,10 +557,10 @@ function screenResults(){
    <div class="stat"><small>${esc(t('time'))}</small><b>${fmt(time)}<em> ${esc(t('seconds'))}</em></b><i class="bar"><i style="width:${Math.max(4,time/maxT*100)}%"></i></i></div>
    <div class="stat"><small>${esc(t('hits'))}</small><b>${hits}<em> / ${N}</em></b></div>${extra||''}</section>`;
  return `<main class="screen screen--results">
-  <div class="res-only"><section class="res-sign res-sign--big"><span>📺</span><div><b>${esc(t('resOnScreenTitle'))}</b><p>${esc(t('resOnScreen'))}</p></div></section></div>
+  <div class="res-only"><section class="res-sign res-sign--big"><span>${ico('screen')}</span><div><b>${esc(t('resOnScreenTitle'))}</b><p>${esc(t('resOnScreen'))}</p></div></section></div>
   <div class="res-bottom res-bottom--simple">
-   <p class="res-tv">📺 ${esc(t('seeTvResults'))} ${esc(t('resOnScreen'))}</p>
-   <div class="res-actions"><button type="button" class="cta cta--info" data-act="pop:real">🌎 ${esc(t('realLife'))}</button><button type="button" class="cta" data-act="again">${esc(t('again'))}</button><button type="button" class="cta cta--ghost" data-act="home">${esc(t('toHome'))}</button><p class="simulated-note">${esc(t('resSimulated'))}</p></div>
+   <p class="res-tv">${esc(t('seeTvResults'))} ${esc(t('resOnScreen'))}</p>
+   <div class="res-actions"><button type="button" class="cta cta--info" data-act="pop:real">${ico('globe')} ${esc(t('realLife'))}</button><button type="button" class="cta" data-act="again">${esc(t('again'))}</button><button type="button" class="cta cta--ghost" data-act="home">${esc(t('toHome'))}</button><p class="simulated-note">${esc(t('resSimulated'))}</p></div>
   </div>
  </main>`;
 }
@@ -548,14 +589,15 @@ function answerManual(choice){
  flash(exp);
  setDesk(stopPanel(s,{reveal:true}));
  const last=state.idx>=state.stops.length-1;
- app.querySelector('[data-actions]').innerHTML=`<div class="feedback ${ok?'feedback--ok':'feedback--bad'}"><span class="light light--big light--${exp}"></span><div><b>${esc(ok?t('fbRight'):t('fbWrong'))}</b><span>${esc(msg)}</span></div><button type="button" class="cta cta--next" data-act="next-stop">${esc(last?t('crossNow'):t('nextStop'))} →</button></div>`;
+ app.querySelectorAll('[data-actions] .btn').forEach(b=>{b.classList.toggle('is-picked',b.dataset.act===choice);b.classList.toggle('is-dim',b.dataset.act!==choice);b.disabled=true;});
+ const fbEl=app.querySelector('[data-feedback]');if(fbEl)fbEl.innerHTML=`<div class="feedback ${ok?'feedback--ok':'feedback--bad'}"><span class="light light--big light--${exp}"></span><div><b>${esc(ok?t('fbRight'):t('fbWrong'))}</b><span>${esc(msg)}</span></div><button type="button" class="cta cta--next" data-act="next-stop">${esc(last?t('crossNow'):t('nextStop'))} →</button></div>`;
  setBox('decided',`<b>${esc(ok?t('fbRight'):t('fbWrong'))}</b> ${esc(msg)}`);
  bind();emit();
 }
 function nextStop(){
  if(!state.manual.feedback||state.moving)return;
  state.manual.feedback=null;state.moving=true;state.pos=state.idx+2;
- const a=app.querySelector('[data-actions]');if(a)a.innerHTML=`<div class="feedback feedback--move"><span class="move-icon">📺</span><b>${esc(t('moving'))}</b><span>${esc(t('explain').moving[1])}</span></div>`;
+ const a=app.querySelector('[data-feedback]');if(a)a.innerHTML=`<div class="feedback feedback--move"><span class="move-icon">${ico('screen')}</span><b>${esc(t('moving'))}</b><span>${esc(t('explain').moving[1])}</span></div>`;
  emit();
  after(()=>{
   state.moving=false;state.idx+=1;
@@ -683,6 +725,7 @@ function bind(){
   else if(act==='to-ai'&&state.manual.done)go('ai');
   else if(act==='to-results'&&state.ai.step>=5)go('results');
   else if(act==='again'){state.round+=1;newRound();go('intro');}
+  else if(act==='back'){if(window.parent!==window){try{window.parent.postMessage({type:'cr-back'},'*');}catch{}}else{stop();state.round+=1;newRound();go('intro');}}
   else if(act==='home'){/* module.js intercepta este botón en la tableta */state.round+=1;newRound();go('intro');}
  });
  // Popups: cerrar al tocar el fondo y tarjetas interactivas

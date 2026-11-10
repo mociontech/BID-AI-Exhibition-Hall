@@ -665,3 +665,161 @@ h1,h2,h3{text-align:left}
 .langs button[aria-pressed="true"]{background:#fff;color:var(--bid)}
 .home-btn{display:inline-flex;align-items:center;gap:8px;min-height:clamp(40px,2.8vw,50px);padding:0 clamp(12px,1vw,18px);border:1px solid #ffffff88;background:#ffffff22;color:#fff;font-weight:800}
 .home-btn svg{width:clamp(18px,1.2vw,22px);height:auto}
+
+/* ---------- documentos como «papel» (misma lógica: campos, faltante, resaltado) ---------- */
+.doc--paper{background:#FFFDF8;border:1px solid #DDD6C6;border-radius:8px;box-shadow:0 10px 24px rgba(20,20,20,.12),0 1px 0 #fff inset;background-image:repeating-linear-gradient(180deg,transparent 0 31px,rgba(20,20,20,.035) 31px 32px);font-family:Inter,Arial,sans-serif}
+.doc--paper>header{display:none}
+.doc--paper .paper-head{display:flex;align-items:center;gap:10px;padding:12px 14px 10px;border-bottom:3px double #B9B1A0;background:linear-gradient(#FFFFFF,#FBF8F0)}
+.paper-seal{flex:none;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;border:2px solid var(--bid);background:#fff;font-size:18px}
+.paper-issuer{flex:1;min-width:0;line-height:1.1}
+.paper-issuer small{display:block;font-size:clamp(9px,.8vw,11px);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6A6B6F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.paper-issuer b{display:block;font-size:clamp(12px,1.1vw,15px);font-weight:900;color:#141414;line-height:1.15}
+.paper-no{flex:none;text-align:right;line-height:1.1}
+.paper-no small{display:block;font-size:9px;font-weight:700;letter-spacing:.08em;color:#6A6B6F}
+.paper-no b{display:block;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:clamp(11px,.95vw,13px);font-weight:700;color:#141414}
+.paper-meta{display:flex;justify-content:space-between;gap:8px;padding:6px 14px;font-size:clamp(10px,.9vw,12px);color:#6A6B6F;border-bottom:1px solid #E6E0D2;white-space:nowrap}
+.paper-meta b{color:#141414;font-weight:700}
+.paper-rows{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;padding:4px 14px}
+.doc--paper .row{flex:0 0 auto;padding:clamp(6px,1.3vh,12px) 2px;border-bottom:1px dashed #CFC8B8;font-size:clamp(13px,1.2vw,17px);gap:10px}
+.doc--paper .row span{font-size:clamp(10px,.9vw,12px);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6A6B6F;flex:none}
+.doc--paper .row b{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:clamp(13px,1.2vw,17px);padding:2px 8px;border-radius:4px;background:#fff;border:1px solid #E6E0D2}
+.doc--paper .row--bad b{border-color:var(--yellow);background:var(--yellow-soft)}
+.doc--paper .row--own b{border-color:var(--red);background:var(--red-soft);color:#B42424}
+.paper-foot{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding:10px 14px 12px;border-top:1px solid #E6E0D2}
+.paper-barcode{display:block;width:34%;height:26px;background:repeating-linear-gradient(90deg,#141414 0 2px,transparent 2px 3px,#141414 3px 4px,transparent 4px 7px,#141414 7px 10px,transparent 10px 12px);opacity:.85}
+.paper-sign{flex:1;text-align:center;font-size:clamp(9px,.8vw,11px);color:#6A6B6F;padding-top:4px;border-top:1px solid #141414;margin:0 6px}
+.paper-stamp{flex:none;width:52px;height:52px;display:grid;place-items:center;border:2px solid rgba(214,48,48,.75);border-radius:50%;color:rgba(214,48,48,.85);font-style:normal;font-size:8px;font-weight:900;letter-spacing:.12em;transform:rotate(-14deg);box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 3px rgba(214,48,48,.45);background:rgba(214,48,48,.05)}
+.doc--paper.is-scan{border-color:var(--blue2)}
+.doc--paper.is-scan::after{top:0;height:60px}
+.doc--missing{border-radius:8px}
+.doc--missing header{display:none}
+.doc--missing .doc-missing small{font-size:clamp(10px,.9vw,12px);font-weight:600;color:var(--black1);text-transform:uppercase;letter-spacing:.06em}
+.doc--missing .doc-missing p{margin:0;font-size:clamp(14px,1.3vw,18px)}
+.paper-issuer small{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.15}
+.paper-section{display:block;font-size:clamp(9px,.8vw,11px);font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--bid);padding:4px 2px 0}
+
+/* ---------- iconos de línea fina (reemplazan emojis) ---------- */
+.ico{width:1.15em;height:1.15em;display:inline-block;vertical-align:-.22em;flex:none}
+.entity-icon .ico{width:48px;height:48px;color:var(--bid)}
+.how-icon .ico{width:26px;height:26px;color:var(--bid)}
+.how-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#fff;border:1.5px solid var(--blue4)}
+.tap-icon .ico{width:26px;height:26px;color:var(--bid)}
+.paper-seal .ico{width:20px;height:20px;color:var(--bid)}
+.done-icon .ico{width:64px;height:64px;color:var(--bid)}
+.doc-missing>span .ico{width:44px;height:44px;color:var(--black2)}
+.res-sign--big>span .ico{width:96px;height:96px;color:#fff;stroke-width:1.2}
+.tv-cue>span .ico{width:30px;height:30px;color:#fff}
+.info-btn .ico{width:22px;height:22px}
+.move-icon .ico{width:28px;height:28px}
+.cta .ico{width:1.2em;height:1.2em;margin-right:2px}
+.intro-truck-img{width:clamp(200px,24vw,340px);height:auto;display:block;animation:driveIn .9s cubic-bezier(.2,.9,.3,1) both}
+.intro-truck{gap:18px;padding:clamp(14px,2vh,22px) clamp(16px,2vw,24px)}
+.intro-body{font-size:clamp(16px,1.5vw,21px);line-height:1.4}
+.how li{padding:clamp(10px,1.6vh,16px) 16px}
+.how li b{font-size:clamp(16px,1.5vw,21px)}
+.how li small{font-size:clamp(13px,1.2vw,16px)}
+.intro-place{display:inline-flex;align-items:center;gap:6px;margin:4px 0 14px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--blue4);background:#fff;color:var(--bid);font-weight:700;font-size:clamp(13px,1.2vw,16px)}
+/* chips Cerrado/Abierto sin emoji */
+.taps--inst .tap em::before{content:attr(data-closed)}
+.taps--inst .tap.is-on em::before{content:attr(data-opened)}
+.taps--inst .tap.is-on em{background:var(--bid);color:#fff}
+
+/* popups simplificados · documentos como antes · botón Volver */
+.taps--plain .tap{cursor:default}
+.taps--inst.taps--plain .tap{align-items:center;text-align:center;gap:8px;padding:14px 8px}
+.taps--inst.taps--plain .tap b{font-size:clamp(12px,1.1vw,15px);line-height:1.15}
+.taps--inst.taps--plain .tap em{display:none}
+.taps--light.taps--plain .tap p{font-size:clamp(14px,1.3vw,18px);font-weight:600;color:var(--black)}
+.taps--light.taps--plain .tap b{font-size:clamp(16px,1.5vw,20px)}
+.doc--missing header{display:flex}
+.back-btn{margin-right:2px}
+.back-btn span:first-child{font-size:1.1em;line-height:1}
+/* barra del juego: cabe con Volver */
+.top{grid-template-columns:auto minmax(0,1fr) auto;gap:clamp(10px,1.2vw,20px);padding:0 clamp(12px,1.6vw,24px)}
+.top-idb-group{height:clamp(24px,3.4vh,34px)}
+.top-brand{gap:10px}.top-brand b{font-size:clamp(13px,1.15vw,17px)}.top-brand small{font-size:clamp(10px,.9vw,13px)}
+.stepper{min-width:0;gap:clamp(4px,.6vw,10px);overflow:hidden}
+.stepper li{flex:0 1 auto;min-width:0;padding:4px 10px 4px 4px;font-size:clamp(10px,.85vw,13px);gap:6px}
+.stepper li em{white-space:normal;line-height:1.05;max-width:9.5vw}
+.stepper li span{width:24px;height:24px;font-size:12px}
+.top-tools{gap:clamp(6px,.8vw,14px)}
+.langs button{min-width:clamp(36px,2.6vw,48px);min-height:clamp(30px,2.1vw,38px)}
+.home-btn{min-height:clamp(36px,2.5vw,44px);padding:0 clamp(10px,.9vw,14px)}
+
+/* guía de la parada dentro de la tarjeta de la institución */
+.desk-entity{justify-content:flex-start;gap:4px}
+.desk-entity small{margin-bottom:8px}
+.guide{width:100%;margin-top:auto;display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:1px solid var(--black4)}
+.guide-title{margin:0;font-size:clamp(10px,.9vw,12px);font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--bid)}
+.guide-fields{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.chk{padding:4px 10px;border-radius:999px;background:var(--blue4);color:var(--bid);font-weight:700;font-size:clamp(11px,1vw,14px)}
+.guide-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.guide-steps li{display:flex;align-items:center;gap:10px}
+.guide-steps li .light{width:16px;height:16px;flex:none}
+.guide-steps li b{display:block;font-size:clamp(12px,1.1vw,15px);font-weight:700;line-height:1.1}
+.guide-steps li small{display:block;font-size:clamp(10px,.95vw,13px);color:var(--black1)}
+.actions--3 .btn b{font-size:clamp(15px,1.4vw,19px)}
+.actions--3 .btn small{display:block;font-size:clamp(12px,1.1vw,15px);opacity:.9}
+
+/* revisión: menos texto, más grande */
+.desk-entity{justify-content:center;gap:10px}
+.desk-entity .desk-counter{font-size:clamp(12px,1.1vw,15px)}
+.desk-entity b{font-size:clamp(22px,2.2vw,32px);line-height:1.1}
+.entity-icon .ico{width:60px;height:60px}
+.guide{margin-top:14px;padding-top:14px;gap:10px}
+.guide-title{font-size:clamp(12px,1.05vw,14px)}
+.chk{padding:8px 14px;font-size:clamp(14px,1.3vw,18px)}
+.stage-lead{font-size:clamp(16px,1.5vw,21px)}
+/* parada: el título es la instrucción */
+.screen--manual .stage-head h1{font-size:clamp(34px,3.4vw,48px);letter-spacing:-.02em}
+.screen--manual .stage-head .stage-lead{font-size:clamp(18px,1.8vw,24px);margin-top:4px}
+.doc header{font-size:clamp(15px,1.3vw,18px)}
+.docs .row{font-size:clamp(17px,1.6vw,22px)}
+/* popup ¿Cómo se juega?: 3 pasos + luces */
+.play-steps{list-style:none;margin:0 0 14px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.play-steps li{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:var(--black4)}
+.play-n{flex:none;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--bid);color:#fff;font-weight:900;font-size:16px}
+.play-steps li b{display:block;font-size:clamp(15px,1.4vw,19px);font-weight:800;line-height:1.1}
+.play-steps li small{display:block;font-size:clamp(12px,1.1vw,15px);color:var(--black1)}
+.taps--light.taps--plain .tap b{font-size:clamp(14px,1.3vw,17px)}.taps--light.taps--plain .tap p{font-size:clamp(13px,1.15vw,16px);font-weight:500;color:var(--black1)}
+.pop-foot .ico{color:var(--bid)}
+
+/* revisión manual: institución → documentos → semáforo (columna derecha); avisos abajo */
+.manual-body{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) clamp(200px,19vw,250px);gap:clamp(10px,1.2vw,16px)}
+.manual-body.is-done{grid-template-columns:1fr}
+.manual-body [data-desk]{min-height:0;display:flex}
+.manual-body .desk{flex:1}
+.actions--col{display:flex;flex-direction:column;gap:10px;min-height:0;grid-template-columns:none}
+.actions--col .btn{flex:1;min-height:0;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;padding:14px 18px;text-align:left;border-radius:18px;transition:opacity .25s,outline-color .25s}
+.actions--col .btn .light--big{width:30px;height:30px}
+.actions--col .btn>span:last-child{display:block}
+.actions--col .btn b{display:block;font-size:clamp(15px,1.4vw,19px);line-height:1.15}
+.actions--col .btn small{display:block;font-size:clamp(12px,1.1vw,15px);margin-top:2px}
+.btn.is-dim{opacity:.3}
+.btn.is-picked{outline:4px solid var(--black);outline-offset:2px}
+.manual-foot{min-height:clamp(62px,8.5vh,80px);display:flex;align-items:stretch}
+.manual-foot .feedback{flex:1;grid-column:auto;animation:fadeUp .3s}
+.manual-hint{flex:1;display:flex;align-items:center;justify-content:flex-end;gap:10px;margin:0;padding:0 20px;border-radius:var(--radius-lg);border:2px dashed var(--black3);color:var(--black1);font-size:clamp(15px,1.4vw,19px);font-weight:700}
+.manual-hint .ico{width:1.3em;height:1.3em}
+/* panel VUCE de la IA: llena la altura */
+.ai-grid.has-vuce{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)}
+.ai-grid .vuce{align-self:stretch;height:100%;min-height:0}
+.ai-grid .vrows{flex:1;min-height:0;display:grid;grid-auto-rows:1fr;gap:8px}
+.ai-grid .vrow{padding:10px 16px;align-items:center}
+.ai-grid .vrow b{font-size:clamp(15px,1.4vw,19px)}
+.ai-grid .vrow small{font-size:clamp(12px,1.15vw,15px);line-height:1.3}
+.ai-grid .vrow .light--big{width:30px;height:30px}
+.ai-grid .vtick{width:32px;height:32px;font-size:18px}
+/* anchos de la revisión manual */
+.manual-body{grid-template-columns:minmax(0,1fr) clamp(190px,17vw,230px)}
+.manual-body .desk{grid-template-columns:clamp(160px,14vw,190px) minmax(0,1fr)}
+.docs .row{font-size:clamp(15px,1.3vw,18px);padding:clamp(10px,2vh,20px) 14px;gap:10px}
+.docs .row b{white-space:nowrap}
+.docs .row span{flex:none}
+.doc header{font-size:clamp(13px,1.15vw,16px);padding:10px 14px}
+.desk-entity b{font-size:clamp(20px,1.9vw,28px)}
+.chk{padding:6px 12px;font-size:clamp(13px,1.2vw,16px)}
+.actions--col .btn{padding:12px 14px}.actions--col .btn b{font-size:clamp(14px,1.3vw,18px)}
+.docs .row{font-size:clamp(14px,1.2vw,17px)}
+.docs .row b{white-space:normal;line-height:1.15}
+.docs .row span{font-size:.92em}

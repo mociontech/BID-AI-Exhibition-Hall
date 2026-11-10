@@ -622,3 +622,88 @@
 .crb-display-cta--pill b{white-space:nowrap}
 .crb-display-cta.crb-display-cta--pill{bottom:1.2%;padding:1vh 2.2vw 1vh 1vw}
 .crb-back span:first-child{font-size:1.1em;line-height:1}
+
+/* ---------- barra de la TV igual a la de la tableta ---------- */
+.crtv-top{margin:-2.2vh -2.4vw 0;padding:0 2.4vw;min-height:9.5vh;background:var(--bid);color:#fff;gap:2vw}
+.crtv-brand img{height:4.4vh;width:auto}
+.crtv-sep{background:#fff;opacity:.9;height:4.4vh}
+.crtv-brand b{color:#fff;font-size:2vh;font-weight:800}
+.crtv-brand small{color:#fff;font-size:1.5vh}
+.crtv-steps li{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.55);color:#fff;font-weight:700}
+.crtv-steps li em{font-style:normal}
+.crtv-steps li span{background:#fff;color:var(--bid)}
+.crtv-steps li.current{background:#fff;border-color:#fff;color:var(--bid)}
+.crtv-steps li.current span{background:var(--bid);color:#fff}
+.crtv-steps li.done{border-color:#fff;color:#fff}
+.crtv-steps li.done span{font-size:0;background:#fff;color:var(--bid)}
+.crtv-steps li.done span::after{content:"✓";font-size:1.9vh;font-weight:900}
+.crtv-simulated{color:#fff;opacity:.9}
+/* iconos de línea en la escena */
+.ico{width:1.15em;height:1.15em;display:inline-block;vertical-align:-.22em;flex:none}
+.crtv-booth-icon .ico{width:3.2vh;height:3.2vh;color:var(--bid)}
+.crtv-vuce-rules em .ico{width:2vh;height:2vh;color:currentColor}
+.crtv-confirm em span .ico{width:3vh;height:3vh;color:var(--bid)}
+
+/* barra TV: mismas proporciones que la tableta */
+.crtv-top{min-height:8.6vh;gap:2.2vw}
+.crtv-brand img{height:3.9vh}
+.crtv-brand b{font-size:1.9vh}.crtv-brand small{font-size:1.45vh}
+.crtv-steps{gap:1vw}
+.crtv-steps li{padding:.6vh 1.4vw .6vh .6vw;font-size:1.9vh;font-weight:800;border-width:1px}
+.crtv-steps li span{width:3.4vh;height:3.4vh;font-size:1.7vh}
+.crtv-simulated{letter-spacing:.04em}
+.crtv-pill{display:inline-flex;align-items:center;min-height:4.6vh;padding:0 1.6vw;border:1px solid rgba(255,255,255,.55);border-radius:999px;background:rgba(255,255,255,.14);font-size:1.5vh;font-weight:800;color:#fff}
+/* portada ES (arte anterior con controles dibujados): la barra va sobre una cápsula azul que los tapa */
+.crb-art--legacy .crb-nav{top:1.6%;right:1.6%;height:auto;width:31%;min-height:9%;justify-content:flex-end;padding:0 16px;border-radius:999px;background:var(--cr-blue);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+
+/* barra TV: controles visuales iguales a la tableta */
+.crtv-tools{display:flex;align-items:center;gap:1vw;justify-self:end}
+.crtv-pill{gap:.5vw;min-height:4.4vh;padding:0 1.4vw;font-size:1.7vh;font-weight:800}
+.crtv-pill i{font-style:normal;font-size:1.1em}
+.crtv-pill svg{width:2.2vh;height:2.2vh}
+.crtv-langs{display:flex;gap:3px;padding:4px;border:1px solid rgba(255,255,255,.55);border-radius:999px;background:rgba(255,255,255,.14)}
+.crtv-langs i{display:grid;place-items:center;min-width:4.6vw;min-height:3.6vh;border-radius:999px;color:#fff;font-style:normal;font-size:1.7vh;font-weight:800}
+.crtv-langs i.on{background:#fff;color:var(--bid)}
+.crtv-top{grid-template-columns:auto minmax(0,1fr) auto}
+.crtv-steps li{padding:.5vh 1.3vw .5vh .5vw;font-size:1.75vh}
+.crtv-steps li em{max-width:11vw;line-height:1.05}
+/* barra TV: proporciones finales */
+.crtv-steps{gap:.7vw}
+.crtv-steps li{padding:.5vh 1.1vw .5vh .5vw;font-size:1.65vh;gap:.5vw}
+.crtv-steps li em{max-width:13vw}
+.crtv-steps li span{width:3vh;height:3vh;font-size:1.5vh}
+.crtv-tools{gap:.8vw}
+.crtv-pill{min-height:4vh;padding:0 1.1vw;font-size:1.6vh}
+.crtv-langs i{min-width:3.2vw;min-height:3.2vh;font-size:1.6vh}
+.crtv-brand img{height:3.6vh}.crtv-brand b{font-size:1.8vh}.crtv-brand small{font-size:1.35vh}
+
+/* tablero TV: tarjeta del camión sin foto repetida */
+.crtv-current--plain{justify-content:center;gap:1vh}
+.crtv-current--plain b{font-size:5.6vh;font-weight:900;letter-spacing:-.02em}
+.crtv-current--plain small{font-size:2.6vh;color:var(--black1)}
+.crtv-current--plain em{margin-top:1.4vh;font-style:normal;font-size:2.4vh;font-weight:800;color:var(--bid)}
+/* ---------- TV: carretera más alta, tablero compacto ---------- */
+.crtv-top{margin:-2vh -2.2vw 0}
+.crtv-scene--v4 .crtv-road2,.crtv--intro .crtv-scene--v4 .crtv-road2{height:66vh}
+.crtv-photo{top:auto;bottom:-5.2vh}
+.crtv-scene--v4 .crtv-booth{top:auto;bottom:28.5vh}
+.crtv-scene--v4 .crtv-booth--vuce{top:auto;bottom:24.7vh}
+.crtv-bsign{top:auto;bottom:26.2vh}
+.crtv-board{min-height:14vh;grid-template-columns:18vw 1fr 20vw;gap:1.4vw}
+.crtv-board .crtv-current{padding:1.2vh 1.6vw}
+.crtv-current--plain{gap:.2vh}.crtv-current--plain b{font-size:3.4vh}.crtv-current--plain small{font-size:1.8vh}.crtv-current--plain em{font-size:1.7vh;margin-top:.6vh}
+.crtv-board .crtv-middle{padding:1.2vh 1.6vw;justify-content:center}
+.crtv-board .crtv-status{padding:1.2vh 1.6vw;gap:1vw;flex:none}
+.crtv-board .crtv-status h2{font-size:2.4vh}.crtv-board .crtv-status p{font-size:1.8vh;margin-top:.4vh}
+.crtv-board .crtv-status .crtv-light--big{width:5vh;height:5vh}
+.crtv-remind{margin-top:.8vh;padding:.8vh 1.4vw;font-size:1.8vh}
+.crtv-segs{margin-top:1vh}.crtv-segs i{height:1.6vh}
+.crtv-confirm{margin-top:.8vh;gap:.5vw}.crtv-confirm em{padding:.6vh .4vw;font-size:1.4vh;gap:.3vh}.crtv-confirm em span{font-size:2.2vh}.crtv-confirm em i{width:2.4vh;height:2.4vh;font-size:1.5vh}
+.crtv-clocks--one .crtv-clock{padding:1vh 1.4vw;gap:.4vh}.crtv-clocks--one .crtv-clock span{font-size:1.5vh}.crtv-clocks--one .crtv-clock b{font-size:5vh}
+/* foto hasta el borde superior; anclajes +2vh */
+.crtv-photo{bottom:-3.2vh}
+.crtv-scene--v4 .crtv-booth{bottom:30.5vh}
+.crtv-scene--v4 .crtv-booth--vuce{bottom:26.7vh}
+.crtv-bsign{bottom:28.2vh}
+.crtv-scene--v4 .crtv-gate{bottom:9vh}
+.crtv-scene--v4 .crtv-rig{bottom:2.6vh}

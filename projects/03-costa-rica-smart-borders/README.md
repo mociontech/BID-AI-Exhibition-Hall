@@ -17,6 +17,14 @@ Módulo individual del AI Exhibition Hall (tableta = mando, TV = visual sincroni
 - Ficha de Información en la TV en inglés: `public/info-en-1920x1080.png`. El aviso «The mini-game is now available» se muestra sobre el panel azul izquierdo para no tapar las cifras.
 - Las versiones en español conservan las artes anteriores hasta recibir las nuevas (`COSTA_RICA_ART.es` en `shared/display.js` y `art.es` en `module.js`).
 
+## Ajustes de simplificación (9 nov 2026)
+
+- Barras de tableta y TV idénticas (franja azul, logo blanco, 4 fases, Volver · ES/EN · Inicio; en la TV son solo visuales). Botón «Volver» del juego: la tableta vuelve a la portada del proyecto (mensaje cr-back a module.js).
+- Sin emojis: set de iconos de línea fina (ICONS en game.js y tv.js). Sin rótulo «Ejemplo simulado».
+- Revisión manual: título «Busca irregularidades», lectura institución → documentos → semáforo en columna derecha; la franja inferior muestra aviso, respuesta y «el camión avanza».
+- Paso 3 de la IA = «Sistema híbrido» (reglas + aprendizaje automático + azar). Popups «¿Cómo se juega?», «El reto en Peñas Blancas» y «¿Cómo lo hace VUCE 3.0?» reducidos a lo esencial.
+- TV: carretera a 66 vh con la foto completa (anclada abajo), tablero compacto sin repetir el camión.
+
 ## Dinámica del minijuego (`game/`): un camión, una frontera
 
 1. **Llega un camión** — un solo camión (`CR-104` alimentos envasados, `CR-117` frutas o `CR-126` lácteos,

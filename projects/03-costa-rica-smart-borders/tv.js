@@ -9,6 +9,31 @@
 (function(){
  'use strict';
  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ /* Iconos de línea fina (24×24, trazo 1.6). Sustituyen a los emojis en tableta y TV. */
+ const ICONS={
+  aduana:'<path d="M3 21h18M5 21V10m4.7 11V10m4.6 11V10M19 21V10M3 10l9-6 9 6H3z"/>',
+  policia:'<path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/><path d="M9.5 12l2 2 3.5-4"/>',
+  salud:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+  animal:'<circle cx="12" cy="14.5" r="3.5"/><circle cx="7" cy="9.5" r="1.6"/><circle cx="17" cy="9.5" r="1.6"/><circle cx="9.5" cy="5.5" r="1.6"/><circle cx="14.5" cy="5.5" r="1.6"/>',
+  vegetal:'<path d="M5 19C5 10 11 5 20 5c0 9-5 15-14 15z"/><path d="M5 19c3-5 7-8 11-10"/>',
+  doc:'<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M9.5 13h5M9.5 17h5"/>',
+  screen:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  flag:'<path d="M5 21V4"/><path d="M5 5h12l-2.5 3.5L17 12H5"/>',
+  replay:'<path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v5h5"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',
+  eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+  cpu:'<rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
+  timer:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/>',
+  rules:'<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
+  network:'<circle cx="5" cy="12" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 11l10-4M7 13l10 4"/>',
+  dice:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 8.5h.01M15.5 8.5h.01M12 12h.01M8.5 15.5h.01M15.5 15.5h.01"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  box:'<path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/>',
+  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
+ };
+ function ico(name,cls){return `<svg class="ico ico--${name} ${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.doc}</svg>`;}
+ 
  const fmt=ms=>{const s=Math.floor(ms/1000),d=Math.floor((ms%1000)/100);return `${s}.${d}`;};
  const GATE=89.5,VUCE_X=46; // GATE: caseta fronteriza · VUCE_X: columna central (% del ancho de la foto)
  const ASSETS='projects/03-costa-rica-smart-borders/public/';
@@ -52,9 +77,9 @@
  const light=(c,big)=>`<span class="crtv-light ${c?'crtv-light--'+esc(c)+' is-lit':''} ${big?'crtv-light--big':''}"></span>`;
  const pct=g=>{const P=posOf(g);return P[Math.max(0,Math.min(P.length-1,Number(g.pos)||0))];};
  function header(g){
-  return `<header class="crtv-top"><div class="crtv-brand"><img src="assets/brand/idb-group.jpg" alt="IDB Group"><span class="crtv-sep"></span><span><b>AI in Action</b><small>Costa Rica Smart Borders · VUCE 3.0</small></span></div>
+  return `<header class="crtv-top"><div class="crtv-brand"><img src="projects/03-costa-rica-smart-borders/public/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="crtv-sep"></span><span><b>AI in Action</b><small>IDB Group Projects Across the Region</small></span></div>
    <ol class="crtv-steps">${(g.steps||[]).map((s,i)=>`<li class="${i<g.step?'done':i===g.step?'current':''}"><span>${i+1}</span><em>${esc(s)}</em></li>`).join('')}</ol>
-   <p class="crtv-simulated">${esc(g.simulated)}</p></header>`;
+   <div class="crtv-tools" aria-hidden="true"><span class="crtv-pill crtv-pill--back"><i>←</i>${g.lang==='es'?'Volver':'Back'}</span><span class="crtv-langs"><i class="${g.lang==='es'?'on':''}">ES</i><i class="${g.lang==='es'?'':'on'}">EN</i></span><span class="crtv-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg>${g.lang==='es'?'Inicio':'Home'}</span></div></header>`;
  }
  /* Escena: carretera con 3 paradas (o 1 ventanilla única), frontera y el camión. */
  function scene(g,merged){
@@ -62,10 +87,10 @@
   const atStop=i=>g.mode==='manual'&&g.screen==='manual'&&g.phase!=='crossed'&&!g.moving&&i===g.idx;
   const checking=i=>atStop(i)&&g.phase==='deciding';
   const n=stops.length;
-  const booths=stops.map((s,i)=>`<div class="crtv-booth crtv-booth--${i} ${atStop(i)?'is-current':''} ${checking(i)?'is-checking':''} ${s.light?'is-done':''}" style="left:${stopX(n,i)}%"><svg class="crtv-roof" viewBox="0 0 100 22" aria-hidden="true"><path d="M2 22 L50 2 L98 22 Z" fill="#005CFF"/><rect x="0" y="18" width="100" height="4" rx="2" fill="#005CFF"/></svg><span class="crtv-booth-win"><span class="crtv-booth-icon">${s.icon}</span></span><b>${esc(s.name)}</b><div class="crtv-booth-light">${light(s.light,true)}</div><i class="crtv-beam"></i></div>`).join('');
+  const booths=stops.map((s,i)=>`<div class="crtv-booth crtv-booth--${i} ${atStop(i)?'is-current':''} ${checking(i)?'is-checking':''} ${s.light?'is-done':''}" style="left:${stopX(n,i)}%"><svg class="crtv-roof" viewBox="0 0 100 22" aria-hidden="true"><path d="M2 22 L50 2 L98 22 Z" fill="#005CFF"/><rect x="0" y="18" width="100" height="4" rx="2" fill="#005CFF"/></svg><span class="crtv-booth-win"><span class="crtv-booth-icon">${ico(s.icon)}</span></span><b>${esc(s.name)}</b><div class="crtv-booth-light">${light(s.light,true)}</div><i class="crtv-beam"></i></div>`).join('');
   const vuceScan=g.mode==='ai'&&g.busy&&(g.phase==='scanning'||g.phase==='verdict');
   const showLight=Number(g.pos)>=stops.length+1; /* semáforo verde solo cuando el camión ya cruzó */const conf=Number(g.confirmed)||0;
-  const vuce=`<div class="crtv-booth crtv-booth--vuce ${vuceScan?'is-checking':''} ${showLight?'is-done':''}" style="left:${VUCE_X}%"><b>${esc(L.vuce)}</b><div class="crtv-vuce-rules">${stops.map((s,i)=>`<em class="${g.phase==='scanning'&&i===g.scanIdx?'is-reading':''} ${s.light?'is-done':''} ${i<conf?'is-confirmed':''}">${s.icon} ${esc(s.short)}${i<conf?'<i class="crtv-tick">✓</i>':light(s.light)}</em>`).join('')}</div>${showLight?`<div class="crtv-booth-light">${light('green',true)}</div>`:''}<i class="crtv-beam"></i></div>`;
+  const vuce=`<div class="crtv-booth crtv-booth--vuce ${vuceScan?'is-checking':''} ${showLight?'is-done':''}" style="left:${VUCE_X}%"><b>${esc(L.vuce)}</b><div class="crtv-vuce-rules">${stops.map((s,i)=>`<em class="${g.phase==='scanning'&&i===g.scanIdx?'is-reading':''} ${s.light?'is-done':''} ${i<conf?'is-confirmed':''}">${ico(s.icon)} ${esc(s.short)}${i<conf?'<i class="crtv-tick">✓</i>':light(s.light)}</em>`).join('')}</div>${showLight?`<div class="crtv-booth-light">${light('green',true)}</div>`:''}<i class="crtv-beam"></i></div>`;
   const left=lastPct===null?pct(g):lastPct;
   const crossed=Number(g.pos)>=stops.length+1;
   return `<section class="crtv-scene crtv-scene--${esc(g.mode)} crtv-scene--v4 ${merged?'is-merged':''} ${crossed?'is-crossed':''}" data-crtv-scene><div class="crtv-road2"><img class="crtv-photo" src="${ASSETS}tv-border.jpg" alt="">
@@ -79,7 +104,7 @@
  function status(g){
   const p=g.phase;
   if(p==='feedback'&&g.feedback)return `<div class="crtv-status crtv-status--${g.feedback.ok?'ok':'bad'}">${light(g.feedback.light,true)}<div><h2>${esc(g.feedback.title)}</h2><p>${esc(g.feedback.msg)}</p></div></div>`;
-  if(p==='verdict'){const conf=Number(g.confirmed)||0;return `<div class="crtv-status crtv-status--confirm"><div><h2>${esc(g.hint)}<i class="crtv-dots"><i></i><i></i><i></i></i></h2><div class="crtv-confirm">${(g.stops||[]).map((s,i)=>`<em class="${i<conf?'is-confirmed':i===conf?'is-next':''}"><span>${s.icon}</span><b>${esc(s.short)}</b><i>✓</i></em>`).join('')}</div></div></div>`;}
+  if(p==='verdict'){const conf=Number(g.confirmed)||0;return `<div class="crtv-status crtv-status--confirm"><div><h2>${esc(g.hint)}<i class="crtv-dots"><i></i><i></i><i></i></i></h2><div class="crtv-confirm">${(g.stops||[]).map((s,i)=>`<em class="${i<conf?'is-confirmed':i===conf?'is-next':''}"><span>${ico(s.icon)}</span><b>${esc(s.short)}</b><i>✓</i></em>`).join('')}</div></div></div>`;}
   if(p==='scanning')return `<div class="crtv-status crtv-status--scan"><div><h2>${esc(g.hint)}<i class="crtv-dots"><i></i><i></i><i></i></i></h2><span class="crtv-segs">${(g.stops||[]).map((s,i)=>`<i class="${s.light?'is-done':i===g.scanIdx?'is-reading':''}"></i>`).join('')}</span></div></div>`;
   if(p==='merging')return `<div class="crtv-status crtv-status--scan"><div><h2>${esc(g.hint)}<i class="crtv-dots"><i></i><i></i><i></i></i></h2></div></div>`;
   if(p==='moving')return `<div class="crtv-status crtv-status--move"><div><h2>${esc(g.hint)}</h2></div></div>`;
@@ -95,7 +120,7 @@
   const tr=g.truck||{},L=g.labels||{};
   const counter=g.mode==='ai'?L.vuce:(g.stops&&g.stops[g.idx]?g.stops[g.idx].name:'');
   return `<section class="crtv-board">
-   <div class="crtv-current"><span class="crtv-counter">${esc(g.title)}</span>${truck(tr.icon,'crtv-svg--big',tr.id,tr.cargo)}<b>${esc(tr.id)}</b><small>${esc(tr.cargo)}</small>${g.phase!=='crossed'?`<em>${esc(counter)}</em>`:''}</div>
+   <div class="crtv-current crtv-current--plain"><b>${esc(tr.id)}</b><small>${esc(tr.cargo)}</small>${g.phase!=='crossed'?`<em>${esc(counter)}</em>`:''}</div>
    <div class="crtv-middle">${status(g)}${g.phase==='feedback'&&g.hint?`<p class="crtv-remind">${esc(g.hint)}</p>`:''}</div>
    <div class="crtv-clocks crtv-clocks--one"><div class="crtv-clock"><span>${esc(g.clockLabel)}</span><b data-crtv-clock>${fmt(g.time||0)} s</b></div></div>
   </section>`;
