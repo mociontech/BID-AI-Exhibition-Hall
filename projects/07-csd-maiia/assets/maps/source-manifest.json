@@ -1,0 +1,75 @@
+{
+  "source": "Client email Nov 6 2026; files supplied in this conversation",
+  "contourSource": "https://maiia-ai-exhibition.netlify.app/",
+  "registration": {
+    "method": "ORB feature matches, RANSAC similarity registration; annotation pixels mapped to clean PNG pixels",
+    "annotationToClean": {
+      "easy": [
+        [
+          0.9999746994867746,
+          -3.388089692560805e-05,
+          2.0988115774994425
+        ],
+        [
+          3.388089692560805e-05,
+          0.9999746994867746,
+          1.7445511740235544
+        ]
+      ],
+      "hard": [
+        [
+          0.9999160967396912,
+          -4.7686554744628845e-05,
+          -1.997086856364119
+        ],
+        [
+          4.7686554744628845e-05,
+          0.9999160967396912,
+          2.2923839332889355
+        ]
+      ]
+    },
+    "closeUpToTerritory": [
+      [
+        0.24991915168840254,
+        0.00016672309660963188,
+        367.6754628299936
+      ],
+      [
+        -0.00016672309660963188,
+        0.24991915168840254,
+        858.855421748892
+      ]
+    ]
+  },
+  "files": [
+    {
+      "file": "AMA-01.png",
+      "width": 2324,
+      "height": 1384,
+      "sha256": "4599cc295f99b6e8c1b72e1d12b161d4a6010881d8c53fcf762e1ae165350157",
+      "usage": "Level 1 clean map"
+    },
+    {
+      "file": "AMA-02.png",
+      "width": 2328,
+      "height": 1380,
+      "sha256": "7dd20e42e9c665f92c9a6a1f52ea019be0b1ce2463c2f38e413efd08880e363c",
+      "usage": "Level 1 approved answer reference"
+    },
+    {
+      "file": "AMA-03.png",
+      "width": 2322,
+      "height": 1382,
+      "sha256": "e67e9ace9e830d6463fd010b0a8df7a46e49a3185c28c48eb69dc15a59f15dd2",
+      "usage": "Level 2 clean map"
+    },
+    {
+      "file": "AMA-04.png",
+      "width": 2328,
+      "height": 1378,
+      "sha256": "126c772b209f8c25882b0d3353060aad0cebf93c3faeb575a69a971f0ed9e18f",
+      "usage": "Level 2 approved answer references"
+    }
+  ]
+}

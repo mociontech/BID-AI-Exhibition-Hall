@@ -27,7 +27,7 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
  function close(){const g=state.game;if(g.draft.length<3)return feedback('smallPolygon');if(g.polygons.length>=config.scoring.maxPolygons)return feedback('limit');setGame({polygons:[...g.polygons,g.draft],draft:[]});}
  function point(p){const g=state.game;if(state.mode!=='game')return;
   if(g.phase==='easy'){if(g.draft.length>=config.scoring.maxPoints||g.polygons.length>=config.scoring.maxPolygons)return feedback('limit');setGame({draft:[...g.draft,p]});}
-  if(g.phase==='manual'){if(g.markers.length>=config.scoring.markerLimit)return feedback('limit');setGame({markers:[...g.markers,p]});}
+  if(g.phase==='manual')setGame({markers:[...g.markers,p]});
  }
  function selectCandidate(id){if(state.mode!=='game'||state.game.phase!=='assisted')return;const a=state.game.selected;setGame({selected:a.includes(id)?a.filter(v=>v!==id):[...a,id]});}
  function removeMarker(i){if(state.mode==='game'&&state.game.phase==='manual')setGame({markers:state.game.markers.filter((_,n)=>n!==i)});}
