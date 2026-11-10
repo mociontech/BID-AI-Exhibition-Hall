@@ -1,5 +1,7 @@
 # 05 — Profe Gabi
 
+Revisión aprobada: todas las etiquetas usan Interactive Experience. La espera centra un avatar de 260 px y las cinco respuestas de dos partes equilibran su altura visual, sin añadir entregas ni eliminar texto. Se mantienen 22 px, interfaz EN y chat ES. El estado 6 reinicia las sesiones anteriores. La revisión está aprobada para publicación; las notas locales del documento de trabajo conservan el historial previo.
+
 Experiencia de exhibición: la tableta controla la interacción y la TV muestra la información o la conversación. La interfaz del evento está en inglés; las consultas y respuestas de WhatsApp se muestran siempre en español.
 
 ## Comportamiento
@@ -44,7 +46,7 @@ Ambos dispositivos deben usar el mismo `station` y, cuando corresponda, el mismo
 - `source/context-2026-11-09.md`: procedencia y decisiones editoriales.
 - `source/build-data.cjs`: valida y compila `conversations.js`.
 - `source/pack-replies.cjs`: herramienta editorial que mide el espacio real de TV a 22 px y agrupa ideas contiguas. No es una dependencia de ejecución.
-- `state.js`: versión 5, con índice de lectura y validación compartida. Las sesiones de versiones anteriores vuelven al menú para no reinterpretar sus elecciones.
+- `state.js`: versión 6, con índice de lectura y validación compartida. Las sesiones de versiones anteriores vuelven al menú para no reinterpretar sus elecciones.
 - `module.js`, `experience.js`, `artwork.js` y sus CSS: controlador, conversación y composición de los recursos aprobados.
 
 Las cifras de la infografía conservan su contexto del piloto. El nuevo documento aporta los mensajes del guion y no sustituye esas cifras por datos de otra etapa del proyecto.

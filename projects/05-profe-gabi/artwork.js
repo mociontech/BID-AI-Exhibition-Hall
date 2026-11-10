@@ -28,7 +28,7 @@
    overlays+=hot(R.info,t.info,'data-action="information"');
    const game=hot(R.game,g.ready?t.start:t.game,'data-action="game"',!g.ready);
    overlays+=isInfo&&g.ready?`<div class="gabi-info-controls gabi-art-cta">${game}</div>`:game;
-   // Keep the newly supplied English card title and description visible.
+   overlays+=mask([995,650,480,105],'<h2>Interactive<br>Experience</h2>','gabi-art-cover-game');
    overlays+=mask([70,930,1745,70],`<p>${isInfo?(g.ready?t.ready:t.watch):g.ready?'':t.locked}</p>`,'gabi-art-status');
    semantic=`<section class="gabi-artwork-accessible"><h1>Profe Gabi</h1><p>${t.description}</p></section>`;
   }else if(!readonly){
