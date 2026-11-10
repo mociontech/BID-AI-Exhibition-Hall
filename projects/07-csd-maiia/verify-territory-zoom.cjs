@@ -7,14 +7,14 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
   const context=await browser.newContext({viewport:{width:1024,height:768}});
   const tablet=await context.newPage(),tv=await context.newPage(),errors=[];
   for(const page of [tablet,tv])page.on('pageerror',e=>errors.push(e.message));
-  const game={...S.fresh(),phase:'easyResult',polygons:C.easy.reference.map(z=>z.points),easyScore:100};
-  await context.request.post(base+'/api/state?station=11',{data:{view:'game',projectId:'07',mode:'game',language:'en',game}});
+  const game={...S.fresh(),phase:'easyResult',polygons:C.easy.reference.map(z=>S.simplifyStroke(z.points,C.scoring.maxPoints)),easyScore:100};
+  const seeded=await context.request.post(base+'/api/state?station=11',{data:{view:'game',projectId:'07',mode:'game',language:'en',game}});assert.equal(seeded.status(),200);
   await tv.goto(base+'/display.html?station=11');await tablet.goto(base+'/projects/07-csd-maiia/index.html?station=11');
   await tablet.waitForSelector('.mai-phase-easyResult');await tv.waitForSelector('.mai-phase-easyResult');
   await tablet.locator('[data-action=next]').click();
   for(const p of [tablet,tv])await p.waitForSelector('.mai-territory-zoom');
   const width=p=>p.locator('.mai-map').evaluate(n=>n.viewBox.baseVal.width);
-  const initial=await width(tablet);assert.ok(initial>=420&&initial<950);
+  const initial=await width(tablet);assert.ok(initial>=C.easy.territoryCrop[2]*1000&&initial<950);
   await tablet.bringToFront();await tablet.waitForTimeout(250);assert.ok(await width(tablet)>initial);
   const before=await width(tablet);
   const expected=await tablet.locator('[data-map]').evaluate(svg=>{
@@ -34,15 +34,18 @@ const S=require('./state.js'),C=require('./data/demo-maps.json');
   await tv.evaluate(()=>MAIIA.renderInto(document.getElementById('app'),{mode:'game',language:'en',game:{...MAIIA_STATE.fresh(),phase:'manual',easyScore:0,territoryAt:AI_SYNC.now()}},{readonly:true}));
   assert.equal(await width(tv),1000);assert.equal(await tv.locator('.mai-territory-zoom').count(),0);
   await tv.emulateMedia({reducedMotion:'no-preference'});await tv.bringToFront();
-  const delayed=await tv.evaluate(()=>{
+  // Keep receiver polling on the same delayed snapshot. An unrelated live
+  // server timestamp would replace this synthetic camera mid-assertion.
+  const delayedState={projectId:'07',view:'game',mode:'game',language:'en',game:{...S.fresh(),phase:'manual',easyScore:0,territoryAt:Date.now()-5000}};
+  await tv.route('**/api/state?*',route=>route.fulfill({json:{...delayedState,serverNow:Date.now()}}));
+  const delayed=await tv.evaluate(state=>{
    const mount=document.getElementById('app'),game={...MAIIA_STATE.fresh(),phase:'easyResult',easyScore:0};
    MAIIA.renderInto(mount,{mode:'game',game},{readonly:true});
-   const state={mode:'game',game:{...game,phase:'manual',territoryAt:AI_SYNC.now()-5000}};
    MAIIA.renderInto(mount,state,{readonly:true});
    return {state,width:mount.querySelector('.mai-map').viewBox.baseVal.width};
-  });
+  },delayedState);
   assert.ok(delayed.width<500,'a delayed TV update must start the complete zoom, even after the tablet finished');
-  await tv.waitForTimeout(300);const delayedProgress=await width(tv);assert.ok(delayedProgress>delayed.width&&delayedProgress<1000);
+  await tv.waitForTimeout(300);const delayedProgress=await width(tv);assert.ok(delayedProgress>delayed.width&&delayedProgress<1000,JSON.stringify({initial:delayed.width,delayedProgress,animated:await tv.locator('.mai-territory-zoom').count()}));
   await tv.evaluate(s=>MAIIA.renderInto(document.getElementById('app'),s,{readonly:true}),delayed.state);
   assert.ok(await width(tv)>=delayedProgress,'TV snapshot updates must preserve local playback progress');
   await tv.waitForFunction(()=>!document.querySelector('.mai-territory-zoom'));assert.equal(await width(tv),1000);

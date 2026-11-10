@@ -150,3 +150,33 @@
 .mai-branded .mai-conversation-score-label{font-size:32px;line-height:54px;font-weight:700;color:white;background:#5c97ff;letter-spacing:-.7px}
 .mai-branded .mai-conversation-with-ai{background:#005cff}
 .mai-branded .mai-conversation-metric{font-size:22px;line-height:28px;text-align:center;color:#53657f;padding:8px 0}
+
+/* Approved maps retain their full extent and native proportions. */
+.mai-branded .mai-art-map-slot{position:absolute;background:#fff;border-radius:12px}
+.mai-viewing{position:absolute;right:16px;bottom:16px;z-index:4;display:grid;justify-items:end;gap:7px;padding:10px 14px;border-radius:6px;background:#05234fe8;color:#fff;font-size:20px;line-height:1.2;pointer-events:none;white-space:nowrap}
+.mai-viewing b{font-weight:700;font-variant-numeric:tabular-nums}
+.mai-scale-bar{display:grid;justify-items:end;gap:3px;font-size:17px}
+.mai-scale-bar i{display:block;height:7px;border:2px solid white;border-top:0}
+.mai-branded .mai-infographic .mai-viewing{right:8px;bottom:8px;font-size:13px;padding:6px 8px;gap:3px}
+.mai-branded .mai-infographic .mai-scale-bar{font-size:12px}
+
+/* Reviewed pins share the scoring verdict, with a symbol as well as color. */
+.mai-marker.is-reviewed{cursor:default}
+.mai-marker.is-reviewed .mai-marker-face{stroke:#fff;stroke-width:3;filter:drop-shadow(0 1px 2px #05234faa)}
+.mai-marker.is-correct .mai-marker-face{fill:#137d48}
+.mai-marker.is-incorrect .mai-marker-face{fill:#c52c40}
+.mai-marker.is-repeated .mai-marker-face{fill:#956000}
+.mai-marker .mai-marker-symbol{font-size:22px;font-weight:800;fill:white}
+.mai-marker .mai-marker-number{font-size:11px;font-weight:800;paint-order:stroke;stroke:#05234f;stroke-width:4px;fill:white}
+.mai-branded .mai-art-final-legend .mai-pin-legend{gap:12px 24px;font-size:24px;font-weight:650}
+.mai-branded .mai-art-final-legend .mai-pin-legend i{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #d0e0ff;display:grid;place-items:center;font-size:23px;font-style:normal;line-height:1;color:#fff}
+.mai-pin-correct-key{background:#137d48}
+.mai-pin-incorrect-key{background:#c52c40}
+.mai-pin-repeated-key{background:#956000}
+.mai-branded.mai-phase-final .mai-reference{fill:#ffffff12;stroke:white;stroke-width:3}
+.mai-branded.mai-phase-final .mai-answer-selection.is-correct{fill:#23b26d4d;stroke:#65ffad;stroke-width:4}
+.mai-approved-key{background:#fff;border-color:#53657f!important}
+.mai-kept-key{background:#23b26d4d;border-color:#137d48!important}
+.mai-branded .mai-manual-review-legend{display:flex;align-items:center}
+.mai-branded .mai-final-map .mai-pin-legend{font-size:22px;gap:12px 22px;margin-top:6px}
+.mai-branded .mai-final-map .mai-pin-legend i{width:26px;height:26px;font-size:20px}
