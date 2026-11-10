@@ -34,8 +34,8 @@ window.PROFE_GABI_CONVERSATIONS={
               },
               "take": "Un objetivo, una secuencia y una reflexión final ayudan a organizar la clase.",
               "gabiParts": [
-                "Objetivo: investigar los métodos de decantación y destilación para separar mezclas y explicar cómo funcionan.\nInicio (10 min): presentar agua con aceite y agua salada. Preguntar en parejas cómo separarían cada mezcla y recoger sus ideas.\nDesarrollo (35 min): la propuesta organiza actividades de decantación (15 min) y destilación (20 min), con observación y registro de lo aprendido.",
-                "Cierre metacognitivo (10 min): ¿qué aprendimos de cada método? ¿En qué situaciones cotidianas los usaríamos? Completar: “Lo que más me sorprendió fue…”"
+                "Objetivo: investigar los métodos de decantación y destilación para separar mezclas y explicar cómo funcionan.\nInicio (10 min): presentar agua con aceite y agua salada. Preguntar en parejas cómo separarían cada mezcla y recoger sus ideas.",
+                "Desarrollo (35 min): la propuesta organiza actividades de decantación (15 min) y destilación (20 min), con observación y registro de lo aprendido.\nCierre metacognitivo (10 min): ¿qué aprendimos de cada método? ¿En qué situaciones cotidianas los usaríamos? Completar: “Lo que más me sorprendió fue…”"
               ]
             },
             {
@@ -51,8 +51,8 @@ window.PROFE_GABI_CONVERSATIONS={
               },
               "take": "Profe Gabi propone una planificación; el docente la ajusta a su curso y espacio.",
               "gabiParts": [
-                "Aquí va una planificación breve para 1º básico sobre habilidades motrices básicas:\nObjetivo: demostrar y controlar desplazamientos y equilibrio.\nInicio (5 min): “Simón dice”. Desarrollo (20 min): estaciones de salto, equilibrio y un circuito de conos. Cierre (5 min): ¿qué habilidad te gustó más y por qué?",
-                "Evaluación formativa: lista de cotejo durante las estaciones y autoevaluación oral al cierre. Recursos: aros o tiza, cinta, conos o botellas plásticas y un reloj."
+                "Aquí va una planificación breve para 1º básico sobre habilidades motrices básicas:\nObjetivo: demostrar y controlar desplazamientos y equilibrio.\nInicio (5 min): “Simón dice”.\nDesarrollo (20 min): estaciones de salto, equilibrio y un circuito de conos.",
+                "Cierre (5 min): ¿qué habilidad te gustó más y por qué?\nEvaluación formativa: lista de cotejo durante las estaciones y autoevaluación oral al cierre. Recursos: aros o tiza, cinta, conos o botellas plásticas y un reloj."
               ]
             }
           ],
@@ -118,8 +118,8 @@ window.PROFE_GABI_CONVERSATIONS={
             }
           ],
           "gabiParts": [
-            "Te propongo esta guía para trabajo en parejas, Unidad 1 Biología:\n1) Comprensión lectora “Los seres vivos cumplen funciones como nutrición, relación y reproducción. Gracias a ellas, mantienen el equilibrio interno (homeostasis) y se adaptan al entorno.” ¿Qué funciones cumplen los seres vivos? ¿Para qué sirve la homeostasis?\n2) Selección múltiple: identificar qué es la homeostasis.\n3) Términos pareados: relacionar conceptos como nutrición, reproducción y homeostasis con sus definiciones.",
-            "4) Completar oraciones sobre las funciones de los seres vivos."
+            "Te propongo esta guía para trabajo en parejas, Unidad 1 Biología:\n1) Comprensión lectora “Los seres vivos cumplen funciones como nutrición, relación y reproducción. Gracias a ellas, mantienen el equilibrio interno (homeostasis) y se adaptan al entorno.”",
+            "¿Qué funciones cumplen los seres vivos? ¿Para qué sirve la homeostasis?\n2) Selección múltiple: identificar qué es la homeostasis.\n3) Términos pareados: relacionar conceptos como nutrición, reproducción y homeostasis con sus definiciones.\n4) Completar oraciones sobre las funciones de los seres vivos."
           ]
         }
       ],
@@ -236,14 +236,14 @@ window.PROFE_GABI_CONVERSATIONS={
               },
               "take": "Las rutinas claras, los roles y las pausas ofrecen ideas para organizar el trabajo del curso.",
               "gabiParts": [
-                "Claro, aquí va una propuesta simple para 1° medio: 1. Señal de atención • Define un sonido o gesto (p. ej., “1-2-3, ojos en mí”). • Practícalo 2–3 veces al inicio para que responda al instante.\n2. Tiempos cortos y claros • Divide las actividades en tramos de 5–10 min. • Usa un cronómetro visible para que controlen el tiempo.\n3. Roles en grupos • Forma equipos de 3–4 alumnos. • Asigna un “guardián del foco” que avise si alguien se dispersa.\n4. Pausas activas • Cada 15–20 min haz un break de 1–2 min (estirarse, respirar). • Así vuelven con más energía y menos charla improductiva.",
-                "5. Refuerzo positivo • Al apagar la charla, felicita en voz alta a quien colabore. • Los incentivos simples (5 segundos de aplausos, stickers) ayudan mucho."
+                "Claro, aquí va una propuesta simple para 1° medio: 1. Señal de atención • Define un sonido o gesto (p. ej., “1-2-3, ojos en mí”). • Practícalo 2–3 veces al inicio para que responda al instante.\n2. Tiempos cortos y claros • Divide las actividades en tramos de 5–10 min. • Usa un cronómetro visible para que controlen el tiempo.\n3. Roles en grupos • Forma equipos de 3–4 alumnos.",
+                "• Asigna un “guardián del foco” que avise si alguien se dispersa.\n4. Pausas activas • Cada 15–20 min haz un break de 1–2 min (estirarse, respirar). • Así vuelven con más energía y menos charla improductiva.\n5. Refuerzo positivo • Al apagar la charla, felicita en voz alta a quien colabore. • Los incentivos simples (5 segundos de aplausos, stickers) ayudan mucho."
               ]
             }
           ],
           "gabiParts": [
-            "Entiendo cómo te sientes. Equilibrar correcciones y tiempo personal es todo un desafío. Aquí van unas ideas: • Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente. • Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales. • Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado. • Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas. Y no olvides tu autocuidado: 1. Pon horarios límites y respétalos.",
-            "2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana."
+            "Entiendo cómo te sientes. Equilibrar correcciones y tiempo personal es todo un desafío. Aquí van unas ideas: • Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente. • Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales.",
+            "• Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado. • Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas. Y no olvides tu autocuidado: 1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana."
           ]
         }
       ],
@@ -302,8 +302,8 @@ window.PROFE_GABI_CONVERSATIONS={
               },
               "take": "Profe Gabi suggests a plan; the teacher adapts it to the class and available space.",
               "gabiParts": [
-                "Here is a short first-grade plan for basic movement skills:\nObjective: demonstrate and control movement and balance.\nOpening (5 min): “Simon says”. Main activities (20 min): jumping and balance stations, plus a cone circuit. Closing (5 min): which skill did you enjoy most, and why?",
-                "Formative assessment: use a checklist at the stations and a brief oral self-assessment at the end. Resources: hoops or chalk, tape, cones or plastic bottles, and a clock."
+                "Here is a short first-grade plan for basic movement skills:\nObjective: demonstrate and control movement and balance.\nOpening (5 min): “Simon says”.\nMain activities (20 min): jumping and balance stations, plus a cone circuit.",
+                "Closing (5 min): which skill did you enjoy most, and why?\nFormative assessment: use a checklist at the stations and a brief oral self-assessment at the end. Resources: hoops or chalk, tape, cones or plastic bottles, and a clock."
               ]
             }
           ],

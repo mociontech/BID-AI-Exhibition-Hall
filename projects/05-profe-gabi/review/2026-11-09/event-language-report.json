@@ -11,5 +11,8 @@
   "englishResults": true,
   "priorSpanishSessionMigrated": true,
   "reloadOfflineHomeBackRestart": true,
-  "stationIsolation": true
+  "stationIsolation": true,
+  "interactiveExperienceNaming": true,
+  "centeredLargeIdleAvatar": true,
+  "twoPartDensityRatioAtMost": 1.25
 }

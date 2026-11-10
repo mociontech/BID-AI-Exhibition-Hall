@@ -26,12 +26,20 @@ const schema=require('../state.js');
   assert.equal(await tablet.locator('html').getAttribute('lang'),'en');assert.equal(await tv.locator('html').getAttribute('lang'),'en');
   assert.equal(await tablet.locator('[data-language="es"]').count(),0);
   await click('menu');assert.equal(await tablet.locator('[data-action="information"]').isEnabled(),true);assert.equal(await tablet.locator('[data-action="game"]').first().isEnabled(),true);
+  await tv.locator('.gabi-art-welcome.gabi-tv-invite').waitFor();
+  await tv.locator('.gabi-art-welcome>img').evaluate(img=>img.decode());
+  const idle=await tv.locator('.gabi-art-welcome').evaluate(card=>{const c=card.getBoundingClientRect(),a=card.querySelector('img').getBoundingClientRect();return {width:a.width,centerOffset:Math.abs((a.left+a.width/2)-(c.left+c.width/2)),inside:a.top>c.top&&a.bottom<c.bottom};});
+  assert.ok(idle.width>=250&&idle.centerOffset<1&&idle.inside,'Idle avatar must be large and centered');
+  assert.ok(!/mini[ -]?game/i.test(await tv.locator('body').textContent()));
+  assert.ok((await tv.locator('.gabi-art-welcome').textContent()).includes('Interactive Experience'));
+  await tv.screenshot({path:path.join(out,'balanced-idle-en.png')});
   await tablet.locator('.gabi-approved-artwork').evaluate(img=>img.decode());await tablet.screenshot({path:path.join(out,'event-cover-en.png')});
   await click('fullscreen');await tablet.waitForFunction(()=>!!document.fullscreenElement);await click('fullscreen');
   await click('information');await tv.locator('[data-file="tv-information-en.png"]').waitFor();
   assert.equal(await tablet.locator('[data-action="game"]').first().isEnabled(),true);await click('game');
   let pages=0,endings=0;
   async function read(pair,topic,turn,follow){
+   const replyHeights=[];
    for(let part=0;part<pair.gabiParts.length;part++){
     await ready();await visible(pair.gabiParts[part]);
     assert.equal((await state()).game.part,part);
@@ -46,6 +54,9 @@ const schema=require('../state.js');
     const metrics=await tv.locator('.gabi-message-gabi:not([hidden]) p').evaluate(p=>{const b=p.closest('article').getBoundingClientRect(),l=p.closest('.gabi-messages').getBoundingClientRect(),u=p.closest('.gabi-messages').querySelector('.gabi-message-user').getBoundingClientRect();return {font:getComputedStyle(p).fontSize,top:b.top,bottom:b.bottom,userTop:u.top,logTop:l.top,logBottom:l.bottom};});
     assert.equal(metrics.font,'22px');assert.ok(metrics.top>=metrics.logTop-1&&metrics.bottom<=metrics.logBottom+1,'No clipped Spanish part: '+JSON.stringify(metrics));
     assert.ok(metrics.userTop>=metrics.logTop-1,'The question must also remain fully visible');
+    replyHeights.push(metrics.bottom-metrics.top);
+    assert.ok(!/mini[ -]?game/i.test(await tv.locator('body').textContent()));
+    assert.ok(!/mini[ -]?game/i.test(await tablet.locator('body').textContent()));
     const nonChat=await tv.locator('body').evaluate(el=>{const copy=el.cloneNode(true);copy.querySelectorAll('.gabi-messages').forEach(n=>n.remove());return copy.textContent;});
     assert.ok(!/Continuar|Parte \d|Situación elegida|Menú principal|Sin conexión/.test(nonChat));
     assert.equal(await tv.locator('button,input,textarea').count(),0);
@@ -54,9 +65,11 @@ const schema=require('../state.js');
      await tv.screenshot({path:path.join(out,'event-chat-es.png')});await tablet.screenshot({path:path.join(out,'event-reading-en.png')});
     }
     if(topic===pagedTopic&&turn==='situation'&&follow===0&&part===1){await tablet.reload();await tv.reload();await ready();await visible(pair.gabiParts[part]);assert.equal((await state()).game.part,part);}
+    if(topic===3&&turn==='situation'&&follow===0)await tv.screenshot({path:path.join(out,`balanced-wellbeing-part-${part+1}.png`)});
     await click('continue');pages++;
     if(part+1<pair.gabiParts.length)assert.equal(await tablet.locator('[data-action="continue"]').isDisabled(),true);
    }
+   if(replyHeights.length===2)assert.ok(Math.max(...replyHeights)/Math.min(...replyHeights)<=1.25,'Two-part replies should have balanced visual density');
   }
   for(let topic=0;topic<4;topic++)for(let follow=0;follow<2;follow++){
    if(topic||follow)await click('restart');
@@ -94,7 +107,7 @@ const schema=require('../state.js');
    assert.equal((await controller.request.get(base+'/projects/'+slug+'/index.html?station=1')).status(),200);
   }
   assert.deepEqual(errors,[]);
-  const report={passed:true,endings,spanishPartsRead:pages,interfaceLanguage:'en',conversationLanguage:'es',chatFontAtHD:'22px',exactDisclaimer:true,noSourceLine:true,manualContinue:true,englishResults:true,priorSpanishSessionMigrated:true,reloadOfflineHomeBackRestart:true,stationIsolation:true};
+  const report={passed:true,endings,spanishPartsRead:pages,interfaceLanguage:'en',conversationLanguage:'es',chatFontAtHD:'22px',exactDisclaimer:true,noSourceLine:true,manualContinue:true,englishResults:true,priorSpanishSessionMigrated:true,reloadOfflineHomeBackRestart:true,stationIsolation:true,interactiveExperienceNaming:true,centeredLargeIdleAvatar:true,twoPartDensityRatioAtMost:1.25};
   fs.writeFileSync(path.join(out,'event-language-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

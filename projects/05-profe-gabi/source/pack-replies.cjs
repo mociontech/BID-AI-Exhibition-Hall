@@ -1,4 +1,4 @@
-/* Offline editorial packing against the actual HD TV layout. No runtime dependency. */
+/* Offline editorial balancing against the actual HD TV layout. No runtime dependency. */
 const {chromium}=require('playwright'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const folder=__dirname,base=process.env.TEST_URL||'http://localhost:4173';
 const read=lang=>JSON.parse(fs.readFileSync(path.join(folder,`conversations.${lang}.json`),'utf8'));
@@ -13,7 +13,10 @@ function units(text){
    result.push({text:line,breakBefore:heading||i===0&&result.length>0});
   }
  }
- return result;
+ return result.flatMap(unit=>{
+  const phrases=unit.text.length>120?unit.text.split(/(?<=[a-záéíóúüñ”»)\]][.!?])\s+(?=[A-ZÁÉÍÓÚÑ¿¡])/u):[unit.text];
+  return phrases.map((text,i)=>({text,breakBefore:i===0?unit.breakBefore:/^(Inicio|Desarrollo|Cierre|Opening|Main activities|Metacognitive)\b/.test(text)}));
+ });
 }
 function format(list){return list.map((u,i)=>(i?(u.breakBefore?'\n':' '):'')+u.text).join('');}
 function referenceParts(text,count){
@@ -37,38 +40,46 @@ function referenceParts(text,count){
    counts[topic]=[];
    const pairs=[es[topic].options[0],...es[topic].options[0].follow],translations=[en[topic].options[0],...en[topic].options[0].follow];
    for(let turn=0;turn<3;turn++){
-    const pair=pairs[turn],list=units(pair.gabi),parts=[];let start=0;
+    const pair=pairs[turn],list=units(pair.gabi);let parts=[],balance=null;
     const old=pair.gabiParts.length;
-    while(start<list.length){
-     let best=0;
-     for(let end=list.length;end>start;end--){
-      const text=format(list.slice(start,end));
-      const result=await page.evaluate(({topic,turn,text})=>{
+    const measure=async text=>page.evaluate(({topic,turn,text})=>{
        const source=PROFE_GABI_CONVERSATIONS.es[topic].options[0],pair=turn?source.follow[turn-1]:source;pair.gabiParts=[text];
        const game={...PROFE_GABI_STATE.fresh(),phase:'reading',topic,situation:0,follow:turn?turn-1:null,turn:turn?'follow':'situation',part:0};
        PROFE_GABI.renderInto(document.querySelector('#app'),{projectId:'05',view:'game',mode:'game',language:'en',game},{readonly:true});
        const log=document.querySelector('.gabi-messages'),u=log.querySelector('.gabi-message-user').getBoundingClientRect(),g=log.querySelector('.gabi-message-gabi').getBoundingClientRect(),r=log.getBoundingClientRect(),style=getComputedStyle(log);
        const top=r.top+parseFloat(style.paddingTop),bottom=r.bottom-parseFloat(style.paddingBottom);
-       return {fits:u.top>=top-1&&g.bottom<=bottom+1&&g.bottom-u.top<=bottom-top-8,plain:log.querySelector('.gabi-message-gabi p').style.whiteSpace==='normal'};
+       return {fits:u.top>=top-1&&g.bottom<=bottom+1&&g.bottom-u.top<=bottom-top-8,plain:log.querySelector('.gabi-message-gabi p').style.whiteSpace==='normal',height:g.height};
       },{topic,turn,text});
-      // Avoid silently flattening all paragraphs merely to make a long candidate fit.
-      if(result.fits&&!result.plain){best=end;break;}
+    if(old===1){
+     parts=[pair.gabiParts[0]];const r=await measure(parts[0]);assert.ok(r.fits&&!r.plain,'Single delivery no longer fits');
+    }else{
+     assert.equal(old,2,'This revision balances only existing two-part replies');
+     let best=null;
+     const before=[];for(const text of pair.gabiParts)before.push(await measure(text));
+     // Every candidate ends at a complete paragraph/list idea; headings stay with their body.
+     for(let cut=1;cut<list.length;cut++){
+      const candidate=[format(list.slice(0,cut)),format(list.slice(cut))];
+      const a=await measure(candidate[0]),b=await measure(candidate[1]);
+      if(!a.fits||a.plain||!b.fits||b.plain)continue;
+      const words=candidate.map(p=>p.split(/\s+/).length);
+      const score=Math.abs(a.height-b.height)+Math.abs(words[0]-words[1])*.1;
+      if(!best||score<best.score)best={score,parts:candidate,heights:[a.height,b.height],words};
      }
-     assert.ok(best>start,'A complete idea does not fit at 22px: '+JSON.stringify({topic,turn,start}));
-     parts.push(format(list.slice(start,best)));start=best;
+     assert.ok(best,'No balanced, unclipped split found: '+JSON.stringify({topic,turn}));
+     parts=best.parts;balance={beforeHeights:before.map(r=>Math.round(r.height)),afterHeights:best.heights.map(Math.round),words:best.words};
     }
     assert.ok(parts.length<=old,'Packing must not add reading steps');
     assert.equal(normal(parts.join(' ')),normal(pair.gabi));
     pair.gabiParts=parts;translations[turn].gabiParts=referenceParts(translations[turn].gabi,parts.length);
     assert.equal(normal(translations[turn].gabiParts.join(' ')),normal(translations[turn].gabi));
-    counts[topic][turn]=parts.length;report.push({topic,turn,before:old,after:parts.length});
+    counts[topic][turn]=parts.length;report.push({topic,turn,before:old,after:parts.length,...balance});
    }
   }
  }finally{await browser.close();}
  for(const [lang,data] of [['es',es],['en',en]])fs.writeFileSync(path.join(folder,`conversations.${lang}.json`),JSON.stringify(data,null,2)+'\n');
  const schemaFile=path.join(folder,'../state.js');let schema=fs.readFileSync(schemaFile,'utf8');
  schema=schema.replace(/const replyCounts=.*?;/,`const replyCounts=${JSON.stringify(counts)};`);
- schema=schema.replaceAll('version:4','version:5').replace('value.version!==4','value.version!==5');fs.writeFileSync(schemaFile,schema);
- fs.writeFileSync(path.join(folder,'../review/2026-11-09/packed-replies-report.json'),JSON.stringify({font:'22px',preservesAllText:true,userAndReplyFitTogether:true,counts,report},null,2));
+ schema=schema.replaceAll('version:5','version:6').replace('value.version!==5','value.version!==6');fs.writeFileSync(schemaFile,schema);
+ fs.writeFileSync(path.join(folder,'../review/2026-11-09/balanced-replies-report.json'),JSON.stringify({font:'22px',preservesAllText:true,userAndReplyFitTogether:true,counts,report},null,2));
  console.log(JSON.stringify({counts,report}));
 })().catch(e=>{console.error(e);process.exitCode=1;});
