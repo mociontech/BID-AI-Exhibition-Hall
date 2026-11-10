@@ -119,7 +119,7 @@ const COPY={
   missingDoc:'Falta un documento',paper:{date:'Fecha',sign:'Firma y sello',stamp:'ORIGINAL',no:'N.º',section:'Datos declarados'},
   fbRight:'¡Correcto!',fbWrong:'Ups, no era así.',
   why:{green:'Los 3 documentos coinciden.',yellow:'Faltaba un documento: {doc}.',red:'{field} no coincide.'},
-  moving:'El camión avanza a la siguiente parada…',
+  moving:'El camión avanza a la siguiente parada',
   crossed:'¡Cruzó la frontera!',
   crossedManual:'5 paradas · 5 filas · 5 revisiones por separado.',
   crossedTime:'Tu tiempo: <strong>{t} s</strong> · Aciertos: <strong>{h} / 5</strong>',
@@ -233,7 +233,7 @@ const COPY={
   missingDoc:'Missing document',paper:{date:'Date',sign:'Signature and stamp',stamp:'ORIGINAL',no:'No.',section:'Declared data'},
   fbRight:'Correct!',fbWrong:'Oops, not quite.',
   why:{green:'The 3 documents match.',yellow:'A document was missing: {doc}.',red:'{field} does not match.'},
-  moving:'The truck moves to the next stop…',
+  moving:'The truck moves to the next stop',
   crossed:'It crossed the border!',
   crossedManual:'5 stops · 5 queues · 5 separate checks.',
   crossedTime:'Your time: <strong>{t} s</strong> · Correct: <strong>{h} / 5</strong>',
@@ -597,7 +597,7 @@ function answerManual(choice){
 function nextStop(){
  if(!state.manual.feedback||state.moving)return;
  state.manual.feedback=null;state.moving=true;state.pos=state.idx+2;
- const a=app.querySelector('[data-feedback]');if(a)a.innerHTML=`<div class="feedback feedback--move"><span class="move-icon">${ico('screen')}</span><b>${esc(t('moving'))}</b><span>${esc(t('explain').moving[1])}</span></div>`;
+ const a=app.querySelector('[data-feedback]');if(a)a.innerHTML=`<div class="feedback feedback--move"><span class="move-icon">${ico('screen')}</span><b>${esc(t('watchTv'))}</b><span>${esc(t('moving'))}</span><span class="move-arrow" aria-hidden="true">${ico('arrow')}</span></div>`;
  emit();
  after(()=>{
   state.moving=false;state.idx+=1;

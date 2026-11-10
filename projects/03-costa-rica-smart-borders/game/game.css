@@ -823,3 +823,13 @@ h1,h2,h3{text-align:left}
 .docs .row{font-size:clamp(14px,1.2vw,17px)}
 .docs .row b{white-space:normal;line-height:1.15}
 .docs .row span{font-size:.92em}
+
+/* aviso inferior: «Mira la pantalla» en negro */
+.manual-foot .feedback--move{background:var(--black);border-left:0;color:#fff;gap:16px;padding:0 24px;border-radius:var(--radius-lg)}
+.manual-foot .feedback--move .move-icon{display:grid;place-items:center;width:46px;height:46px;flex:none;border-radius:50%;background:#fff;color:var(--black);animation:none}
+.manual-foot .feedback--move .move-icon .ico{width:26px;height:26px}
+.manual-foot .feedback--move b{font-size:clamp(20px,2vw,28px);font-weight:900;letter-spacing:-.01em;color:#fff}
+.manual-foot .feedback--move>span:nth-child(3){font-size:clamp(14px,1.3vw,18px);color:rgba(255,255,255,.72);font-weight:600}
+.manual-foot .feedback--move .move-arrow{margin-left:auto;display:grid;place-items:center;width:46px;height:46px;flex:none;border-radius:50%;background:var(--bid);color:#fff;animation:nudge 1.1s ease-in-out infinite}
+.manual-foot .feedback--move .move-arrow .ico{width:26px;height:26px}
+@keyframes nudge{50%{transform:translateX(6px)}}
