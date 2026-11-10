@@ -113,6 +113,7 @@ function renderBogotaGame(data){
 function renderDefault(data){
  const p=EXHIBITION_PROJECTS.find(p=>p.id===data?.projectId);
  const isHome=!p||data?.view==='home';
+ if(isHome){app.innerHTML=window.EXHIBITION_HOME.render();return;}
  let title=isHome?'Explore AI in Action':p.name;
  let intro=isHome?'Choose one of the eleven projects on the tablet to begin.':'Select Project Overview or Interactive Mini-Game on the tablet.';
  if(!isHome&&data.view==='overview'){title=topics[data.section]||'Project Overview';intro=`${p.name} ? This section will be developed and approved for the large display.`;}
