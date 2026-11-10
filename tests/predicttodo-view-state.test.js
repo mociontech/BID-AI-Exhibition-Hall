@@ -8,8 +8,10 @@ test('camera state preserves the tablet view and is tied to its case',()=>{
  assert.equal(view.camera(input,2),null);assert.equal(JSON.stringify(input),original);
  const withSize=view.camera({...input,viewport:{width:1024.2,height:415.8}},1);
  assert.deepEqual(withSize.viewport,{width:1024,height:416});
+ assert.equal(view.camera({...input,zoom:8.5},1).zoom,8.5);
+ assert.equal(view.camera({...input,zoom:9.4},1).zoom,9.4);
  for(const viewport of [{width:Infinity,height:400},{width:20,height:400},{width:800,height:9999}])assert.equal(view.camera({...input,viewport},1),null);
- for(const value of [null,{},'text',{...input,center:[Infinity,4]},{...input,center:[0,100]},{...input,zoom:NaN},{...input,zoom:20},{...input,zoom:9},{...input,center:['-74',4]}])assert.equal(view.camera(value,1),null);
+ for(const value of [null,{},'text',{...input,center:[Infinity,4]},{...input,center:[0,100]},{...input,zoom:NaN},{...input,zoom:20},{...input,zoom:8.49},{...input,center:['-74',4]}])assert.equal(view.camera(value,1),null);
 });
 
 test('popup state permits only a known corridor in its case and finite coordinates',()=>{

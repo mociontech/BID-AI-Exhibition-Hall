@@ -17,6 +17,114 @@ Explorar incluye la ficha de una vía y el ranking de congestión. Se pueden toc
 
 Los indicadores siguen siendo una simulación educativa. No se ejecuta un modelo de IA operativo ni se reciben pronósticos o tráfico en vivo. La sincronización HTTP/Firebase y el aislamiento entre estaciones se conservan.
 
+## Reparto tableta / TV (9 de noviembre)
+
+La tableta controla; la TV cuenta la historia. Diagnóstico aplicado: los datos
+verificados del proyecto (12 h, 15 min, 139.000+ tramos, 20 TB, 153 h/año,
+3 de cada 4, transferencia a la Secretaría) solo se veían en el diálogo
+«Sobre PredictToDo» de la tableta; la TV calcaba la grilla de roles y el campo
+de nombre; el cierre mostraba botones deshabilitados; bajo el mapa la TV decía
+«Toca un punto rojo…»; y el resultado no comparaba las medidas.
+
+- `insights.js` conserva `facts` como única fuente y expone `story(block, idioma)`
+  con los bloques `stats` (12 h · 15 min · 139.000+ · 20 TB) e `impact`. El diálogo
+  de datos de la tableta se eliminó (`attachFacts`); la tableta queda solo con controles.
+- `icons.js` (nuevo): íconos de silueta minimalista (trazo único, 24×24, `currentColor`)
+  para casos, acciones, roles y pasos. `GAME_DATA.json` conserva sus emojis como
+  identificadores; en pantalla nunca se muestran (las pruebas lo verifican).
+- TV · Inicio (`pulse-vial.js`): guía mínima en cuatro tarjetas (ícono, título y una
+  frase corta) bajo el título, sin datos ni insight. Las cifras fuertes del proyecto se
+  reservan para el cierre. Sin píldoras «Menú»/«Volver».
+- TV · Rol: una sola columna centrada de arriba abajo (título, rol elegido, cuatro fichas, dato clave horizontal). Rol seleccionado en grande (ícono, nombre, cargo, nombre escrito como chip),
+  los cuatro roles como fichas compactas (`data-role-mirror`) y un único insight con la
+  mirada del rol. Sin campo de texto.
+- Insights en color de marca: tarjeta azul `#005cff` con texto blanco e ícono en círculo
+  blanco; dentro del héroe azul de resultados pasa a blanco. Se retiraron el degradado
+  oscuro y el acento turquesa.
+- Panel a la izquierda y mapa a la derecha en tableta y TV (`render()` y las reglas
+  `.cc-layout`): lo primero que se lee es el panel; el mapa ocupa la columna ancha.
+- TV · Explorar/Decidir/Resultado (`control-center.js`): sin «Indicadores del caso» ni
+  franja «Cómo funciona» (ya están en la tableta); esa altura la toma el mapa. El antes →
+  después se muestra compacto dentro de «Medida seleccionada» (`cc-tv-delta`). En
+  Resultado la ficha de vía se sustituye por «Cómo puntuaba cada medida en este caso»
+  (puntajes de `GAME_DATA.json` con el bono del rol, medida elegida resaltada).
+- Espejo nítido: la TV ya no escala con CSS el lienzo del tamaño de la tableta (eso
+  desenfocaba y dejaba franjas). Renderiza a su propia resolución y reproduce el encuadre
+  con la cámara: mismo centro y `zoom + log2(min(anchoTV/anchoTableta, altoTV/altoTableta))`
+  (`mirrorZoom` en `native-map.js`). El eje limitante coincide con la tableta y el otro
+  muestra un poco más de ciudad; el mapa llena todo el marco. `validate.cjs` comprueba
+  centro igual, encuadre de la tableta contenido, eje limitante igual y sin `transform`.
+  La columna del mapa en la TV pasa a `minmax(340px,1fr) minmax(0,2.6fr)`.
+- Panel de la TV al mínimo (`displayContext`): kicker de una palabra, caso, y según la fase:
+  Explorar → ficha «Vía» con *Ahora* / *En 30 min* y la gráfica; Decidir → «Medida elegida»
+  con congestión y puntos críticos antes → después; Resultado → medida, puntaje, comparación
+  de medidas. Sin párrafo del caso, sin velocidad ni notas al pie (el aviso «tráfico simulado»
+  queda en el pie de pantalla).
+- Menos saturación (10 de noviembre): en el mapa solo las clases viales principales toman
+  color de tráfico (las calles menores conservan el gris base, `trafficPaint`); los nombres
+  de POI se limitan a estadios y aeropuertos y los barrios aparecen desde zoom 15
+  (`map-style.json`). La tableta pierde la píldora «Bogotá, Colombia», la línea «Toca un
+  punto rojo…», el subtítulo de la barra horaria y la curva de la gráfica (quedan los
+  marcadores de casos); el aviso del mapa pierde la nota «no es tráfico en vivo».
+- Reloj continuo (10 de noviembre): la hora avanza en cuartos (`step="0.25"`, la resolución de
+  15 min de PredictToDo). `server.js` acepta números finitos 0–23 y los redondea al cuarto
+  (antes exigía enteros; el servidor local se reinició con `artifacts/predicttodo-stage-split/
+  restart-server.cjs`, que guarda y restaura las 11 estaciones). `state()` interpola entre
+  horas enteras, así las horas enteras conservan sus valores y los cuartos no saltan.
+  `clock(hour,item)` formatea «15:15» y respeta la hora publicada del caso («16:40»).
+  La reproducción del día corre cada 100 ms por la ruta ligera (`applyHour` → `update()`),
+  publica cada cuarto y la TV usa una ruta rápida (`renderInto`, solo cambió la hora) que
+  refresca reloj, tinte, cifras del panel y pintura sin reconstruir el mapa.
+- Día y noche: `night(hour)` fija `--cc-night` en el marco; una capa `.cc-map-sky` dentro del
+  lienzo (bajo avisos y marcadores) oscurece suavemente sin tocar los colores del tráfico; sol
+  o luna junto a cada reloj (`skyMark`). La barra horaria se rediseñó: una fila de controles,
+  marcadores de casos sobre una franja amanecer→noche y deslizador continuo.
+- Barra horaria ordenada: título · velocidad (segmentado) · «Reproducir el día» · reloj con
+  sol/luna; los casos son puntos (`.cc-case-dot`, el actual en azul) sobre la franja. El área de
+  la gráfica se corrigió (arrancaba con un segundo `M` y se rellenaba en diagonal). En Decidir,
+  la tarjeta de medida de la TV y las tarjetas de acción de la tableta crecen para llenar la
+  columna; en Resultado lo hacen la comparación (TV) y el puntaje (tableta).
+- Copies tomados del prototipo del cliente (`index (1).html`): las acciones y sus descripciones
+  salen directamente de `GAME_DATA.json` («Ajustar semáforo», «Habilitar carril reversible»,
+  «Enviar agentes de tránsito», «No hacer nada»); Decidir titula «¿Qué medida considerarías?»;
+  Resultado titula «¡Buena elección!» (≥85) o «Decisión con oportunidades», con la
+  «Comparación de alternativas» y el botón «Probar otra opción». En la tableta los botones
+  exploratorios («Probar otra opción», «Cambiar de caso») van primero y «Ver resultados» al final
+  como secundario. En la TV, Resultado se reduce a medida + puntaje, comparación y lección (sin
+  el antes → después, que queda en Decidir).
+- Avisos del mapa con etiquetas: «Vía seleccionada / Punto crítico», nombre, y tres filas
+  Congestión · Velocidad · En 30 min.
+- Ficha de vía en la TV (Explorar): se estira hasta el insight, con gráfica grande, punto
+  pulsante en la hora actual y marcas 06/12/18/23.
+- Insight en negro `#141414` con ícono de bombillo (`bulb`), kicker «DATO CLAVE»; títulos y
+  líneas reescritos por caso y por medida (ES/EN).
+- Insights en una sola frase corta por caso y por medida (`control-center.js`,
+  `insight()`); la lección del Resultado se mantiene completa.
+- `module.js`: `?idle=<minutos>` ajusta la inactividad y `?idle=0` la desactiva mientras
+  se revisa; por defecto 4 minutos.
+- La gráfica de la vía en la TV se anima con suavidad: un trazo discontinuo recorre la
+  curva del día (`.cc-chart-flow`, 3,2 s) y la marca de la hora pulsa; se desactiva con
+  `prefers-reduced-motion`. En la tableta la gráfica permanece estática.
+- Tableta · guía de entrada (`control-center.js` → `guide()`, estilo del popup de Smart
+  Borders): al pulsar «Empezar turno» aparece una vez por visitante «Cómo usar el panel»
+  con tres pasos de una línea (Elige un caso · Explora · Decide) y la nota «Lo que hagas aquí
+  se ve en la pantalla grande». Es UI local de la tableta: no viaja en el estado ni llega a la
+  TV. El cronómetro del ranking arranca al cerrarla. Se cierra con «Empezar», la X o tocando
+  fuera. Se eliminó el CSS muerto del antiguo layout «teaching» de la TV, que chocaba con ella.
+- Tableta · panel simplificado: sin cajas de instrucción en Explorar y Resultado, tarjetas
+  de caso sin «Disponible» ni flecha, guía de barras en una línea, botón «Tomar una
+  decisión» a todo el ancho. Indicadores, mapa, barra horaria y ayudas táctiles se conservan.
+- TV · Cierre: resultados del visitante + casos jugados + bloque azul «PredictToDo en
+  Bogotá» con las cuatro cifras (12 h, 15 min, 139.000+ tramos, 20 TB) e insight. Sin
+  botones; el aviso inferior indica «Continuar» en la tableta.
+- Tableta (`module.js`): inactividad de 4 minutos sin toque/teclado en modo juego o
+  información → vuelve a la portada y la TV la sigue. Cualquier cambio de estado,
+  incluida la reproducción del día, reinicia el temporizador.
+
+No cambian GAME_DATA, puntajes, mapa, cámara, avisos, ranking ni QR. Capturas ES/EN a
+1920×1080 y TV a 1280×720 en `artifacts/predicttodo-stage-split/` (`phases.cjs`
+recorre todas las fases en la estación 9 y restaura su estado). Trabajo local, sin push.
+
 ## Infografía de Información
 
 La imagen activa es `assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png`, suministrada por el usuario, a 1920×1080. `../../shared/bogota-traffic.js` apunta a ese archivo tanto para ES como para EN. El PNG proporcionado contiene texto en inglés; no se modifica su contenido ni se genera una traducción gráfica. Controles, CTA y explicaciones siguen siendo bilingües. Se conserva la precarga existente. La imagen ocupa todo el ancho y alto con `object-fit: fill`; el CTA se superpone en el margen inferior de la propia imagen, sin reservar una franja ni reducir el arte. El nuevo archivo ya incluye su marca y no recibe otro logotipo superpuesto.
@@ -28,6 +136,41 @@ La imagen activa es `assets/PredictToDo_Infographic_Challenge_Solution_1920x1080
 - La presentación se usa como contexto visual y funcional, sin importar su video ni reproducir sus datos operativos.
 
 ## Geometría real y datos simulados
+
+### Prueba local del 8 de noviembre
+
+La base anterior ya utilizaba calles reales de OSM; lo simulado es el tráfico.
+Esta revisión guarda 384 teselas vectoriales reales del área urbana de Bogotá
+y su contexto (niveles 8–14), junto con fuentes y sprites, en `assets/bogota-map/`.
+`native-map.js` utiliza esos archivos locales para la cobertura guardada y
+conserva el proveedor original al desplazarse fuera de ella. Así se mantiene
+el mapa completo de calles, manzanas, edificios, parques y nombres, incluso
+si la red no permite cargar OpenFreeMap. Se conservan las atribuciones OSM.
+
+La vista inicial encuadra el perímetro urbano oficial de **Bogotá D.C., Colombia**.
+`geography.geojson` incorpora las 20 localidades y el suelo urbano publicados
+por la Secretaría Distrital de Planeación en Catastro Bogotá / IDECA, en
+EPSG:4326 y con atribución CC BY 4.0. El contorno y los nombres se muestran
+sobre la cartografía; se atenúa el contexto exterior en la vista general.
+Al elegir un caso se enfoca su zona, sin cambiar las coordenadas de las calles.
+El nuevo control «Ver Bogotá» de la tableta regresa a la vista general;
+la TV sigue esa cámara sin controles propios. La validación de cámara permite
+8,5–19 para mostrar la ciudad completa también en tabletas pequeñas.
+Los casos se verifican dentro del suelo urbano oficial; Ciudad de Cali
+se encuentra en Kennedy y El Campín en Teusaquillo.
+
+El estilo conserva el fondo oscuro, mejora el contraste de los nombres y
+añade escala métrica. Las vías principales se muestran también al alejar
+hasta el nivel 10. Los nombres reconocibles de los corredores se presentan
+sobre la geometría original. Los lugares del mapa proceden de sus teselas,
+sin generar ubicaciones. No se modifican escenarios, roles, acciones,
+indicadores, puntajes, ranking, QR ni el reparto tableta/TV.
+
+Al volver a elegir el caso activo, se vuelve a publicar su encuadre: antes
+se borraba `mapView` y el TV podía encuadrar por su cuenta. Se comprueban
+zoom, desplazamiento, selección de vías y avisos con el proveedor bloqueado.
+El generador y los avisos de licencia se documentan en
+`assets/bogota-map/README.md`. Esta revisión permanece local, sin push.
 
 El mapa principal utiliza las calles originales de las teselas vectoriales de OpenFreeMap/OpenMapTiles, basadas en OpenStreetMap. `native-map.js` cambia **solo el color de las capas viales del mapa base**. No agrega rutas, polilíneas duplicadas, bordes de navegación ni banderas de destino. La congestión simulada se extiende por la malla real de calles cercanas al evento, con variación según clase vial y distancia. Los corredores principales conservan su valor específico; los demás colores representan el contexto ilustrativo de la zona. Las calles externas conservan el color base. La geometría y los nombres son reales; los valores de tráfico son simulados. `map-style.json` conserva trazos finos y ferrocarril tenue.
 

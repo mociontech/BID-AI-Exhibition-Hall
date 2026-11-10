@@ -21,7 +21,7 @@
   ]
  };
  const copy={
-  es:{about:'Sobre PredictToDo',didYouKnow:'¿Sabías que?',close:'Cerrar',nextFact:'Otro dato',source:'Información del proyecto · BID y Secretaría Distrital de Movilidad de Bogotá',simulation:'Simulación educativa · Los puntajes y efectos del juego son simulados.',infoCta:'Cuando estés listo, pulsa “Experiencia interactiva” en la tableta',station:'ESTACIÓN',onTablet:'EN LA TABLETA',selected:'Tu selección',event:'Evento seleccionado',action:'Acción seleccionada',noAction:'Aún no has elegido una acción',completed:'eventos jugados',score:'Puntaje de esta decisión',total:'Tu puntaje acumulado',free:'Puedes jugar otro evento, repetir o volver al menú cuando quieras.',
+  es:{simulation:'Simulación educativa · Los puntajes y efectos del juego son simulados.',infoCta:'Cuando estés listo, pulsa “Experiencia interactiva” en la tableta',station:'ESTACIÓN',onTablet:'EN LA TABLETA',selected:'Tu selección',event:'Evento seleccionado',action:'Acción seleccionada',noAction:'Aún no has elegido una acción',completed:'eventos jugados',score:'Puntaje de esta decisión',total:'Tu puntaje acumulado',free:'Puedes jugar otro evento, repetir o volver al menú cuando quieras.',
    phases:{
     intro:['Tú decides cómo se mueve Bogotá','Explora una situación de tráfico, toma una decisión y descubre por qué puede ayudar a la ciudad.',['Elige un rol para tu turno','Explora el mapa y selecciona un evento','Compara el impacto de tu decisión'],'Pulsa “Siguiente” en la tableta para comenzar'],
     player:['Tu rol, tu mirada de la ciudad','Cada perfil aporta una perspectiva distinta al centro de control. Elige con quién quieres jugar.',['Selecciona uno de los cuatro roles','Escribe tu nombre si quieres','Pulsa “Empezar turno”'],'Elige tu rol y pulsa “Empezar turno” en la tableta'],
@@ -30,7 +30,7 @@
     result:['Una decisión, un aprendizaje','Compara el resultado y descubre qué cambia cuando anticipas la congestión.',['Revisa el puntaje y la explicación','Prueba otra decisión si quieres','Elige otro evento o termina tu turno'],'En la tableta: cambia tu decisión, elige otro evento o termina'],
     final:['Tu turno deja una lección','La información ayuda a anticipar problemas. Las personas deciden cómo responder.',['Revisa tus decisiones','Vuelve a los eventos para seguir explorando','O regresa al menú de PredictToDo'],'Pulsa “Jugar otro evento” o “Menú” en la tableta']
    }},
-  en:{about:'About PredictToDo',didYouKnow:'Did you know?',close:'Close',nextFact:'Another fact',source:'Project information · IDB and Bogotá’s Mobility Department',simulation:'Educational simulation · Game scores and effects are simulated.',infoCta:'When you are ready, press “Interactive experience” on the tablet',station:'STATION',onTablet:'ON THE TABLET',selected:'Your selection',event:'Selected event',action:'Selected action',noAction:'You have not selected an action yet',completed:'events played',score:'Score for this decision',total:'Your total score',free:'Play another event, try again or return to the menu whenever you like.',
+  en:{simulation:'Educational simulation · Game scores and effects are simulated.',infoCta:'When you are ready, press “Interactive experience” on the tablet',station:'STATION',onTablet:'ON THE TABLET',selected:'Your selection',event:'Selected event',action:'Selected action',noAction:'You have not selected an action yet',completed:'events played',score:'Score for this decision',total:'Your total score',free:'Play another event, try again or return to the menu whenever you like.',
    phases:{
     intro:['You decide how Bogotá moves','Explore a traffic situation, make a decision and discover how it can help the city.',['Choose a role for your shift','Explore the map and select an event','Compare the impact of your decision'],'Press “Next” on the tablet to begin'],
     player:['Your role, your view of the city','Each profile brings a different perspective to the control center. Choose who you want to play as.',['Select one of the four roles','Enter your name if you like','Press “Start shift”'],'Choose your role and press “Start shift” on the tablet'],
@@ -42,7 +42,6 @@
  };
  const langOf=language=>language==='es'?'es':'en';
  function cta(text){return `<footer class="ptd-tv-cta"><div role="status"><span>${tabletIcon}</span><strong>${esc(text)}</strong><b aria-hidden="true">↓</b></div></footer>`;}
- function factCard(language,index=0){const lang=langOf(language),c=copy[lang],f=facts[lang][index%facts[lang].length];return `<article class="ptd-fact"><p class="ptd-guide-kicker">${c.didYouKnow}</p><b class="ptd-fact-number">${esc(f[0])}</b><h2>${esc(f[1])}</h2><p>${esc(f[2])}</p><small>${c.source}</small></article>`;}
  function information({language,image,label}){const lang=langOf(language);return `<main class="ptd-tv-information" lang="${lang}"><div class="ptd-tv-art">${window.AI_ARTWORK(image,`class="ptd-tv-infographic" alt="${esc(label)}"`)}</div>${cta(copy[lang].infoCta)}</main>`;}
  function gameView(options){
   const phase=options.game?.phase||'intro';
@@ -50,18 +49,21 @@
   const html=window.PULSE_VIAL.render({...options,readonly:true});
   return window.PREDICTTODO_CONTROL?window.PREDICTTODO_CONTROL.displayOnly(html):html;
  }
- function attachFacts(root,language){
-  const lang=langOf(language),c=copy[lang],page=root.querySelector('.ptd-game');if(!page)return;
-  const button=document.createElement('button');button.type='button';button.className='ptd-facts-button';button.title=c.about;button.setAttribute('aria-label',c.about);button.innerHTML=`<span aria-hidden="true">ⓘ</span> <span class="ptd-facts-button-label">${c.about}</span>`;
-  const dialog=document.createElement('dialog');dialog.className='ptd-facts-dialog';dialog.setAttribute('aria-label',c.about);
-  let index=0;
-  function draw(){dialog.innerHTML=`<div class="ptd-facts-dialog-head"><strong>PredictToDo</strong><button type="button" data-fact-close aria-label="${c.close}">×</button></div>${factCard(lang,index)}<footer><span>${index+1} / ${facts[lang].length}</span><button type="button" data-fact-next>${c.nextFact} →</button></footer>`;dialog.querySelector('[data-fact-close]').onclick=()=>dialog.close();dialog.querySelector('[data-fact-next]').onclick=()=>{index=(index+1)%facts[lang].length;draw();dialog.querySelector('[data-fact-next]').focus();};}
-  button.onclick=()=>{draw();dialog.showModal();};
-  dialog.addEventListener('click',event=>{if(event.target===dialog){const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}});
-  page.append(button,dialog);
+ // TV storytelling. The project facts above are the only source; the tablet keeps controls only.
+ // The strongest figures close the experience; the opening stays a short visual guide.
+ const storyCopy={
+  es:{impact:'PREDICTTODO EN BOGOTÁ',selectedRole:'ROL SELECCIONADO EN LA TABLETA',stats:['de anticipación','por intervalo','tramos viales','de datos analizados']},
+  en:{impact:'PREDICTTODO IN BOGOTÁ',selectedRole:'ROLE SELECTED ON THE TABLET',stats:['ahead','per interval','road segments','of data analyzed']}
+ };
+ const storyStats=[['12 h',0],['15 min',1],['139.000+',2],['20 TB',3]];
+ function story(block,language){
+  const lang=langOf(language),s=storyCopy[lang];
+  if(block==='stats')return `<div class="ptd-story-stats" role="list">${storyStats.map(([value,i])=>`<span role="listitem"><b>${lang==='en'&&value==='139.000+'?'139,000+':value}</b><small>${s.stats[i]}</small></span>`).join('')}</div>`;
+  if(block==='impact')return `<section class="ptd-story-impact"><p class="ptd-story-kicker">${s.impact}</p><h3>${esc(facts[lang][0][1])}</h3>${story('stats',language)}</section>`;
+  return '';
  }
  function renderGameInto(root,options){
   window.PULSE_VIAL.renderInto(root,{...options,readonly:true});
  }
- window.PREDICTTODO_INSIGHTS=Object.freeze({information,gameView,renderGameInto,attachFacts,facts});
+ window.PREDICTTODO_INSIGHTS=Object.freeze({information,gameView,renderGameInto,story,storyCopy,facts});
 })();

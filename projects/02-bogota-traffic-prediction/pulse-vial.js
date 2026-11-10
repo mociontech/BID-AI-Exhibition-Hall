@@ -6,6 +6,8 @@
   en:{center:'Mobility control center',intro:'For one day, you decide how the city moves.',play:'Play',next:'Next',back:'Back',start:'Start shift',name:'Your name',nameHint:'E.g. Daniela',chooseRole:'Choose your role',roleHint:'Each role brings a different lens to the decision.',explore:'Explore',decide:'Decide',map:'Predictive map',timeline:'Time of day',missions:'Control center',missionHint:'Select an event to review the forecast and decide.',resolved:'Resolved',active:'Under review',available:'Available',goDecision:'Review decision',returnMap:'Return to control center',scenario:'Detected situation',apply:'Apply decision',chooseAction:'Choose an action to preview its impact.',impact:'Simulated impact',congestion:'Congestion',speed:'Estimated speed',critical:'Critical points',resources:'Available resources',agents:'Agents',lanes:'Reversible lanes',score:'Score',bonus:'Role insight',lesson:'What we learn',retry:'Change decision',nextScenario:'Next scenario',finish:'View final result',final:'Shift completed',restart:'Play again',of:'of',simulation:'Educational simulation',live:'Simulated data · Not operational recommendations',traffic:'Traffic',normal:'Normal',busy:'Busy',dense:'Dense',criticalState:'Critical',profile:'Operator',role:'Role',choose:'Select',confirm:'Confirm',day:'A day of decisions',items:['Explore the map. Move the clock and see how traffic changes during the day.','Enter the control center. Review four moments and decide what to do.','Observe the impact. Each decision compares congestion, speed and critical points.','Learn from the result. The score starts a conversation about why a choice works.']}
  };
  const esc=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+ // Outline icons replace the GAME_DATA emojis on screen; the emoji stays as a fallback.
+ const icon=(kind,id,fallback,className)=>window.PREDICTTODO_ICONS?.[kind]?.(id,className)??esc(fallback);
  const t=language=>words[language==='es'?'es':'en'];
  const total=game=>Object.values(game.results||{}).reduce((sum,value)=>sum+Number(value||0),0);
  const playedCount=game=>Object.keys(game.results||{}).length;
@@ -22,9 +24,10 @@
  function mapSvg(congestion,scenarioItem,copy){const risk=congestion>=80?'critical':congestion>=62?'dense':congestion>=42?'busy':'normal';return `<svg class="pulse-city-map" viewBox="0 0 760 520" role="img" aria-label="${copy.map}"><defs><linearGradient id="pulse-water" x1="0" x2="1"><stop stop-color="#0a3e66"/><stop offset="1" stop-color="#092b4b"/></linearGradient><filter id="pulse-glow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="760" height="520" rx="28" fill="url(#pulse-water)"/><path class="pulse-river" d="M70 0C135 110 78 179 130 272S91 422 32 520"/><path class="pulse-road pulse-road--a ${risk}" d="M171 66L190 442"/><path class="pulse-road pulse-road--b ${risk}" d="M290 42L308 470"/><path class="pulse-road pulse-road--c ${risk}" d="M438 52L414 456"/><path class="pulse-road pulse-road--d ${risk}" d="M559 84L525 438"/><path class="pulse-road pulse-road--e ${risk}" d="M107 163C258 151 431 186 665 146"/><path class="pulse-road pulse-road--f ${risk}" d="M95 280C260 261 421 293 674 270"/><path class="pulse-road pulse-road--g ${risk}" d="M118 393C270 354 431 379 631 421"/><path class="pulse-link" d="M190 163L308 280L414 146L525 270M190 280L308 163L414 393L525 270"/><g class="pulse-map-labels"><text x="118" y="150">Calle 80</text><text x="464" y="136">Calle 100</text><text x="122" y="269">Av. El Dorado</text><text x="110" y="405">Av. 1° de Mayo</text><text x="196" y="502">Av. Ciudad de Cali</text></g><g filter="url(#pulse-glow)"><circle class="pulse-event-dot" cx="${scenarioItem.id==='cali_peak'?190:scenarioItem.id==='calle100_quiet'?525:414}" cy="${scenarioItem.id==='cali_peak'?280:scenarioItem.id==='calle100_quiet'?146:270}" r="17"/><circle class="pulse-event-core" cx="${scenarioItem.id==='cali_peak'?190:scenarioItem.id==='calle100_quiet'?525:414}" cy="${scenarioItem.id==='cali_peak'?280:scenarioItem.id==='calle100_quiet'?146:270}" r="6"/></g><g class="pulse-map-tag"><rect x="442" y="424" width="246" height="47" rx="12"/><text x="459" y="444">${scenarioItem.icon} ${esc(scenarioItem.time)}</text><text x="459" y="461">${esc(scenarioItem[`zone_${copy===words.en?'en':'es'}`]||scenarioItem.zone_es)}</text></g></svg>`;}
  function header(data,game,language,readonly){
   const copy=t(language),person=player(data,game),free=freeCopy(language);
-  const exit=readonly?`<span class="pulse-command-exit" aria-hidden="true">← ${free.menu}</span>`:`<button type="button" class="pulse-command-exit" data-action="exit-game" aria-label="${free.menu}">← ${free.menu}</button>`;
+  // The TV shows no navigation pills: Menu and Back live on the tablet only.
+  const exit=readonly?'':`<button type="button" class="pulse-command-exit" data-action="exit-game" aria-label="${free.menu}">← ${free.menu}</button>`;
   const score=playedCount(game)?`${total(game)}<i>/${playedCount(game)*100}</i>`:`0<i> pts</i>`;
-  return `<header class="pulse-command-header"><div class="pulse-command-brand"><span>●</span><p>${copy.center}</p></div><div class="pulse-command-user"><span class="pulse-avatar-small">${person.avatar}</span><div><b>${esc(game.playerName||person.name)}</b><small>${esc(person[`role_${language}`])}</small></div></div><div class="pulse-command-clock"><small>${copy.timeline}</small><strong>${String(game.hour).padStart(2,'0')}:00</strong></div><div class="pulse-command-score"><small>${copy.score}</small><strong>${score}</strong></div>${readonly?`<span class="ptd-readonly-language">${language.toUpperCase()}</span>`:`<div class="pulse-command-language"><button type="button" data-language="es" aria-pressed="${language==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${language==='en'}">EN</button></div>`}${exit}</header>`;
+  return `<header class="pulse-command-header"><div class="pulse-command-brand"><span>●</span><p>${copy.center}</p></div><div class="pulse-command-user"><span class="pulse-avatar-small">${icon('role',person.id,person.avatar)}</span><div><b>${esc(game.playerName||person.name)}</b><small>${esc(person[`role_${language}`])}</small></div></div><div class="pulse-command-clock"><small>${copy.timeline}</small><strong>${window.PREDICTTODO_CONTROL?.clock?window.PREDICTTODO_CONTROL.clock(game.hour):String(game.hour).padStart(2,'0')+':00'}</strong></div><div class="pulse-command-score"><small>${copy.score}</small><strong>${score}</strong></div>${readonly?`<span class="ptd-readonly-language">${language.toUpperCase()}</span>`:`<div class="pulse-command-language"><button type="button" data-language="es" aria-pressed="${language==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${language==='en'}">EN</button></div>`}${exit}</header>`;
  }
  function meter(label,value,unit,kind){return `<div class="pulse-meter" data-meter="${kind}"><span>${label}</span><strong>${value}${unit?`<small class="pulse-meter-unit">${unit}</small>`:''}</strong><i class="pulse-meter-track"><b class="pulse-meter-fill pulse-meter-fill--${kind}" style="width:${Math.max(5,Math.min(100,value))}%"></b></i></div>`;}
  function hud(data,game,language,scenarioItem,preview){const copy=t(language),baseline=scenarioItem.baseline;const effect=preview&&scenarioItem.effects[preview]||{congestion:0,speed:0,critical:0};const congestion=Math.max(0,Math.min(100,stateForHour(game.hour,baseline.congestion,scenarioItem.hour)+effect.congestion));const speed=Math.max(0,baseline.speed+effect.speed);const critical=Math.max(0,baseline.critical+effect.critical);return `<section class="pulse-hud"><div class="pulse-hud-title"><span>${scenarioItem.icon}</span><div><small>${copy.scenario}</small><strong>${esc(scenarioItem[`title_${language}`])}</strong><em>${esc(scenarioItem[`zone_${language}`])}</em></div></div><div class="pulse-hud-meters">${meter(copy.congestion,congestion,'%',congestion>=65?'danger':'good')}${meter(copy.speed,speed,' km/h','speed')}${meter(copy.critical,critical,'','critical')}</div></section>`;}
@@ -50,9 +53,27 @@
    'Each decision earns 0 to 100 points based on how well it suits the case. Compare the result of your action.',
    'Review your score and compare your decisions. Finish after one case, try again or play the others.'
   ];
-  return `<main class="pulse-command pulse-command--intro">${header(data,game,language,readonly)}<section class="pulse-intro-card ${readonly?'ptd-tv-intro-instructions':''}"><p>${copy.center}</p><h1>${es?'Pulso vial Bogotá':'Bogotá Traffic Pulse'}</h1><h2>${readonly?copy.intro:es?'Decide dónde actuar.':'Decide where to act.'}</h2><ol>${steps.map((item,index)=>`<li><b>${String(index+1).padStart(2,'0')}</b>${readonly?`<div class="ptd-tv-step-copy"><h3>${item}</h3><p>${instructions[index]}</p></div>`:`<span>${item}</span>`}</li>`).join('')}</ol>${readonly?'':`<button type="button" class="pulse-command-primary" data-action="to-player">${es?'Elegir mi rol':'Choose my role'} <span>→</span></button>`}</section></main>`;
+  const title=`<p>${copy.center}</p><h1>${es?'Pulso vial Bogotá':'Bogotá Traffic Pulse'}</h1>`;
+  if(readonly&&window.PREDICTTODO_ICONS){
+   // The TV opening is a four-step visual guide: one icon, one title, one short hint each.
+   const hints=es?['Mueve la hora y toca una vía','Elige un caso y prueba una medida','Cada decisión suma hasta 100','Compara y aprende']:['Move the clock, tap a road','Pick a case, try a response','Each decision earns up to 100','Compare and learn'];
+   const list=`<ol class="ptd-tv-guide-steps">${steps.map((item,index)=>`<li><span class="ptd-guide-icon" aria-hidden="true">${icon('step',index,'')}</span><b>${String(index+1).padStart(2,'0')}</b><div class="ptd-tv-step-copy"><h3>${item}</h3><p>${hints[index]}</p></div></li>`).join('')}</ol>`;
+   return `<main class="pulse-command pulse-command--intro">${header(data,game,language,readonly)}<section class="pulse-intro-card ptd-tv-intro-instructions ptd-tv-guide">${title}<h2>${copy.intro}</h2>${list}</section></main>`;
+  }
+  return `<main class="pulse-command pulse-command--intro">${header(data,game,language,readonly)}<section class="pulse-intro-card ${readonly?'ptd-tv-intro-instructions':''}">${title}<h2>${readonly?copy.intro:es?'Decide dónde actuar.':'Decide where to act.'}</h2><ol>${steps.map((item,index)=>`<li><b>${String(index+1).padStart(2,'0')}</b>${readonly?`<div class="ptd-tv-step-copy"><h3>${item}</h3><p>${instructions[index]}</p></div>`:`<span>${item}</span>`}</li>`).join('')}</ol>${readonly?'':`<button type="button" class="pulse-command-primary" data-action="to-player">${es?'Elegir mi rol':'Choose my role'} <span>→</span></button>`}</section></main>`;
  }
- function playerScreen(data,game,language,readonly){const copy=t(language);return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-player-screen"><div><p>${copy.profile}</p><h1>${copy.chooseRole}</h1><span>${copy.roleHint}</span></div><label>${copy.name}${readonly?`<output class="pulse-name-mirror">${esc(game.playerName)||copy.nameHint}</output>`:`<input data-name maxlength="40" value="${esc(game.playerName)}" placeholder="${copy.nameHint}">`}</label><div class="pulse-role-grid">${data.characters.map(item=>`<${readonly?'div':'button type="button"'} class="pulse-role-card ${item.id===game.playerId?'is-selected':''}" ${readonly?`data-role-mirror="${item.id}"`:`data-role="${item.id}"`}><span>${item.avatar}</span><b>${item.name}</b><small>${item[`role_${language}`]}</small><em>${item[`focus_${language}`]}</em><i>${item.bonus.points > 0?`+${item.bonus.points} ${copy.score.toLowerCase()}`:''}</i></${readonly?'div':'button'}>`).join('')}</div><footer>${readonly?`<span class="pulse-command-primary">${language==='es'?'En la tableta, elige tu rol y pulsa «Empezar turno».':'On the tablet, choose your role and press “Start shift”.'}</span>`:`<button type="button" class="pulse-command-secondary" data-action="to-intro">${copy.back}</button><button type="button" class="pulse-command-primary" data-action="start-explore">${copy.start} <span>→</span></button>`}</footer></section></main>`;}
+ function playerScreen(data,game,language,readonly){
+  const copy=t(language),tv=readonly?window.PREDICTTODO_INSIGHTS:null;
+  const roles=data.characters.map(item=>`<${readonly?'div':'button type="button"'} class="pulse-role-card ${item.id===game.playerId?'is-selected':''}" ${readonly?`data-role-mirror="${item.id}"`:`data-role="${item.id}"`}><span>${icon('role',item.id,item.avatar)}</span><b>${item.name}</b><small>${item[`role_${language}`]}</small><em>${item[`focus_${language}`]}</em><i>${item.bonus.points > 0?`+${item.bonus.points} ${copy.score.toLowerCase()}`:''}</i></${readonly?'div':'button'}>`).join('');
+  const heading=`<div><p>${copy.profile}</p><h1>${copy.chooseRole}</h1><span>${copy.roleHint}</span></div>`;
+  if(tv){
+   // The TV shows the chosen role large; the name field and the choice stay on the tablet.
+   const person=player(data,game),s=tv.storyCopy[language==='es'?'es':'en'];
+   const hero=`<div class="ptd-role-hero"><span class="ptd-role-hero-avatar" aria-hidden="true">${icon('role',person.id,person.avatar)}</span><div><p class="ptd-story-kicker">${s.selectedRole}</p><h2>${esc(person.name)}</h2><p>${esc(person[`role_${language}`])}</p><output class="pulse-name-mirror">${esc(game.playerName)}</output></div></div>`;
+   return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-player-screen ptd-tv-story ptd-tv-story--player"><div class="ptd-story-main">${heading}${hero}<div class="pulse-role-grid ptd-role-chips">${roles}</div></div><aside class="ptd-story-side"></aside></section></main>`;
+  }
+  return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-player-screen">${heading}<label>${copy.name}${readonly?`<output class="pulse-name-mirror">${esc(game.playerName)||copy.nameHint}</output>`:`<input data-name maxlength="40" value="${esc(game.playerName)}" placeholder="${copy.nameHint}">`}</label><div class="pulse-role-grid">${roles}</div><footer>${readonly?`<span class="pulse-command-primary">${language==='es'?'En la tableta, elige tu rol y pulsa «Empezar turno».':'On the tablet, choose your role and press “Start shift”.'}</span>`:`<button type="button" class="pulse-command-secondary" data-action="to-intro">${copy.back}</button><button type="button" class="pulse-command-primary" data-action="start-explore">${copy.start} <span>→</span></button>`}</footer></section></main>`;
+ }
  function exploreScreen(data,game,language,readonly){
   const copy=t(language),free=freeCopy(language),scenarioItem=scenario(data,game);
   const finish=playedCount(game)?`<button type="button" class="ptd-finish-link" data-action="finish-session">${free.finishNow}</button>`:'';
@@ -70,7 +91,14 @@
   const copy=t(language),free=freeCopy(language),score=total(game),count=playedCount(game),possible=count*100;
   const average=possible?score/possible:0;
   const played=data.scenarios.map((item,index)=>({item,index})).filter(({index})=>Object.hasOwn(game.results||{},index));
-  return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-final-screen"><p>${free.completed}: ${count}/4</p><h1>${score}<small>/${possible}</small></h1><span>${average>=.8?'★★★':average>=.5?'★★☆':'★☆☆'}</span><h2>${average>=.8?(language==='es'?'Tomaste decisiones informadas':'You made informed decisions'):(language==='es'?'Cada escenario es una oportunidad de aprendizaje':'Each scenario is an opportunity to learn')}</h2><div>${played.map(({item,index})=>`<article><span>${item.icon}</span><b>${esc(item[`title_${language}`])}</b><strong>${game.results[index]}</strong></article>`).join('')}</div><div class="ptd-final-actions"><button type="button" class="pulse-command-secondary" data-action="resume-events">${free.continue}</button><button type="button" class="pulse-command-secondary" data-action="reset-game">${copy.restart} <span>↻</span></button><button type="button" class="pulse-command-primary" data-action="to-ranking">${language==='es'?'Continuar':'Continue'} <span>→</span></button></div></section></main>`;
+  const stars=average>=.8?'★★★':average>=.5?'★★☆':'★☆☆';
+  const cases=played.map(({item,index})=>`<article><span>${icon('scenario',item.id,item.icon)}</span><b>${esc(item[`title_${language}`])}</b><strong>${game.results[index]}</strong></article>`).join('');
+  const tv=readonly?window.PREDICTTODO_INSIGHTS:null;
+  if(tv){
+   // Stage 5 on the TV: the visitor's results, then the strongest project figures. No buttons.
+   return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-final-screen ptd-tv-story--final"><div class="ptd-final-hero"><p>${free.completed}: ${count}/4</p><h2>${language==='es'?'Tus resultados':'Your results'}</h2><h1>${score}<small>/${possible}</small></h1><span>${stars}</span></div><div class="ptd-final-summary"><div class="ptd-final-summary-heading"><h2>${language==='es'?'Casos que jugaste':'Cases you played'}</h2></div><div>${cases}</div>${tv.story('impact',language)}</div></section></main>`;
+  }
+  return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-final-screen"><p>${free.completed}: ${count}/4</p><h1>${score}<small>/${possible}</small></h1><span>${stars}</span><h2>${average>=.8?(language==='es'?'Tomaste decisiones informadas':'You made informed decisions'):(language==='es'?'Cada escenario es una oportunidad de aprendizaje':'Each scenario is an opportunity to learn')}</h2><div>${cases}</div><div class="ptd-final-actions"><button type="button" class="pulse-command-secondary" data-action="resume-events">${free.continue}</button><button type="button" class="pulse-command-secondary" data-action="reset-game">${copy.restart} <span>↻</span></button><button type="button" class="pulse-command-primary" data-action="to-ranking">${language==='es'?'Continuar':'Continue'} <span>→</span></button></div></section></main>`;
  }
  function gpsRoadState(value){return value>=82?'critical':value>=65?'dense':value>=42?'busy':'normal';}
  function gpsRoadStates(congestion,scenarioId){
@@ -362,12 +390,11 @@
   const brand=page.querySelector('.pulse-command-brand');
   if(brand)brand.innerHTML='<img src="/projects/02-bogota-traffic-prediction/predicttodoImages/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="ptd-header-divider" aria-hidden="true"></span><span class="ptd-header-copy"><strong>AI in Action</strong><small>IDB Group Projects Across the Region</small></span>';
   const backTargets={explore:'back-player',decision:'to-explore',result:'retry',final:'resume-events'};
-  if(backTargets[phase]){
-   const back=document.createElement(readonly?'span':'button');
+  if(backTargets[phase]&&!readonly){
+   const back=document.createElement('button');
    back.className='ptd-stage-back';
    back.textContent=language==='es'?'← Volver':'← Back';
-   if(readonly)back.setAttribute('aria-hidden','true');
-   else{back.type='button';back.dataset.action=backTargets[phase];}
+   back.type='button';back.dataset.action=backTargets[phase];
    page.querySelector('.pulse-command-exit')?.before(back);
   }
   const title={
@@ -398,7 +425,7 @@
     row.querySelector(':scope > span:not(.ptd-score-label)')?.remove();
    });
   }
-  if(phase==='final'){
+  if(phase==='final'&&!readonly){
    const final=page.querySelector('.pulse-final-screen');
    if(final){
     const hero=document.createElement('div');hero.className='ptd-final-hero';
@@ -446,8 +473,11 @@
   const page=root.querySelector('.ptd-game'),control=window.PREDICTTODO_CONTROL;
   if(page&&control&&options.readonly){
    const fragment=document.createElement('div');fragment.innerHTML=control.insight(options);
-   const card=fragment.firstElementChild,phase=options.game.phase;
-   if(phase==='intro'){
+   const card=fragment.firstElementChild,phase=options.game.phase,side=page.querySelector('.ptd-story-side');
+   // The opening guide stays text-light and the closing hero keeps only the score (the impact block carries the idea).
+   if(page.querySelector('.ptd-tv-guide')||page.querySelector('.ptd-tv-story--final')){}
+   else if(side)side.append(card);
+   else if(phase==='intro'){
     const actions=page.querySelector('.ptd-intro-actions');
     if(actions)actions.before(card);else page.querySelector('.pulse-intro-card')?.append(card);
    }

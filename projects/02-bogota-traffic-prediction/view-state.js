@@ -4,7 +4,7 @@
  const point=value=>Array.isArray(value)&&value.length===2&&value.every(Number.isFinite)&&Math.abs(value[0])<=180&&Math.abs(value[1])<=85;
  const round=(n,d=6)=>Number(n.toFixed(d));
  function camera(value,scenarioIndex){
-  if(!value||value.scenarioIndex!==scenarioIndex||!point(value.center)||!Number.isFinite(value.zoom)||value.zoom<10||value.zoom>19)return null;
+  if(!value||value.scenarioIndex!==scenarioIndex||!point(value.center)||!Number.isFinite(value.zoom)||value.zoom<8.5||value.zoom>19)return null;
   const result={scenarioIndex,center:value.center.map(n=>round(n)),zoom:round(value.zoom,4)};
   if(value.viewport){
    const {width,height}=value.viewport;

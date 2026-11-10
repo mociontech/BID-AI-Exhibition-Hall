@@ -12,7 +12,9 @@ window.ProjectModule={
     };
     let state={language:'en',mode:'landing',informationActive:false,game:null};
     const words=()=>landingCopy[state.language];
-    const freshGame=()=>{sessionClock.reset();return {phase:'intro',playerId:'valentina',playerName:'',hour:16,scenarioIndex:0,selectedCorridor:null,mapView:null,mapPopup:null,actionId:null,results:{},sessionId:crypto.randomUUID(),durationMs:0,rankStatus:null};};
+    // The panel guide is tablet-only UI: shown once per visitor, never part of the shared game state.
+    let guideOpen=false,guideSeen=false;
+    const freshGame=()=>{sessionClock.reset();guideOpen=false;guideSeen=false;return {phase:'intro',playerId:'valentina',playerName:'',hour:16,scenarioIndex:0,selectedCorridor:null,mapView:null,mapPopup:null,actionId:null,results:{},sessionId:crypto.randomUUID(),durationMs:0,rankStatus:null};};
     const infoImages=window.BOGOTA_TRAFFIC.INFO_IMAGES;
     Object.values(infoImages).forEach(path=>{const image=new Image();image.src=`../../${path}`;});
     async function loadData(){
@@ -37,18 +39,39 @@ window.ProjectModule={
       const button=mount.querySelector('[data-cc-play]');
       if(button)button.textContent='▶ '+window.PREDICTTODO_CONTROL.words[state.language].play;
     }
+    // Day playback runs continuously in quarter hours: one hour of simulation takes `playRate` ms.
+    // Each step uses the light update path (no full re-render); the TV follows every published quarter.
     function startDay(){
       if(dayTimer)clearInterval(dayTimer);
+      let last=performance.now(),carry=state.game.hour;
       dayTimer=setInterval(()=>{
-        const hour=Math.min(23,state.game.hour+1);
-        if(hour===23)stopDay();
-        updateGame({hour});
-      },playRate);
+        const now=performance.now();carry=Math.min(23,carry+(now-last)/playRate);last=now;
+        const hour=Math.round(carry*4)/4;
+        if(hour!==state.game.hour)applyHour(hour);
+        if(hour>=23){stopDay();render();}
+      },100);
+    }
+    function applyHour(hour){
+      state.game={...state.game,hour};
+      if(mount.querySelector('[data-cc-geography]'))window.PREDICTTODO_CONTROL.update(mount,{data:gameData,game:state.game,language:state.language});
+      else window.PULSE_VIAL.mountLiveMap(mount,{data:gameData,game:state.game,language:state.language});
+      void publish();
     }
     function setState(next){
       if(next.mode==='landing'||next.game?.phase&&next.game.phase!=='explore')stopDay();
-      state={...state,...next};render();void publish();
+      state={...state,...next};render();void publish();armIdle();
     }
+    // Inactivity: with nobody touching the tablet, both screens return to the project cover.
+    // Any state change (including day playback ticks) re-arms it, so active use is never interrupted.
+    // `?idle=<minutes>` overrides the default; `?idle=0` disables it while reviewing.
+    const idleMinutes=Number(new URLSearchParams(location.search).get('idle'));
+    const IDLE_MS=(Number.isFinite(idleMinutes)&&idleMinutes>=0&&location.search.includes('idle=')?idleMinutes:4)*60*1000;let idleTimer=null;
+    function armIdle(){
+      clearTimeout(idleTimer);idleTimer=null;
+      if(!IDLE_MS||state.mode==='landing'&&!state.informationActive)return;
+      idleTimer=setTimeout(()=>{if(state.mode!=='landing'||state.informationActive)setState({mode:'landing',informationActive:false,game:null});},IDLE_MS);
+    }
+    ['pointerdown','keydown','touchstart','input'].forEach(type=>document.addEventListener(type,armIdle,{passive:true}));
     function showInformation(){setState({informationActive:true});}
     function leaveInformation(){setState({informationActive:false});}
     async function goHome(){
@@ -66,10 +89,9 @@ window.ProjectModule={
       if(state.mode!=='game')window.PREDICTTODO_CONTROL?.release(mount);
       if(state.mode==='landing')mount.innerHTML=landing();
       else if(!gameData)mount.innerHTML=`<main class="pulse-command pulse-command--loading"><p>${words().loading}</p></main>`;
-      else {
-        window.PULSE_VIAL.renderInto(mount,{data:gameData,game:state.game,language:state.language});
-        window.PREDICTTODO_INSIGHTS?.attachFacts(mount,state.language);
-      }
+      else window.PULSE_VIAL.renderInto(mount,{data:gameData,game:state.game,language:state.language});
+      if(guideOpen&&state.mode==='game'&&state.game?.phase==='explore')mount.insertAdjacentHTML('beforeend',window.PREDICTTODO_CONTROL.guide(state.language));
+      else guideOpen=false;
       bind();
       const play=mount.querySelector('[data-cc-play]');
       if(play)play.textContent=(dayTimer?'Ⅱ ':'▶ ')+window.PREDICTTODO_CONTROL.words[state.language][dayTimer?'pause':'play'];
@@ -82,6 +104,10 @@ window.ProjectModule={
         if(item.baseline.critical+(item.effects[game.actionId]?.critical||0)<=0)game.mapPopup=null;
       }
       setState({game});
+    }
+    function closeGuide(){
+      guideOpen=false;guideSeen=true;mount.querySelector('[data-cc-guide]')?.remove();
+      sessionClock.start(performance.now());armIdle();
     }
     function selectCorridor(id,focus=false){
       updateGame({selectedCorridor:id,...(focus?{mapPopup:null}:{})});
@@ -107,7 +133,7 @@ window.ProjectModule={
         const action=button.dataset.action;
         if(action==='toggle-day'){
           if(dayTimer){stopDay();return;}
-          if(state.game.hour>=23)updateGame({hour:6});
+          if(state.game.hour>=23)applyHour(6);
           startDay();
           render();return;
         }
@@ -123,11 +149,13 @@ window.ProjectModule={
         if(action==='back-player')return updateGame({phase:'player',actionId:null});
         if(action==='to-intro')return updateGame({phase:'intro'});
         if(action==='start-explore'){
-          sessionClock.start(performance.now());
           const name=mount.querySelector('[data-name]')?.value.trim()||'';
           const scenario=gameData.scenarios[state.game.scenarioIndex];
+          // First entry: the guide covers the panel and the ranking clock waits until it is closed.
+          if(guideSeen)sessionClock.start(performance.now());else guideOpen=true;
           return updateGame({phase:'explore',playerName:name,hour:scenario.hour,actionId:null});
         }
+        if(action==='close-guide')return closeGuide();
         if(action==='to-explore'){sessionClock.start(performance.now());return updateGame({phase:'explore',actionId:null});}
         if(action==='to-decision')return updateGame({phase:'decision',hour:gameData.scenarios[state.game.scenarioIndex].hour,actionId:null});
         if(action==='confirm-decision'){
@@ -146,19 +174,10 @@ window.ProjectModule={
         if(action==='reset-game')return updateGame(freshGame());
       }));
       mount.querySelectorAll('[data-role]').forEach(button=>button.addEventListener('click',()=>updateGame({playerId:button.dataset.role})));
-      mount.querySelector('.ptd-facts-button')?.addEventListener('click',stopDay);
       mount.querySelectorAll('[data-action-choice]').forEach(button=>button.addEventListener('click',()=>updateGame({actionId:button.dataset.actionChoice})));
       mount.querySelector('[data-hour]')?.addEventListener('input',event=>{
         stopDay();
-        state.game={...state.game,hour:Number(event.target.value)};
-        const hourLabel=String(state.game.hour).padStart(2,'0')+':00';
-        const clock=mount.querySelector('.pulse-command-clock strong');
-        const timeline=mount.querySelector('.pulse-timeline>span b');
-        if(clock)clock.textContent=hourLabel;
-        if(timeline)timeline.textContent=hourLabel;
-        if(mount.querySelector('[data-cc-geography]'))window.PREDICTTODO_CONTROL.update(mount,{data:gameData,game:state.game,language:state.language});
-        else window.PULSE_VIAL.mountLiveMap(mount,{data:gameData,game:state.game,language:state.language});
-        void publish();
+        applyHour(Math.round(Number(event.target.value)*4)/4);
       });
       mount.querySelector('[data-hour]')?.addEventListener('change',()=>render());
       mount.querySelector('[data-name]')?.addEventListener('input',event=>{
@@ -168,6 +187,7 @@ window.ProjectModule={
     }
     // Delegation keeps freshly redrawn graph markers and road rankings interactive.
     mount.addEventListener('click',event=>{
+      if(event.target.matches('[data-cc-guide]')){closeGuide();return;}
       const caseButton=event.target.closest('[data-scenario]');
       if(caseButton){
         stopDay();

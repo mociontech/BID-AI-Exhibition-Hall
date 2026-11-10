@@ -80,7 +80,10 @@ const server=http.createServer((req,res)=>{
       const phases=['intro','player','explore','decision','result','final','resources'];
       const players=['valentina','camila','santiago','andres'];
       const actions=['signals','reversible','agents','monitor'];
-      if(typeof value!=='object'||!phases.includes(value.phase)||!Number.isInteger(value.scenarioIndex)||value.scenarioIndex<0||value.scenarioIndex>3||!Number.isInteger(value.hour)||value.hour<0||value.hour>23||!players.includes(value.playerId))return sendJson(res,400,{error:'Invalid PredictToDo game state'});
+      // The clock moves in quarter hours (PredictToDo's 15-minute resolution); the value is snapped server-side.
+      const hour=Number.isFinite(value?.hour)?Math.round(value.hour*4)/4:NaN;
+      if(typeof value!=='object'||!phases.includes(value.phase)||!Number.isInteger(value.scenarioIndex)||value.scenarioIndex<0||value.scenarioIndex>3||!Number.isFinite(hour)||hour<0||hour>23||!players.includes(value.playerId))return sendJson(res,400,{error:'Invalid PredictToDo game state'});
+      value.hour=hour;
       if(typeof value.playerName!=='string'||value.playerName.length>40)return sendJson(res,400,{error:'Invalid PredictToDo player'});
       if(value.actionId!==null&&value.actionId!==undefined&&!actions.includes(value.actionId))return sendJson(res,400,{error:'Invalid PredictToDo action'});
       const results=value.results&&typeof value.results==='object'?value.results:{};

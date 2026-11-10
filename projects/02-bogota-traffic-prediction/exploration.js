@@ -27,7 +27,8 @@
  function chart(data,game,id,events=false){
   const points=profile(data,game,id).map((v,i)=>[i/34*1000,92-v*.75]);
   const line=points.map(([x,y],i)=>(i?'L':'M')+x.toFixed(1)+','+y.toFixed(1)).join(' '),x=(game.hour-6)/17*1000;
-  return `<svg class="cc-day-chart" viewBox="0 0 1000 108" preserveAspectRatio="none" aria-hidden="true"><path class="cc-chart-grid" d="M0 20H1000 M0 45H1000 M0 70H1000"/><path class="cc-chart-area" d="M0 108 ${line} L1000 108Z"/><path class="cc-chart-line" d="${line}"/><path class="cc-chart-cursor" d="M${x} 0V108"/></svg>${events?`<div class="cc-chart-events">${data.scenarios.map((s,i)=>`<button type="button" data-scenario="${i}" style="left:${(s.hour-6)/17*100}%" aria-label="${esc(s['title_'+(game.language||'en')])} · ${s.time}" title="${s.time}">${s.icon}</button>`).join('')}</div>`:''}`;
+  // The flow path repeats the line; CSS moves its dashes along the day on the TV card.
+  return `<svg class="cc-day-chart" viewBox="0 0 1000 108" preserveAspectRatio="none" aria-hidden="true"><path class="cc-chart-grid" d="M0 20H1000 M0 45H1000 M0 70H1000"/><path class="cc-chart-area" d="M0 108 L${line.slice(1)} L1000 108Z"/><path class="cc-chart-line" d="${line}"/><path class="cc-chart-flow" d="${line}"/><path class="cc-chart-cursor" d="M${x} 0V108"/></svg>${events?`<div class="cc-chart-events">${data.scenarios.map((s,i)=>`<button type="button" class="cc-case-dot${i===game.scenarioIndex?' is-current':''}" data-scenario="${i}" style="left:${(s.hour-6)/17*100}%" aria-label="${esc(s['title_'+(game.language||'en')])} · ${s.time}" title="${s.time}"><i aria-hidden="true">${window.PREDICTTODO_ICONS?.scenario(s.id)??''}</i></button>`).join('')}</div>`:''}`;
  }
  function selection(options){
   const {data,game}=options,lang=options.language==='es'?'es':'en',item=data.scenarios[game.scenarioIndex],id=selected(item,game.selectedCorridor);
@@ -38,7 +39,7 @@
   const {data,game}=options,s=selection(options),es=s.lang==='es',item=data.scenarios[game.scenarioIndex];
   const ranked=ids(item).map(id=>({id,...values(data,game,id)})).sort((a,b)=>b.congestion-a.congestion);
   const title=es?'Compara la congestión de las vías':'Compare congestion across roads';
-  const guide=es?'Cada barra muestra la congestión simulada de una vía: más larga y más roja significa más congestión. Toca una vía para verla en el mapa.':'Each bar shows simulated congestion on a road: longer bars and redder colors mean heavier traffic. Tap a road to find it on the map.';
+  const guide=es?'Más larga y más roja, más congestión. Toca una vía para verla en el mapa.':'Longer and redder means heavier traffic. Tap a road to see it on the map.';
   return `<section class="cc-corridor-panel" aria-label="${es?'Explorar vías':'Explore roads'}"><h3 class="cc-ranking-title">${title}</h3><p class="cc-ranking-guide">${guide}</p><div class="cc-road-ranking">${ranked.map(r=>`<button type="button" data-corridor="${r.id}" aria-pressed="${r.id===s.id}" style="--road-color:${colors[level(r.congestion)]}"><span>${esc(roads[r.id][0])}</span><b>${r.congestion}%</b><i><em style="width:${r.congestion}%"></em></i></button>`).join('')}</div><small class="cc-exploration-note">${es?'Valores ilustrativos del caso, no tráfico en vivo.':'Illustrative case values, not live traffic.'}</small></section>`;
  }
  function identify(feature,m){
