@@ -27,10 +27,17 @@ test('Teachy ships its supplied tablet, infographic and video resources',()=>{
 });
 
 test('the tablet home uses ten visual positions',()=>{
- const home=fs.readFileSync(path.join(root,'shared','home.js'),'utf8');
- assert.match(home,/visibleProjects=projects;/);
- assert.match(home,/visibleProjects\.map\(\(p,index\)=>/);
- assert.match(home,/String\(index\+1\)\.padStart\(2,'0'\)/);
+ const context={window:{}};
+ vm.runInNewContext(fs.readFileSync(path.join(root,'shared','projects.js'),'utf8'),context);
+ vm.runInNewContext(fs.readFileSync(path.join(root,'shared','home-art.js'),'utf8'),context);
+ const html=context.window.EXHIBITION_HOME.render({interactive:true,stationQuery:'?station=1'});
+ assert.equal((html.match(/data-project="/g)||[]).length,10);
+ assert.match(html,/assets\/home\/tablet-en\.png/);
+ for(const device of ['tablet','display']){
+  const artwork=fs.readFileSync(path.join(root,'assets','home',device+'-en.png'));
+  assert.equal(artwork.readUInt32BE(16),1920);
+  assert.equal(artwork.readUInt32BE(20),1080);
+ }
 });
 
 test('AquaData game controller and supplied resources are available',()=>{
