@@ -42,7 +42,24 @@ const CARGO_ORDER=['alimentos','frutas','lacteos'];
 /* Posición del camión (0 salida · 1-3 paradas · 4 cruzó): la pantalla (tv.js) la convierte en % de la carretera. */
 /* Ritmo lento a propósito: cada paso se ve y se explica en la pantalla. */
 const MERGE_MS=11000,TRAVEL_MS=5200,SCAN_MS=2600,CONFIRM_MS=1700;
-const AI_STEPS=['merging','toVuce','scanning','verdict','toBorder']; // pasos de la IA, uno por toque en la tableta
+const AI_STEPS=['merging','toVuce','scanning','verdict','toBorder'];
+/* Apariencia de «papel» de cada documento (simulado): emisor, icono del sello y prefijo del número. */
+const PAPER={
+ factura:{es:'Exportadora del Pacífico S.A.',en:'Exportadora del Pacífico S.A.',icon:'🧾',code:'FAC'},
+ declaracion:{es:'Dirección General de Aduanas · DUA',en:'Customs Directorate · DUA',icon:'🛃',code:'DUA'},
+ manifiesto:{es:'Transportes Centroamérica · Guía de carga',en:'Transportes Centroamérica · Freight bill',icon:'📦',code:'MAN'},
+ certificado:{es:'SENASA · Certificado',en:'SENASA · Certificate',icon:'🩺',code:'CSA'},
+ permiso:{es:'SENASA · Importaciones',en:'SENASA · Imports',icon:'📑',code:'PIM'},
+ registro:{es:'Ministerio de Salud · Registro',en:'Ministry of Health · Registry',icon:'🏥',code:'RSA'},
+ libreventa:{es:'Ministerio de Salud · Regulación',en:'Ministry of Health · Regulation',icon:'📜',code:'CLV'},
+ licencia:{es:'COSEVI · Licencias de conducir',en:'COSEVI · Driver licensing',icon:'🪪',code:'LIC'},
+ circulacion:{es:'Registro Nacional · Vehículos',en:'National Registry · Vehicles',icon:'🚚',code:'TCV'},
+ certzoo:{es:'SENASA · Salud animal',en:'SENASA · Animal health',icon:'🐄',code:'CZO'},
+ fito:{es:'Servicio Fitosanitario del Estado',en:'State Phytosanitary Service',icon:'🌿',code:'CFS'},
+ permisofito:{es:'SFE · Permisos',en:'SFE · Permits',icon:'🌱',code:'PFS'}
+};
+function paperNo(doc){const pp=PAPER[doc]||{code:'DOC'};return pp.code+'-2026-'+String(cargoOf().id).padStart(5,'0');}
+function paperDate(){const d=new Date();const z=n=>String(n).padStart(2,'0');return z(d.getDate())+'/'+z(d.getMonth()+1)+'/'+d.getFullYear();}
 
 /* ---------- Copys bilingües ---------- */
 const COPY={
@@ -75,7 +92,7 @@ const COPY={
   manualWhat:'Aquí decides tú. Cada institución revisa por separado: lee las filas, compara los 3 documentos y pon el semáforo.',
   manualDecided:'Todavía nadie te ayuda. El camión espera en cada fila y el cronómetro corre.',
   manualLearn:'Un detalle pequeño, como una cifra o una letra, puede esconder un problema.',
-  missingDoc:'Falta un documento',
+  missingDoc:'Falta un documento',paper:{date:'Fecha',sign:'Firma y sello',stamp:'ORIGINAL',no:'N.º',section:'Datos declarados'},
   fbRight:'¡Correcto!',fbWrong:'Ups, no era así.',
   why:{green:'Los documentos de {entity} coinciden: el camión sigue a la siguiente parada.',yellow:'Faltaba un documento ({doc}): se pide antes de decidir.',red:'Había una diferencia en {field}: {entity} pide una inspección.'},
   moving:'El camión avanza a la siguiente parada…',
@@ -189,7 +206,7 @@ const COPY={
   manualWhat:'You decide here. Each agency checks separately: read the rows, compare the 3 documents and set the light.',
   manualDecided:'Nobody is helping you yet. The truck waits in every queue and the clock is running.',
   manualLearn:'A small detail, like a digit or a letter, can hide a problem.',
-  missingDoc:'Missing document',
+  missingDoc:'Missing document',paper:{date:'Date',sign:'Signature and stamp',stamp:'ORIGINAL',no:'No.',section:'Declared data'},
   fbRight:'Correct!',fbWrong:'Oops, not quite.',
   why:{green:'The {entity} documents match: the truck moves to the next stop.',yellow:'A document was missing ({doc}): it is requested before deciding.',red:'There was a difference in {field}: {entity} asks for an inspection.'},
   moving:'The truck moves to the next stop…',
@@ -345,7 +362,8 @@ function stopLight(i){
 /* Aviso en la tableta: la escena del camión se ve en la pantalla. */
 function tvCue(text){return `<div class="tv-cue"><span>📺</span><div><b>${esc(t('watchTv'))}</b><p>${esc(text)}</p></div></div>`;}
 function docCard(c,doc,{reveal=false,scan=false}={}){
- if(c.missing===doc)return `<article class="doc doc--missing ${reveal?'is-flag':''}"><header><span class="doc-icon">📄</span><b>${esc(t('docs')[doc])}</b></header><div class="doc-missing"><span>❔</span><p>${esc(t('missingDoc'))}</p></div></article>`;
+ const pp=PAPER[doc]||{es:'',en:'',icon:'📄',code:'DOC'},P=t('paper');
+ if(c.missing===doc)return `<article class="doc doc--missing ${reveal?'is-flag':''}"><header><span class="doc-icon">📄</span><b>${esc(t('docs')[doc])}</b></header><div class="doc-missing"><span>❔</span><p>${esc(t('missingDoc'))}</p><small>${esc(pp[state.lang])}</small></div></article>`;
  const rows=c.fields.map(f=>{
   const v=f==='producto'?t('cargo')[state.cargo]:docValue(c,doc,f);
   const unit=t('units')[f]?' '+t('units')[f]:'';
@@ -353,7 +371,11 @@ function docCard(c,doc,{reveal=false,scan=false}={}){
   const own=bad&&c.issue.doc===doc;
   return `<div class="row ${bad?'row--bad':''} ${own?'row--own':''}" data-field="${f}"><span>${esc(t('fields')[f])}</span><b>${esc(v)}${f==='producto'?'':esc(unit)}</b></div>`;
  }).join('');
- return `<article class="doc ${scan?'is-scan':''}"><header><span class="doc-icon">📄</span><b>${esc(t('docs')[doc])}</b></header>${rows}</article>`;
+ return `<article class="doc doc--paper ${scan?'is-scan':''}"><header><span class="doc-icon">📄</span><b>${esc(t('docs')[doc])}</b></header>
+  <div class="paper-head"><span class="paper-seal">${pp.icon}</span><div class="paper-issuer"><small>${esc(pp[state.lang])}</small><b>${esc(t('docs')[doc])}</b></div><div class="paper-no"><small>${esc(P.no)}</small><b>${esc(paperNo(doc))}</b></div></div>
+  <div class="paper-meta"><span>${esc(P.date)}: <b>${paperDate()}</b></span><span>${esc(truckId())} · ${esc(t('cargo')[state.cargo])}</span></div>
+  <div class="paper-rows"><span class="paper-section">${esc(P.section)}</span>${rows}</div>
+  <div class="paper-foot"><i class="paper-barcode" aria-hidden="true"></i><span class="paper-sign">${esc(P.sign)}</span><em class="paper-stamp" aria-hidden="true">${esc(P.stamp)}</em></div></article>`;
 }
 function entityCard(s,i){
  const E=t('entities')[s.key];
