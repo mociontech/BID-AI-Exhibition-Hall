@@ -16,13 +16,15 @@
   function screen(index){return screens.find(item=>item.index===Number(index))||screens[0];}
   function imagePath(index,language){const item=screen(index);const lang=language==='es'?'es':'en';return `${root}${lang}/${item.files[lang]}`;}
   function technicalSheetPath(language){
-    // One infographic for both languages (client-supplied, 1920x1080).
-    return 'projects/01-aquadata/ahorasi/AquaData_Infografia_TV_1920x1080.png';
+    // One infographic for both languages (client-supplied, 1920x1080). The query refreshes cached copies.
+    return 'projects/01-aquadata/ahorasi/AquaData_Infografia_TV_1920x1080.png?v=20261111';
   }
+  // The project video, played full screen on the TV when the visitor taps "Video".
+  function videoPath(){return 'projects/01-aquadata/video/AquaData_V3_web.mp4';}
   function gameReferencePath(step,language){
     const lang=language==='en'?'EN':'ES';
     const files=['01_Mision.jpg','02_Seleccion_Sin_IA_Negocios.jpg','03_Analisis_AquaData.jpg','04_Seleccion_Con_IA_Negocios.jpg','05_Verificacion_Resultados.jpg','06_Impacto_Real.jpg'];
     return `projects/01-aquadata/AquaData_12_Imagenes_Ligeras_JPG/${lang}/${files[Math.max(1,Math.min(6,Number(step)||1))-1]}`;
   }
-  window.AQUADATA=Object.freeze({screens,screen,imagePath,technicalSheetPath,gameReferencePath});
+  window.AQUADATA=Object.freeze({screens,screen,imagePath,technicalSheetPath,videoPath,gameReferencePath});
 })();

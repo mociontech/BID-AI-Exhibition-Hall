@@ -51,13 +51,11 @@
 .aqd-home-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.4vw,46px);margin-top:clamp(10px,2vh,30px)}
 .aqd-home-card{position:relative;display:flex;align-items:stretch;min-height:clamp(170px,31vh,340px);padding:0;overflow:hidden;border:1px solid var(--aqd-line);border-radius:16px;background:#fff;color:var(--aqd-ink);text-align:left;transition:transform .16s,border-color .16s,box-shadow .16s}
 .aqd-home-card:not(:disabled):hover{transform:translateY(-2px);border-color:var(--aqd-blue);box-shadow:0 14px 30px #005cff1f}
-.aqd-home-card.is-active{border-color:var(--aqd-blue);box-shadow:0 0 0 2px var(--aqd-blue) inset}
 .aqd-home-card-copy{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:.25em;padding:clamp(18px,2.4vw,44px) clamp(18px,2vw,36px)}
 .aqd-home-card-copy b{color:var(--aqd-blue);font-size:clamp(26px,2.9vw,56px);font-weight:800;line-height:1}
 .aqd-home-card-copy strong{font-size:clamp(24px,2.5vw,48px);font-weight:800;line-height:1.05;letter-spacing:-.02em}
 .aqd-home-card-copy small{font-size:clamp(14px,1.4vw,27px);line-height:1.25;color:var(--aqd-ink)}
 .aqd-home-card-copy em{display:inline-flex;align-self:flex-start;margin-top:.5em;padding:.45em 1em;border-radius:999px;background:var(--aqd-tint);color:var(--aqd-blue);font-size:clamp(11px,.95vw,17px);font-style:normal;font-weight:800;letter-spacing:.04em}
-.aqd-home-card.is-active .aqd-home-card-copy em{background:var(--aqd-blue);color:#fff}
 .aqd-home-card img{width:38%;flex:none;object-fit:cover;object-position:center}
 .aqd-home-card.is-locked{cursor:not-allowed}
 .aqd-home-card.is-locked .aqd-home-card-copy b,.aqd-home-card.is-locked .aqd-home-card-copy strong{color:#9aa6b8}
@@ -624,3 +622,243 @@
  .aqd-agent.is-animated li.is-active i svg{opacity:1}
  .aqd-agent.is-animated li.is-active i b{opacity:0}
 }
+
+/* ===== Figma redesign (November 2026): fewer elements and minimalist business icons instead of photos ===== */
+.aqd-glyph{display:grid;place-items:center;color:var(--aqd-blue)}
+.aqd-glyph svg{width:100%;height:100%;overflow:visible}
+
+/* Tablet mission: the menu tile on the left, the start tile on the right, a small note at the bottom. */
+.aqd-mission--remote{position:relative}
+.aqd-mission--remote .aqd-title h1{font-size:clamp(40px,4.7vw,90px);font-weight:900}
+.aqd-mission--remote .aqd-panel{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:clamp(8px,2.4vh,30px)}
+.aqd-mission--remote .aqd-tile{min-height:clamp(92px,13.5vh,146px);padding:clamp(12px,2.2vh,28px) clamp(18px,2.6vw,50px);box-shadow:none}
+.aqd-mission--remote .aqd-tile--go{box-shadow:none}
+.aqd-mission--remote .aqd-tile-copy strong{font-size:clamp(22px,2.5vw,48px);font-weight:600}
+.aqd-mission--remote .aqd-tile-copy small{font-size:clamp(13px,1.4vw,27px)}
+.aqd-mission--remote .aqd-tile--go>i{width:clamp(26px,2.4vw,46px);background:none;color:#fff}
+.aqd-mission--remote .aqd-tile--go>i svg{width:100%;height:100%}
+.aqd-watch--note{position:absolute;left:50%;bottom:clamp(14px,4vh,44px);width:auto!important;margin:0!important;padding:.45em 1.6em;transform:translateX(-50%);font-size:clamp(12px,1vw,19px);font-weight:500;white-space:nowrap}
+
+/* Tablet rounds: compact cards with the business icon, the ID, the name and the selection mark. */
+.aqd-select .aqd-title h1{font-size:clamp(28px,3.65vw,70px)}
+.aqd-select .aqd-lead{margin-top:.25em;font-size:clamp(13px,1.3vw,25px)}
+.aqd-counter span{font-size:clamp(11px,.95vw,18px)}
+.aqd-counter strong{font-size:clamp(26px,3.1vw,60px)}
+.aqd-contract-grid{flex:none;grid-template-rows:none;grid-auto-rows:clamp(104px,15.6vh,168px);align-content:start;gap:clamp(10px,1.55vw,30px)}
+.aqd-contract{justify-content:flex-end;gap:.15em;padding:clamp(10px,1.6vh,22px) clamp(10px,.85vw,16px)}
+.aqd-contract-top{display:flex;align-items:flex-start;justify-content:space-between;flex:1;min-height:0}
+.aqd-contract .aqd-glyph{width:clamp(30px,2.9vw,56px);height:clamp(28px,2.7vw,52px)}
+.aqd-contract-id{margin-top:.5em;font-size:clamp(10px,.85vw,16px);font-weight:900}
+.aqd-contract-name{font-size:clamp(13px,1.05vw,20px)}
+.aqd-contract-score{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:clamp(38px,3.2vw,62px);padding:.35em .45em;border-radius:clamp(6px,.5vw,10px);background:var(--aqd-tint);color:var(--aqd-blue);line-height:1}
+.aqd-contract-score b{font-size:clamp(16px,1.3vw,25px);font-weight:800}
+.aqd-contract-score small{margin-top:.25em;font-size:clamp(8px,.55vw,10px);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.aqd-contract-score.is-strong{background:var(--aqd-blue);color:#fff}
+.aqd-contract-grid.is-animated .aqd-contract-score{animation:aqd-pop .8s cubic-bezier(.2,1.4,.4,1) calc(var(--i) * .25s + .2s) both}
+
+/* Tablet round 1 result: only the number, two lines and one button. */
+.aqd-feedback--stack .aqd-feedback-score b{font-size:clamp(90px,13.4vw,258px)}
+.aqd-feedback--stack .aqd-feedback-body{font-size:clamp(14px,1.3vw,25px)}
+.aqd-feedback--stack .aqd-actions{margin-top:clamp(14px,4vh,48px);padding-top:0;justify-content:center}
+
+/* Tablet explainer: the score card with its two-line label. */
+.aqd-tutorial-score{border-color:var(--aqd-line)}
+.aqd-tutorial-score b{font-size:clamp(70px,8.8vw,169px)}
+.aqd-tutorial-score span{display:flex;flex-direction:column;align-items:center;gap:.2em}
+.aqd-tutorial-score span strong{font-size:clamp(20px,2.1vw,40px);font-weight:700}
+.aqd-tutorial-score span small{font-size:clamp(13px,1.3vw,25px);font-weight:400}
+.aqd-tutorial-body{font-size:clamp(16px,1.8vw,35px);font-weight:400}
+
+/* Tablet real case: a white card instead of the tinted block. */
+.aqd-impact--remote .aqd-watch--big{background:#fff;border:2px solid var(--aqd-line)}
+
+/* Results title on two lines, tablet and TV. */
+.aqd-results .aqd-title h1 span{display:block}
+
+/* TV subtitles take the place of the old insight line. */
+.aqd-tv-title .aqd-lead{margin-top:.35em;font-size:clamp(15px,1.3vw,25px);font-weight:400}
+.aqd-tv-analysis .aqd-lead.is-new{animation:aqd-rise-in .8s ease both}
+
+/* TV mission: plain figures (no icon circles) and the three steps. */
+.aqd-tv-mission .aqd-bigstats li{gap:clamp(12px,1.2vw,24px)}
+.aqd-tv-mission .aqd-bigstats li b{font-size:clamp(48px,5vw,96px);font-weight:900}
+.aqd-tv-mission .aqd-bigstats li strong{font-size:clamp(20px,2.2vw,42px);font-weight:700}
+.aqd-tv-mission .aqd-howto li{border:2px solid var(--aqd-line)}
+.aqd-tv-mission .aqd-howto strong{font-size:clamp(20px,2vw,38px);font-weight:700}
+.aqd-tv-mission .aqd-howto small{font-size:clamp(14px,1.36vw,26px)}
+
+/* TV round 1: title and cards on the left, the inspections panel spans the full height on the right. */
+.aqd-tv-round--blind .aqd-tv-title{grid-column:1}
+.aqd-tv-round--blind .aqd-tv-title h1{font-size:clamp(34px,3.65vw,70px)}
+.aqd-tv-round--blind .aqd-tv-title h1 span{display:block}
+.aqd-tv-round--blind .aqd-tv-picks{grid-column:2;grid-row:1/3}
+.aqd-tv-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:clamp(10px,1.1vw,22px);min-height:0;margin:0;padding:0;list-style:none}
+.aqd-tv-cards li{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:.4em;min-width:0;min-height:0;padding:clamp(12px,1.6vh,22px) clamp(12px,.9vw,18px);border:2px solid var(--aqd-line);border-radius:clamp(12px,.9vw,16px);background:#fff;transition:border-color .25s,box-shadow .25s}
+.aqd-tv-cards .aqd-glyph{width:clamp(34px,2.9vw,56px);height:clamp(30px,4.6vh,52px);margin-bottom:auto}
+.aqd-tv-cards li>span{font-size:clamp(14px,1.05vw,20px);line-height:1.2}
+.aqd-tv-cards li>span b{display:block;color:var(--aqd-blue);font-size:.8em;font-weight:900}
+.aqd-tv-cards li>i{position:absolute;top:clamp(8px,.8vw,14px);right:clamp(8px,.8vw,14px);display:grid;place-items:center;width:clamp(24px,1.8vw,34px);aspect-ratio:1;border:2px solid var(--aqd-line);border-radius:50%;background:#fff;color:transparent}
+.aqd-tv-cards li>i svg{width:62%;height:62%}
+.aqd-tv-cards li.is-selected{border-color:var(--aqd-blue);box-shadow:0 0 0 1px var(--aqd-blue)}
+.aqd-tv-cards li.is-selected>i{border-color:var(--aqd-blue);background:var(--aqd-blue);color:#fff}
+.aqd-tv-cards.is-animated li{animation:aqd-pop .8s cubic-bezier(.2,1.3,.4,1) calc(var(--i) * .2s) both}
+
+/* Inspection slots: the business icon inside the circle, plain empty circles otherwise. */
+.aqd-slots li{border-style:solid;border-color:#8fb8ff}
+.aqd-slots li.is-filled{background:#fff}
+.aqd-slots li .aqd-glyph{width:46%;height:46%}
+.aqd-tv-picks .aqd-slots{padding-bottom:clamp(6px,1vh,12px)}
+
+/* TV round 1 result: the number on the left, the three inspected contracts on the right. */
+.aqd-tv-feedback .aqd-feedback{justify-content:space-around}
+.aqd-tv-feedback .aqd-feedback-score b{font-size:clamp(120px,13.4vw,258px)}
+.aqd-tv-feedback .aqd-feedback-score small{font-size:clamp(13px,1.3vw,25px);font-weight:400;letter-spacing:.02em}
+.aqd-tv-feedback .aqd-slots li b{font-size:clamp(16px,1.5vw,29px);font-weight:900}
+
+/* TV explainer: white, bordered notes. */
+.aqd-tv-explain .aqd-explain-notes li{border:2px solid var(--aqd-line);background:#fff;padding:clamp(12px,2.2vh,28px) clamp(16px,1.6vw,30px)}
+.aqd-tv-explain .aqd-explain-notes b{width:clamp(36px,2.9vw,56px);font-size:clamp(18px,1.6vw,30px)}
+.aqd-tv-explain .aqd-explain-notes strong{font-size:clamp(18px,1.9vw,36px)}
+.aqd-tv-explain .aqd-explain-notes small{font-size:clamp(14px,1.3vw,25px)}
+
+/* TV analysis: names may take two lines now that the consumption label is gone. */
+.aqd-scan-head{white-space:normal;text-overflow:clip;max-height:3.6em}
+
+/* TV round 2: the ranking without photos. */
+.aqd-tv-ranking li{grid-template-columns:1.4em minmax(0,1.2fr) minmax(0,1fr) auto}
+
+/* TV comparison: circles with the business icon; red marks a finding. */
+.aqd-result-photo{display:grid;place-items:center;width:min(100%,clamp(56px,6vw,116px));border:3px solid var(--aqd-line);border-radius:50%;background:#fff;color:#9aa6b8}
+.aqd-result-photo .aqd-glyph{width:46%;height:46%;color:inherit}
+.aqd-result li.is-found .aqd-result-photo{border-color:#d92d3a;color:var(--aqd-blue)}
+
+/* TV real case: compact, bordered figures. */
+.aqd-tv-impact .aqd-facts li{padding:clamp(10px,1.6vh,22px) clamp(14px,1.4vw,28px);border:2px solid var(--aqd-line);border-radius:12px;background:#fff}
+.aqd-tv-impact .aqd-facts li b{min-width:2.7em;font-size:clamp(28px,2.4vw,46px)}
+.aqd-tv-impact .aqd-facts li span{font-size:clamp(15px,1.3vw,25px);font-weight:400}
+/* TV analysis: names in regular weight, the ID stays bold. */
+.aqd-scan-head{font-weight:500}
+.aqd-model-icon svg{width:62%;height:62%}
+.aqd-howto li>i{font-style:normal}
+
+/* ===== Landing (Figma rebrand, November 2026): the title and three option cards on a 2×2 grid ===== */
+.aqd-landing--three{justify-content:center}
+.aqd-landing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(clamp(140px,24vh,262px),auto);gap:clamp(18px,4.2vw,80px);align-items:stretch}
+.aqd-landing-grid>.aqd-title{align-self:center;margin:0}
+.aqd-landing--three .aqd-title h1{font-size:clamp(52px,5.7vw,110px);font-weight:900}
+.aqd-landing--three .aqd-title .aqd-lead{max-width:30ch;font-size:clamp(16px,1.8vw,35px);font-weight:400;line-height:1.25}
+.aqd-landing--three .aqd-home-card{min-height:0;border:2px solid var(--aqd-line);border-radius:16px}
+.aqd-landing--three .aqd-home-card-copy{padding:clamp(14px,1.8vw,34px)}
+.aqd-landing--three .aqd-home-card-copy strong{color:var(--aqd-blue);font-size:clamp(22px,2.3vw,44px);font-weight:700}
+.aqd-landing--three .aqd-home-card-copy small{font-size:clamp(14px,1.55vw,30px);line-height:1.2}
+.aqd-landing--three .aqd-home-card img{width:38%}
+.aqd-home-card-icon{display:grid;place-items:center;flex:none;width:38%;background:var(--aqd-soft);color:var(--aqd-blue)}
+.aqd-home-card-icon svg{width:48%;height:auto}
+.aqd-tv-landing.aqd-landing--three .aqd-tv-title h1{font-size:clamp(52px,5.7vw,110px)}
+.aqd-tv-landing.aqd-landing--three .aqd-tv-title .aqd-lead{font-size:clamp(16px,1.8vw,35px);font-weight:400}
+@media (max-width:900px){.aqd-landing-grid{grid-template-columns:1fr}}
+
+/* TV video: full screen, letterboxed. */
+.aquadata-display-video{width:100%;height:100%;object-fit:contain;background:#000}
+
+/* ===== TV call to action as in Figma: a flat blue pill with the outline tablet, one bold line and the animated arrow pointing down ===== */
+.aqd-cta,.aqd-cta--slim{bottom:clamp(18px,3.23vw,62px);height:clamp(44px,3.23vw,62px);box-sizing:border-box;gap:clamp(10px,.78vw,15px);padding:0 clamp(20px,1.6vw,30px) 0 clamp(18px,1.4vw,27px);background:#005cff;box-shadow:none}
+.aqd-cta .aqd-cta-icon,.aqd-cta--slim .aqd-cta-icon{width:clamp(22px,1.5vw,29px);height:auto;aspect-ratio:29/22;border-radius:0;background:none;color:#fff}
+.aqd-cta .aqd-cta-icon svg{width:100%;height:100%}
+.aqd-cta small{display:none}
+.aqd-cta strong,.aqd-cta--slim strong{font-size:clamp(15px,.99vw,19px);font-weight:700;line-height:1.2;white-space:nowrap}
+.aqd-cta i,.aqd-cta--slim i{width:clamp(18px,1.25vw,24px);height:clamp(18px,1.25vw,24px);margin-left:clamp(2px,.2vw,4px);animation:aqd-cta-drop 1.6s cubic-bezier(.45,0,.55,1) infinite}
+.aqd-cta i svg{stroke-width:2.2}
+/* The arrow slides down and fades, then starts again from the top: it points at the tablet. */
+@keyframes aqd-cta-drop{0%{opacity:0;transform:rotate(90deg) translateX(-45%)}25%{opacity:1}60%{opacity:1;transform:rotate(90deg) translateX(8%)}100%{opacity:0;transform:rotate(90deg) translateX(45%)}}
+
+/* ===== Information sheet: the November 2026 infographic rebuilt on a 1920 x 1080 grid (1 unit = --u) ===== */
+.aqd-sheet{--u:min(calc(100vw / 1920),calc(100vh / 1080));position:fixed;inset:0;z-index:5;display:grid;place-items:center;overflow:hidden;background:#fff;color:#151515;font-family:Inter,'Segoe UI',Arial,sans-serif;text-align:left}
+.aqd-sheet *{box-sizing:border-box}
+.aqd-sheet-stage{position:relative;width:calc(1920 * var(--u));height:calc(1080 * var(--u));transform-origin:72% 50%}
+.aqd-sheet-veil{position:absolute;left:0;top:0;width:calc(834 * var(--u));height:100%;background:#7fa7ff;opacity:0}
+.aqd-sheet-side{position:absolute;left:0;top:0;width:calc(764 * var(--u));height:100%;background:#005cff;color:#fff}
+.aqd-sheet-logo{position:absolute;left:calc(69 * var(--u));top:calc(73 * var(--u));width:calc(283 * var(--u));height:auto}
+.aqd-sheet-title{position:absolute;left:calc(69 * var(--u));top:calc(446 * var(--u));width:calc(626 * var(--u))}
+.aqd-sheet-title>*{overflow:hidden;margin:0}
+.aqd-sheet-title span{display:block}
+.aqd-sheet-title h1{font-size:calc(102 * var(--u));font-weight:800;line-height:1.22;letter-spacing:-.01em;color:#fff}
+.aqd-sheet-sub{max-width:calc(520 * var(--u));margin-top:calc(6 * var(--u))!important;font-size:calc(39 * var(--u));font-weight:700;line-height:1.04;color:#161616}
+.aqd-sheet-unit{margin-top:calc(10 * var(--u))!important;font-size:calc(42 * var(--u));font-weight:300;line-height:1.2;color:#fff}
+.aqd-sheet-card{position:absolute;top:calc(203 * var(--u));width:calc(480 * var(--u));height:calc(390 * var(--u));padding:calc(26 * var(--u)) calc(32 * var(--u));border:calc(2 * var(--u)) solid #d5e2fb;border-radius:calc(10 * var(--u));background:#fff}
+.aqd-sheet-card--challenge{left:calc(841 * var(--u))}
+.aqd-sheet-card--solution{left:calc(1368 * var(--u))}
+.aqd-sheet-card h2,.aqd-sheet-impact-title{margin:0;font-size:calc(34 * var(--u));font-weight:700;line-height:1.15;color:#151515}
+.aqd-sheet-card h2 span,.aqd-sheet-impact-title span{display:inline-block}
+.aqd-sheet-card h2 b{color:#005cff;font-weight:700}
+.aqd-sheet-icon{position:relative;display:grid;place-items:center;width:calc(110 * var(--u));height:calc(110 * var(--u));margin-top:calc(21 * var(--u));border-radius:50%;background:#d3e2ff;color:#005cff}
+.aqd-sheet-icon svg{width:50%;height:50%}
+.aqd-sheet-card--solution .aqd-sheet-icon{background:#005cff;color:#fff}
+.aqd-sheet-card--solution .aqd-sheet-icon svg{width:54%;height:54%}
+.aqd-sheet-icon::after{content:'';position:absolute;inset:0;border:calc(2 * var(--u)) solid #8fb3ff;border-radius:50%;opacity:0;pointer-events:none}
+.aqd-sheet-card p{margin:calc(28 * var(--u)) 0 0;font-size:calc(23 * var(--u));line-height:calc(26 * var(--u))}
+.aqd-sheet-card p strong{display:block;font-weight:700}
+.aqd-sheet-impact-title{position:absolute;left:calc(874 * var(--u));top:calc(634 * var(--u));color:#005cff}
+.aqd-sheet-impact{position:absolute;left:calc(866 * var(--u));top:calc(697 * var(--u));display:grid;grid-template-columns:calc(363 * var(--u)) calc(366 * var(--u)) 1fr;width:calc(1002 * var(--u));height:calc(198 * var(--u));margin:0;padding:0;list-style:none;border-radius:calc(24 * var(--u));background:#d1e1ff}
+.aqd-sheet-impact li{position:relative;min-width:0;padding:calc(24 * var(--u)) 0 0 calc(48 * var(--u))}
+.aqd-sheet-impact li:first-child{padding-left:calc(54 * var(--u))}
+.aqd-sheet-impact li:nth-child(3){padding-left:calc(36 * var(--u))}
+.aqd-sheet-impact li+li::before{content:'';position:absolute;left:0;top:calc(40 * var(--u));width:calc(2 * var(--u));height:calc(120 * var(--u));background:#005cff;transform-origin:top}
+.aqd-sheet-impact b{display:block;overflow:hidden;font-size:calc(61 * var(--u));font-weight:800;line-height:1.12;letter-spacing:-.01em;color:#151515;white-space:nowrap}
+.aqd-sheet-impact b span{display:block}
+.aqd-sheet-impact p{margin:calc(2 * var(--u)) 0 0 calc(3 * var(--u));font-size:calc(21 * var(--u));line-height:calc(26 * var(--u));color:#151515}
+
+/* Entry, played once: the blue panel sweeps in behind a light edge, the title rises from a mask, then
+   each card, icon, heading and figure arrives in reading order. A language switch shows it complete. */
+@keyframes aqd-sheet-veil{0%{opacity:1;clip-path:inset(0 100% 0 0)}60%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes aqd-sheet-wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes aqd-sheet-rise{from{transform:translateY(105%);filter:blur(6px)}to{transform:none;filter:none}}
+@keyframes aqd-sheet-drop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes aqd-sheet-card{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes aqd-sheet-pop{0%{transform:scale(0)}65%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes aqd-sheet-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.6)}}
+@keyframes aqd-sheet-focus{from{opacity:0;transform:translateY(16px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes aqd-sheet-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes aqd-sheet-drift{from{transform:scale(1)}to{transform:scale(1.012)}}
+.aqd-sheet.is-animated .aqd-sheet-veil{animation:aqd-sheet-veil 1.2s cubic-bezier(.65,0,.25,1) both}
+.aqd-sheet.is-animated .aqd-sheet-side{animation:aqd-sheet-wipe 1s cubic-bezier(.65,0,.25,1) .15s both}
+.aqd-sheet.is-animated .aqd-sheet-logo{animation:aqd-sheet-drop .8s ease 1s both}
+.aqd-sheet.is-animated .aqd-sheet-title h1 span{animation:aqd-sheet-rise 1s cubic-bezier(.2,.8,.2,1) 1.2s both}
+.aqd-sheet.is-animated .aqd-sheet-sub span{animation:aqd-sheet-rise 1s cubic-bezier(.2,.8,.2,1) 1.5s both}
+.aqd-sheet.is-animated .aqd-sheet-unit span{animation:aqd-sheet-rise 1s cubic-bezier(.2,.8,.2,1) 1.75s both}
+.aqd-sheet.is-animated .aqd-sheet-card{animation:aqd-sheet-card .9s cubic-bezier(.2,.8,.2,1) var(--d) both}
+.aqd-sheet.is-animated .aqd-sheet-card h2 span{animation:aqd-sheet-wipe .8s cubic-bezier(.65,0,.25,1) calc(var(--d) + .25s) both}
+.aqd-sheet.is-animated .aqd-sheet-icon{animation:aqd-sheet-pop .8s cubic-bezier(.2,.9,.3,1.2) calc(var(--d) + .4s) both}
+.aqd-sheet.is-animated .aqd-sheet-icon::after{animation:aqd-sheet-ring 1.2s ease-out calc(var(--d) + .9s) forwards}
+.aqd-sheet.is-animated .aqd-sheet-card p{animation:aqd-sheet-focus .9s cubic-bezier(.2,.8,.2,1) calc(var(--d) + .7s) both}
+.aqd-sheet.is-animated .aqd-sheet-impact-title span{animation:aqd-sheet-wipe .9s cubic-bezier(.65,0,.25,1) 3.5s both}
+.aqd-sheet.is-animated .aqd-sheet-impact{animation:aqd-sheet-wipe 1.1s cubic-bezier(.65,0,.25,1) 3.7s both}
+.aqd-sheet.is-animated .aqd-sheet-impact li+li::before{animation:aqd-sheet-grow .7s ease calc(4.1s + var(--i) * .45s) both}
+.aqd-sheet.is-animated .aqd-sheet-impact b span{animation:aqd-sheet-rise .9s cubic-bezier(.2,.8,.2,1) calc(4.2s + var(--i) * .45s) both}
+.aqd-sheet.is-animated .aqd-sheet-impact p{animation:aqd-sheet-focus .8s cubic-bezier(.2,.8,.2,1) calc(4.45s + var(--i) * .45s) both}
+.aqd-sheet.is-animated .aqd-sheet-stage{animation:aqd-sheet-drift 14s ease-out 6.4s both}
+/* The call to action waits until the sheet is complete. */
+.aqd-sheet.is-animated~.aqd-cta{animation-delay:6.2s}
+@media (prefers-reduced-motion:reduce){.aqd-sheet *,.aqd-sheet .aqd-sheet-stage{animation:none!important}}
+/* On the sheet the call to action sits under the white column, clear of the blue panel. */
+.aqd-sheet~.aqd-cta{left:69.9%}
+
+/* ===== Landing cards stay as they are when tapped: no active frame, no badge, no hover lift (it sticks on touch) ===== */
+.aqd-landing--three .aqd-home-card:not(:disabled):hover{transform:none;border-color:var(--aqd-line);box-shadow:none}
+
+/* ===== Rounds 1 and 2 spaced as in Figma (1920 x 1080): the title block and the 420 x 172 cards sit centred
+   between the header and the buttons, with 33 px between columns, 25 px between rows and the buttons 57 px from the bottom. ===== */
+.aqd-select{gap:clamp(10px,2.5vh,27px);padding-bottom:clamp(14px,5.3vh,57px)}
+.aqd-select-head{margin-top:auto}
+.aqd-select .aqd-kicker{margin-bottom:.1em;font-size:clamp(11px,1.05vw,20px)}
+.aqd-select .aqd-title h1{font-size:clamp(28px,3.92vw,75px)}
+.aqd-select .aqd-lead{margin-top:0;font-size:clamp(13px,1.4vw,27px)}
+.aqd-counter{min-width:clamp(150px,13.3vw,255px);margin-top:clamp(0px,1.1vh,12px)}
+.aqd-contract-grid{grid-auto-rows:clamp(104px,15.9vh,172px);column-gap:clamp(10px,1.72vw,33px);row-gap:clamp(10px,2.3vh,25px)}
+.aqd-contract{padding:clamp(10px,2.5vh,27px) clamp(10px,.85vw,16px) clamp(10px,2.6vh,28px)}
+.aqd-contract-check{bottom:clamp(10px,3.05vh,33px)}
+.aqd-contract-score{min-width:clamp(38px,3.75vw,72px);min-height:clamp(30px,5.2vh,56px);margin:calc(-1 * clamp(0px,.75vh,8px)) clamp(0px,.2vw,4px) 0 0}
+.aqd-contract-score b{font-size:clamp(16px,1.4vw,27px)}
+.aqd-select .aqd-actions{gap:clamp(12px,1.93vw,37px)}
+.aqd-select .aqd-secondary{min-width:clamp(150px,13vw,250px)}
+.aqd-select .aqd-primary{min-width:clamp(200px,17.9vw,343px);padding:0 clamp(18px,1.5vw,30px)}

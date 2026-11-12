@@ -16,7 +16,7 @@ window.ProjectModule={
   const payload=()=>({step:state.step,p1:state.p1,p2:state.p2,p1Result:found(state.p1),p2Result:found(state.p2),act:state.act,take:state.take});
   function send(){
    const game=state.mode==='game';
-   return sync.send({view:game?'game':'project',projectId:project.id,section:game?`game-${state.step}`:state.mode==='info'?'technical-sheet':null,language:state.language,mode:state.mode,screenIndex:game?state.step:1,game:game?payload():null});
+   return sync.send({view:game?'game':'project',projectId:project.id,section:game?`game-${state.step}`:state.mode==='info'?'technical-sheet':state.mode==='video'?'video':null,language:state.language,mode:state.mode,screenIndex:game?state.step:1,game:game?payload():null});
   }
   function set(next){state={...state,...next};document.documentElement.lang=state.language;schedule();render();void send();}
   /* "Continue" unlocks once the last act has played on the screen. */
@@ -37,6 +37,7 @@ window.ProjectModule={
   }
   function act(action){
    if(action==='information')set({mode:'info'});
+   else if(action==='video')set({mode:'video'});
    else if(action==='game')set({mode:'game',step:1,p1:[],p2:[],act:0,take:0,analysisReady:false});
    else if(action==='next'){const step=Math.min(LAST,state.step+1);set(step===ANALYSIS?{step,act:0,take:0,analysisReady:false}:{step});}
    else if(action==='back'){if(state.step<=1)set({mode:'landing'});else set({step:state.step-1,analysisReady:state.step-1===ANALYSIS&&state.act===LAST_ACT});}

@@ -22,6 +22,15 @@ function renderAquaData(data){
   app.innerHTML=V.renderTv({language,mode:'game',step:game.step,p1:game.p1||[],p2:game.p2||[],act:game.act,take:game.take},opts);
   return;
  }
+ if(data.mode==='video'){
+  // AquaData video, full screen. A language switch keeps it playing.
+  if(!app.querySelector('.aquadata-display-video')){
+   app.innerHTML=`<main class="aquadata-display aquadata-display--video" aria-label="AquaData video"><video class="aquadata-display-video" src="${AQUADATA.videoPath()}" autoplay loop playsinline preload="auto"></video></main>`;
+   const video=app.querySelector('.aquadata-display-video');
+   video.play().catch(()=>{video.muted=true;video.play().catch(()=>{});});
+  }
+  return;
+ }
  if(data.mode==='info'||data.mode==='cta'){
   // Technical sheet with the project synopsis panel and the call to action.
   const sheet=AQUADATA.technicalSheetPath(language);
