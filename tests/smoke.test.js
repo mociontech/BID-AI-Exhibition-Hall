@@ -84,10 +84,11 @@ test('PredictToDo information uses the new client-supplied 1920 x 1080 PNG',()=>
  const controller=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','module.js'),'utf8');
  const visual=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','visual.js'),'utf8');
  assert.match(controller,/PREDICTTODO_VISUAL\.landing/);
- assert.ok(fs.existsSync(path.join(root,'projects','02-bogota-traffic-prediction','predicttodoImages','fondoprincipal.png')));
- assert.match(visual,/fondoprincipal\.png/);
- assert.match(visual,/data-action="information"/);
- assert.match(visual,/data-action="open-game"/);
+ // The cover is native (Figma 662:4545): the photo and the Colombia mark are real files, the copy stays bilingual.
+ for(const file of ['portada-about.png','colombia-pin.svg'])assert.ok(fs.existsSync(path.join(root,'projects','02-bogota-traffic-prediction','predicttodoImages',file)),file);
+ assert.match(visual,/portada-about\.png/);assert.match(visual,/colombia-pin\.svg/);assert.match(visual,/Predict<span>ToDo<\/span>/);
+ assert.match(visual,/card\('info','information'/);
+ assert.match(visual,/card\('game','open-game'/);
  assert.match(visual,/data-action="back-information"/);
  assert.doesNotMatch(controller,/traffic-reference-grid/);
 });

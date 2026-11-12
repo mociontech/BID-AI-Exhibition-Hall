@@ -38,7 +38,7 @@ test('tablet and passive TV show the same case, map, indicators and contextual i
   assert.doesNotMatch(tv,/cc-tv-context-brief|Comparación educativa|Educational comparison|bono del rol|role bonus/);
   // The panel people read first sits before the map on both screens.
   for(const html of [tablet,tv])assert.ok(html.indexOf('class="cc-side"')<html.indexOf('cc-map-panel'));
-  assert.doesNotMatch(tablet,/class="cc-insight"/);assert.match(tv,/class="cc-insight"/);assert.match(tv,/class="cc-notice"/);
+  assert.doesNotMatch(tablet,/class="cc-insight"/);if(phase==='result')assert.doesNotMatch(tv,/class="cc-insight"/);else assert.match(tv,/class="cc-insight"/);assert.match(tv,/class="cc-notice"/);
   // Touch hints stay on the tablet; after a decision the TV shows how each response scored.
   assert.doesNotMatch(tablet,/cc-tv-compare|cc-tv-delta|cc-city-label/);
   for(const html of [tablet,tv])assert.doesNotMatch(html,/cc-map-explanation|Toca un punto rojo|Tap a red hotspot|Desliza la barra|Drag the slider/);
@@ -49,15 +49,19 @@ test('tablet and passive TV show the same case, map, indicators and contextual i
   // Cases, actions and roles are drawn with the outline icon set, never with the GAME_DATA emojis.
   for(const html of [tablet,tv]){assert.match(html,/class="ptd-icon ptd-icon--/);for(const e of emojis)assert.ok(!html.includes(e),'Emoji still rendered: '+e);}
   for(const html of [tablet,tv])assert.doesNotMatch(html,/undefined|NaN/);
-  if(game.actionId){assert.equal(control.state(data,game).critical,0);assert.equal(control.state(data,game).congestion,51);assert.match(tablet,/data-cc-metric="congestion"[^]*?<b>51/);assert.match(tablet,/data-cc-metric="critical"[^]*?<b>0/);}
+  if(game.actionId){assert.equal(control.state(data,game).critical,0);assert.equal(control.state(data,game).congestion,51);assert.match(tablet,/data-cc-metric="congestion"[^]*?<b[^>]*>51/);assert.match(tablet,/data-cc-metric="critical"[^]*?<b[^>]*>0/);}
  }
 });
 test('TV mirrors each case and selection without enabling controls or changing game state',()=>{
  for(const language of ['es','en'])for(const phase of ['explore','decision','result'])for(let scenarioIndex=0;scenarioIndex<4;scenarioIndex++){
   const game={phase,scenarioIndex,hour:data.scenarios[scenarioIndex].hour,actionId:phase==='explore'?null:'signals',playerId:'valentina',results:{}};
   const options={data,game,language,readonly:true},original=JSON.stringify(options),html=control.render(options);
-  assert.match(html,/cc-app--mirror/);assert.match(html,/cc-map-live/);assert.match(html,/cc-insight/);
+  assert.match(html,/cc-app--mirror/);assert.match(html,/cc-map-live/);if(phase==='result')assert.doesNotMatch(html,/cc-insight/);else assert.match(html,/cc-insight/);
   assert.equal((html.match(/class="cc-notice"/g)||[]).length,1);
+  // Figma 774:52199: no page title, the note sits in the legend row, done steps keep their number, place name unbroken.
+  assert.doesNotMatch(html,/class="cc-title"|class="cc-simulation"|✓/);assert.match(html,/class="cc-map-legend">[^]*class="cc-map-note"/);
+  assert.equal((html.match(/class="is-done"/g)||[]).length,['explore','decision','result'].indexOf(phase));
+  assert.match(html,/<p class="cc-kicker">[^<]+<\/p><h2>[^<]*<span class="cc-(nowrap|accent)">/);
   assert.ok([...html.matchAll(/<(?:button|input)\b[^>]*>/g)].every(m=>m[0].includes(' disabled')));
   assert.doesNotMatch(html,/undefined|NaN/);assert.equal(JSON.stringify(options),original);
  }
@@ -74,7 +78,7 @@ test('four cases stay available; the controller guides a choice before confirmat
   const tv=control.render({...options,game:{...game,phase:'decision',actionId:'signals'},readonly:true});
   assert.match(tv,/cc-tv-delta/);assert.doesNotMatch(tv,/cc-metrics/);assert.equal((tv.match(/class="cc-notice"/g)||[]).length,1);
   const result=control.render({...options,game:{...game,phase:'result',actionId:'signals'}});
-  assert.match(result,/class="cc-secondary cc-results-button" data-action="finish-session"/);assert.ok(result.indexOf('data-action="retry"')<result.indexOf('data-action="finish-session"'));
+  assert.match(result,/class="cc-primary cc-results-button" data-action="finish-session"/);assert.ok(result.indexOf('data-action="retry"')<result.indexOf('data-action="finish-session"'));
  }
 });
 
@@ -243,4 +247,24 @@ test('insights change with the screen, role, case and selected action without al
   for(const html of [...actions,...cases,...roles])assert.doesNotMatch(html,/undefined|NaN/);
   assert.equal(JSON.stringify(game),original);
  }
+});
+test('before → after uses one scale; only the after value turns BID green (better) or red (worse)',()=>{
+ const expected=(key,b,a)=>b===a?'':(key==='speed'?a>b:a<b)?'is-better':'is-worse';
+ const seen=new Set();
+ for(const language of ['es','en'])for(let scenarioIndex=0;scenarioIndex<data.scenarios.length;scenarioIndex++)for(const action of data.actions){
+  const game={phase:'decision',scenarioIndex,hour:data.scenarios[scenarioIndex].hour,actionId:action.id,playerId:'valentina',results:{}};
+  const before=control.state(data,game,null),after=control.state(data,game);
+  const tablet=control.render({data,game,language}),tv=control.render({data,game,language,readonly:true});
+  for(const [key,unit] of [['congestion','%'],['speed',' km/h'],['critical','']]){
+   const want=expected(key,before[key],after[key]);seen.add(want);
+   // Same markup for both values: number + unit at the same scale.
+   assert.match(tablet,new RegExp(`data-cc-metric="${key}"[^]*?<del>${before[key]}<small>${unit}</small></del>`));
+   const cls=tablet.match(new RegExp(`data-cc-metric="${key}"[^]*?<b( class="([^"]+)")?>${after[key]}<small>`))[2]||'';
+   assert.equal(cls,want,`${language} ${scenarioIndex} ${action.id} ${key}`);
+   if(key==='speed')continue;
+   const u=unit?`<em>${unit}</em>`:'';
+   assert.match(tv,new RegExp(`<b>${before[key]}${u}<i aria-hidden="true"><svg class="ptd-icon ptd-icon--arrow"[^]*?</svg></i><span class="cc-after${want?' '+want:''}">${after[key]}${u}</span></b>`));
+  }
+ }
+ assert.ok(seen.has('is-better')&&seen.has('is-worse'),'the data covers both outcomes');
 });

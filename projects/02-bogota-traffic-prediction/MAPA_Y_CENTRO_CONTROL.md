@@ -125,6 +125,90 @@ No cambian GAME_DATA, puntajes, mapa, cámara, avisos, ranking ni QR. Capturas E
 1920×1080 y TV a 1280×720 en `artifacts/predicttodo-stage-split/` (`phases.cjs`
 recorre todas las fases en la estación 9 y restaura su estado). Trabajo local, sin push.
 
+## TV del juego según Figma 774:52199 (12 de noviembre)
+
+El frame «Frame 4» de *BID-AI-Exhibition-hall* ajusta el marco de la TV en Explorar/Decidir/Resultado.
+Se aplica a las tres fases de la TV (`.cc-app.cc-observer`, bloque final de `control-center.css`); la tableta no cambia.
+
+- Barra superior de 126 px, igual a las demás pantallas de la TV (logo 216×44, divisor de 2 px, título 25,5 px,
+  subtítulo 22,7 px). Se conserva el indicador ES/EN a la derecha.
+- Sin el título «Pulso vial Bogotá» de la página: el panel (491) y el mapa (1319) empiezan 54 px bajo la barra.
+- Pasos sobre fondo `#cfe1ff`: hecho en gris `#95979c` con su número (sin ✓), actual en `#005cff`, siguiente en blanco.
+- Panel blanco con borde de 2 px `#cfe1ff`. El kicker («EXPLORANDO»…) va sobre el título del caso, alineado con él;
+  ícono de 58 px en mosaico `#cfe1ff`; título 30 px. Se quitó la línea «lugar · hora» (la hora ya está en el reloj del mapa).
+  El nombre del lugar no se parte entre líneas (`.cc-nowrap`).
+- Insight negro sin el anillo decorativo: kicker `#9ec1ff`, título 22 px, texto 15 px `#cfe1ff`.
+- Leyenda en `#141414` y, en la misma fila a la derecha, la nota «Vías reales · Tráfico y resultados simulados…»
+  (`.cc-map-note`). Se retiró la nota inferior izquierda.
+- Se conserva el aviso «Controla desde la tableta»: en Figma está dentro del grupo del mapa con su máscara y queda
+  recortado, pero su espacio (y 948–1020) sigue reservado.
+- A 720–800 px de alto la barra pasa a 96 px y el panel se compacta; revisado sin desbordes a 1920×1080, 1280×720,
+  1280×800 y 1024×768, ES/EN.
+
+## Rebrand completo según Figma 177:22367 (12 de noviembre)
+
+La página «05_PredictToDo» del archivo de Figma trae tableta y TV para toda la experiencia (en inglés; el español
+sigue la misma composición). Se aplicó pantalla por pantalla adaptando el código existente; los bloques nuevos están al
+final de `control-center.css`, `rebrand.css` y `completion.css`, con el nodo de Figma como referencia en el comentario.
+
+- Barra superior: 126 px en todas las pantallas. La TV solo lleva la marca (sin chip de rol, hora, puntaje ni idioma).
+  La tableta conserva el selector ES/EN y un único botón «Menú» con ícono de casa; «Volver» pasa al pie de cada panel.
+- Títulos a dos tonos (`<span>` azul): «Bogotá **Traffic Pulse**», «Who will manage **the city today?**»,
+  «Your **name**», «How to **use the panel**», «Case **indicators**», «Your shift **is recorded**»,
+  «From experience **to action**», «Learn **more**» y sus equivalentes en español.
+- Portada (`visual.js`, nodo 662:4545): deja de ser un PNG con zonas táctiles y pasa a HTML nativo: kicker
+  «Bogotá Traffic Prediction», título «Predict**ToDo**», subtítulo y dos tarjetas con borde `#cfe1ff` («About the
+  project» con la foto `predicttodoImages/portada-about.png` y «Interactive experience» con el contorno de Colombia
+  `predicttodoImages/colombia-pin.svg`, ambos exportados de Figma). La TV muestra la misma portada sin controles.
+- Tableta · Inicio (`pulse-vial.js`): sin subtítulo ni tarjetas; dos botones grandes «Back to menu» / «Choose my role →»
+  y la nota «The instructions are on the screen». Las cuatro tarjetas de pasos quedan solo en la TV.
+- Tableta · Rol: bloque de 1260 px, tarjetas de 2 px `#cfe1ff` (seleccionada en azul, sin relleno), íconos sin círculo,
+  «Your **name**», botones Back (250) y Start shift (320). TV · Rol: kicker y título alineados a la izquierda.
+- Tableta · Explorar/Decidir/Resultado (`control-center.js`): sin el título «Your control panel»; pasos sobre `#cfe1ff`;
+  tarjetas de caso compactas (62 px) y ranking con filas bordeadas (seleccionadas en `#cfe1ff`); «2. Compare congestion
+  across roads»; pie del panel con «Back» + «Make a decision» (o «Confirm action»). La columna del mapa es una sola
+  tarjeta: cabecera «Case **indicators** · Without your action» con las tres cifras en línea y el mapa debajo
+  (`.cc-map-card`); la leyenda lleva la nota a la derecha; la barra «3. Explore traffic throughout the day» es blanca
+  (segmentado Slow/Normal/Fast, «Play the day», reloj con sol/luna). Decidir: tarjetas de acción con ícono en círculo
+  `#edf4ff`, seleccionada en `#cfe1ff`; botón deshabilitado `#c7dbff`. Resultado: «Good choice!» + 100/100 centrados,
+  «Try another option» y «Change case» en contorno, «View results →» primario a todo el ancho.
+- TV: aviso inferior en cápsula de una línea (ícono de pantalla + texto, sin kicker ni flecha). Decidir: tarjeta
+  «Chosen response» blanca con borde, cifras 40 px y el valor «después» en verde `#9bde54` cuando mejora. Resultado:
+  título «Compare what the **different actions could do**» (ES: «Compara qué lograría **cada medida**»), tarjeta «Your response» blanca con barras azules; se
+  conserva el insight (no está en Figma, pero es la lección del caso).
+- Cierre: la tableta muestra «Your shift **is recorded**», una tarjeta con «100 / 400 points», tiempo y estado, y
+  tres botones (Back to map · Play again · Back to menu →); la TV abre con el bloque azul «PredictToDo in Bogotá»,
+  «Learn **more**» sobre los dos QR y el ranking a la derecha, sin kicker, subtítulo ni nota inferior.
+- Guía de la tableta: título a dos tonos, X sobre círculo `#cfe1ff`, pie en `#cfe1ff`.
+- Antes → después (tableta «Case indicators» y TV «Chosen response»): los dos valores tienen el mismo tamaño y su
+  unidad a la misma proporción (0,5 em); el «antes» va en azul de marca y la flecha en gris. Solo el valor «después»
+  cambia de color con la paleta semántica del manual BID: verde `#9BDE54` si mejora y rojo `#FC5D5D` si empeora;
+  igual queda en azul. Mejora = menos congestión, más velocidad, menos puntos críticos (`trend()` en `control-center.js`,
+  la misma regla para tableta y TV).
+- No cambian GAME_DATA, puntajes, mapa, cámara, avisos, ranking, QR, sincronización ni temporizador de inactividad.
+  Pruebas actualizadas: `predicttodo-control.test.js` (incluye una prueba que recorre todos los casos y medidas y
+  comprueba el color del valor «después» en tableta y TV) (botón de resultados primario, título de Resultado en TV) y
+  `smoke.test.js` (recursos de la portada nativa).
+
+## Tercera pasada Figma (12 de noviembre)
+
+- **Íconos originales de Figma** (`icons.js`, bloque `figma`): casos (auto, balón, salida, luna), acciones (semáforo,
+  flechas, cono, ojo tachado), figuras de los roles de la tableta (mujer: Valentina y Camila; hombre: Santiago y Andrés),
+  pasos de la TV de Inicio, la flecha antes → después (`#5C97FF`) y la pantalla del aviso. Se exportaron del archivo,
+  se quitaron las máscaras e IDs y se recolorean con `currentColor`. La TV de Rol conserva sus marcas de trazo.
+- **TV Inicio** (06-tv-inicio): bloque alineado a la izquierda de 1631 px, subtítulo en negro, títulos de tarjeta en
+  azul, números 01–04 arriba a la derecha y cápsula de 62 px con el ícono de pantalla.
+- **Tableta**: tarjetas de caso sin círculo (ícono a 19 px, texto a 61 px); tarjetas de rol con la figura 32×50;
+  indicadores a 39 px con unidad de 19 px y título «Case indicators» de 24 px; columnas según su contenido.
+- **TV Explorar/Decidir** (Frames 1 y 5): 88 px bajo la barra, ficha de vía blanca con franja del color de la vía,
+  38 px entre título y tarjeta, 35 px hasta el insight; en Decidir, etiquetas `#5C97FF`, cifras de 38 px con la
+  unidad a tamaño completo y la flecha de Figma.
+- **TV Resultado** (Frame 6): sin insight; la tarjeta de comparación conserva el tamaño de las otras fases.
+- **Sin pantalla de resumen**: «Ver resultados» lleva directo al ranking + QR y guarda el resultado
+  (`module.js`, `finish-session`). `finalScreen` sigue en `pulse-vial.js` solo por compatibilidad con estados guardados.
+- **TV Cierre** (Frame 7 v2): un solo QR (GitHub · Code4Dev) en tarjeta horizontal bajo «Learn more», bloque azul con
+  las cuatro cifras y ranking a la derecha; puntos sin «/400» en las filas y fila del visitante como en Figma.
+
 ## Infografía de Información
 
 La imagen activa es `assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png`, suministrada por el usuario, a 1920×1080. `../../shared/bogota-traffic.js` apunta a ese archivo tanto para ES como para EN. El PNG proporcionado contiene texto en inglés; no se modifica su contenido ni se genera una traducción gráfica. Controles, CTA y explicaciones siguen siendo bilingües. Se conserva la precarga existente. La imagen ocupa todo el ancho y alto con `object-fit: fill`; el CTA se superpone en el margen inferior de la propia imagen, sin reservar una franja ni reducir el arte. El nuevo archivo ya incluye su marca y no recibe otro logotipo superpuesto.

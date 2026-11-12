@@ -22,12 +22,12 @@
  function stateForHour(hour,base,referenceHour=16){const curve=value=>(value>=16&&value<=20)?14:(value>=7&&value<=9)?10:(value>=21?0:-13);const detail=value=>(value%3)*2;return Math.max(10,Math.min(96,(base||55)+(curve(hour)+detail(hour))-(curve(referenceHour)+detail(referenceHour))));}
  function level(value,copy){if(value>=82)return copy.criticalState;if(value>=65)return copy.dense;if(value>=42)return copy.busy;return copy.normal;}
  function mapSvg(congestion,scenarioItem,copy){const risk=congestion>=80?'critical':congestion>=62?'dense':congestion>=42?'busy':'normal';return `<svg class="pulse-city-map" viewBox="0 0 760 520" role="img" aria-label="${copy.map}"><defs><linearGradient id="pulse-water" x1="0" x2="1"><stop stop-color="#0a3e66"/><stop offset="1" stop-color="#092b4b"/></linearGradient><filter id="pulse-glow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="760" height="520" rx="28" fill="url(#pulse-water)"/><path class="pulse-river" d="M70 0C135 110 78 179 130 272S91 422 32 520"/><path class="pulse-road pulse-road--a ${risk}" d="M171 66L190 442"/><path class="pulse-road pulse-road--b ${risk}" d="M290 42L308 470"/><path class="pulse-road pulse-road--c ${risk}" d="M438 52L414 456"/><path class="pulse-road pulse-road--d ${risk}" d="M559 84L525 438"/><path class="pulse-road pulse-road--e ${risk}" d="M107 163C258 151 431 186 665 146"/><path class="pulse-road pulse-road--f ${risk}" d="M95 280C260 261 421 293 674 270"/><path class="pulse-road pulse-road--g ${risk}" d="M118 393C270 354 431 379 631 421"/><path class="pulse-link" d="M190 163L308 280L414 146L525 270M190 280L308 163L414 393L525 270"/><g class="pulse-map-labels"><text x="118" y="150">Calle 80</text><text x="464" y="136">Calle 100</text><text x="122" y="269">Av. El Dorado</text><text x="110" y="405">Av. 1° de Mayo</text><text x="196" y="502">Av. Ciudad de Cali</text></g><g filter="url(#pulse-glow)"><circle class="pulse-event-dot" cx="${scenarioItem.id==='cali_peak'?190:scenarioItem.id==='calle100_quiet'?525:414}" cy="${scenarioItem.id==='cali_peak'?280:scenarioItem.id==='calle100_quiet'?146:270}" r="17"/><circle class="pulse-event-core" cx="${scenarioItem.id==='cali_peak'?190:scenarioItem.id==='calle100_quiet'?525:414}" cy="${scenarioItem.id==='cali_peak'?280:scenarioItem.id==='calle100_quiet'?146:270}" r="6"/></g><g class="pulse-map-tag"><rect x="442" y="424" width="246" height="47" rx="12"/><text x="459" y="444">${scenarioItem.icon} ${esc(scenarioItem.time)}</text><text x="459" y="461">${esc(scenarioItem[`zone_${copy===words.en?'en':'es'}`]||scenarioItem.zone_es)}</text></g></svg>`;}
+ const homeMark='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7"/></svg>';
  function header(data,game,language,readonly){
-  const copy=t(language),person=player(data,game),free=freeCopy(language);
-  // The TV shows no navigation pills: Menu and Back live on the tablet only.
-  const exit=readonly?'':`<button type="button" class="pulse-command-exit" data-action="exit-game" aria-label="${free.menu}">← ${free.menu}</button>`;
-  const score=playedCount(game)?`${total(game)}<i>/${playedCount(game)*100}</i>`:`0<i> pts</i>`;
-  return `<header class="pulse-command-header"><div class="pulse-command-brand"><span>●</span><p>${copy.center}</p></div><div class="pulse-command-user"><span class="pulse-avatar-small">${icon('role',person.id,person.avatar)}</span><div><b>${esc(game.playerName||person.name)}</b><small>${esc(person[`role_${language}`])}</small></div></div><div class="pulse-command-clock"><small>${copy.timeline}</small><strong>${window.PREDICTTODO_CONTROL?.clock?window.PREDICTTODO_CONTROL.clock(game.hour):String(game.hour).padStart(2,'0')+':00'}</strong></div><div class="pulse-command-score"><small>${copy.score}</small><strong>${score}</strong></div>${readonly?`<span class="ptd-readonly-language">${language.toUpperCase()}</span>`:`<div class="pulse-command-language"><button type="button" data-language="es" aria-pressed="${language==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${language==='en'}">EN</button></div>`}${exit}</header>`;
+  const copy=t(language),free=freeCopy(language);
+  // Figma 177:22367: brand only on the TV; the tablet keeps the ES/EN switch and one Menu (home) button.
+  const tools=readonly?'':`<div class="pulse-command-language"><button type="button" data-language="es" aria-pressed="${language==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${language==='en'}">EN</button></div><button type="button" class="pulse-command-exit" data-action="exit-game" aria-label="${free.menu}">${homeMark}<span>${free.menu}</span></button>`;
+  return `<header class="pulse-command-header"><div class="pulse-command-brand"><span>●</span><p>${copy.center}</p></div>${tools}</header>`;
  }
  function meter(label,value,unit,kind){return `<div class="pulse-meter" data-meter="${kind}"><span>${label}</span><strong>${value}${unit?`<small class="pulse-meter-unit">${unit}</small>`:''}</strong><i class="pulse-meter-track"><b class="pulse-meter-fill pulse-meter-fill--${kind}" style="width:${Math.max(5,Math.min(100,value))}%"></b></i></div>`;}
  function hud(data,game,language,scenarioItem,preview){const copy=t(language),baseline=scenarioItem.baseline;const effect=preview&&scenarioItem.effects[preview]||{congestion:0,speed:0,critical:0};const congestion=Math.max(0,Math.min(100,stateForHour(game.hour,baseline.congestion,scenarioItem.hour)+effect.congestion));const speed=Math.max(0,baseline.speed+effect.speed);const critical=Math.max(0,baseline.critical+effect.critical);return `<section class="pulse-hud"><div class="pulse-hud-title"><span>${scenarioItem.icon}</span><div><small>${copy.scenario}</small><strong>${esc(scenarioItem[`title_${language}`])}</strong><em>${esc(scenarioItem[`zone_${language}`])}</em></div></div><div class="pulse-hud-meters">${meter(copy.congestion,congestion,'%',congestion>=65?'danger':'good')}${meter(copy.speed,speed,' km/h','speed')}${meter(copy.critical,critical,'','critical')}</div></section>`;}
@@ -53,8 +53,12 @@
    'Each decision earns 0 to 100 points based on how well it suits the case. Compare the result of your action.',
    'Review your score and compare your decisions. Finish after one case, try again or play the others.'
   ];
-  const title=`<p>${copy.center}</p><h1>${es?'Pulso vial Bogotá':'Bogotá Traffic Pulse'}</h1>`;
-  if(readonly&&window.PREDICTTODO_ICONS){
+  const title=`<p>${copy.center}</p><h1>${es?'Pulso vial <span>Bogotá</span>':'Bogotá <span>Traffic Pulse</span>'}</h1>`;
+  if(!readonly){
+   // Tablet opening (Figma 774:48585): kicker, two-tone title, two large buttons and a note; the steps are on the TV.
+   return `<main class="pulse-command pulse-command--intro">${header(data,game,language,readonly)}<section class="pulse-intro-card">${title}<div class="ptd-intro-actions"><button type="button" class="pulse-command-secondary" data-action="exit-game">${es?'Volver al menú':'Back to menu'}</button><button type="button" class="pulse-command-primary" data-action="to-player">${es?'Elegir mi rol':'Choose my role'} <span>→</span></button></div></section><p class="ptd-intro-note">${es?'Las instrucciones están en la pantalla':'The instructions are on the screen'}</p></main>`;
+  }
+  if(window.PREDICTTODO_ICONS){
    // The TV opening is a four-step visual guide: one icon, one title, one short hint each.
    const hints=es?['Mueve la hora y toca una vía','Elige un caso y prueba una medida','Cada decisión suma hasta 100','Compara y aprende']:['Move the clock, tap a road','Pick a case, try a response','Each decision earns up to 100','Compare and learn'];
    const list=`<ol class="ptd-tv-guide-steps">${steps.map((item,index)=>`<li><span class="ptd-guide-icon" aria-hidden="true">${icon('step',index,'')}</span><b>${String(index+1).padStart(2,'0')}</b><div class="ptd-tv-step-copy"><h3>${item}</h3><p>${hints[index]}</p></div></li>`).join('')}</ol>`;
@@ -64,15 +68,16 @@
  }
  function playerScreen(data,game,language,readonly){
   const copy=t(language),tv=readonly?window.PREDICTTODO_INSIGHTS:null;
-  const roles=data.characters.map(item=>`<${readonly?'div':'button type="button"'} class="pulse-role-card ${item.id===game.playerId?'is-selected':''}" ${readonly?`data-role-mirror="${item.id}"`:`data-role="${item.id}"`}><span>${icon('role',item.id,item.avatar)}</span><b>${item.name}</b><small>${item[`role_${language}`]}</small><em>${item[`focus_${language}`]}</em><i>${item.bonus.points > 0?`+${item.bonus.points} ${copy.score.toLowerCase()}`:''}</i></${readonly?'div':'button'}>`).join('');
-  const heading=`<div><p>${copy.profile}</p><h1>${copy.chooseRole}</h1><span>${copy.roleHint}</span></div>`;
+  const roles=data.characters.map(item=>`<${readonly?'div':'button type="button"'} class="pulse-role-card ${item.id===game.playerId?'is-selected':''}" ${readonly?`data-role-mirror="${item.id}"`:`data-role="${item.id}"`}><span>${icon(readonly?'role':'avatar',item.id,item.avatar)}</span><b>${item.name}</b><small>${item[`role_${language}`]}</small><em>${item[`focus_${language}`]}</em><i>${item.bonus.points > 0?`+${item.bonus.points} ${copy.score.toLowerCase()}`:''}</i></${readonly?'div':'button'}>`).join('');
+  const heading=`<div><p>${copy.profile}</p><h1>${language==='es'?'¿Quién va a manejar <span>la ciudad hoy?</span>':'Who will manage <span>the city today?</span>'}</h1><span>${copy.roleHint}</span></div>`;
+  const nameLabel=language==='es'?'Tu <span class="ptd-accent">nombre</span>':'Your <span class="ptd-accent">name</span>';
   if(tv){
    // The TV shows the chosen role large; the name field and the choice stay on the tablet.
    const person=player(data,game),s=tv.storyCopy[language==='es'?'es':'en'];
    const hero=`<div class="ptd-role-hero"><span class="ptd-role-hero-avatar" aria-hidden="true">${icon('role',person.id,person.avatar)}</span><div><p class="ptd-story-kicker">${s.selectedRole}</p><h2>${esc(person.name)}</h2><p>${esc(person[`role_${language}`])}</p><output class="pulse-name-mirror">${esc(game.playerName)}</output></div></div>`;
    return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-player-screen ptd-tv-story ptd-tv-story--player"><div class="ptd-story-main">${heading}${hero}<div class="pulse-role-grid ptd-role-chips">${roles}</div></div><aside class="ptd-story-side"></aside></section></main>`;
   }
-  return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-player-screen">${heading}<label>${copy.name}${readonly?`<output class="pulse-name-mirror">${esc(game.playerName)||copy.nameHint}</output>`:`<input data-name maxlength="40" value="${esc(game.playerName)}" placeholder="${copy.nameHint}">`}</label><div class="pulse-role-grid">${roles}</div><footer>${readonly?`<span class="pulse-command-primary">${language==='es'?'En la tableta, elige tu rol y pulsa «Empezar turno».':'On the tablet, choose your role and press “Start shift”.'}</span>`:`<button type="button" class="pulse-command-secondary" data-action="to-intro">${copy.back}</button><button type="button" class="pulse-command-primary" data-action="start-explore">${copy.start} <span>→</span></button>`}</footer></section></main>`;
+  return `<main class="pulse-command">${header(data,game,language,readonly)}<section class="pulse-player-screen">${heading}<label>${nameLabel}${readonly?`<output class="pulse-name-mirror">${esc(game.playerName)||copy.nameHint}</output>`:`<input data-name maxlength="40" value="${esc(game.playerName)}" placeholder="${copy.nameHint}">`}</label><div class="pulse-role-grid">${roles}</div><footer>${readonly?`<span class="pulse-command-primary">${language==='es'?'En la tableta, elige tu rol y pulsa «Empezar turno».':'On the tablet, choose your role and press “Start shift”.'}</span>`:`<button type="button" class="pulse-command-secondary" data-action="to-intro">${copy.back}</button><button type="button" class="pulse-command-primary" data-action="start-explore">${copy.start} <span>→</span></button>`}</footer></section></main>`;
  }
  function exploreScreen(data,game,language,readonly){
   const copy=t(language),free=freeCopy(language),scenarioItem=scenario(data,game);
@@ -389,14 +394,6 @@
   page.lang=language;
   const brand=page.querySelector('.pulse-command-brand');
   if(brand)brand.innerHTML='<img src="/projects/02-bogota-traffic-prediction/predicttodoImages/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="ptd-header-divider" aria-hidden="true"></span><span class="ptd-header-copy"><strong>AI in Action</strong><small>IDB Group Projects Across the Region</small></span>';
-  const backTargets={explore:'back-player',decision:'to-explore',result:'retry',final:'resume-events'};
-  if(backTargets[phase]&&!readonly){
-   const back=document.createElement('button');
-   back.className='ptd-stage-back';
-   back.textContent=language==='es'?'← Volver':'← Back';
-   back.type='button';back.dataset.action=backTargets[phase];
-   page.querySelector('.pulse-command-exit')?.before(back);
-  }
   const title={
    explore:language==='es'?'Pulso vial Bogotá · Centro de control':'Bogotá Traffic Pulse · Control center',
    decision:language==='es'?'Elige una acción para Bogotá':'Choose an action for Bogotá'
@@ -406,17 +403,6 @@
   if(phase==='explore'){
    const aside=dashboard?.querySelector('aside');
    if(aside){const intro=document.createElement('div');intro.className='ptd-aside-intro';intro.innerHTML=language==='es'?'<p>MISIÓN DE HOY</p><h2>Explora antes de decidir</h2>':'<p>TODAY’S MISSION</p><h2>Explore before deciding</h2>';aside.prepend(intro);}
-  }
-  if(phase==='intro'){
-   const intro=page.querySelector('.pulse-intro-card');
-   const heading=intro?.querySelector('h1');
-   if(heading)heading.textContent=language==='es'?'Pulso vial Bogotá':'Bogotá Traffic Pulse';
-   const next=intro?.querySelector('[data-action="to-player"]');
-   if(next){const actions=document.createElement('div');actions.className='ptd-intro-actions';actions.innerHTML=`<button type="button" class="pulse-command-secondary" data-action="exit-game">${language==='es'?'Atrás':'Back'}</button>`;next.before(actions);actions.appendChild(next);}
-  }
-  if(phase==='player'){
-   const heading=page.querySelector('.pulse-player-screen h1');
-   if(heading)heading.textContent=language==='es'?'¿Quién va a manejar la ciudad hoy?':'Who will manage the city today?';
   }
   if(phase==='result'){
    page.querySelectorAll('.pulse-score-compare>div').forEach(row=>{

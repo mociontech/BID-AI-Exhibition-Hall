@@ -166,7 +166,8 @@ window.ProjectModule={
         }
         if(action==='retry')return updateGame({phase:'decision',actionId:null});
         if(action==='choose-event')return updateGame({phase:'explore',actionId:null});
-        if(action==='finish-session'&&Object.keys(state.game.results).length)return updateGame({phase:'final',actionId:null,durationMs:sessionClock.pause(performance.now())});
+        // Figma 813:705: «View results» goes straight to the leaderboard + QR screen (no separate summary screen).
+        if(action==='finish-session'&&Object.keys(state.game.results).length){updateGame({phase:'resources',actionId:null,durationMs:sessionClock.pause(performance.now())});return saveRanking();}
         if(action==='resume-events'){sessionClock.start(performance.now());return updateGame({phase:'explore',actionId:null,rankStatus:null});}
         if(action==='to-ranking'){updateGame({phase:'resources'});return saveRanking();}
         if(action==='retry-ranking')return saveRanking();

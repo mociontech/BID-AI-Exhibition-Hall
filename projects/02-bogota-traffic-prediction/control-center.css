@@ -400,3 +400,319 @@
 .cc-tv-compare--result>div:last-child{gap:3px}.cc-tv-compare--result>div:last-child>div{padding:4px 7px;gap:2px 8px;border-radius:8px}.cc-tv-compare--result>div:last-child>div>span{font-size:12px}.cc-tv-compare--result>div:last-child>div>b{font-size:13px}.cc-tv-compare--result>div:last-child>div>i{height:4px}
 .cc-observer[data-phase=result] .cc-insight{padding:9px 12px}.cc-observer[data-phase=result] .cc-insight h3{font-size:17px;margin-bottom:3px}.cc-observer[data-phase=result] .cc-insight>div>span{font-size:12px}.cc-observer[data-phase=result] .cc-insight-icon{width:30px;height:30px}}
 .ptd-game .pulse-final-screen.ptd-tv-story--final>.ptd-final-hero{min-height:0;justify-content:center;gap:10px}
+
+/* TV · Figma 774:52199 (12 Nov): same 126 px bar as the other TV screens, no page title, panel 491 / map 1319,
+   light-blue step bar (done grey · current blue · next white), kicker over the case title, legend row with the note. */
+.cc-app.cc-observer .cc-header{min-height:126px;height:126px;padding:0 68px;gap:24px}
+.cc-app.cc-observer .cc-brand{gap:27px}.cc-app.cc-observer .cc-brand>img{width:216px;height:44px;object-fit:contain}
+.cc-app.cc-observer .cc-brand>span{width:2px;height:45px;background:#fff;opacity:.9}
+.cc-app.cc-observer .cc-brand>div{line-height:1.12}.cc-app.cc-observer .cc-brand strong{font-size:25.5px;font-weight:700}.cc-app.cc-observer .cc-brand small{font-size:22.7px;font-weight:500}
+.cc-app.cc-observer{background:#fff}
+.cc-app.cc-observer .cc-layout{grid-template-columns:minmax(340px,491fr) minmax(0,1319fr);gap:24px;padding:54px 36px 0 50px}
+.cc-app.cc-observer .cc-side{border:2px solid #cfe1ff;border-radius:18px;background:#fff}
+.cc-app.cc-observer .cc-steps{display:flex;justify-content:space-between;align-items:center;height:53px;padding:0 49px 0 21px;border:0;background:#cfe1ff}
+.cc-app.cc-observer .cc-steps li{gap:7px;color:#141414;font-size:12px;font-weight:700}
+.cc-app.cc-observer .cc-steps li>span{width:25px;height:25px;background:#fff;color:#141414}
+.cc-app.cc-observer .cc-steps li.is-done{color:#95979c}.cc-app.cc-observer .cc-steps li.is-done>span{background:#95979c;color:#fff}
+.cc-app.cc-observer .cc-steps [aria-current=step]{color:#005cff}.cc-app.cc-observer .cc-steps [aria-current=step]>span{background:#005cff;color:#fff}
+.cc-app.cc-observer .cc-side-content{padding:31px 19px 28px}
+.cc-app.cc-observer .cc-tv-case-heading{align-items:flex-end;gap:13px}
+.cc-app.cc-observer .cc-tv-case-heading>span{width:58px;height:58px;border:0;border-radius:14px;background:#cfe1ff;font-size:30px}
+.cc-app.cc-observer .cc-tv-case-heading .cc-kicker{display:block;margin:0;font-size:11px;font-weight:700;letter-spacing:.3em}
+.cc-app.cc-observer .cc-tv-case-heading h2{color:#111b2b;font-size:30px;font-weight:700;line-height:1;letter-spacing:0}
+.cc-nowrap{white-space:nowrap}
+.cc-app.cc-observer .cc-insight{align-items:center;gap:18px;padding:22px 16px;border:0;border-radius:20px;background:#141414}
+.cc-app.cc-observer .cc-insight:after{display:none}
+.cc-app.cc-observer .cc-insight-icon{width:46px;height:46px;background:#ffffff12}
+.cc-app.cc-observer .cc-insight p{margin:0 0 2px;color:#9ec1ff;font-size:10px;font-weight:700;letter-spacing:0}
+.cc-app.cc-observer .cc-insight h3{margin:0 0 3px;color:#fff;font-size:22px;font-weight:700;line-height:1.2;letter-spacing:0}
+.cc-app.cc-observer .cc-insight>div>span{color:#cfe1ff;font-size:15px;font-weight:400;line-height:1.2}
+.cc-app.cc-observer .cc-map-legend{gap:8px 15px;padding:16px 0 6px;color:#141414;font-size:13.5px}
+.cc-app.cc-observer .cc-map-legend>span{gap:6px}.cc-app.cc-observer .cc-map-legend i{width:24.6px;height:4.9px}
+.cc-map-note{margin-left:auto;color:#141414;font-size:10px;line-height:1.2;white-space:nowrap}
+.cc-app.cc-observer .cc-notice{margin:8px auto clamp(12px,5.5vh,60px)}
+@media(max-width:1400px){.cc-app.cc-observer .cc-layout{grid-template-columns:minmax(320px,1fr) minmax(0,2.1fr);gap:20px;padding-inline:28px}}
+@media(max-width:1400px) and (max-height:800px){.cc-app.cc-observer .cc-header{min-height:96px;height:96px;padding-inline:40px}.cc-app.cc-observer .cc-brand>img{width:185px;height:auto}.cc-app.cc-observer .cc-brand strong{font-size:19px}.cc-app.cc-observer .cc-brand small{font-size:14px}}
+@media(max-width:1100px){.cc-app.cc-observer .cc-header{min-height:95px;height:95px;padding-inline:28px}.cc-app.cc-observer .cc-brand{gap:14px}.cc-app.cc-observer .cc-brand>img{width:160px;height:auto}.cc-app.cc-observer .cc-brand strong{font-size:17px}.cc-app.cc-observer .cc-brand small{font-size:12px}}
+@media(max-height:800px){.cc-app.cc-observer .cc-layout{padding-top:clamp(12px,3.5vh,30px)}.cc-app.cc-observer .cc-steps{height:42px}.cc-app.cc-observer .cc-side-content{padding:16px 14px 14px}
+ .cc-app.cc-observer .cc-tv-case-heading>span{width:42px;height:42px;font-size:24px;border-radius:12px}.cc-app.cc-observer .cc-tv-case-heading .cc-kicker{font-size:9px}.cc-app.cc-observer .cc-tv-case-heading h2{font-size:21px}
+ .cc-app.cc-observer .cc-insight{gap:12px;padding:11px 12px;border-radius:16px}.cc-app.cc-observer .cc-insight-icon{width:34px;height:34px}.cc-app.cc-observer .cc-insight h3{font-size:17px}.cc-app.cc-observer .cc-insight>div>span{font-size:12px}
+ .cc-app.cc-observer .cc-map-legend{padding-top:8px;font-size:11px;gap:5px 10px}.cc-map-note{font-size:9px}.cc-app.cc-observer .cc-notice{margin-bottom:clamp(8px,2.5vh,20px)}}
+
+/* Figma 177:22367 (12 Nov) · tablet and shared chrome. 126 px bar everywhere, no page title, panel 635 / map 1185,
+   light-blue step bar, bordered cards, white time bar, Back inside each panel, one-line notice pill on the TV. */
+.cc-app{background:#fff}
+.cc-app .cc-header{min-height:126px;height:126px;padding:0 68px;gap:24px}
+.cc-app .cc-brand{gap:27px}.cc-app .cc-brand>img{width:216px;height:44px;object-fit:contain}.cc-app .cc-brand>span{width:2px;height:45px;background:#fff;opacity:.9}
+.cc-app .cc-brand>div{line-height:1.12}.cc-app .cc-brand strong{font-size:25.5px;font-weight:700}.cc-app .cc-brand small{font-size:22.7px;font-weight:500}
+.cc-language{padding:4px;border:1px solid #ffffff88;background:#ffffff22}.cc-language button{min-width:52px;min-height:42px;font-size:17px}
+.cc-header-button{display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 18px;border:1px solid #ffffff88;background:#ffffff22;font-size:17px;font-weight:800}.cc-header-button svg{width:22px;height:22px}
+.cc-app:not(.cc-app--tv) .cc-layout{grid-template-columns:minmax(350px,635fr) minmax(0,1185fr);gap:30px;padding:clamp(16px,5.9vh,64px) 35px clamp(16px,6.7vh,73px)}
+.cc-side{border:2px solid #cfe1ff;border-radius:18px}
+.cc-steps{display:flex;justify-content:space-between;align-items:center;height:53px;padding:0 clamp(21px,15%,95px) 0 21px;border:0;background:#cfe1ff}
+.cc-steps li{gap:7px;color:#141414;font-size:12px;font-weight:700}.cc-steps li>span{width:25px;height:25px;background:#fff;color:#141414}
+.cc-steps li.is-done{color:#95979c}.cc-steps li.is-done>span{background:#95979c;color:#fff}
+.cc-steps [aria-current=step]{color:#005cff}.cc-steps [aria-current=step]>span{background:#005cff;color:#fff}
+.cc-app:not(.cc-app--tv) .cc-side-content{gap:22px;padding:25px}
+.cc-app:not(.cc-app--tv) .cc-side h2{font-size:30px;font-weight:700;letter-spacing:0;color:#141414}
+/* 1. Choose a case */
+.cc-app:not(.cc-app--tv) .cc-events{gap:12px 28px;margin-top:-6px}
+.cc-app:not(.cc-app--tv) .cc-events button{align-items:center;gap:14px;min-height:62px;padding:10px 16px;border:2px solid #cfe1ff;border-radius:12px;color:#141414}
+.cc-app:not(.cc-app--tv) .cc-events button.is-active{border-color:#005cff;background:#cfe1ff;box-shadow:none}
+.cc-app:not(.cc-app--tv) .cc-events button>span{font-size:24px}.cc-app:not(.cc-app--tv) .cc-events button>div{gap:3px}
+.cc-app:not(.cc-app--tv) .cc-events b{font-size:16px;font-weight:700}.cc-app:not(.cc-app--tv) .cc-events small{font-size:12px;color:#4f4f4f}.cc-app:not(.cc-app--tv) .cc-events em{font-size:11px;font-weight:700;color:#005cff}
+/* 2. Compare congestion across roads */
+.cc-app:not(.cc-app--tv) .cc-corridor-panel{gap:12px;margin-top:8px;padding-top:0;border-top:0}
+.cc-app:not(.cc-app--tv) .cc-side .cc-ranking-title{font:700 30px/1.1 Inter,Arial,sans-serif;letter-spacing:0;color:#141414}
+.cc-app:not(.cc-app--tv) .cc-side .cc-ranking-guide{margin-top:-6px;color:#141414;font-size:16px;line-height:1.2}
+.cc-app:not(.cc-app--tv) .cc-road-ranking{gap:12px}
+.cc-app:not(.cc-app--tv) .cc-road-ranking button{min-height:62px;padding:10px 20px 12px;border:2px solid #cfe1ff;border-radius:12px;color:#141414}
+.cc-app:not(.cc-app--tv) .cc-road-ranking button[aria-pressed=true]{border-color:#005cff;background:#cfe1ff}
+.cc-app:not(.cc-app--tv) .cc-road-ranking button span,.cc-app:not(.cc-app--tv) .cc-road-ranking button>b{font-size:16px;font-weight:700}
+.cc-app:not(.cc-app--tv) .cc-road-ranking i{height:6px;border-radius:3px;background:#edf4ff}
+.cc-app:not(.cc-app--tv) .cc-exploration-note{font-size:10px;color:#4f4f4f}
+/* Panel footer: Back + primary */
+.cc-app:not(.cc-app--tv) .cc-side>.cc-panel-actions{gap:40px;padding:12px 25px 25px;border-top:0}
+.cc-app:not(.cc-app--tv) .cc-primary,.cc-app:not(.cc-app--tv) .cc-secondary{min-height:60px;padding:0 30px;border-width:2px;border-radius:12px;font-size:24px;font-weight:700}
+.cc-app:not(.cc-app--tv) .cc-secondary{min-width:155px;border-color:#cfe1ff;color:#005cff}
+.cc-app:not(.cc-app--tv) .cc-primary:disabled{opacity:1;background:#c7dbff;border-color:#c7dbff}
+.cc-app:not(.cc-app--tv) .cc-explore-next>.cc-primary{flex:0 0 auto;min-width:280px}
+.cc-app:not(.cc-app--tv) .cc-explore-next>.cc-results-button{margin-right:auto;min-width:0;padding:0 16px;font-size:18px}
+/* Map column: one card holds the indicators header and the map */
+.cc-map-card{display:flex;flex-direction:column;flex:1;min-height:0;border:2px solid #cfe1ff;border-radius:20px;background:#fff;overflow:hidden}
+.cc-map-card .cc-map-dashboard{display:flex;align-items:center;gap:24px;flex:none;margin:0;padding:16px 24px 14px}
+.cc-map-card .cc-dashboard-caption{display:block;flex:none;margin:0;font:700 30px/1 Inter,Arial,sans-serif;color:#141414}
+.cc-map-card .cc-dashboard-caption>b{display:block;color:#141414}.cc-map-card .cc-dashboard-caption>b span{color:#005cff}
+.cc-map-card .cc-dashboard-caption>span{display:block;margin-top:4px;font:400 16px/1.1 Inter,Arial,sans-serif;color:#8a8a8a}
+.cc-map-card .cc-metrics{flex:1;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-left:clamp(12px,4vw,90px)}
+.cc-map-card .cc-metrics>div{padding:0;border:0;background:transparent}
+.cc-map-card .cc-metrics span{min-height:0;margin-bottom:2px;font-size:10px;color:#141414;letter-spacing:.02em}
+.cc-map-card .cc-metrics strong{flex-wrap:nowrap;gap:4px;font-size:40px;line-height:1;font-weight:700}
+.cc-map-card .cc-metrics strong>del,.cc-map-card .cc-metrics strong>i{font-size:14px;color:#8a8a8a}
+.cc-map-card .cc-metrics b small{font-size:.5em;font-weight:700}
+.cc-map-card .cc-map-frame{flex:1;border:0;border-radius:0 0 18px 18px}
+.cc-app:not(.cc-app--tv) .cc-map-legend{gap:8px 15px;padding:10px 22px 0;color:#141414;font-size:13.5px}
+.cc-app:not(.cc-app--tv) .cc-map-legend i{width:24.6px;height:4.9px}
+/* 3. Explore traffic throughout the day: white card */
+.cc-app:not(.cc-app--tv) .cc-time-options--chart{margin-top:10px;border:2px solid #cfe1ff;border-radius:20px;background:#fff;overflow:hidden}
+.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-timebar{padding:20px 22px 10px;column-gap:20px;border-radius:0;background:#fff;color:#141414;box-shadow:none}
+.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-time-copy h3{color:#141414;font:700 30px/1.1 Inter,Arial,sans-serif;letter-spacing:0}
+.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-play-rates{padding:4px;border:1px solid #cfe1ff;border-radius:99px;background:#fff}
+.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-play-rates button{min-height:36px;padding:0 18px;color:#141414;font-size:14px;font-weight:700}
+.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-play-rates button[aria-pressed=true]{background:#cfe1ff;color:#005cff}
+.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-play-button{min-height:44px;padding:0 22px;font-size:16px;font-weight:700}
+.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-time-clock{color:#141414;font-size:30px;font-weight:700;letter-spacing:0}
+.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-sky-mark{background:transparent;color:#f3b53a}
+.cc-app:not(.cc-app--tv) .cc-time-sky{height:6px;opacity:1;background:linear-gradient(90deg,#005cff 0%,#7fa9ff 35%,#cfe1ff 52%,#f0c38f 68%,#9a8fb8 84%,#55607a 100%)}
+.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-time-ticks{color:#005cff;font-size:12px;font-weight:700}
+.cc-app:not(.cc-app--tv) .cc-case-dot>i{border-color:#cfe1ff;background:#fff;color:#005cff}
+.cc-app:not(.cc-app--tv) .cc-case-dot.is-current>i{border-color:#fff;background:#005cff;color:#fff}
+/* Decide */
+.cc-app:not(.cc-app--tv) .cc-case-tag{color:#005cff;font-size:16px;font-weight:700}
+.cc-app:not(.cc-app--tv) .cc-instruction{margin-top:-10px;padding:0;background:transparent;color:#141414;font-size:16px;font-weight:400;line-height:1.2}
+.cc-app:not(.cc-app--tv) .cc-actions{gap:30px 28px}
+.cc-app:not(.cc-app--tv) .cc-actions button{justify-content:center;gap:14px;padding:18px;border:2px solid #cfe1ff;border-radius:12px;color:#141414}
+.cc-app:not(.cc-app--tv) .cc-actions button.is-selected{padding:18px;border:2px solid #005cff;background:#cfe1ff}
+.cc-app:not(.cc-app--tv) .cc-actions button>span{display:grid;place-items:center;width:58px;height:58px;border-radius:50%;background:#edf4ff;color:#005cff;font-size:28px}
+.cc-app:not(.cc-app--tv) .cc-actions button.is-selected>span{background:#fff}
+.cc-app:not(.cc-app--tv) .cc-actions b{font-size:18px;font-weight:700}.cc-app:not(.cc-app--tv) .cc-actions small{max-width:190px;color:#4f4f4f;font-size:12px;line-height:1.25}
+/* Result */
+.cc-app:not(.cc-app--tv)[data-phase=result] .cc-side h2{margin-top:20px;text-align:center;font-size:48px}
+.cc-app:not(.cc-app--tv)[data-phase=result] .cc-result-score>strong{font-size:clamp(90px,7.8vw,150px);font-weight:700;letter-spacing:-.02em}
+.cc-app:not(.cc-app--tv)[data-phase=result] .cc-result-score small{color:#8a8a8a;font-size:.32em;font-weight:700}
+.cc-app:not(.cc-app--tv)[data-phase=result] .cc-result-score>span{color:#5c97ff;font-size:30px}
+.cc-app:not(.cc-app--tv) .cc-side>.cc-result-actions{grid-template-columns:1fr 1fr;gap:14px}
+.cc-app:not(.cc-app--tv) .cc-side>.cc-result-actions button,.cc-app:not(.cc-app--tv) .cc-side>.cc-result-actions .cc-results-button{min-height:60px;font-size:24px}
+.cc-app:not(.cc-app--tv) .cc-side>.cc-result-actions .cc-results-button{grid-column:1/-1}
+/* Tablet guide */
+.cc-guide-card>h2 span{color:#005cff}.cc-guide-x{background:#cfe1ff}
+.cc-guide-list li{border:1px solid #cfe1ff;background:#fff}.cc-guide-list li>span{border:1px solid #cfe1ff;background:#fff}
+.cc-guide-foot{background:#cfe1ff;color:#141414;font-weight:700}
+/* TV: one-line notice pill, white response/compare cards, accent titles */
+.cc-notice{gap:16px;min-height:60px;margin:8px auto clamp(12px,5.5vh,60px);padding:0 28px 0 24px;border:0;border-radius:99px;box-shadow:none}
+.cc-notice-icon{width:auto;height:auto;border:0;background:transparent;color:#fff}.cc-notice-icon svg{width:22px;height:22px}
+.cc-notice strong{font-size:20px;font-weight:700;line-height:1.2}
+.cc-accent{color:#005cff}
+.cc-observer[data-phase=decision] .cc-tv-response{padding:26px 24px;border:2px solid #cfe1ff;border-radius:20px;background:#fff;color:#141414}
+.cc-observer[data-phase=decision] .cc-tv-response>small{color:#005cff;font-size:12px;letter-spacing:0}
+.cc-observer[data-phase=decision] .cc-tv-response>strong{padding-bottom:14px;border-bottom:1px solid #cfe1ff;color:#141414;font-size:30px;font-weight:700}
+.cc-observer[data-phase=decision] .cc-tv-response>strong .ptd-icon{color:#005cff}
+.cc-observer[data-phase=decision] .cc-tv-delta{flex-direction:column;gap:14px;padding-top:0;border-top:0}
+.cc-observer[data-phase=decision] .cc-tv-delta small{color:#005cff;font-size:12px;letter-spacing:0}
+.cc-observer[data-phase=decision] .cc-tv-delta b{gap:10px;font-size:40px;font-weight:700}
+.cc-observer[data-phase=decision] .cc-tv-delta b i{color:#005cff;font-size:.8em}
+.cc-tv-delta .cc-after.is-better{color:#9bde54}
+.cc-observer[data-phase=result] .cc-tv-compare--result{gap:18px;padding:25px;border:2px solid #cfe1ff;border-radius:20px;background:#fff}
+.cc-observer[data-phase=result] .cc-tv-score{flex-direction:column;align-items:flex-start;gap:2px;padding-bottom:18px;border-bottom:1px solid #cfe1ff}
+.cc-observer[data-phase=result] .cc-tv-score>small{color:#005cff;font-size:12px;letter-spacing:0}
+.cc-observer[data-phase=result] .cc-tv-score>b{font-size:48px;font-weight:700;letter-spacing:0}
+.cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child{gap:14px}
+.cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div,.cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div.is-choice{padding:0;gap:6px 12px;border:0;background:transparent;color:#141414;font-weight:500}
+.cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div.is-choice{color:#005cff;font-weight:700}
+.cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div>span{font-size:16px}
+.cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div>b{font-size:20px}
+.cc-observer[data-phase=result] .cc-tv-compare--result i{height:6px;background:#edf4ff}.cc-observer[data-phase=result] .cc-tv-compare--result em{background:#005cff}
+/* Opening and role screens (pulse-vial): two-tone titles, large buttons, brand-only TV bar */
+.ptd-game .pulse-command-exit{display:inline-flex;align-items:center;gap:8px;height:50px;min-width:0;padding:0 18px;border:1px solid #ffffff88;background:#ffffff22;font-size:17px}
+.ptd-game .pulse-command-exit svg{width:22px;height:22px}
+.ptd-game .pulse-intro-card h1 span,.ptd-game .pulse-player-screen h1 span,.ptd-accent{color:#005cff}
+.ptd-game:not(.ptd-game--readonly).pulse-command--intro{position:relative}
+.ptd-game:not(.ptd-game--readonly) .pulse-intro-card{display:flex;flex-direction:column;justify-content:center;width:min(1250px,84vw)}
+.ptd-game:not(.ptd-game--readonly) .pulse-intro-card>p{margin:0 0 8px;font-size:clamp(16px,1.35vw,26px);letter-spacing:.28em}
+.ptd-game:not(.ptd-game--readonly) .pulse-intro-card h1{margin:0 0 clamp(20px,3.8vh,42px);font-size:clamp(60px,5.3vw,102px);font-weight:900;letter-spacing:-.045em}
+.ptd-intro-actions{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.6vw,50px)}
+.ptd-intro-actions .pulse-command-primary,.ptd-intro-actions .pulse-command-secondary{display:flex;align-items:center;justify-content:center;gap:24px;min-height:clamp(64px,10vh,110px);padding:0 50px;border-radius:12px;font-size:clamp(22px,2.1vw,40px);font-weight:700}
+.ptd-intro-actions .pulse-command-primary{justify-content:space-between}
+.ptd-intro-actions .pulse-command-secondary{border:2px solid #cfe1ff;color:#141414}
+.ptd-intro-note{position:absolute;left:50%;bottom:clamp(20px,5.8vh,63px);margin:0;padding:11px 46px;border-radius:99px;background:#e9f0ff;color:#141414;font:500 17px/1.3 Inter,Arial,sans-serif;white-space:nowrap;transform:translateX(-50%)}
+.ptd-game:not(.ptd-game--readonly) .pulse-player-screen{max-width:1260px;gap:clamp(14px,2.4vh,30px)}
+.ptd-game:not(.ptd-game--readonly) .pulse-player-screen>div>p{font-size:clamp(16px,1.3vw,25px)}
+.ptd-game:not(.ptd-game--readonly) .pulse-player-screen h1{max-width:none;margin:4px 0 10px;font-size:clamp(55px,5vw,96px);line-height:.97}
+.ptd-game:not(.ptd-game--readonly) .pulse-player-screen h1 span{display:block}
+.ptd-game .pulse-player-screen>div>span{color:#141414;font-size:clamp(16px,1.5vw,29px)}
+.ptd-game:not(.ptd-game--readonly) .pulse-role-grid{gap:25px 50px}
+.ptd-game:not(.ptd-game--readonly) .pulse-role-card{grid-template-columns:52px 1fr;gap:0 48px;padding:12px 24px 12px 44px;border:2px solid #cfe1ff}
+.ptd-game:not(.ptd-game--readonly) .pulse-role-card:hover,.ptd-game:not(.ptd-game--readonly) .pulse-role-card.is-selected{border:2px solid #005cff}
+.ptd-game:not(.ptd-game--readonly) .pulse-role-card span{width:auto;height:auto;background:transparent;font-size:52px}
+.ptd-game:not(.ptd-game--readonly) .pulse-role-card b{font-size:clamp(18px,1.35vw,26px);font-weight:700}.ptd-game:not(.ptd-game--readonly) .pulse-role-card small{font-size:clamp(15px,1.15vw,23px)}
+.ptd-game .pulse-player-screen>label{width:min(600px,100%);font-size:clamp(22px,1.55vw,30px)}
+.ptd-game .pulse-player-screen footer{gap:40px}
+.ptd-game .pulse-player-screen footer button{min-height:70px;border-radius:14px;font-size:24px;font-weight:700}
+.ptd-game .pulse-player-screen footer .pulse-command-secondary{min-width:250px;border-width:2px}.ptd-game .pulse-player-screen footer .pulse-command-primary{min-width:320px}
+.ptd-tv-story--player .ptd-story-main>div:first-child{text-align:left}
+.ptd-game .pulse-player-screen.ptd-tv-story--player{width:min(1536px,92vw)}
+.ptd-game .ptd-tv-story--player h1{font-size:clamp(44px,5vw,96px)}
+.ptd-game .ptd-role-chips .pulse-role-card.is-selected{border:2px solid #cfe1ff;background:#fff}
+@media(max-height:800px){
+ .cc-app .cc-header{min-height:96px;height:96px;padding-inline:40px}.cc-app .cc-brand>img{width:185px;height:auto}.cc-app .cc-brand strong{font-size:19px}.cc-app .cc-brand small{font-size:14px}
+ .cc-app:not(.cc-app--tv) .cc-layout{gap:16px;padding:14px 24px}
+ .cc-steps{height:42px}.cc-app:not(.cc-app--tv) .cc-side-content{gap:12px;padding:14px}.cc-app:not(.cc-app--tv) .cc-side h2{font-size:22px}
+ .cc-app:not(.cc-app--tv) .cc-events{gap:8px 12px;margin-top:0}.cc-app:not(.cc-app--tv) .cc-events button{min-height:50px;padding:7px 12px}.cc-app:not(.cc-app--tv) .cc-events b{font-size:14px}.cc-app:not(.cc-app--tv) .cc-events small{font-size:11px}
+ .cc-app:not(.cc-app--tv) .cc-side .cc-ranking-title{font-size:22px}.cc-app:not(.cc-app--tv) .cc-side .cc-ranking-guide{margin-top:0;font-size:13px}
+ .cc-app:not(.cc-app--tv) .cc-road-ranking{gap:8px}.cc-app:not(.cc-app--tv) .cc-road-ranking button{min-height:48px;padding:7px 14px 9px}.cc-app:not(.cc-app--tv) .cc-road-ranking button span,.cc-app:not(.cc-app--tv) .cc-road-ranking button>b{font-size:14px}
+ .cc-app:not(.cc-app--tv) .cc-side>.cc-panel-actions{gap:14px;padding:8px 14px 14px}
+ .cc-app:not(.cc-app--tv) .cc-primary,.cc-app:not(.cc-app--tv) .cc-secondary{min-height:48px;padding:0 18px;font-size:17px}.cc-app:not(.cc-app--tv) .cc-explore-next>.cc-primary{min-width:200px}
+ .cc-map-card .cc-map-dashboard{gap:14px;padding:10px 16px 8px}.cc-map-card .cc-dashboard-caption{font-size:20px}.cc-map-card .cc-dashboard-caption>span{margin-top:2px;font-size:12px}
+ .cc-map-card .cc-metrics{gap:12px;margin-left:12px}.cc-map-card .cc-metrics span{font-size:9px}.cc-map-card .cc-metrics strong{font-size:26px}
+ .cc-app:not(.cc-app--tv) .cc-map-legend{padding:6px 14px 0;font-size:11px}
+ .cc-app:not(.cc-app--tv) .cc-time-options--chart{margin-top:6px}.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-timebar{padding:10px 14px 6px;column-gap:10px}
+ .cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-time-copy h3{font-size:18px}.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-play-rates button{min-height:30px;padding:0 12px;font-size:12px}
+ .cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-play-button{min-height:36px;padding:0 14px;font-size:13px}.cc-app:not(.cc-app--tv) .cc-time-options--chart .cc-time-clock{font-size:24px}
+ .cc-app:not(.cc-app--tv) .cc-instruction{margin-top:0}.cc-app:not(.cc-app--tv) .cc-actions{gap:12px}.cc-app:not(.cc-app--tv) .cc-actions button,.cc-app:not(.cc-app--tv) .cc-actions button.is-selected{padding:10px;gap:8px}
+ .cc-app:not(.cc-app--tv) .cc-actions button>span{width:40px;height:40px;font-size:20px}.cc-app:not(.cc-app--tv) .cc-actions b{font-size:15px}.cc-app:not(.cc-app--tv) .cc-actions small{font-size:11px}
+ .cc-app:not(.cc-app--tv)[data-phase=result] .cc-side h2{margin-top:6px;font-size:30px}.cc-app:not(.cc-app--tv)[data-phase=result] .cc-result-score>span{font-size:20px}
+ .cc-app:not(.cc-app--tv) .cc-side>.cc-result-actions button,.cc-app:not(.cc-app--tv) .cc-side>.cc-result-actions .cc-results-button{min-height:46px;font-size:16px}
+ .cc-notice{min-height:50px;margin-bottom:clamp(8px,2.5vh,20px)}.cc-notice strong{font-size:16px}
+ .cc-observer[data-phase=decision] .cc-tv-response{padding:14px 16px}.cc-observer[data-phase=decision] .cc-tv-response>strong{padding-bottom:8px;font-size:22px}.cc-observer[data-phase=decision] .cc-tv-delta{gap:8px}.cc-observer[data-phase=decision] .cc-tv-delta b{font-size:26px}
+ .cc-observer[data-phase=result] .cc-tv-compare--result{gap:8px;padding:12px 14px}.cc-observer[data-phase=result] .cc-tv-score>b{font-size:30px}.cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child{gap:6px}
+ .ptd-game:not(.ptd-game--readonly) .pulse-intro-card h1{font-size:clamp(48px,6vw,72px)}.ptd-intro-actions .pulse-command-primary,.ptd-intro-actions .pulse-command-secondary{min-height:64px;padding:0 28px;font-size:24px}
+ .ptd-game:not(.ptd-game--readonly) .pulse-player-screen h1{font-size:clamp(40px,5vw,56px)}.ptd-game:not(.ptd-game--readonly) .pulse-role-card span{font-size:36px}
+ .ptd-game .pulse-player-screen footer button{min-height:52px;font-size:18px}.ptd-game .pulse-player-screen footer .pulse-command-secondary,.ptd-game .pulse-player-screen footer .pulse-command-primary{min-width:0}
+}
+@media(max-width:1100px){
+ .cc-app .cc-header{min-height:95px;height:95px;padding-inline:28px}.cc-app .cc-brand{gap:14px}.cc-app .cc-brand>img{width:160px;height:auto}.cc-app .cc-brand strong{font-size:17px}.cc-app .cc-brand small{font-size:12px}
+ .cc-app:not(.cc-app--tv) .cc-layout{gap:14px;padding-inline:20px}.cc-header-button span{display:none}.cc-map-card .cc-metrics{margin-left:0}
+ .ptd-game:not(.ptd-game--readonly) .pulse-role-card{gap:0 20px;padding:10px 16px 10px 20px}
+}
+/* Review pass (12 Nov): TV opening subtitle in ink, role block at the Figma width, compare row without a box, results link on its own row. */
+.ptd-game--readonly .pulse-intro-card>h2,.ptd-game .ptd-tv-guide>h2{color:#141414}
+.ptd-game:not(.ptd-game--readonly) .pulse-player-screen{width:min(1260px,86vw)}
+.cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div.is-choice{box-shadow:none;outline:0}
+.cc-app:not(.cc-app--tv) .cc-explore-next{gap:16px 40px}
+.cc-app:not(.cc-app--tv) .cc-explore-next>.cc-results-button{flex-basis:100%;margin:0 0 -4px;min-height:48px;font-size:18px}
+@media(max-width:1100px){.cc-app:not(.cc-app--tv) .cc-side>.cc-panel-actions{gap:10px;padding:8px 14px 14px}.cc-app:not(.cc-app--tv) .cc-secondary{min-width:0}.cc-app:not(.cc-app--tv) .cc-explore-next>.cc-primary{flex:1;min-width:0}}
+
+/* Before → after on one scale (12 Nov): both values share size and unit proportion (unit = .5em of its number);
+   only the after value changes colour, with the BID semantic palette: green #9BDE54 better, red #FC5D5D worse. */
+.cc-app{--bid-green:#9bde54;--bid-red:#fc5d5d}
+.cc-map-card .cc-metrics strong{align-items:baseline;gap:.16em;white-space:nowrap}
+.cc-map-card .cc-metrics strong>del{font-size:1em;color:#005cff;white-space:nowrap}
+.cc-map-card .cc-metrics strong>del small,.cc-map-card .cc-metrics b small{font-size:.5em;font-weight:700}
+.cc-map-card .cc-metrics strong>i{font-size:.5em;color:#95979c}
+.cc-metrics b.is-better{color:var(--bid-green)}.cc-metrics b.is-worse{color:var(--bid-red)}
+.cc-app.cc-observer .cc-tv-delta b{align-items:baseline;gap:.2em;color:#005cff;white-space:nowrap}
+.cc-app.cc-observer .cc-tv-delta b em{margin-left:.04em;color:inherit;font-size:.5em;font-weight:700;font-style:normal}
+.cc-app.cc-observer[data-phase] .cc-tv-delta b i{color:#95979c;font-size:.6em}
+.cc-app.cc-observer .cc-tv-delta .cc-after.is-better{color:var(--bid-green)}
+.cc-app.cc-observer .cc-tv-delta .cc-after.is-worse{color:var(--bid-red)}
+@media(max-width:1100px){.cc-map-card .cc-metrics strong{font-size:22px}}
+/* TV value line: inline text (the older flex/column span rule must not split "96" from its "%"). */
+.cc-app.cc-observer .cc-tv-delta b{display:block}
+.cc-app.cc-observer .cc-tv-delta b span.cc-after{display:inline}
+.cc-app.cc-observer[data-phase] .cc-tv-delta b i{margin:0 .22em}
+
+/* Round 3 (12 Nov) · Figma 06-tv-inicio, 02 Selección de rol, 03 Explorar, Frames 1/5/6. */
+/* TV opening: left-aligned block 1631 px wide, ink subtitle, blue card titles, numbers top-right, Figma step glyphs. */
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide{display:block;flex:1;width:min(1631px,calc(100% - 96px));max-width:none;margin:0 auto;padding:clamp(24px,19.3vh,208px) 0 0;text-align:left}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide>p{margin:0 0 4px;color:#005cff;font:700 clamp(14px,1.25vw,24px)/1.2 Inter,Arial,sans-serif;letter-spacing:.3em}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide h1{margin:0;color:#141414;font:900 clamp(48px,4.69vw,90px)/1.2 Inter,Arial,sans-serif;letter-spacing:0}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide h1 span{color:#005cff}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide h2{margin:0;color:#141414;font:500 clamp(18px,1.56vw,30px)/1.2 Inter,Arial,sans-serif}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide ol{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,1.72vw,33px);width:100%;margin:clamp(20px,3.9vh,42px) 0 0;padding:0;list-style:none}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide li{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:0;min-height:0;padding:clamp(18px,3.24vh,35px) clamp(14px,1.35vw,26px) clamp(16px,2.8vh,30px);border:2.6px solid #cfe1ff;border-radius:18px;background:#fff;text-align:left}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide .ptd-guide-icon{display:grid;place-items:center;width:clamp(52px,4.38vw,84px);height:clamp(52px,4.38vw,84px);border-radius:50%;background:#edf4ff;color:#005cff;font-size:clamp(28px,2.3vw,44px)}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide li>b{position:absolute;top:clamp(10px,1.5vh,16px);right:clamp(12px,1.15vw,22px);color:#005cff;font:700 clamp(16px,1.3vw,25px)/1.2 Inter,Arial,sans-serif}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide .ptd-tv-step-copy{margin-top:clamp(10px,1.85vh,20px)}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide .ptd-tv-step-copy h3{margin:0;color:#005cff;font:700 clamp(17px,1.46vw,28px)/1.2 Inter,Arial,sans-serif;letter-spacing:0}
+.ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide .ptd-tv-step-copy p{margin:0;color:#141414;font:400 clamp(13px,1.1vw,21px)/1.2 Inter,Arial,sans-serif}
+/* Notice pill (all TV screens): 62 px, Figma screen glyph 29×21, 19 px bold label. */
+.cc-notice{height:clamp(46px,5.75vh,62px);min-height:0;gap:18px;padding:0 33px 0 27px;border:0;border-radius:99px;background:#005cff;box-shadow:none}
+.cc-notice .cc-notice-icon{width:auto;height:auto;border:0;background:transparent;color:#fff}
+.cc-notice .cc-notice-icon .ptd-icon{width:clamp(22px,1.5vw,29px);height:clamp(16px,1.1vw,21px)}
+.cc-notice strong{color:#fff;font:700 clamp(15px,1vw,19px)/1.2 Inter,Arial,sans-serif}
+.ptd-game.ptd-game--readonly>.cc-notice{margin:auto auto clamp(12px,5.75vh,62px)}
+/* Tablet role cards: Figma figures 32×50, text column at 153 px. */
+.ptd-game:not(.ptd-game--readonly) .pulse-role-card{grid-template-columns:32px 1fr;gap:0 66px;padding:12px 24px 12px 55px}
+.ptd-game:not(.ptd-game--readonly) .pulse-role-card span{display:grid;place-items:center;width:32px;height:50px;background:transparent;font-size:50px}
+.ptd-game:not(.ptd-game--readonly) .pulse-role-card span .ptd-icon{width:32px;height:50px}
+/* Tablet case cards: glyph without a circle, 19 px inset, text at 61 px (Figma Métrica / Congestion 278×66). */
+.cc-app:not(.cc-app--tv) .cc-events button{gap:16px;min-height:66px;padding:10px 19px;border-radius:14px}
+.cc-app:not(.cc-app--tv) .cc-events button>span{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:0;background:transparent;color:#005cff;font-size:26px}
+.cc-app:not(.cc-app--tv) .cc-events b{font-size:17px}.cc-app:not(.cc-app--tv) .cc-events small{color:#141414;font-size:12px}
+/* Tablet indicators: 39 px numbers, 19 px units 3 px apart, Figma arrow #5C97FF. */
+.cc-map-card .cc-metrics strong{gap:.2em;font-size:39px}
+.cc-map-card .cc-metrics strong>del small,.cc-map-card .cc-metrics b small{margin-left:3px;font-size:.487em}
+.cc-map-card .cc-metrics strong>i{display:inline-grid;place-items:center;font-size:1em;color:#5c97ff}
+.cc-metrics strong>i .ptd-icon,.cc-tv-delta b>i .ptd-icon{width:.72em;height:.47em}
+/* TV game spacing (Frame 1): 88 px under the bar, panel 760, legend, pill 62, 28 px bottom. */
+.cc-app.cc-observer .cc-layout{padding-top:clamp(12px,8.15vh,88px)}
+.cc-app.cc-observer>.cc-notice{margin:clamp(8px,1.5vh,16px) auto clamp(8px,2.6vh,28px)}
+.cc-app.cc-observer .cc-side-content{gap:35px;padding:31px 19px 29px}
+.cc-app.cc-observer .cc-tv-context{gap:38px}
+.cc-app.cc-observer .cc-side-content>.cc-insight{margin-top:0}
+/* Road card (Frame 1): white, 2 px border, 4 px road-colour top, blue labels, 28 px name, 38 px values. */
+.cc-app.cc-observer .cc-tv-corridor{padding:24px 16px 16px;border:2px solid #cfe1ff;border-top:4px solid var(--road-color);border-radius:20px;background:#fff}
+.cc-app.cc-observer .cc-tv-corridor>p{margin:0;color:#005cff;font:700 12px/1.2 Inter,Arial,sans-serif;letter-spacing:0}
+.cc-app.cc-observer .cc-tv-corridor h3{margin:0 0 18px;color:#141414;font:700 28px/1.2 Inter,Arial,sans-serif}
+.cc-app.cc-observer .cc-tv-corridor>div>span{color:#005cff;font-size:12px}
+.cc-app.cc-observer .cc-tv-corridor>div>span>b{color:#005cff;font-size:38px;font-weight:700}
+.cc-app.cc-observer .cc-tv-road-profile{margin-top:28px}
+.cc-app.cc-observer .cc-chart-hours{color:#141414}
+/* Decide (Frame 5): content centred in the card, 25 px inset, light-blue labels, 38 px values, Figma arrow, full-size units. */
+.cc-app.cc-observer[data-phase=decision] .cc-tv-response{gap:0;padding:0 25px;border:2px solid #cfe1ff;border-radius:20px;background:#fff}
+.cc-app.cc-observer[data-phase=decision] .cc-tv-response>small{margin-bottom:8px;color:#005cff;font-size:12px}
+.cc-app.cc-observer[data-phase=decision] .cc-tv-response>strong{display:flex;align-items:center;gap:17px;margin-bottom:13px;padding-bottom:8px;border-bottom:2px solid #cfe1ff;color:#141414;font-size:28px}
+.cc-app.cc-observer[data-phase=decision] .cc-tv-response>strong .ptd-icon{width:34px;height:34px;margin:0;color:#005cff}
+.cc-app.cc-observer[data-phase=decision] .cc-tv-delta{gap:0}
+.cc-app.cc-observer[data-phase=decision] .cc-tv-delta small{color:#5c97ff;font-size:12px;font-weight:700}
+.cc-app.cc-observer[data-phase=decision] .cc-tv-delta b{font-size:38px;line-height:1.2}
+.cc-app.cc-observer .cc-tv-delta b em{margin-left:0;font-size:1em}
+.cc-app.cc-observer[data-phase] .cc-tv-delta b i{display:inline-grid;place-items:center;margin:0 13px;color:#5c97ff;font-size:1em;vertical-align:middle}
+/* Result (Frame 6): no insight; the comparison card keeps the size it has in the other phases. */
+.cc-app.cc-observer[data-phase=result] .cc-side-content{padding-bottom:calc(29px + 143px)}
+@media(max-height:800px){
+ .ptd-game.ptd-game--readonly[data-phase=intro] .ptd-tv-guide{padding-top:clamp(16px,9vh,80px)}
+ .cc-app.cc-observer .cc-side-content{gap:12px;padding:14px 14px 14px}.cc-app.cc-observer .cc-tv-context{gap:12px}
+ .cc-app.cc-observer .cc-tv-corridor{padding:12px}.cc-app.cc-observer .cc-tv-corridor h3{margin-bottom:8px;font-size:20px}.cc-app.cc-observer .cc-tv-corridor>div>span>b{font-size:26px}.cc-app.cc-observer .cc-tv-road-profile{margin-top:10px}
+ .cc-app.cc-observer[data-phase=decision] .cc-tv-response{padding:0 16px}.cc-app.cc-observer[data-phase=decision] .cc-tv-response>strong{gap:10px;margin-bottom:8px;font-size:20px}.cc-app.cc-observer[data-phase=decision] .cc-tv-response>strong .ptd-icon{width:24px;height:24px}
+ .cc-app.cc-observer[data-phase=decision] .cc-tv-delta b{font-size:26px}.cc-app.cc-observer[data-phase] .cc-tv-delta b i{margin:0 8px}
+ .cc-app.cc-observer[data-phase=result] .cc-side-content{padding-bottom:calc(14px + 84px)}
+ .ptd-game:not(.ptd-game--readonly) .pulse-role-card{gap:0 28px;padding:8px 16px 8px 28px}.ptd-game:not(.ptd-game--readonly) .pulse-role-card span,.ptd-game:not(.ptd-game--readonly) .pulse-role-card span .ptd-icon{width:24px;height:38px}
+ .cc-map-card .cc-metrics strong{font-size:26px}
+}
+@media(max-width:1100px){.cc-map-card .cc-metrics strong{font-size:22px}.cc-app:not(.cc-app--tv) .cc-events button{gap:10px;padding:8px 12px}}
+/* Indicator columns size to their content (ES labels and «19 km/h → 31 km/h» need more room than EN). */
+.cc-map-card .cc-metrics{grid-template-columns:repeat(3,auto);justify-content:space-between;column-gap:24px}
+@media(max-width:1100px){.cc-map-card .cc-metrics{column-gap:12px}}
+.cc-map-card .cc-dashboard-caption{font-size:24px}.cc-map-card .cc-dashboard-caption>span{margin-top:3px;font-size:12px}
+@media(max-height:800px){.cc-map-card .cc-dashboard-caption{font-size:18px}.cc-map-card .cc-dashboard-caption>span{font-size:11px}}

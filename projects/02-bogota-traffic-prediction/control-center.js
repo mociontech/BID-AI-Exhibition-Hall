@@ -41,7 +41,7 @@
     "pause": "Pausar",
     "error": "No se pudieron cargar las calles. Recarga para intentarlo de nuevo.",
     "hour": "Hora de la simulación",
-    "timeTitle": "Explora el tráfico a lo largo del día",
+    "timeTitle": "3. Explora el tráfico a lo largo del día",
     "timeHint": "Desliza la barra para comparar el tráfico entre horas.",
     "hint": "Arrastra o amplía el mapa.",
     "current": "Seleccionado",
@@ -105,7 +105,7 @@
     "pause": "Pause",
     "error": "The streets could not be loaded. Reload to try again.",
     "hour": "Simulation time",
-    "timeTitle": "Explore traffic throughout the day",
+    "timeTitle": "3. Explore traffic throughout the day",
     "timeHint": "Drag the slider to compare traffic at different times.",
     "hint": "Drag or zoom the map.",
     "current": "Selected",
@@ -190,16 +190,24 @@
   while(selected.length<count){const next=candidates.reduce((best,p)=>Math.min(...selected.map(a=>distance(p,a)))>Math.min(...selected.map(a=>distance(best,a)))?p:best);selected.push(next);}
   return selected;
  }
+ const homeMark='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7"/></svg>';
  function header(options){
-  const {game,data,readonly}=options,lang=languageOf(options.language),c=words[lang];
-  const person=data.characters.find(p=>p.id===game.playerId)||data.characters[0];
-  const back=game.phase==='explore'?'back-player':game.phase==='decision'?'to-explore':'retry';
-  const controls=readonly?`<span class="cc-station">${lang.toUpperCase()}</span>`:`<div class="cc-operator"><strong>${esc(game.playerName||person.name)}</strong><small>${esc(person['role_'+lang])}</small></div><nav class="cc-language" aria-label="Language"><button type="button" data-language="es" aria-pressed="${lang==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${lang==='en'}">EN</button></nav><button type="button" class="cc-header-button" data-action="${back}">← ${c.back}</button><button type="button" class="cc-header-button" data-action="exit-game">← ${c.menu}</button>`;
+  const {readonly}=options,lang=languageOf(options.language),c=words[lang];
+  // Figma 177:22367: the TV bar carries the brand only; the tablet keeps ES/EN and one Menu button. Back lives in each panel.
+  const controls=readonly?'':`<nav class="cc-language" aria-label="Language"><button type="button" data-language="es" aria-pressed="${lang==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${lang==='en'}">EN</button></nav><button type="button" class="cc-header-button" data-action="exit-game">${homeMark}<span>${c.menu}</span></button>`;
   return `<header class="cc-header"><div class="cc-brand"><img src="${root}predicttodoImages/idb-group-white.svg" alt="IDB Group"><span></span><div><strong>AI in Action</strong><small>IDB Group Projects Across the Region</small></div></div>${controls}</header>`;
+ }
+ // Lower congestion and fewer hotspots are better; higher speed is better. Equal values stay neutral.
+ // Arrow drawn in Figma (Group 2147213176); falls back to text when the icon set is missing.
+ const arrow=()=>window.PREDICTTODO_ICONS?.glyph?.('arrow')||'→';
+ function trend(key,before,after){
+  if(before===after)return '';
+  return (key==='speed'?after>before:after<before)?'is-better':'is-worse';
  }
  function metrics(m,language,compare=false){
   const c=words[language],rows=[['congestion',c.traffic,'%'],['speed',c.speed,' km/h'],['critical',c.hotspots,'']];
-  return `<div class="cc-metrics">${rows.map(([key,label,unit])=>`<div data-cc-metric="${key}"><span>${label}</span><strong>${compare?`<del>${m.before[key]}${unit}</del><i aria-hidden="true">→</i>`:''}<b>${m.after[key]}<small>${unit}</small></b></strong></div>`).join('')}</div>`;
+  // Before and after share one size and unit scale; only the after value takes the brand green/red.
+  return `<div class="cc-metrics">${rows.map(([key,label,unit])=>{const shift=compare?trend(key,m.before[key],m.after[key]):'';return `<div data-cc-metric="${key}"><span>${label}</span><strong>${compare?`<del>${m.before[key]}<small>${unit}</small></del><i aria-hidden="true">${arrow()}</i>`:''}<b${shift?` class="${shift}"`:''}>${m.after[key]}<small>${unit}</small></b></strong></div>`;}).join('')}</div>`;
  }
  // Sun by day, moon by night, next to every clock.
  function skyMark(hour){const icons=window.PREDICTTODO_ICONS;return icons?`<span class="cc-sky-mark" aria-hidden="true">${icons.svg(hour>=18.5||hour<6?'moon':'sun')}</span>`:'';}
@@ -211,25 +219,26 @@
   // Time bar: title, big clock, play + speed, case markers over a dawn-to-night band, quarter-hour slider.
   const timebar=options.readonly||game.phase!=='explore'?'':`<section class="cc-time-options cc-time-options--visible cc-time-options--chart" aria-label="${c.hour}"><div class="cc-timebar"><div class="cc-time-copy"><h3 id="cc-time-hint">${c.timeTitle}</h3></div><nav class="cc-play-rates" aria-label="${lang==='es'?'Velocidad de reproducción':'Playback speed'}">${(lang==='es'?['Lento','Normal','Rápido']:['Slow','Normal','Fast']).map((label,i)=>`<button type="button" data-play-rate="${[1800,1000,500][i]}" aria-pressed="${i===1}">${label}</button>`).join('')}</nav><button type="button" class="cc-play-button" data-action="toggle-day" data-cc-play>▶ ${c.play}</button><strong class="cc-time-clock" aria-label="${c.hour}">${skyMark(game.hour)}<span data-cc-clock>${time}</span></strong><div class="cc-timeline-chart">${explore?explore.chart(options.data,{...game,language:lang},explore.selected(m.item,game.selectedCorridor),true):''}</div><div class="cc-time-track"><i class="cc-time-sky" aria-hidden="true"></i><input id="cc-hour" type="range" min="6" max="23" step="0.25" value="${game.hour}" style="--cc-progress:${(game.hour-6)/17*100}%" data-hour aria-label="${c.hour}" aria-describedby="cc-time-hint"></div><div class="cc-time-ticks"><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div></div></section>`;
   // Indicators are tablet controls; the TV gives that height to the map.
-  const indicators=options.readonly?'':`<section class="cc-map-dashboard" aria-label="${lang==='es'?'Indicadores de tráfico simulado':'Simulated traffic indicators'}"><div class="cc-dashboard-caption"><b>${lang==='es'?'Indicadores del caso':'Case indicators'}</b><span>${game.actionId?c.before+' → '+c.after:lang==='es'?'Sin tu acción':'Without your action'}</span></div>${metrics(m,lang,Boolean(game.actionId))}</section>`;
+  const indicators=options.readonly?'':`<section class="cc-map-dashboard" aria-label="${lang==='es'?'Indicadores de tráfico simulado':'Simulated traffic indicators'}"><div class="cc-dashboard-caption"><b>${lang==='es'?'Indicadores <span>del caso</span>':'Case <span>indicators</span>'}</b><span>${game.actionId?c.before+' → '+c.after:lang==='es'?'Sin tu acción':'Without your action'}</span></div>${metrics(m,lang,Boolean(game.actionId))}</section>`;
   const city=options.readonly?'':`<button type="button" class="cc-map-city-button" data-cc-city disabled><span aria-hidden="true">⌖</span> ${lang==='es'?'Ver Bogotá':'View Bogotá'}</button>`;
-  return `<section class="cc-map-panel" aria-label="${c.map}">${indicators}<div class="cc-map-frame" data-cc-preview="${Boolean(game.actionId)}" style="--cc-night:${night(game.hour).toFixed(3)}"><div class="cc-map-readout"><div><small>${c.now}</small><strong>${skyMark(game.hour)}<span data-cc-clock>${time}</span></strong></div>${options.readonly?`<span><b class="cc-city-label">Bogotá, Colombia</b>${game.phase==='result'?c.applied:game.actionId?c.preview:c.roads}</span>`:`<span class="cc-map-mode">${game.phase==='result'?c.applied:game.actionId?c.preview:''}</span>`}</div><div class="cc-geography" data-cc-geography><svg class="cc-map-fallback" viewBox="0 0 1000 650" role="img" aria-label="${c.map}"></svg><div class="cc-map-live" aria-label="${c.map}"></div><p class="cc-map-status">${c.loading}</p></div><div class="cc-map-sky" aria-hidden="true"></div>${zoom}${city}</div><div class="cc-map-legend">${[c.normal,c.busy,c.dense,c.critical].map((text,i)=>`<span><i style="background:${colors[i]}"></i>${text}</span>`).join('')}</div>${timebar}</section>`;
+  // Tablet: the indicators header and the map share one bordered card (Figma 177:22821).
+  return `<section class="cc-map-panel" aria-label="${c.map}">${options.readonly?'':'<div class="cc-map-card">'}${indicators}<div class="cc-map-frame" data-cc-preview="${Boolean(game.actionId)}" style="--cc-night:${night(game.hour).toFixed(3)}"><div class="cc-map-readout"><div><small>${c.now}</small><strong>${skyMark(game.hour)}<span data-cc-clock>${time}</span></strong></div>${options.readonly?`<span><b class="cc-city-label">Bogotá, Colombia</b>${game.phase==='result'?c.applied:game.actionId?c.preview:c.roads}</span>`:`<span class="cc-map-mode">${game.phase==='result'?c.applied:game.actionId?c.preview:''}</span>`}</div><div class="cc-geography" data-cc-geography><svg class="cc-map-fallback" viewBox="0 0 1000 650" role="img" aria-label="${c.map}"></svg><div class="cc-map-live" aria-label="${c.map}"></div><p class="cc-map-status">${c.loading}</p></div><div class="cc-map-sky" aria-hidden="true"></div>${zoom}${city}</div>${options.readonly?'':'</div>'}<div class="cc-map-legend">${[c.normal,c.busy,c.dense,c.critical].map((text,i)=>`<span><i style="background:${colors[i]}"></i>${text}</span>`).join('')}<small class="cc-map-note">${c.simulation}${options.readonly?'':' · '+c.hint}</small></div>${timebar}</section>`;
  }
  function events(options,m){
   const {data,game}=options,lang=m.language,c=words[lang];
   // Short and indicative: a title, four cards, the comparison, one primary button.
-  const label=i=>Object.hasOwn(game.results||{},i)?c.done:game.scenarioIndex===i?c.current:'';
-  return `<h2>${c.events}</h2><div class="cc-events">${data.scenarios.map((item,i)=>`<button type="button" data-scenario="${i}" aria-pressed="${game.scenarioIndex===i}" class="${game.scenarioIndex===i?'is-active':''}"><span aria-hidden="true">${icon('scenario',item.id,item.icon)}</span><div><b>${esc(caseCopy[lang][i][0])}</b><small>${esc(caseCopy[lang][i][1])} · ${item.time}</small>${label(i)?`<em>${label(i)}</em>`:''}</div></button>`).join('')}</div><div data-cc-exploration>${window.PREDICTTODO_EXPLORATION?.panel(options)||''}</div><footer class="cc-panel-actions cc-explore-next">${Object.keys(game.results||{}).length?`<button type="button" class="cc-secondary cc-results-button" data-action="finish-session">${c.finish}</button>`:''}<button type="button" class="cc-primary" data-action="to-decision">${c.review} →</button></footer>`;
+  const label=i=>Object.hasOwn(game.results||{},i)?c.done:'';
+  return `<h2>${c.events}</h2><div class="cc-events">${data.scenarios.map((item,i)=>`<button type="button" data-scenario="${i}" aria-pressed="${game.scenarioIndex===i}" class="${game.scenarioIndex===i?'is-active':''}"><span aria-hidden="true">${icon('scenario',item.id,item.icon)}</span><div><b>${esc(caseCopy[lang][i][0])}</b><small>${esc(caseCopy[lang][i][1])} · ${item.time}</small>${label(i)?`<em>${label(i)}</em>`:''}</div></button>`).join('')}</div><div data-cc-exploration>${window.PREDICTTODO_EXPLORATION?.panel(options)||''}</div><footer class="cc-panel-actions cc-explore-next">${Object.keys(game.results||{}).length?`<button type="button" class="cc-secondary cc-results-button" data-action="finish-session">${c.finish}</button>`:''}<button type="button" class="cc-secondary" data-action="back-player">${c.back}</button><button type="button" class="cc-primary" data-action="to-decision">${c.review} →</button></footer>`;
  }
  function actions(options,m){
   const {data,game}=options,lang=m.language,c=words[lang];
-  return `<p class="cc-case-tag">${esc(caseCopy[lang][game.scenarioIndex][0])} · ${m.item.time}</p><h2>${c.actionTitle}</h2><p class="cc-instruction" role="status">${game.actionId?c.selectedHint:c.actionHint}</p><div class="cc-actions">${data.actions.map(action=>`<button type="button" data-action-choice="${action.id}" aria-pressed="${game.actionId===action.id}" class="${game.actionId===action.id?'is-selected':''}"><span aria-hidden="true">${icon('action',action.id,action.icon)}</span><b>${esc(action[lang])}</b><small>${esc(action['description_'+lang])}</small></button>`).join('')}</div><footer class="cc-panel-actions"><button type="button" class="cc-primary" data-action="confirm-decision" ${game.actionId?'':'disabled'}>${game.actionId?c.apply:c.chooseFirst} →</button></footer>`;
+  return `<p class="cc-case-tag">${esc(caseCopy[lang][game.scenarioIndex][0])} · ${m.item.time}</p><h2>${c.actionTitle}</h2><p class="cc-instruction" role="status">${game.actionId?c.selectedHint:c.actionHint}</p><div class="cc-actions">${data.actions.map(action=>`<button type="button" data-action-choice="${action.id}" aria-pressed="${game.actionId===action.id}" class="${game.actionId===action.id?'is-selected':''}"><span aria-hidden="true">${icon('action',action.id,action.icon)}</span><b>${esc(action[lang])}</b><small>${esc(action['description_'+lang])}</small></button>`).join('')}</div><footer class="cc-panel-actions"><button type="button" class="cc-secondary" data-action="to-explore">${c.back}</button><button type="button" class="cc-primary" data-action="confirm-decision" ${game.actionId?'':'disabled'}>${game.actionId?c.apply:c.chooseFirst} →</button></footer>`;
  }
  function result(options,m){
   const {game,data}=options,lang=m.language,c=words[lang];
   const score=game.results?.[game.scenarioIndex]??window.PULSE_VIAL.roleScore(data,game,m.item,game.actionId);
   const action=data.actions.find(a=>a.id===game.actionId);
-  return `<p class="cc-case-tag">${esc(caseCopy[lang][game.scenarioIndex][0])} · ${m.item.time}</p><h2>${score>=85?c.good:c.partial}</h2><div class="cc-result-score"><strong>${score}<small>/100</small></strong><span>${c.score}</span></div><div class="cc-selected-action">${icon('action',action?.id,action?.icon,'ptd-icon--inline')} ${esc(action[lang])}</div><footer class="cc-panel-actions cc-result-actions"><button type="button" class="cc-primary" data-action="retry">${c.retry}</button><button type="button" class="cc-primary" data-action="choose-event">${c.other}</button><button type="button" class="cc-secondary cc-results-button" data-action="finish-session">${c.finish} &#8594;</button></footer>`;
+  return `<p class="cc-case-tag">${esc(caseCopy[lang][game.scenarioIndex][0])} · ${m.item.time}</p><h2>${score>=85?c.good:c.partial}</h2><div class="cc-result-score"><strong>${score}<small>/100</small></strong><span>${c.score}</span></div><footer class="cc-panel-actions cc-result-actions"><button type="button" class="cc-secondary" data-action="retry">${c.retry}</button><button type="button" class="cc-secondary" data-action="choose-event">${c.other}</button><button type="button" class="cc-primary cc-results-button" data-action="finish-session">${c.finish} &#8594;</button></footer>`;
  }
  const teachingCopy={
   es:{title:'La IA anticipa. Tú decides.',label:'CÓMO FUNCIONA PREDICTTODO',ai:'QUÉ HACE LA IA',role:'IDEA CLAVE',case:'TU CASO',test:'Tu acción en este ensayo',lesson:'Lo que puedes aprender',steps:['Entender','Decidir','Comprobar'],
@@ -276,13 +285,13 @@
  }
  // Tablet-only guide shown once on entering the panel: three steps, one line each.
  const guideCopy={
-  es:{kicker:'PREDICTTODO · PANEL DE CONTROL',title:'Cómo usar el panel',steps:[['Elige un caso','Toca una de las cuatro tarjetas'],['Explora','Mueve la hora y toca una vía'],['Decide','Prueba una medida y confirma']],foot:'Lo que hagas aquí se ve en la pantalla grande.',cta:'Empezar',close:'Cerrar'},
-  en:{kicker:'PREDICTTODO · CONTROL PANEL',title:'How to use the panel',steps:[['Pick a case','Tap one of the four cards'],['Explore','Move the clock, tap a road'],['Decide','Try a response and confirm']],foot:'What you do here shows on the big screen.',cta:'Start',close:'Close'}
+  es:{kicker:'PREDICTTODO · PANEL DE CONTROL',title:'Cómo <span>usar el panel</span>',steps:[['Elige un caso','Toca una de las cuatro tarjetas'],['Explora','Mueve la hora y toca una vía'],['Decide','Prueba una medida y confirma']],foot:'Lo que hagas aquí se ve en la pantalla grande.',cta:'Empezar',close:'Cerrar'},
+  en:{kicker:'PREDICTTODO · CONTROL PANEL',title:'How to <span>use the panel</span>',steps:[['Pick a case','Tap one of the four cards'],['Explore','Move the clock, tap a road'],['Decide','Try a response and confirm']],foot:'What you do here shows on the big screen.',cta:'Start',close:'Close'}
  };
  function guide(language){
   const g=guideCopy[languageOf(language)],marks=['pin','sliders','badge'];
   const svg=name=>window.PREDICTTODO_ICONS?.svg(name)||'';
-  return `<div class="cc-guide" data-cc-guide role="dialog" aria-modal="true" aria-labelledby="cc-guide-title"><div class="cc-guide-card"><button type="button" class="cc-guide-x" data-action="close-guide" aria-label="${g.close}">✕</button><p class="ptd-story-kicker">${g.kicker}</p><h2 id="cc-guide-title">${g.title}</h2><ol class="cc-guide-list">${g.steps.map(([title,hint],i)=>`<li><span aria-hidden="true">${svg(marks[i])}</span><b>${esc(title)}</b><small>${esc(hint)}</small></li>`).join('')}</ol><p class="cc-guide-foot">${svg('tablet')}${esc(g.foot)}</p><div class="cc-guide-actions"><button type="button" class="cc-primary" data-action="close-guide">${g.cta} →</button></div></div></div>`;
+  return `<div class="cc-guide" data-cc-guide role="dialog" aria-modal="true" aria-labelledby="cc-guide-title"><div class="cc-guide-card"><button type="button" class="cc-guide-x" data-action="close-guide" aria-label="${g.close}">✕</button><p class="ptd-story-kicker">${g.kicker}</p><h2 id="cc-guide-title">${g.title}</h2><ol class="cc-guide-list">${g.steps.map(([title,hint],i)=>`<li><span aria-hidden="true">${svg(marks[i])}</span><b>${esc(title)}</b><small>${esc(hint)}</small></li>`).join('')}</ol><p class="cc-guide-foot">${svg('monitor')}${esc(g.foot)}</p><div class="cc-guide-actions"><button type="button" class="cc-primary" data-action="close-guide">${g.cta} →</button></div></div></div>`;
  }
  function displayOnly(html){
   return html.replace(/<(button|input)\b([^>]*)>/g,(_,tag,attributes)=>`<${tag}${attributes.replace(/\sdisabled\b/g,'')} disabled tabindex="-1" aria-disabled="true">`);
@@ -298,11 +307,15 @@
   const dot={x:(game.hour-6)/17*100,y:(92-road.now.congestion*.75)/108*100};
   const corridor=game.phase==='explore'?`<section class="cc-tv-corridor" style="--road-color:${road.color}"><p>${es?'VÍA':'ROAD'}</p><h3>${esc(road.name)}</h3><div><span>${es?'Ahora':'Now'}<b>${road.now.congestion}%</b></span><span>${es?'En 30 min':'In 30 min'}<b>${road.future.congestion}%</b></span></div><div class="cc-tv-road-profile">${window.PREDICTTODO_EXPLORATION.chart(data,game,road.id)}<i class="cc-chart-dot" style="left:${dot.x.toFixed(2)}%;top:${dot.y.toFixed(2)}%" aria-hidden="true"></i></div><div class="cc-chart-hours" aria-hidden="true"><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div></section>`:'';
   // Decision/result: the chosen response and its effect on congestion and hotspots.
-  const delta=chosen&&game.phase!=='result'?`<div class="cc-tv-delta">${[['congestion',words[lang].traffic,'%'],['critical',words[lang].hotspots,'']].map(([key,label,unit])=>`<span><small>${label}</small><b>${m.before[key]}<i aria-hidden="true">→</i>${m.after[key]}${unit?`<em>${unit}</em>`:''}</b></span>`).join('')}</div>`:'';
+  const delta=chosen&&game.phase!=='result'?`<div class="cc-tv-delta">${[['congestion',words[lang].traffic,'%'],['critical',words[lang].hotspots,'']].map(([key,label,unit])=>{const shift=trend(key,m.before[key],m.after[key]),u=unit?`<em>${unit}</em>`:'';return `<span><small>${label}</small><b>${m.before[key]}${u}<i aria-hidden="true">${arrow()}</i><span class="cc-after${shift?' '+shift:''}">${m.after[key]}${u}</span></b></span>`;}).join('')}</div>`:'';
   const response=chosen&&game.phase!=='result'?`<div class="cc-tv-response"><small>${es?'MEDIDA ELEGIDA':'CHOSEN RESPONSE'}</small><strong>${icon('action',chosen.id,chosen.icon,'ptd-icon--inline')} ${esc(chosen[lang])}</strong>${game.phase==='result'?`<b>${score}<small>/100</small></b>`:''}${delta}</div>`:'';
   // Result: how every response would have scored.
   const compare=game.phase==='result'&&chosen?`<section class="cc-tv-compare cc-tv-compare--result"><div class="cc-tv-score"><small>${es?'TU MEDIDA':'YOUR RESPONSE'}</small><b>${score}<small>/100</small></b></div><div>${data.actions.map(action=>{const points=window.PULSE_VIAL.roleScore(data,game,m.item,action.id);return `<div class="${action.id===chosen.id?'is-choice':''}"><span>${icon('action',action.id,action.icon,'ptd-icon--inline')} ${esc(action[lang])}</span><b>${points}</b><i><em style="width:${points}%"></em></i></div>`;}).join('')}</div></section>`:'';
-  return `<section class="cc-tv-context" data-observed-case="${game.scenarioIndex}" data-observed-action="${esc(chosen?.id||'')}"><p class="cc-kicker">${stage}</p><div class="cc-tv-case-heading"><span aria-hidden="true">${icon('scenario',m.item.id,m.item.icon)}</span><div><h2>${esc(m.item['title_'+lang])}</h2><p>${esc(copy[1])} · ${m.item.time}</p></div></div>${response}${corridor}${compare}</section>`;
+  // Kicker over the title, icon beside it (Figma 774:52199); the place name never breaks across lines.
+  const title=esc(m.item['title_'+lang]),place=esc(copy[1]);
+  // Result: the TV invites to compare the four responses (Figma 774:52702) instead of repeating the case name.
+  const heading=game.phase==='result'?(es?'Compara qué lograría <span class="cc-accent">cada medida</span>':'Compare what the <span class="cc-accent">different actions could do</span>'):title.replace(place,`<span class="cc-nowrap">${place}</span>`);
+  return `<section class="cc-tv-context" data-observed-case="${game.scenarioIndex}" data-observed-action="${esc(chosen?.id||'')}"><div class="cc-tv-case-heading"><span aria-hidden="true">${icon('scenario',m.item.id,m.item.icon)}</span><div><p class="cc-kicker">${stage}</p><h2>${heading}</h2></div></div>${response}${corridor}${compare}</section>`;
  }
  function notice(options){
   const {game}=options,lang=languageOf(options.language),es=lang==='es',t=teachingCopy[lang];
@@ -310,7 +323,8 @@
    game.phase==='player'?(es?'Elige tu rol y pulsa «Empezar turno».':'Choose your role and press “Start shift”.'):
    game.phase==='final'?(es?'Pulsa «Continuar» en la tableta para ver el ranking y los QR.':'Press “Continue” on the tablet to see the leaderboard and QR codes.'):
    game.phase==='explore'?(es?'Mueve la hora o toca una vía en la tableta para explorar.':'Move the clock or tap a road on the tablet to explore.'):game.phase==='result'?t.ctaResult:game.actionId?t.ctaPreview:t.ctaDecision;
-  return `<footer class="cc-notice" role="status"><span class="cc-notice-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg></span><div><small>${es?'CONTROLA DESDE LA TABLETA':'CONTROL FROM THE TABLET'}</small><strong>${esc(prompt)}</strong></div><span class="cc-notice-arrow" aria-hidden="true">↓</span></footer>`;
+  // One-line pill (Figma 177:22367): a small screen icon and the instruction, no kicker or arrow.
+  return `<footer class="cc-notice" role="status"><span class="cc-notice-icon" aria-hidden="true">${window.PREDICTTODO_ICONS?.glyph?.('screen')||''}</span><strong>${esc(prompt)}</strong></footer>`;
  }
  function render(options){
   const fallbackItem=options.data.scenarios[options.game.scenarioIndex]||options.data.scenarios[0];
@@ -319,12 +333,12 @@
   const item=data.scenarios[game.scenarioIndex]||data.scenarios[0];
   const m={item,language:lang,before:state(data,game,null),after:state(data,game,game.actionId)};
   const current=['explore','decision','result'].indexOf(game.phase);
-  const tabs=`<ol class="cc-steps" aria-label="${c.title}">${[c.stepCase,c.stepAction,c.stepResult].map((label,i)=>`<li ${i===current?'aria-current="step"':''}><span>${i<current?'✓':i+1}</span>${label}</li>`).join('')}</ol>`;
+  const tabs=`<ol class="cc-steps" aria-label="${c.title}">${[c.stepCase,c.stepAction,c.stepResult].map((label,i)=>`<li ${i===current?'aria-current="step"':i<current?'class="is-done"':''}><span>${i+1}</span>${label}</li>`).join('')}</ol>`;
   const panel=game.phase==='explore'?events(options,m):game.phase==='decision'?actions(options,m):result(options,m);
   const footerAt=panel.lastIndexOf('<footer class="cc-panel-actions');
   const content=footerAt<0?panel:panel.slice(0,footerAt),footer=footerAt<0?'':panel.slice(footerAt);
   const map=mapView({...options,readonly},m);
-  return `<main class="ptd-game cc-app ${readonly?'cc-app--tv cc-app--mirror cc-observer':''}" data-phase="${game.phase}" lang="${lang}">${header(options)}<div class="cc-title"><p>PREDICTTODO · ${lang==='es'?'EXPERIENCIA INTERACTIVA':'INTERACTIVE EXPERIENCE'}</p><h1>${readonly?(lang==='es'?'Pulso vial Bogotá':'Bogotá Traffic Pulse'):c.title}</h1></div><div class="cc-layout"><aside class="cc-side">${tabs}<div class="cc-side-content">${readonly?displayContext(options,m):content}${readonly?insight(options):''}</div>${readonly?'':footer}</aside>${map}</div>${readonly?notice(options):''}<p class="cc-simulation">${c.simulation}${readonly?'':' · '+c.hint}</p></main>`;
+  return `<main class="ptd-game cc-app ${readonly?'cc-app--tv cc-app--mirror cc-observer':''}" data-phase="${game.phase}" lang="${lang}">${header(options)}<div class="cc-layout"><aside class="cc-side">${tabs}<div class="cc-side-content">${readonly?displayContext(options,m):content}${readonly&&game.phase!=='result'?insight(options):''}</div>${readonly?'':footer}</aside>${map}</div>${readonly?notice(options):''}</main>`;
  }
  let networkPromise;
  function loadNetwork(){return networkPromise ||= fetch(root+'streets.geojson').then(r=>{if(!r.ok)throw Error('Streets unavailable');return r.json();});}
@@ -375,7 +389,7 @@
   if(options.readonly&&previous?.ready&&previous.options.readonly&&previous.options.language===options.language&&hourless(previous.options.game)===hourless(options.game)){
    update(rootElement,options);
    const side=rootElement.querySelector('.cc-side-content');
-   if(side){const item=options.data.scenarios[options.game.scenarioIndex]||options.data.scenarios[0];side.innerHTML=displayContext(options,{item,language:languageOf(options.language),before:state(options.data,options.game,null),after:state(options.data,options.game,options.game.actionId)})+insight(options);}
+   if(side){const item=options.data.scenarios[options.game.scenarioIndex]||options.data.scenarios[0];side.innerHTML=displayContext(options,{item,language:languageOf(options.language),before:state(options.data,options.game,null),after:state(options.data,options.game,options.game.actionId)})+(options.game.phase==='result'?'':insight(options));}
    window.PREDICTTODO_STREET_MAP.syncPresentation(previous,model(options,previous.network));return;
   }
   if(current?._ccRecord&&Boolean(current._ccRecord.options.readonly)!==Boolean(options.readonly)){release(rootElement);current=null;}

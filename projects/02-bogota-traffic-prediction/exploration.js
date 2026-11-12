@@ -38,7 +38,7 @@
  function panel(options){
   const {data,game}=options,s=selection(options),es=s.lang==='es',item=data.scenarios[game.scenarioIndex];
   const ranked=ids(item).map(id=>({id,...values(data,game,id)})).sort((a,b)=>b.congestion-a.congestion);
-  const title=es?'Compara la congestión de las vías':'Compare congestion across roads';
+  const title=es?'2. Compara la congestión de las vías':'2. Compare congestion across roads';
   const guide=es?'Más larga y más roja, más congestión. Toca una vía para verla en el mapa.':'Longer and redder means heavier traffic. Tap a road to see it on the map.';
   return `<section class="cc-corridor-panel" aria-label="${es?'Explorar vías':'Explore roads'}"><h3 class="cc-ranking-title">${title}</h3><p class="cc-ranking-guide">${guide}</p><div class="cc-road-ranking">${ranked.map(r=>`<button type="button" data-corridor="${r.id}" aria-pressed="${r.id===s.id}" style="--road-color:${colors[level(r.congestion)]}"><span>${esc(roads[r.id][0])}</span><b>${r.congestion}%</b><i><em style="width:${r.congestion}%"></em></i></button>`).join('')}</div><small class="cc-exploration-note">${es?'Valores ilustrativos del caso, no tráfico en vivo.':'Illustrative case values, not live traffic.'}</small></section>`;
  }

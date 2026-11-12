@@ -48,12 +48,19 @@ test('PredictToDo project facts reach the TV closing and the tablet keeps no fac
  }
 });
 
-test('PredictToDo outline icons cover every scenario, action and role with a single stroke style',()=>{
+test('PredictToDo icons: Figma glyphs for cases, actions, steps and tablet figures; outline marks for TV roles',()=>{
  const icons=context.window.PREDICTTODO_ICONS;
- const all=[...data.scenarios.map(s=>icons.scenario(s.id)),...data.actions.map(a=>icons.action(a.id)),...data.characters.map(c=>icons.role(c.id)),...[0,1,2,3].map(i=>icons.step(i))];
- // Distinct marks everywhere, except the traffic light shared by the signals action and the signal-operator role.
- assert.equal(new Set(all).size,all.length-1);assert.equal(icons.action('signals'),icons.role('santiago'));
- for(const svg of all){assert.match(svg,/^<svg class="ptd-icon ptd-icon--[a-z]+" viewBox="0 0 24 24" fill="none" stroke="currentColor"/);assert.doesNotMatch(svg,/<text|<image|fill="#/);}
+ const scenarios=data.scenarios.map(s=>icons.scenario(s.id)),actions=data.actions.map(a=>icons.action(a.id)),steps=[0,1,2,3].map(i=>icons.step(i));
+ const avatars=data.characters.map(c=>icons.avatar(c.id)),roles=data.characters.map(c=>icons.role(c.id));
+ for(const set of [scenarios,actions,steps,roles])assert.equal(new Set(set).size,4);
+ // Figma draws two role figures for the tablet: Valentina and Camila share one, Santiago and Andrés the other.
+ assert.equal(new Set(avatars).size,2);
+ for(const svg of [...scenarios,...actions,...steps,...avatars,icons.glyph('arrow'),icons.glyph('screen')]){
+  assert.match(svg,/^<svg class="ptd-icon ptd-icon--[a-z-]+" viewBox="[\d. ]+" fill="none" aria-hidden="true"><path /);
+  // Recolourable and safe to repeat on one page: no hard-coded colours, masks or ids.
+  assert.match(svg,/currentColor/);assert.doesNotMatch(svg,/<text|<image|fill="#|stroke="#|<mask|<use|\sid=/);
+ }
+ for(const svg of roles){assert.match(svg,/^<svg class="ptd-icon ptd-icon--[a-z]+" viewBox="0 0 24 24" fill="none" stroke="currentColor"/);assert.doesNotMatch(svg,/<text|<image|fill="#/);}
 });
 
 test('PredictToDo project facts stay bilingual and TV choices follow the selected event',()=>{
