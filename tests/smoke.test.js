@@ -63,7 +63,10 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
  assert.doesNotMatch(controller,/setTimeout\(unlockGame|10000/);
  assert.match(controller,/gameReady:true/);
  assert.match(controller,/prototipo_actual_V5\.html/);
- assert.match(controller,/language==='en'/);
+ assert.match(controller,/CRB_COVER\(state\.language/); // portada HTML compartida tableta/TV (prueba1.png)
+ assert.ok(fs.existsSync(path.join(project,'cover.js')));assert.ok(fs.existsSync(path.join(project,'public','cover-truck.jpg')));
+ assert.match(fs.readFileSync(path.join(project,'index.html'),'utf8'),/cover\.js/);
+ assert.match(display,/window\.CRB_COVER\(language/);assert.match(fs.readFileSync(path.join(root,'display.html'),'utf8'),/03-costa-rica-smart-borders\/cover\.js/);
  assert.match(display,/renderCostaRica/);
  assert.match(display,/data\.mode==='info'\|\|data\.mode==='cta'/);
  assert.match(server,/Invalid Costa Rica Smart Borders game state/);

@@ -122,3 +122,9 @@ y un aviso "Mira la pantalla"; el copy nunca dice "TV"). Toda la animación vive
 **nunca los documentos ni las preguntas**, que viven en la tableta. Fuera del juego `game` vuelve a
 `null` y la TV muestra la ficha de Costa Rica. `#es`/`#en` cambian el idioma en ambas pantallas y
 `[data-act="home"]` regresa a `/index.html?station=X`.
+
+## Portada HTML (12 nov 2026)
+
+- La portada de la tableta y la de la TV ahora son HTML real, no una imagen, siguiendo `prueba1.png`. El marcado vive en `cover.js` (`window.CRB_COVER`) y lo usan `module.js` (tableta, interactiva) y `shared/display.js` (TV, solo visual).
+- La foto de la tarjeta «About the project» (`public/cover-truck.jpg`) se recortó de `prueba1.png`; conviene reemplazarla por el original en alta resolución cuando esté disponible.
+- La barra conserva ES/EN y «Start/Inicio»; «Back/Volver» aparece solo después de elegir la información. La infografía de la TV no cambia.
