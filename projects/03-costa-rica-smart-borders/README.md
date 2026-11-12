@@ -128,3 +128,9 @@ y un aviso "Mira la pantalla"; el copy nunca dice "TV"). Toda la animación vive
 - La portada de la tableta y la de la TV ahora son HTML real, no una imagen, siguiendo `prueba1.png`. El marcado vive en `cover.js` (`window.CRB_COVER`) y lo usan `module.js` (tableta, interactiva) y `shared/display.js` (TV, solo visual).
 - La foto de la tarjeta «About the project» (`public/cover-truck.jpg`) se recortó de `prueba1.png`; conviene reemplazarla por el original en alta resolución cuando esté disponible.
 - La barra conserva ES/EN y «Start/Inicio»; «Back/Volver» aparece solo después de elegir la información. La infografía de la TV no cambia.
+
+## Infografía animada (12 nov 2026, local)
+
+- «Sobre el proyecto» en la TV ya no es una imagen: `cover.js` (`window.CRB_SHEET`) reconstruye en HTML la nueva `Infografia.png` y la anima por elementos (panel azul, títulos, tarjetas con icono, banda de impacto y cifras), con la misma secuencia que la infografía de AquaData basada en la referencia «Iniciativa 2.2_animada_PRO».
+- El PNG queda como respaldo en inglés: `public/info-en-2026-11.png`.
+- El texto en español es traducción propia del PNG en inglés y está pendiente de aprobación. Para que quepa se acortó: «Riesgo evaluado por separado», «5 entidades» y «para entrenar la IA».

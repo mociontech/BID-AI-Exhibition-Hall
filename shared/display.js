@@ -49,7 +49,7 @@ function renderBogotaTraffic(data){
 }
 const COSTA_RICA_ART={
  es:{home:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-1.png',info:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-2.png'},
- en:{home:'projects/03-costa-rica-smart-borders/public/cover-en-1920x1080.png',info:'projects/03-costa-rica-smart-borders/public/info-en-1920x1080.png'}
+ en:{home:'projects/03-costa-rica-smart-borders/public/cover-en-1920x1080.png',info:'projects/03-costa-rica-smart-borders/public/info-en-2026-11.png'}
 };
 /* Infografía nov 2026 aprobada (EN); la ES conserva la anterior hasta recibir su versión. */
 const GUATIGUARA_ART={
@@ -85,7 +85,10 @@ function renderCostaRica(data){
  if(!isInfo&&window.CRB_COVER){app.innerHTML=window.CRB_COVER(language,{base:'projects/03-costa-rica-smart-borders/public/',interactive:false});return;} // portada HTML idéntica a la tableta (cover.js)
  const image=COSTA_RICA_ART[language][isInfo?'info':'home'];
   const cta=(data.mode==='info'||data.mode==='cta')?(language==='en'?'When you are ready, press “Interactive experience” on the tablet':'Cuando estés listo, toca «Experiencia interactiva» en la tableta'):null;
- app.innerHTML=`<main class="crb-display ${cta?'crb-display--cta':''}" aria-label="Costa Rica Smart Borders">${AI_ARTWORK(`${image}`,`alt="Costa Rica Smart Borders"`)}${cta?`<section class="crb-display-cta crb-display-cta--pill"><i class="crb-cta-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M12 16.2h.01"/></svg></i><b>${cta}</b><span class="crb-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5.5 13l6.5 6.5 6.5-6.5"/></svg></span></section>`:''}</main>`;
+ // Información: infografía en HTML animada por elementos (cover.js → CRB_SHEET). No se vuelve a montar si ya está en pantalla en el mismo idioma, para no reiniciar la animación.
+ const useSheet=!!cta&&!!window.CRB_SHEET;
+ if(useSheet){const current=app.querySelector('.crs-sheet');if(current&&current.lang===language)return;}
+ app.innerHTML=`<main class="crb-display ${cta?'crb-display--cta':''} ${useSheet?'crb-display--sheet':''}" aria-label="Costa Rica Smart Borders">${useSheet?window.CRB_SHEET(language,{base:'projects/03-costa-rica-smart-borders/public/'}):AI_ARTWORK(`${image}`,`alt="Costa Rica Smart Borders"`)}${cta?`<section class="crb-display-cta crb-display-cta--pill"><i class="crb-cta-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M12 16.2h.01"/></svg></i><b>${cta}</b><span class="crb-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5.5 13l6.5 6.5 6.5-6.5"/></svg></span></section>`:''}</main>`;
 }
 let bogotaGameData=null;
 fetch('projects/02-bogota-traffic-prediction/GAME_DATA.json',{cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{bogotaGameData=data;last='';}).catch(()=>{});
