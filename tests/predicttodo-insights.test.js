@@ -107,6 +107,10 @@ test('PredictToDo information assembles the supplied infographic from crops and 
   // The last frame is the supplied PNG itself, with the guidance pill on top.
   assert.ok(html.includes(`class="ptd-sh-final" src="${sheet.image}" width="1920" height="1080"`));
   assert.match(html,language==='es'?/Experiencia interactiva/:/Interactive experience/);
+  // v2: the GitHub QR and its three lines sit in a white card of the blue panel; the guidance pill is the 13 Nov reference.
+  assert.match(html,/class="ptd-sh-el ptd-sh-qrcard" style="--x:166;--y:856;--w:433;--h:158"/);
+  assert.match(html,/<footer class="ptd-sh-cta">/);assert.doesNotMatch(html,/ptd-tv-cta/);
+  assert.match(html,language==='es'?/toca “Experiencia interactiva”/:/tap “Interactive experience”/);
   assert.doesNotMatch(html,/data-action=/);
  }
  // The crops belong to that exact PNG: any other artwork falls back to the plain image.

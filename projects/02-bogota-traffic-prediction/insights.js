@@ -21,7 +21,7 @@
   ]
  };
  const copy={
-  es:{simulation:'Simulación educativa · Los puntajes y efectos del juego son simulados.',infoCta:'Cuando estés listo, pulsa “Experiencia interactiva” en la tableta',station:'ESTACIÓN',onTablet:'EN LA TABLETA',selected:'Tu selección',event:'Evento seleccionado',action:'Acción seleccionada',noAction:'Aún no has elegido una acción',completed:'eventos jugados',score:'Puntaje de esta decisión',total:'Tu puntaje acumulado',free:'Puedes jugar otro evento, repetir o volver al menú cuando quieras.',
+  es:{simulation:'Simulación educativa · Los puntajes y efectos del juego son simulados.',infoCta:'Cuando estés listo, toca “Experiencia interactiva” en la tableta',station:'ESTACIÓN',onTablet:'EN LA TABLETA',selected:'Tu selección',event:'Evento seleccionado',action:'Acción seleccionada',noAction:'Aún no has elegido una acción',completed:'eventos jugados',score:'Puntaje de esta decisión',total:'Tu puntaje acumulado',free:'Puedes jugar otro evento, repetir o volver al menú cuando quieras.',
    phases:{
     intro:['Tú decides cómo se mueve Bogotá','Explora una situación de tráfico, toma una decisión y descubre por qué puede ayudar a la ciudad.',['Elige un rol para tu turno','Explora el mapa y selecciona un evento','Compara el impacto de tu decisión'],'Pulsa “Siguiente” en la tableta para comenzar'],
     player:['Tu rol, tu mirada de la ciudad','Cada perfil aporta una perspectiva distinta al centro de control. Elige con quién quieres jugar.',['Selecciona uno de los cuatro roles','Escribe tu nombre si quieres','Pulsa “Empezar turno”'],'Elige tu rol y pulsa “Empezar turno” en la tableta'],
@@ -30,7 +30,7 @@
     result:['Una decisión, un aprendizaje','Compara el resultado y descubre qué cambia cuando anticipas la congestión.',['Revisa el puntaje y la explicación','Prueba otra decisión si quieres','Elige otro evento o termina tu turno'],'En la tableta: cambia tu decisión, elige otro evento o termina'],
     final:['Tu turno deja una lección','La información ayuda a anticipar problemas. Las personas deciden cómo responder.',['Revisa tus decisiones','Vuelve a los eventos para seguir explorando','O regresa al menú de PredictToDo'],'Pulsa “Jugar otro evento” o “Menú” en la tableta']
    }},
-  en:{simulation:'Educational simulation · Game scores and effects are simulated.',infoCta:'When you are ready, press “Interactive experience” on the tablet',station:'STATION',onTablet:'ON THE TABLET',selected:'Your selection',event:'Selected event',action:'Selected action',noAction:'You have not selected an action yet',completed:'events played',score:'Score for this decision',total:'Your total score',free:'Play another event, try again or return to the menu whenever you like.',
+  en:{simulation:'Educational simulation · Game scores and effects are simulated.',infoCta:'When you are ready, tap “Interactive experience” on the tablet',station:'STATION',onTablet:'ON THE TABLET',selected:'Your selection',event:'Selected event',action:'Selected action',noAction:'You have not selected an action yet',completed:'events played',score:'Score for this decision',total:'Your total score',free:'Play another event, try again or return to the menu whenever you like.',
    phases:{
     intro:['You decide how Bogotá moves','Explore a traffic situation, make a decision and discover how it can help the city.',['Choose a role for your shift','Explore the map and select an event','Compare the impact of your decision'],'Press “Next” on the tablet to begin'],
     player:['Your role, your view of the city','Each profile brings a different perspective to the control center. Choose who you want to play as.',['Select one of the four roles','Enter your name if you like','Press “Start shift”'],'Choose your role and press “Start shift” on the tablet'],
@@ -42,29 +42,34 @@
  };
  const langOf=language=>language==='es'?'es':'en';
  function cta(text){return `<footer class="ptd-tv-cta"><div role="status"><span>${tabletIcon}</span><strong>${esc(text)}</strong><b aria-hidden="true">↓</b></div></footer>`;}
+ // Guidance pill of the infographic (13 Nov 2026 reference): blue pill, landscape tablet outline, bold white text, thin arrow.
+ const sheetTablet='<svg viewBox="0 0 21 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x=".75" y=".75" width="19.5" height="14.5" rx="2.2"/><path d="M10.5 2.9v.4"/></svg>';
+ const sheetArrow='<svg viewBox="0 0 10 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 .9v10.2M1.2 7.3 5 11.1l3.8-3.8"/></svg>';
+ function sheetCta(text){return `<footer class="ptd-sh-cta"><div role="status"><span class="ptd-sh-cta-icon">${sheetTablet}</span><strong>${esc(text)}</strong><span class="ptd-sh-cta-arrow">${sheetArrow}</span></div></footer>`;}
  /* «About the project» (13 Nov 2026 infographic) assembled element by element, like the IDB reference
     «Iniciativa 2.2_animada_PRO» (same choreography as stations 03 and 08): the blue panel sweeps in,
-    the title rises, then the challenge, the solution, each impact figure and the GitHub QR.
+    the title rises, then the challenge, the solution, each impact figure and the GitHub QR card.
     Every piece is a crop of the supplied PNG laid over the same sheet with its content erased,
     so the finished frame is the PNG itself; at the end the full PNG fades in on top to remove any seam.
-    Boxes are in the 1920 × 1080 pixels of the PNG. */
+    Boxes are in the 1920 × 1080 pixels of the PNG (v2 of 13 Nov: the right column sits 103 px lower than in v1
+    and the QR is a white card in the blue panel). */
  const box=(x,y,w,h)=>({x,y,w,h});
  const SHEET={
   panel:box(0,0,764,1080),
   logo:box(60,64,300,76),title:box(62,464,630,96),sub:box(62,570,512,54),unit:box(62,630,200,50),
   cards:[
-   {frame:box(838,98,485,395),head:box(866,124,300,42),icon:box(868,187,122,122),text:box(868,326,380,140)},
-   {frame:box(1366,97,485,396),head:box(1394,123,272,42),icon:box(1396,186,122,122),text:box(1396,325,426,140)}
+   {frame:box(838,201,485,395),head:box(866,227,300,42),icon:box(868,290,122,122),text:box(868,429,380,140)},
+   {frame:box(1366,200,485,396),head:box(1394,226,272,42),icon:box(1396,289,122,122),text:box(1396,428,426,140)}
   ],
-  impactTitle:box(866,534,300,42),
-  bar:box(838,592,1007,184),
+  impactTitle:box(866,637,300,42),
+  bar:box(838,695,1007,184),
   facts:[
-   {value:box(874,614,244,67),label:box(874,681,170,57)},
-   {value:box(1212,614,230,62),label:box(1212,678,180,34),divider:box(1176,620,10,128)},
-   {value:box(1532,612,270,60),label:box(1532,676,200,58),divider:box(1500,620,10,128)}
+   {value:box(874,717,244,67),label:box(874,784,170,57)},
+   {value:box(1212,717,230,62),label:box(1212,781,180,34),divider:box(1176,723,10,128)},
+   {value:box(1532,715,270,60),label:box(1532,779,200,58),divider:box(1500,723,10,128)}
   ],
-  qr:box(854,837,131,130),
-  repo:[box(992,860,70,22),box(992,882,190,34),box(992,917,266,28)]
+  // White card (drawn by CSS, radius 10) holding the QR and the three GitHub lines.
+  qrCard:{frame:box(166,856,433,158),qr:box(185,875,121,120),repo:[box(322,895,58,17),box(322,914,182,36),box(322,952,260,24)]}
  };
  const sheetAlt={
   es:'Infografía de PredictToDo: el reto, la solución, el impacto a la fecha y el código en GitHub',
@@ -91,7 +96,8 @@
    (f.divider?piece('ptd-sh-divider',f.divider,'full',s.bar,'',`--i:${i}`):'')+
    piece('ptd-sh-value',f.value,'full',s.bar,'',`--i:${i}`)+
    piece('ptd-sh-label',f.label,'full',s.bar,'',`--i:${i}`)).join('');
-  const repo=s.repo.map((b,i)=>piece('ptd-sh-repo',b,'full',null,'',`--i:${i}`)).join('');
+  const q=s.qrCard,f=q.frame;
+  const qrCard=`<span class="ptd-sh-el ptd-sh-qrcard" style="--x:${f.x};--y:${f.y};--w:${f.w};--h:${f.h}">${piece('ptd-sh-qr',q.qr,'full',f)}${q.repo.map((b,i)=>piece('ptd-sh-repo',b,'full',f,'',`--i:${i}`)).join('')}</span>`;
   // Absolute URLs: a relative url() inside a custom property may resolve against the stylesheet.
   const abs=src=>{try{return new URL(src,document.baseURI).href;}catch{return src;}};
   return `<section class="ptd-sh is-animated" style="--full:url('${esc(abs(image))}');--base:url('${esc(abs(base))}')" aria-label="${esc(sheetAlt[lang])}">
@@ -100,9 +106,9 @@
     ${panel}${cards}
     ${piece('ptd-sh-impact-title',s.impactTitle,'full',null)}
     ${piece('ptd-sh-bar',s.bar,'base',null,facts)}
-    ${piece('ptd-sh-qr',s.qr,'full',null)}${repo}
+    ${qrCard}
     <img class="ptd-sh-final" src="${esc(image)}" width="1920" height="1080" alt="${esc(sheetAlt[lang])}">
-    ${cta(copy[lang].infoCta)}
+    ${sheetCta(copy[lang].infoCta)}
    </div>
   </section>`;
  }

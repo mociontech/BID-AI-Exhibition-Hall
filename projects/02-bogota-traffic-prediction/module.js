@@ -124,10 +124,8 @@ window.ProjectModule={
       catch{if(unchanged())updateGame({rankStatus:'error'});}
       finally{savingSessions.delete(sessionId);if(state.game?.phase==='resources'&&state.game.rankStatus===null)void saveRanking();}
     }
+    // PredictToDo runs in English only (November 2026): there is no language switch, state.language stays 'en'.
     function bind(){
-      mount.querySelectorAll('[data-language]').forEach(button=>button.addEventListener('click',()=>{
-        if(button.dataset.language!==state.language)setState({language:button.dataset.language});
-      }));
       mount.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',async event=>{
         event.preventDefault();
         const action=button.dataset.action;

@@ -716,3 +716,31 @@
 @media(max-width:1100px){.cc-map-card .cc-metrics{column-gap:12px}}
 .cc-map-card .cc-dashboard-caption{font-size:24px}.cc-map-card .cc-dashboard-caption>span{margin-top:3px;font-size:12px}
 @media(max-height:800px){.cc-map-card .cc-dashboard-caption{font-size:18px}.cc-map-card .cc-dashboard-caption>span{font-size:11px}}
+
+/* ===== November 2026 tablet bar of every game screen, like the main menu artwork: logo, divider and titles 47 px
+   apart, the titles in the bundled Inter (PTDInter, declared in rebrand.css; bar only), and one outlined Home pill
+   (132 x 50, 1 px white border) with the thin house. English only: no ES/EN switch. TV bars are unchanged. ===== */
+.ptd-game:not(.ptd-game--readonly) .pulse-command-brand,.cc-app:not(.cc-app--tv) .cc-brand{gap:47px}
+.ptd-game:not(.ptd-game--readonly) .ptd-header-divider,.cc-app:not(.cc-app--tv) .cc-brand>span{width:2px;height:44px;background:#fff;opacity:1}
+.ptd-game:not(.ptd-game--readonly) .ptd-header-copy,.cc-app:not(.cc-app--tv) .cc-brand>div{font-family:PTDInter,Inter,Arial,sans-serif;font-optical-sizing:none;line-height:1}
+.ptd-game:not(.ptd-game--readonly) .ptd-header-copy strong,.cc-app:not(.cc-app--tv) .cc-brand strong{font-size:25.35px;font-weight:700}
+.ptd-game:not(.ptd-game--readonly) .ptd-header-copy small,.cc-app:not(.cc-app--tv) .cc-brand small{font-size:22.85px;font-weight:400}
+.ptd-game .pulse-command-exit,.cc-app .cc-header-button{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:flex-start;flex:none;gap:16px;width:132px;min-width:0;min-height:0;height:50px;padding:0 0 0 20px;border:1px solid #fff;border-radius:99px;background:transparent;color:#fff;font:700 16.75px/1 PTDInter,Inter,Arial,sans-serif;font-optical-sizing:none;white-space:nowrap;cursor:pointer}
+.ptd-game .pulse-command-exit svg,.cc-app .cc-header-button svg{flex:none;width:18px;height:16px}
+.cc-app .cc-header-button span{display:inline}
+@media(max-height:800px){
+ .ptd-game:not(.ptd-game--readonly) .pulse-command-brand,.cc-app:not(.cc-app--tv) .cc-brand{gap:40px}
+ .ptd-game:not(.ptd-game--readonly) .ptd-header-divider,.cc-app:not(.cc-app--tv) .cc-brand>span{height:37px}
+ .ptd-game:not(.ptd-game--readonly) .ptd-header-copy strong,.cc-app:not(.cc-app--tv) .cc-brand strong{font-size:21.5px}
+ .ptd-game:not(.ptd-game--readonly) .ptd-header-copy small,.cc-app:not(.cc-app--tv) .cc-brand small{font-size:19.5px}
+ .ptd-game .pulse-command-exit,.cc-app .cc-header-button{gap:14px;width:113px;height:43px;padding-left:17px;font-size:14px}
+ .ptd-game .pulse-command-exit svg,.cc-app .cc-header-button svg{width:15.5px;height:13.8px}
+}
+@media(max-width:1100px){
+ .ptd-game:not(.ptd-game--readonly) .pulse-command-brand,.cc-app:not(.cc-app--tv) .cc-brand{gap:35px}
+ .ptd-game:not(.ptd-game--readonly) .ptd-header-divider,.cc-app:not(.cc-app--tv) .cc-brand>span{height:32px}
+ .ptd-game:not(.ptd-game--readonly) .ptd-header-copy strong,.cc-app:not(.cc-app--tv) .cc-brand strong{font-size:18.5px}
+ .ptd-game:not(.ptd-game--readonly) .ptd-header-copy small,.cc-app:not(.cc-app--tv) .cc-brand small{font-size:16.8px}
+ .ptd-game .pulse-command-exit,.cc-app .cc-header-button{gap:12px;width:98px;height:37px;padding-left:15px;font-size:12.2px}
+ .ptd-game .pulse-command-exit svg,.cc-app .cc-header-button svg{width:13.3px;height:11.8px}
+}

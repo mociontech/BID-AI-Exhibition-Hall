@@ -315,3 +315,25 @@
 @media(max-height:800px){.ptd-home-native .ptd-home-main{gap:20px;padding-bottom:20px}.ptd-home-native .ptd-home-intro h1{font-size:clamp(56px,7vw,84px)}.ptd-home-native .ptd-home-cards{height:min(200px,30vh)}}
 @media(max-width:1100px){.ptd-home-native .ptd-home-cards{gap:20px}.ptd-home-native .ptd-home-card-copy{padding:14px 16px}}
 .ptd-home-native .ptd-home-intro h1 span{color:#005cff}
+
+/* ===== November 2026 tablet main menu: the supplied artwork (predicttodoImages/menu-principal-en.png, 1920 x 1080)
+   with touch zones over the two cards and the Home pill; Back appears next to Home while the TV shows the project
+   sheet. The TV shows menu-principal-tv.png (same artwork without the Home pill). The artwork scales as one 16:9 unit
+   (--u) in two bands of the same image: the bar (top 126 px) stays at the top of the screen with its blue filling any
+   spare width, and the body (the remaining 954 px) is centred in the space left on white. ===== */
+@font-face{font-family:PTDInter;src:url('./assets/fonts/Inter.ttf') format('truetype');font-weight:100 900;font-display:swap}
+.ptd-menu{--u:min(calc(100vw / 1920),calc(100dvh / 1080));display:flex;flex-direction:column;width:100%;height:100dvh;overflow:hidden;background:#fff}
+.ptd-menu-bar{display:flex;justify-content:center;flex:none;height:calc(126 * var(--u));background:#005cff}
+.ptd-menu-body{display:flex;justify-content:center;align-items:center;flex:1;min-height:0}
+.ptd-menu-band{position:relative;flex:none;width:calc(1920 * var(--u));background:var(--art) no-repeat 0 0/calc(1920 * var(--u)) calc(1080 * var(--u));user-select:none}
+.ptd-menu-band--bar{height:calc(126 * var(--u))}
+.ptd-menu-band--body{height:calc(954 * var(--u));background-position:0 calc(-126 * var(--u))}
+.ptd-menu-hit{position:absolute;padding:0;border:0;border-radius:calc(20 * var(--u));background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ptd-menu-hit--information,.ptd-menu-hit--open-game{top:calc(517 * var(--u));width:calc(854 * var(--u));height:calc(267 * var(--u))}
+.ptd-menu-hit--information{left:calc(67 * var(--u))}
+.ptd-menu-hit--open-game{left:calc(1001 * var(--u))}
+.ptd-menu-hit--home{left:calc(1720 * var(--u));top:calc(38 * var(--u));width:calc(132 * var(--u));height:calc(50 * var(--u));border-radius:99px}
+/* Back pill drawn like the Home pill of the artwork, 20 px to its left. */
+.ptd-menu-back{position:absolute;right:calc(220 * var(--u));top:calc(38 * var(--u));box-sizing:border-box;display:inline-flex;align-items:center;gap:calc(14 * var(--u));height:calc(50 * var(--u));padding:0 calc(28 * var(--u)) 0 calc(22 * var(--u));border:1px solid #fff;border-radius:99px;background:transparent;color:#fff;font:700 calc(16.75 * var(--u))/1 PTDInter,Inter,Arial,sans-serif;font-optical-sizing:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ptd-menu-back svg{flex:none;width:calc(18 * var(--u));height:calc(16 * var(--u))}
+.ptd-menu-hit:focus-visible,.ptd-menu-back:focus-visible{outline:calc(4 * var(--u)) solid #f8b944;outline-offset:calc(3 * var(--u))}

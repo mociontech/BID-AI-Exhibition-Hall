@@ -9,7 +9,7 @@
   "es": {
     "title": "Tu panel de control",
     "wall": "Bogotá · Simulación de movilidad",
-    "menu": "Menú",
+    "home": "Inicio",
     "back": "Volver",
     "now": "Hora de la simulación",
     "map": "Mapa de Bogotá",
@@ -73,7 +73,7 @@
   "en": {
     "title": "Your control panel",
     "wall": "Bogotá · Mobility simulation",
-    "menu": "Menu",
+    "home": "Home",
     "back": "Back",
     "now": "Simulation time",
     "map": "Bogotá street map",
@@ -190,11 +190,13 @@
   while(selected.length<count){const next=candidates.reduce((best,p)=>Math.min(...selected.map(a=>distance(p,a)))>Math.min(...selected.map(a=>distance(best,a)))?p:best);selected.push(next);}
   return selected;
  }
- const homeMark='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7"/></svg>';
+ // House outline of the Home pill in the November 2026 main menu (18 x 16 at 1920 x 1080).
+ const homeMark='<svg viewBox="0 0 18 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M.6 6.8 9 .6l8.4 6.2M2.6 5.4v10h12.8v-10M7.2 15.4v-4.8h3.6v4.8"/></svg>';
  function header(options){
   const {readonly}=options,lang=languageOf(options.language),c=words[lang];
-  // Figma 177:22367: the TV bar carries the brand only; the tablet keeps ES/EN and one Menu button. Back lives in each panel.
-  const controls=readonly?'':`<nav class="cc-language" aria-label="Language"><button type="button" data-language="es" aria-pressed="${lang==='es'}">ES</button><button type="button" data-language="en" aria-pressed="${lang==='en'}">EN</button></nav><button type="button" class="cc-header-button" data-action="exit-game">${homeMark}<span>${c.menu}</span></button>`;
+  // November 2026: the TV bar carries the brand only; the tablet bar adds just the Home pill (English only, no ES/EN).
+  // Home leaves the station like the Home pill of the main menu. Back lives in each panel.
+  const controls=readonly?'':`<button type="button" class="cc-header-button" data-action="home">${homeMark}<span>${c.home}</span></button>`;
   return `<header class="cc-header"><div class="cc-brand"><img src="${root}predicttodoImages/idb-group-white.svg" alt="IDB Group"><span></span><div><strong>AI in Action</strong><small>IDB Group Projects Across the Region</small></div></div>${controls}</header>`;
  }
  // Lower congestion and fewer hotspots are better; higher speed is better. Equal values stay neutral.

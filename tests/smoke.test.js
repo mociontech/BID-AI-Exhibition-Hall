@@ -86,8 +86,8 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
 });
 
 test('PredictToDo information uses the new client-supplied 1920 x 1080 PNG',()=>{
- const imagePath='projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_2026-11_1920x1080.png';
- const basePath='projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_2026-11_base.png';
+ const imagePath='projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_2026-11-v2_1920x1080.png';
+ const basePath='projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_2026-11-v2_base.png';
  // The supplied sheet and its content-erased copy (the animation's background) share the same 1920 × 1080 grid.
  for(const file of [imagePath,basePath]){
   const artwork=fs.readFileSync(path.join(root,file));
@@ -103,12 +103,22 @@ test('PredictToDo information uses the new client-supplied 1920 x 1080 PNG',()=>
  const controller=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','module.js'),'utf8');
  const visual=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','visual.js'),'utf8');
  assert.match(controller,/PREDICTTODO_VISUAL\.landing/);
- // The cover is native (Figma 662:4545): the photo and the Colombia mark are real files, the copy stays bilingual.
- for(const file of ['portada-about.png','colombia-pin.svg'])assert.ok(fs.existsSync(path.join(root,'projects','02-bogota-traffic-prediction','predicttodoImages',file)),file);
- assert.match(visual,/portada-about\.png/);assert.match(visual,/colombia-pin\.svg/);assert.match(visual,/Predict<span>ToDo<\/span>/);
- assert.match(visual,/card\('info','information'/);
- assert.match(visual,/card\('game','open-game'/);
- assert.match(visual,/data-action="back-information"/);
+ // November 2026 main menu: the supplied 1920 × 1080 artwork on the tablet (touch zones over the cards and Home, Back
+ // while the TV shows the sheet) and the same artwork without the Home pill on the TV. English only: no ES/EN anywhere.
+ for(const file of ['menu-principal-en.png','menu-principal-tv.png']){
+  const artwork=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','predicttodoImages',file));
+  assert.equal(artwork.readUInt32BE(16),1920,file);assert.equal(artwork.readUInt32BE(20),1080,file);
+ }
+ const menuContext={window:{},URL,document:{currentScript:{src:'http://127.0.0.1/projects/02-bogota-traffic-prediction/visual.js'}}};
+ vm.runInNewContext(visual,menuContext);
+ const menu=menuContext.window.PREDICTTODO_VISUAL;
+ const tablet=menu.landing('en'),withSheet=menu.landing('en',{informationActive:true}),tv=menu.landing('en',{readonly:true});
+ assert.match(tablet,/menu-principal-en\.png/);assert.match(tv,/menu-principal-tv\.png/);
+ for(const action of ['information','open-game','home'])assert.match(tablet,new RegExp(`data-action="${action}"`));
+ assert.doesNotMatch(tablet,/back-information/);assert.match(withSheet,/data-action="back-information"/);
+ assert.doesNotMatch(tv,/<button|data-action/);
+ for(const html of [tablet,withSheet,tv])assert.doesNotMatch(html,/data-language/);
+ assert.doesNotMatch(controller,/data-language/);
  assert.doesNotMatch(controller,/traffic-reference-grid/);
 });
 
@@ -174,7 +184,9 @@ test('Pulso Vial offers role-aware decisions in the project 02 renderer',()=>{
   const result=context.window.PULSE_VIAL.render({data:game,game:{...oneResult,phase:'result'},language:'en',readonly:false});
   assert.match(result,/data-action="choose-event"/);
   assert.match(result,/data-action="finish-session"/);
-  assert.match(result,/data-action="exit-game"/);
+  // The tablet bar carries only the Home pill (no ES/EN switch).
+  assert.match(result,/data-action="home"/);
+  assert.doesNotMatch(result,/data-language/);
   const explore=context.window.PULSE_VIAL.render({data:game,game:{...oneResult,phase:'explore',actionId:null},language:'en',readonly:false});
   assert.equal((explore.match(/data-scenario="\d"/g)||[]).length,4);
   assert.doesNotMatch(explore,/data-scenario="\d" disabled/);

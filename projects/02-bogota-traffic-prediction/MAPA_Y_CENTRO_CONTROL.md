@@ -209,6 +209,27 @@ final de `control-center.css`, `rebrand.css` y `completion.css`, con el nodo de 
 - **TV Cierre** (Frame 7 v2): un solo QR (GitHub · Code4Dev) en tarjeta horizontal bajo «Learn more», bloque azul con
   las cuatro cifras y ranking a la derecha; puntos sin «/400» en las filas y fila del visitante como en Figma.
 
+## Menú principal en PNG, barra con solo Home y solo inglés (13 de noviembre)
+
+Reemplaza lo descrito arriba sobre la portada nativa, el selector ES/EN y el botón «Menú».
+
+- Portada de la tableta (`visual.js`): es el arte entregado `menuprincipal2.png` (1920×1080, inglés), guardado como
+  `predicttodoImages/menu-principal-en.png`, con zonas táctiles sobre «About the project», «Interactive experience» y
+  la píldora Home. Mientras la TV muestra la infografía aparece «Back» junto a Home (misma píldora). El PNG traía
+  «Bogotá Traffic ediction»: solo esa línea se volvió a dibujar con Inter (`assets/fonts/Inter.ttf`, 41,3 px, corte de
+  texto) para que diga «Bogotá Traffic Prediction»; el resto del archivo es idéntico píxel a píxel al entregado.
+- Portada de la TV: `predicttodoImages/menu-principal-tv.png`, el mismo arte sin la píldora Home (la TV no tiene controles).
+- El arte se dibuja en dos bandas de la misma imagen (`.ptd-menu-band` en `rebrand.css`): la barra (126 px) queda arriba
+  y el cuerpo (954 px) se centra en el espacio restante, así 16:10 y 4:3 no dejan una franja blanca solo abajo. A
+  1920×1080 la pantalla coincide con el PNG sin un píxel de diferencia.
+- Barra de todas las pantallas del juego (`pulse-vial.js`, `control-center.js`, bloque final de `control-center.css`):
+  logo, divisor y títulos a 47 px como en el arte, títulos en Inter incluida en el proyecto (`PTDInter`, solo en la barra)
+  y una única píldora «Home» de 132×50 con borde blanco de 1 px y la casa de trazo fino del arte. Home lleva al inicio de
+  la exhibición igual que en la portada (antes «Menú» volvía a la portada del proyecto; «Back to menu» sigue en la
+  entrada y en el cierre). La barra de la TV no cambia.
+- Solo inglés: no hay selector ES/EN en la tableta ni indicador en la TV; `module.js` publica siempre `language: 'en'`.
+  Los textos en español siguen en los módulos por si se vuelven a necesitar.
+
 ## Infografía de Información
 
 Desde el 13 de noviembre la imagen activa es `assets/PredictToDo_Infographic_2026-11_1920x1080.png` (entregada como `infografiapredictodo.png`, 1920×1080, solo en inglés). `../../shared/bogota-traffic.js` la expone como `INFO_SHEET.image` y la usa para ES y EN; no se traduce ni se modifica su contenido. Controles y CTA siguen siendo bilingües.
