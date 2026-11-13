@@ -3,7 +3,7 @@
    Both clients use only files in 04-parque-tecnologico-guatiguara/Public and /Video.
    Keep the capital P and V: hosting paths are case-sensitive. */
 (function(){
- const version='?v=20261113-menu-1';
+ const version='?v=20261113-menu-2';
  const base=new URL('./Public/',document.currentScript.src);
  const videoBase=new URL('./Video/',document.currentScript.src);
  const asset=name=>new URL(name,base).href+version;
@@ -24,6 +24,7 @@
   info:'Parque Tecnológico Guatiguará infographic: the challenge, the solution and the impact to date',
   video:'Parque Tecnológico Guatiguará video',
   tvCta:'Select an option on the tablet',
+  infoCta:'When you are ready, tap “Video” on the tablet',
   soon:'Coming soon'
  };
 
@@ -37,6 +38,7 @@
   return `<main class="gtg-menu ${cls}" lang="en" style="--art:url('${art.menu}')" aria-label="${label}"><div class="gtg-bar"><div class="gtg-band gtg-band--bar">${bar}</div></div><div class="gtg-body"><div class="gtg-band gtg-band--body">${body}</div></div></main>`;
  }
  const TABLET_ICON='<svg viewBox="0 0 21 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x=".75" y=".75" width="19.5" height="14.5" rx="2.2"/></svg>';
+ const DOWN_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5.5 13l6.5 6.5 6.5-6.5"/></svg>';
  const BACK_ICON='<svg viewBox="0 0 18 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.6 8H1.4M7.4 1.8 1.4 8l6 6.2"/></svg>';
 
  /* The infographic animated element by element, like the IDB reference
@@ -90,6 +92,7 @@
     ${piece('gts-bar',s.bar,'base',null,facts)}
     <img class="gts-final" src="${art.info}" width="1920" height="1080" alt="${words.info}">
    </div>
+   <div class="gts-cta" role="status">${TABLET_ICON}<strong>${words.infoCta}</strong><i aria-hidden="true">${DOWN_ICON}</i></div>
   </section>`;
  }
 
