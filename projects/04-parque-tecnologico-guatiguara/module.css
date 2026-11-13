@@ -68,3 +68,89 @@
 .gt-cta-arrow svg{width:3.2vh;height:3.2vh}
 @keyframes gtArrowDown{0%,100%{transform:translateY(-.5vh)}50%{transform:translateY(.6vh)}}
 @keyframes gtCtaIn{from{opacity:0;transform:translate(-50%,2vh)}to{opacity:1;transform:translate(-50%,0)}}
+
+/* ===== Nov 13 2026: main menu PNG (tablet + TV), animated infographic and video (experience.js) =====
+   1 unit (--u) = 1 px of the 1920 × 1080 artwork. The blue bar (126 px) stays at the top and the
+   body (954 px) is centred in the space left; at 16:9 the screen is the PNG pixel for pixel. */
+.gtg-menu{--u:min(calc(100vw / 1920),calc(100dvh / 1080));position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;background:#fff;font-family:Inter,'Segoe UI',Arial,sans-serif}
+.gtg-bar{flex:none;height:calc(126 * var(--u));display:flex;justify-content:center;background:#005cff}
+.gtg-body{flex:1;min-height:0;display:grid;place-items:center}
+.gtg-band{position:relative;flex:none;width:calc(1920 * var(--u));background-image:var(--art);background-repeat:no-repeat;background-size:calc(1920 * var(--u)) calc(1080 * var(--u))}
+.gtg-band--bar{height:calc(126 * var(--u));background-position:0 0}
+.gtg-band--body{height:calc(954 * var(--u));background-position:0 calc(-126 * var(--u))}
+.gtg-hit{position:absolute;border:0;padding:0;background:transparent;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.gtg-hit--home{left:calc(1720 * var(--u));top:calc(38 * var(--u));width:calc(132 * var(--u));height:calc(50 * var(--u));border-radius:99px}
+.gtg-hit--home::before,.gtg-back::before{content:'';position:absolute;inset:calc(-22 * var(--u)) calc(-10 * var(--u))}
+.gtg-hit--information,.gtg-hit--video{top:calc(517 * var(--u));width:calc(854 * var(--u));height:calc(267 * var(--u));border-radius:calc(22 * var(--u))}
+.gtg-hit--information{left:calc(67 * var(--u))}
+.gtg-hit--video{left:calc(1001 * var(--u))}
+.gtg-hit[aria-pressed="true"]{box-shadow:inset 0 0 0 calc(4 * var(--u)) #005cff}
+.gtg-hit:active{background:#005cff14}
+.gtg-hit:focus-visible,.gtg-back:focus-visible{outline:calc(4 * var(--u)) solid #f8b944;outline-offset:calc(3 * var(--u))}
+/* Back: same outline pill as Home in the artwork, shown only while the TV shows the infographic or the video. */
+.gtg-back{position:absolute;right:calc(220 * var(--u));top:calc(38 * var(--u));box-sizing:border-box;display:inline-flex;align-items:center;gap:calc(14 * var(--u));height:calc(50 * var(--u));padding:0 calc(28 * var(--u)) 0 calc(22 * var(--u));border:1px solid #fff;border-radius:99px;background:transparent;color:#fff;font:700 calc(16.75 * var(--u))/1 Inter,'Segoe UI',Arial,sans-serif;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;animation:gtg-back-in .35s ease both}
+.gtg-back[hidden]{display:none}
+.gtg-back svg{flex:none;width:calc(18 * var(--u));height:calc(16 * var(--u))}
+.gtg-back:active{background:#ffffff26}
+@keyframes gtg-back-in{from{opacity:0;transform:translateX(calc(14 * var(--u)))}to{opacity:1;transform:none}}
+/* TV guidance pill of the main menu (AquaData TV reference): 390 × 64 blue pill centred under the cards. */
+.gtg-cta{position:absolute;left:50%;top:calc(834 * var(--u));transform:translateX(-50%);box-sizing:border-box;display:flex;align-items:center;gap:calc(15 * var(--u));height:calc(64 * var(--u));padding:0 calc(47 * var(--u)) 0 calc(27 * var(--u));border-radius:999px;background:#005cff;color:#fff;white-space:nowrap;animation:gtg-cta-in .5s ease .3s both}
+.gtg-cta svg{flex:none;width:calc(28 * var(--u));height:calc(21.3 * var(--u))}
+.gtg-cta strong{font:700 calc(19.1 * var(--u))/1 Inter,'Segoe UI',Arial,sans-serif;letter-spacing:0}
+@keyframes gtg-cta-in{from{opacity:0;transform:translate(-50%,calc(12 * var(--u)))}to{opacity:1;transform:translate(-50%,0)}}
+/* TV "Video" while the institutional video has not been delivered: bar of the artwork without Home + coming soon. */
+.gtg-menu--soon .gtg-band--body{background-image:none}
+.gtg-bar-patch{position:absolute;right:0;top:0;width:calc(260 * var(--u));height:100%;background:#005cff}
+.gtg-soon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(22 * var(--u));padding-bottom:calc(60 * var(--u));text-align:center;color:#141414;animation:gtg-soon-in .6s ease both}
+.gtg-soon-play{display:grid;place-items:center;width:calc(150 * var(--u));height:calc(150 * var(--u));margin-bottom:calc(18 * var(--u));border-radius:50%;background:#cfe1ff;color:#005cff}
+.gtg-soon-play svg{width:calc(74 * var(--u));height:calc(74 * var(--u))}
+.gtg-soon h1{margin:0;font:800 calc(84 * var(--u))/1.05 Inter,'Segoe UI',Arial,sans-serif;letter-spacing:-.03em}
+.gtg-soon h1 b{color:#005cff;font-weight:inherit}
+.gtg-soon p{margin:0;font:400 calc(40 * var(--u))/1.1 Inter,'Segoe UI',Arial,sans-serif}
+.gtg-cta--soon{position:static;transform:none;margin-top:calc(26 * var(--u));padding:0 calc(40 * var(--u));animation:none}
+@keyframes gtg-soon-in{from{opacity:0;transform:translateY(calc(16 * var(--u)))}to{opacity:1;transform:none}}
+/* TV: the infographic and the video fill the screen. */
+.gtg-display{position:fixed;inset:0;width:100dvw;height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);padding:0;margin:0;overflow:hidden;background:#fff}
+.gtg-display-video{display:block;width:100%;height:100%;min-width:0;min-height:0;max-width:none;max-height:none;object-fit:contain;background:#fff}
+
+/* "About the project": the supplied infographic animated element by element (experience.js → sheet).
+   Same choreography as the VUCE 3.0, Teachy and RegLAC sheets («Iniciativa 2.2_animada_PRO»). */
+.gts-sheet{--u:min(calc(100vw / 1920),calc(100vh / 1080));position:fixed;inset:0;display:grid;place-items:center;overflow:hidden;background:#fff}
+.gts-stage{position:relative;width:calc(1920 * var(--u));height:calc(1080 * var(--u));transform-origin:72% 50%}
+.gts-el{position:absolute;left:calc(var(--x) * var(--u));top:calc(var(--y) * var(--u));width:calc(var(--w) * var(--u));height:calc(var(--h) * var(--u));overflow:hidden}
+.gts-crop{position:absolute;inset:0;display:block;background-repeat:no-repeat;background-size:calc(1920 * var(--u)) calc(1080 * var(--u));background-position:calc(var(--sx) * -1 * var(--u)) calc(var(--sy) * -1 * var(--u))}
+.gts-crop--full{background-image:var(--full)}
+.gts-crop--base{background-image:var(--base)}
+.gts-veil{position:absolute;left:0;top:0;width:calc(834 * var(--u));height:100%;background:#7fa7ff;opacity:0}
+.gts-icon{overflow:visible}
+.gts-icon::after{content:'';position:absolute;inset:calc(6 * var(--u));border:calc(2 * var(--u)) solid #8fb3ff;border-radius:50%;opacity:0;pointer-events:none}
+.gts-card,.gts-bar,.gts-panel{overflow:visible}
+.gts-final{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:1}
+@keyframes gts-veil{0%{opacity:1;clip-path:inset(0 100% 0 0)}60%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes gts-wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes gts-rise{from{transform:translateY(105%);filter:blur(6px)}to{transform:none;filter:none}}
+@keyframes gts-drop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes gts-card{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes gts-pop{0%{transform:scale(0)}65%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes gts-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.6)}}
+@keyframes gts-focus{from{opacity:0;transform:translateY(16px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes gts-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes gts-show{from{opacity:0}to{opacity:1}}
+@keyframes gts-drift{from{transform:scale(1)}to{transform:scale(1.012)}}
+.gts-sheet.is-animated .gts-final{animation:gts-show .5s ease 6s both}
+.gts-sheet.is-animated .gts-veil{animation:gts-veil 1.2s cubic-bezier(.65,0,.25,1) both}
+.gts-sheet.is-animated .gts-panel{animation:gts-wipe 1s cubic-bezier(.65,0,.25,1) .15s both}
+.gts-sheet.is-animated .gts-logo{animation:gts-drop .8s ease 1s both}
+.gts-sheet.is-animated .gts-rise:not(.gts-value)>.gts-crop{animation:gts-rise 1s cubic-bezier(.2,.8,.2,1) var(--t) both}
+.gts-sheet.is-animated .gts-card{animation:gts-card .9s cubic-bezier(.2,.8,.2,1) var(--d) both}
+.gts-sheet.is-animated .gts-head{animation:gts-wipe .8s cubic-bezier(.65,0,.25,1) calc(var(--d) + .25s) both}
+.gts-sheet.is-animated .gts-icon>.gts-crop{animation:gts-pop .8s cubic-bezier(.2,.9,.3,1.2) calc(var(--d) + .4s) both}
+.gts-sheet.is-animated .gts-icon::after{animation:gts-ring 1.2s ease-out calc(var(--d) + .9s) forwards}
+.gts-sheet.is-animated .gts-text>.gts-crop{animation:gts-focus .9s cubic-bezier(.2,.8,.2,1) calc(var(--d) + .7s) both}
+.gts-sheet.is-animated .gts-impact-title{animation:gts-wipe .9s cubic-bezier(.65,0,.25,1) 3.5s both}
+.gts-sheet.is-animated .gts-bar{animation:gts-wipe 1.1s cubic-bezier(.65,0,.25,1) 3.7s both}
+.gts-sheet.is-animated .gts-divider{transform-origin:top;animation:gts-grow .7s ease calc(4.1s + var(--i) * .45s) both}
+.gts-sheet.is-animated .gts-value>.gts-crop{animation:gts-rise .9s cubic-bezier(.2,.8,.2,1) calc(4.2s + var(--i) * .45s) both}
+.gts-sheet.is-animated .gts-label>.gts-crop{animation:gts-focus .8s cubic-bezier(.2,.8,.2,1) calc(4.45s + var(--i) * .45s) both}
+.gts-sheet.is-animated .gts-stage{animation:gts-drift 14s ease-out 6.4s both}
+@media (prefers-reduced-motion:reduce){.gts-sheet *,.gts-sheet .gts-stage,.gtg-cta,.gtg-back,.gtg-soon{animation:none!important}}

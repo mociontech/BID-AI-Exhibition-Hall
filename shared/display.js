@@ -51,31 +51,8 @@ const COSTA_RICA_ART={
  es:{home:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-1.png',info:'projects/03-costa-rica-smart-borders/public/Imagen de ChatGPT 29 oct 2026, 03_20_41 p.m-2.png'},
  en:{home:'projects/03-costa-rica-smart-borders/public/cover-en-1920x1080.png',info:'projects/03-costa-rica-smart-borders/public/info-en-2026-11.png'}
 };
-/* Infografía nov 2026 aprobada (EN); la ES conserva la anterior hasta recibir su versión. */
-const GUATIGUARA_ART={
- cover:'projects/04-parque-tecnologico-guatiguara/Parque Tecnológico Guatiguará_ AI en acción.png',
- es:{info:'projects/04-parque-tecnologico-guatiguara/04_Guatiguara_BID_Bilingue/04_Guatiguara_Infografia_ES_1920x1080.png'},
- en:{info:'projects/04-parque-tecnologico-guatiguara/Infografia 4 - Parque Tecnológico Guatiguará.png'}
-};
 function renderTeachy(data){
  window.TEACHY.renderDisplay(app,data);
-}
-function renderGuatiguara(data){
- const language=data.language==='es'?'es':'en';
- if(data.mode!=='info'){
-  app.innerHTML=`<main class="guatiguara-cover" aria-label="Parque Tecnológico Guatiguará"><img src="${GUATIGUARA_ART.cover}" alt="Parque Tecnológico Guatiguará"></main>`;
-  return;
- }
- const image=GUATIGUARA_ART[language].info;
- const cta=language==='es'?'Cuando estés listo, toca «Video institucional» en la tableta':'When you are ready, press “Institutional video” on the tablet';
- app.innerHTML=`<main class="guatiguara-display" aria-label="Parque Tecnológico Guatiguará information">${AI_ARTWORK(`${image}`,`alt="Parque Tecnológico Guatiguará information"`)}<section class="gt-display-cta"><i class="gt-cta-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m8 5 11 7-11 7z"/></svg></i><b>${cta}</b><span class="gt-cta-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M5.5 13l6.5 6.5 6.5-6.5"/></svg></span></section></main>`;
-}
-function renderGuatiguaraVideo(data){
- const english=data.language!=='es';
- const title=english?'Institutional video':'Video institucional';
- const message=english?'Coming soon: the project’s institutional video will be available here.':'Próximamente: aquí estará el video institucional del proyecto.';
- document.documentElement.lang=english?'en':'es';
- app.innerHTML=`<main class="guatiguara-video-placeholder"><header>${AI_BRAND.header()}</header><section><svg class="video-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m7 3 15 9-15 9z"/></svg><h1>Parque Tecnológico Guatiguará</h1><h2>${title}</h2><p>${message}</p></section></main>`;
 }
 function renderCostaRica(data){
  const language=data.language==='es'?'es':'en';
@@ -168,10 +145,7 @@ function render(data){
  if(isAquaData)return renderAquaData(data);
  const isCostaRica=data?.projectId==='03'&&data?.view!=='home';
  if(isCostaRica)return renderCostaRica(data);
- if(data?.projectId==='04'&&data?.view!=='home'){
-  if(['video','game','results'].includes(data.mode))return renderGuatiguaraVideo(data);
-  return renderGuatiguara(data);
- }
+ if(data?.projectId==='04'&&data?.view!=='home')return window.GUATIGUARA.renderInto(app,data);
  const isTeachy=data?.projectId==='08'&&data?.view!=='home';
  if(isTeachy)return renderTeachy(data);
  const isBogotaTraffic=data?.projectId==='02'&&data?.view==='overview'&&data?.section==='info';
