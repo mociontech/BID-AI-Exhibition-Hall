@@ -12,6 +12,17 @@
   final:'TABLET/ES/00 Portada-2.png'
  };
  const asset=name=>new URL('assets/branding/'+(files[name]||name),base).href;
+ // Original user exports: the extra 28/60 pixels are Figma labels, outside
+ // the 1920 x 1080 screen. Clip them in CSS; never resample the source PNGs.
+ const supplied={
+  intro:[3177,0,1080],tvIntro:[3178,0,1080],easy:[3197,28,1108],tvEasy:[3180,0,1080],
+  easyResult:[3198,60,1140],tvEasyResult:[3182,0,1080],zoom:[3183,60,1140],tvZoom:[3184,0,1080],
+  manual:[3185,60,1140],tvManual:[3186,0,1080],
+  manualResult:[3187,0,1080],tvManualResult:[3188,0,1080],activation:[3189,0,1080],tvActivation:[3190,0,1080],
+  analysis:[3191,0,1080],tvAnalysis:[3192,0,1080],assisted:[3193,0,1080],tvAssisted:[3194,0,1080],
+  final:[3195,0,1080],tvFinal:[3196,28,1108]
+ };
+ const suppliedAsset=key=>new URL('assets/screens-2026-11/Group 214721'+supplied[key][0]+'.png',base).href;
  const warmed=new Set();
  function warm(url){if(warmed.has(url))return;warmed.add(url);const image=new Image();image.src=url;}
  const next={landing:['info','intro'],tvLanding:['info','tvIntro'],intro:['easy'],tvIntro:['tvEasy'],easy:['easyResult'],tvEasy:['tvEasyResult'],easyResult:['manual'],tvEasyResult:['tvManual'],manual:['manualResult'],tvManual:['tvManualResult'],manualResult:['intro','analysis'],tvManualResult:['tvIntro','tvAnalysis'],analysis:['assisted'],tvAnalysis:['tvAssisted'],assisted:['easyResult'],tvAssisted:['final']};
@@ -29,7 +40,8 @@
   const kind=options.kind||'hard',level=MAIIA.config[kind],ratio=level.width/level.height;
   const [x,y,w,h]=rect,fitW=Math.min(w,h*ratio),fitH=fitW/ratio,pad=options.decorative?14:0;
   // Keep the entire approved image visible at its original aspect ratio.
-  return `<div class="mai-art-map-slot" style="${box([x-pad,y-pad,w+pad*2,h+pad*2])}"><div class="mai-art-map mai-controller-canvas ${cls}" style="${box([pad+(w-fitW)/2,pad+(h-fitH)/2,fitW,fitH])}">${MAIIA.map(s,options)}</div></div>`;
+  const label=cls.includes('mai-modern-canvas')?`<span class="mai-modern-view-label">${kind==='easy'?'Close-up view':'Territory view'}</span>`:'';
+  return `<div class="mai-art-map-slot" style="${box([x-pad,y-pad,w+pad*2,h+pad*2])}"><div class="mai-art-map mai-controller-canvas ${cls}" style="${box([pad+(w-fitW)/2,pad+(h-fitH)/2,fitW,fitH])}">${MAIIA.map(s,options)}${label}</div></div>`;
  }
  function navigation(s){
   const back=[1492,28,250,70],full=[1790,34,58,58];
@@ -145,6 +157,78 @@
   return {screen:landing?'tvLanding':screens[p],html,cls:'mai-tv-map-layout '+(landing?'mai-landing':p==='intro'?'mai-intro':p==='activation'?'mai-activation':'mai-game-area')};
  }
 
+ function suppliedButton(rect,action,label,disabled=false){
+  return (disabled?`<span class="mai-supplied-inactive" style="${box(rect)}" aria-hidden="true"></span>`:'')+hit(rect,action,label,{disabled});
+ }
+ function suppliedNavigation(){
+  return `<nav class="mai-art-navigation" aria-label="Exhibition navigation"><a class="mai-art-hit" style="${box([56,20,710,84])}" href="/index.html${esc(AI_SYNC.stationQuery)}&amp;projects=1" data-action="home" aria-label="Home: back to all projects"></a>${hit([1720,38,132,50],'menu','Back to MAIIA start')}</nav>`;
+ }
+ const suppliedMap=(s,rect,options={})=>liveMap(s,rect,options,'mai-modern-canvas');
+ // Keep all static instructions, headings and legends in the supplied PNG.
+ // Only live maps, actual result values and interaction status cover artwork.
+ function suppliedTablet(s){
+  const g=s.game,p=g.phase,t=MAIIA.words.en,total=MAIIA.config.hard.reference.length;
+  let html='',cls=p==='intro'?'mai-intro':p==='activation'?'mai-activation':p==='final'?'mai-final-map':'mai-controller';
+  if(p==='intro')html+=suppliedButton([1500,893,300,70],'start',"Let's try finding informal settlements");
+  else if(p==='activation'){
+   html+=suppliedMap(s,[788,257,1065,600],{readonly:true});
+   html+=suppliedButton([1553,915,300,70],'activate','Run MAIIA');
+  }else{
+   const easy=p==='easy'||p==='easyResult',analysis=p==='analysis',final=p==='final',review=p.endsWith('Result');
+   html+=suppliedMap(s,mapRect,{kind:easy?'easy':'hard',reference:final||p==='easyResult',candidates:analysis||p==='assisted',answers:final,readonly:review||analysis||final,scan:analysis});
+   if(p==='easy'){
+    html+=patch([70,610,240,65],`${g.polygons.length} ${g.polygons.length===1?'area outlined':'areas outlined'}`,'mai-supplied-area-count');
+    html+=suppliedButton([340,960,250,70],'undo','Undo last area',!g.polygons.length&&!g.draft.length);
+    html+=suppliedButton([622,960,250,70],'clear','Clear all drawn areas',!g.polygons.length&&!g.draft.length);
+    html+=suppliedButton([1260,960,320,70],'review','Check my map');
+   }else if(p==='easyResult'){
+    html+=patch([340,202,1400,42],`${g.easyScore}% overlap with the demo reference`,'mai-supplied-hint');
+    html+=suppliedButton([1280,960,300,70],'next','Next: Scale');
+   }else if(p==='manual'){
+    html+='<div class="mai-zoom-controls">';
+    html+=patch([710,960,550,70],`${g.markers.length} of 5 pins placed`,'mai-supplied-count');
+    html+=suppliedButton([340,960,250,70],'clear','Clear all markers',!g.markers.length);
+    html+=suppliedButton([1280,960,300,70],'review',"I'm ready")+'</div>';
+   }else if(p==='manualResult'){
+    html+=patch([340,202,1400,42],`${g.manual.hits} / ${total} informal areas found · ${g.manual.score}% score`,'mai-supplied-hint');
+    html+=patch([340,960,850,70],MAIIA.markerLegend(s),'mai-art-final-legend mai-manual-review-legend');
+    html+=suppliedButton([1230,960,350,70],'next','Next: scale with AI');
+   }else if(analysis){
+    html+=`<div class="mai-art-progress mai-analysis-progress" style="${box([340,961,1240,8])}" aria-hidden="true"><i></i></div>`;
+   }else if(p==='assisted'){
+    html+=patch([622,960,620,70],`${g.selected.length} ${g.selected.length===1?'suggestion kept':'suggestions kept'}`,'mai-supplied-count mai-supplied-kept-count');
+    html+=suppliedButton([340,960,250,70],'clear','Clear selected suggestions',!g.selected.length);
+    html+=suppliedButton([1280,960,300,70],'review','Compare');
+   }else if(final){
+    html+=suppliedButton([1280,960,300,70],'replay','Try again');
+   }
+  }
+  return {screen:p,html,cls,modern:true};
+ }
+ function suppliedTelevision(s){
+  const g=s.game,p=g.phase,t=MAIIA.words.en,total=MAIIA.config.hard.reference.length;
+  const screen='tv'+p[0].toUpperCase()+p.slice(1);let html='';
+  if(p==='final'){
+   for(const [i,r]of [g.manual,g.assisted].entries())html+=patch([i?1060:355,482,505,237],`<strong>${r.score}%</strong><p><b>${r.hits} / ${total}</b> areas found<br><b class="mai-result-errors">${r.errors} ${r.errors===1?'pick did not count':'picks did not count'}</b></p>`,'mai-scorecard '+(i?'mai-scorecard-assisted':''));
+   return {screen,html,cls:'mai-final',modern:true};
+  }
+  const easy=['intro','easy','easyResult'].includes(p),analysis=p==='analysis';
+  html+=suppliedMap(s,tvMap,{kind:easy?'easy':'hard',decorative:p==='intro',reference:p==='easyResult',candidates:analysis||p==='assisted',readonly:true,scan:analysis});
+  if(p==='easy')html+=patch([1420,888,424,60],`${g.polygons.length} ${g.polygons.length===1?'area outlined':'areas outlined'}`,'mai-supplied-tv-counter');
+  else if(p==='easyResult'){
+   html+=patch([1420,590,424,190],`<span>You identified</span><strong>${g.easyScore}%</strong>`,'mai-supplied-overlap');
+  }else if(p==='manual'){
+   html+=patch([1420,960,424,60],`${g.markers.length} ${g.markers.length===1?'area outlined':'areas outlined'}`,'mai-supplied-tv-counter mai-zoom-controls');
+  }else if(p==='manualResult'){
+   html+=patch([1420,461,424,50],`${g.manual.hits} of ${total} informal areas found`,'mai-supplied-tv-body');
+   html+=patch([1420,515,424,135],`${g.manual.hits} / ${total}`,'mai-big-score');
+   html+=patch([48,976,1296,58],MAIIA.markerLegend(s),'mai-art-final-legend mai-manual-review-legend');
+  }else if(p==='assisted'){
+   html+=patch([1420,970,424,60],`${g.selected.length} ${g.selected.length===1?'area outlined':'areas outlined'}`,'mai-supplied-tv-counter');
+  }
+  return {screen,html,cls:'mai-tv-map-layout '+(p==='intro'?'mai-intro':p==='activation'?'mai-activation':'mai-game-area'),modern:true};
+ }
+
  // Animate the SVG camera, including its overlays, in the same coordinate system
  // used by pointer input. TV playback starts on receipt so network delay cannot
  // consume its transition; subsequent snapshots preserve that local playback.
@@ -161,6 +245,14 @@
   const elapsed=readonly&&playback?.at===at?()=>performance.now()-playback.started:()=>AI_SYNC.now()-at;
   const territoryDuration=MAIIA.config.timing.territoryMs;
   if(elapsed()>=territoryDuration)return;
+  // The ZIP supplies separate transition and pin-placement screens. Keep the
+  // same live map/camera, changing only the background when zoom-out finishes.
+  const art=mount.querySelector('.mai-approved-art'),main=mount.querySelector('.mai-app');
+  function cameraArtwork(key){
+   art.src=suppliedAsset(key);art.style.top=`-${supplied[key][1]}px`;art.style.height=`${supplied[key][2]}px`;
+  }
+  cameraArtwork(readonly?'tvZoom':'zoom');main.classList.add('mai-zooming');
+  warm(suppliedAsset(readonly?'tvManual':'manual'));
   const [ex,ey,ew,eh]=MAIIA.config.easy.territoryCrop,[hx,hy,hw,hh]=MAIIA.config.hard.crop;
   const from=[(ex-hx)/hw*1000,(ey-hy)/hh*562.5,ew/hw*1000,eh/hh*562.5],to=[0,0,1000,562.5];
   // Fade the higher-resolution close-up over the corresponding wide-map crop.
@@ -174,7 +266,7 @@
    svg.setAttribute('viewBox',from.map((v,i)=>v+(to[i]-v)*ease).join(' '));
    close.style.opacity=String(Math.max(0,1-progress*1.6));MAIIA.updateMapScales(mount);
    if(progress<1)cameras.set(mount,requestAnimationFrame(frame));
-   else{svg.setAttribute('viewBox','0 0 1000 562.5');close.remove();svg.classList.remove('mai-territory-zoom');cameras.delete(mount);MAIIA.updateMapScales(mount);}
+   else{svg.setAttribute('viewBox','0 0 1000 562.5');close.remove();svg.classList.remove('mai-territory-zoom');cameras.delete(mount);MAIIA.updateMapScales(mount);cameraArtwork(readonly?'tvManual':'manual');main.classList.remove('mai-zooming');}
   }
   frame();
  }
@@ -184,19 +276,20 @@
  window.addEventListener('resize',scale);
  function renderInto(mount,state,{readonly=false}={}){
   const s={...state,language:'en',game:state.game||MAIIA_STATE.fresh()};
-  const art=readonly?television(s):tablet(s),phase=s.mode==='game'?s.game.phase:s.mode==='info'&&readonly?'information':'landing';
+  const art=s.mode==='game'?(readonly?suppliedTelevision(s):suppliedTablet(s)):(readonly?television(s):tablet(s)),phase=s.mode==='game'?s.game.phase:s.mode==='info'&&readonly?'information':'landing';
   const t=MAIIA.words.en,titles={intro:t.introTitle,easy:t.easyTitle,easyResult:t.easyResult,manual:t.manualTitle,manualResult:t.manualResult,activation:t.activationTitle,analysis:t.analysisTitle,assisted:t.assistedTitle,final:t.finalTitle};
   const label=s.mode==='game'?titles[s.game.phase]:s.mode==='info'&&readonly?'MAIIA information':'MAIIA main menu';
   const wasCloseUp=!!mount.querySelector('.mai-phase-intro,.mai-phase-easy,.mai-phase-easyResult');
   document.documentElement.lang='en';
-  mount.innerHTML=`<main class="mai-app mai-branded ${readonly?'mai-tv':'mai-tablet'} mai-phase-${phase}" data-language="en" aria-label="${label}"><div class="mai-artboard"><section class="mai-art-content ${art.cls}" aria-label="${label}"><img class="mai-approved-art" src="${asset(art.screen)}" alt="" draggable="false" aria-hidden="true"><p class="mai-art-sr">${label}. ${s.mode==='game'&&s.game.phase==='intro'?esc(MAIIA.words.en.introText):''}</p>${art.html}</section>${readonly?'':navigation(s)}${readonly||s.game.phase==='analysis'&&s.mode==='game'?'':`<small class="mai-art-disclaimer">${esc(MAIIA.words.en.demo)}</small>`}${readonly?'':'<div class="mai-feedback" role="status" aria-live="polite"></div>'}</div></main>`;
+  const imageSrc=art.modern?suppliedAsset(art.screen):asset(art.screen),imageStyle=art.modern?`top:-${supplied[art.screen][1]}px;height:${supplied[art.screen][2]}px;`:'';
+  mount.innerHTML=`<main class="mai-app mai-branded ${art.modern?'mai-new-screen':''} ${readonly?'mai-tv':'mai-tablet'} mai-phase-${phase}" data-language="en" aria-label="${label}"><div class="mai-artboard"><section class="mai-art-content ${art.cls}" aria-label="${label}"><img class="mai-approved-art" src="${imageSrc}" style="${imageStyle}" alt="" draggable="false" aria-hidden="true"><p class="mai-art-sr">${label}. ${s.mode==='game'&&s.game.phase==='intro'?esc(MAIIA.words.en.introText):''}</p>${art.html}</section>${readonly?'':art.modern?suppliedNavigation():navigation(s)}${readonly||art.modern?'':`<small class="mai-art-disclaimer">${esc(MAIIA.words.en.demo)}</small>`}${readonly?'':'<div class="mai-feedback" role="status" aria-live="polite"></div>'}</div></main>`;
   mount.querySelectorAll('.mai-art-map .mai-map').forEach(svg=>svg.setAttribute('preserveAspectRatio','none'));
   if(s.game.phase==='analysis'&&s.game.analysisAt)mount.querySelector('.mai-app').style.setProperty('--elapsed',`-${Math.max(0,AI_SYNC.now()-s.game.analysisAt)}ms`);
   territoryCamera(mount,s,{readonly,wasCloseUp});
   warm(MAIIA.config.easy.image);warm(MAIIA.config.hard.image);
-  const image=mount.querySelector('.mai-approved-art'),preload=()=>{for(const name of next[art.screen]||[])warm(asset(name));};
+  const image=mount.querySelector('.mai-approved-art'),preload=()=>{if(art.modern){const name=next[art.screen]?.[0];if(name&&supplied[name])warm(suppliedAsset(name));}else for(const name of next[art.screen]||[])warm(asset(name));};
   if(image.complete)preload();else image.addEventListener('load',preload,{once:true});
   scale();
  }
- window.MAIIA_ARTWORK={renderInto,files,asset};
+ window.MAIIA_ARTWORK={renderInto,files,asset,supplied,suppliedAsset};
 })();
