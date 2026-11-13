@@ -50,7 +50,7 @@ try{
  assert.equal(target.search,'?'+tq.toString());
  await tablet.bringToFront();await tablet.screenshot({path:fileURLToPath(new URL('menu-tablet.png',out))});
  await card.click();
- const frame=()=>tablet.frameLocator('iframe');
+ const frame=()=>tablet.frameLocator('[data-rise-device="tablet"]');
  const scene=async(sc,ip)=>{
   for(const page of [tablet,tv])await page.waitForFunction(({sc,ip})=>{const s=document.querySelector('[data-rise-device]')?.contentWindow?.S;return s?.sc===sc&&(ip===undefined||s.ip===ip);},{sc,ip});
   assert.equal(new URL(tablet.url()).searchParams.get('station'),tq.get('station'));assert.equal(new URL(tablet.url()).searchParams.get('room'),tq.get('room'));
@@ -67,21 +67,21 @@ try{
  await frame().locator('[data-deal="1"]').click();
  await frame().locator('[data-go="read"]').click();await scene('read');
  await frame().locator('[data-run]').click();
- await tablet.waitForFunction(()=>document.querySelector('iframe')?.contentWindow?.S?.run===2);
+ await tablet.waitForFunction(()=>document.querySelector('[data-rise-device]')?.contentWindow?.S?.run===2);
  await frame().locator('[data-go="decide"]').click();await scene('decide');
  await tablet.reload();await scene('decide');
  await frame().locator('[data-lang="es"]').click();
- await tv.waitForFunction(()=>document.querySelector('iframe')?.contentDocument?.documentElement.lang==='es');
+ await tv.waitForFunction(()=>document.querySelector('[data-rise-device]')?.contentDocument?.documentElement.lang==='es');
  await frame().locator('[data-go="time"]').click();await scene('time');
  await frame().locator('[data-tp]').click();
- await tv.waitForFunction(()=>document.querySelector('iframe')?.contentWindow?.S?.tp===1);
+ await tv.waitForFunction(()=>document.querySelector('[data-rise-device]')?.contentWindow?.S?.tp===1);
  await frame().locator('[data-go="sup"]').click();await scene('sup');
  await frame().locator('[data-sup]').click();await frame().locator('[data-act="2"]').waitFor();
  await frame().locator('[data-act="2"]').click();await frame().locator('[data-go="loop"]').click();await scene('loop');
  await frame().getByRole('button',{name:'Atrás',exact:true}).click();await scene('sup');
  for(const page of [tablet,tv]){
-  assert.deepEqual(await page.locator('iframe').evaluate(f=>[f.contentWindow.S.deal,f.contentWindow.S.act]),[1,2]);
-  assert.deepEqual(await page.locator('iframe').evaluate(f=>Object.keys(f.contentWindow.__i18nMiss||{})),[]);
+  assert.deepEqual(await page.locator('[data-rise-device]').evaluate(f=>[f.contentWindow.S.deal,f.contentWindow.S.act]),[1,2]);
+  assert.deepEqual(await page.locator('[data-rise-device]').evaluate(f=>Object.keys(f.contentWindow.__i18nMiss||{})),[]);
  }
  check('full review, real tablet reload, EN/ES, manual Play/reports, chosen insight and Back synchronized');
  await frame().locator('[data-home]').click();await tablet.locator('[data-project="11"]').waitFor();
