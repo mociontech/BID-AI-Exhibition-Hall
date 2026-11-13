@@ -19,7 +19,7 @@ test('Teachy ships its supplied tablet, infographic and video resources',()=>{
  const video=path.join(folder,'Video','Teachy_Musica_v2_web.mp4');
  assert.ok(fs.existsSync(video));
  assert.ok(fs.statSync(video).size<100*1024*1024,'GitHub rejects files over 100 MB');
- for(const [file,width,height] of [['teachy-portada-en.png',1672,941],['teachy-infografia-en.png',1920,1080],['teachy-infografia-base.png',1920,1080]]){
+ for(const [file,width,height] of [['teachy-menu-en.png',1920,1080],['teachy-infografia-en.png',1920,1080],['teachy-infografia-base.png',1920,1080]]){
   const png=fs.readFileSync(path.join(folder,'Public',file));
   assert.equal(png.readUInt32BE(16),width);assert.equal(png.readUInt32BE(20),height);
  }
@@ -27,12 +27,13 @@ test('Teachy ships its supplied tablet, infographic and video resources',()=>{
  assert.match(experience,/Teachy_Musica_v2_web\.mp4/);
  assert.match(experience,/data\.mode==='video'/);
  assert.match(experience,/data\.mode==='info'/);
+ // Touch zones and the Back pill are drawn by experience.js (tabletMenu); module.js handles the actions.
+ for(const action of ['video','information','home'])assert.ok(experience.includes("hit('"+action+"'"),action);
+ assert.match(experience,/data-action="back"/);
+ assert.match(experience,/Select an option on the tablet/);
+ assert.match(experience,/When you are ready, tap “Video” on the tablet/);
  const controller=fs.readFileSync(path.join(folder,'module.js'),'utf8');
- assert.match(controller,/data-action="video"/);
- assert.match(controller,/data-action="information"/);
- assert.match(controller,/data-action="back"/);
- assert.match(controller,/data-action="home"/);
- assert.doesNotMatch(controller,/teachy-hit--video" type="button" disabled/);
+ for(const action of ['video','information','back','home'])assert.ok(controller.includes("action==='"+action+"'"),action);
 });
 
 test('the tablet home uses ten visual positions',()=>{

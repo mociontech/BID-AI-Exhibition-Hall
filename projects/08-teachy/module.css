@@ -1,56 +1,38 @@
-/* The client-supplied main-menu PNG (1672 × 941) defines the complete tablet visual. */
-.teachy-tablet{
- width:100%;height:100dvh;display:grid;place-items:center;
- overflow:hidden;background:#fff;
-}
-.teachy-artboard{
- position:relative;width:min(100dvw,177.6833156dvh);aspect-ratio:1672 / 941;
- overflow:hidden;container-type:inline-size;
-}
-.teachy-tablet-image{
- display:block;width:100%;height:100%;object-fit:contain;
- user-select:none;pointer-events:none;
-}
-.teachy-controls{position:absolute;inset:0}
-.teachy-hit{
- position:absolute;border:0;padding:0;background:transparent;cursor:pointer;
- border-radius:1.5cqw;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-}
-.teachy-hit:focus-visible,.teachy-back:focus-visible{
- outline:4px solid #003fb4;outline-offset:2px;
-}
-/* Positions in % of the 1672 × 941 artwork. */
-.teachy-hit--fullscreen{left:4.19%;top:20.19%;width:24.88%;height:4.04%;border-radius:99px}
-.teachy-hit--home{left:88.4%;top:2.34%;width:8.25%;height:7.23%;border-radius:99px}
-.teachy-hit--info{left:4.19%;top:62.17%;width:44.98%;height:27.52%}
-.teachy-hit--video{left:50.84%;top:62.17%;width:45.45%;height:27.52%}
-.teachy-hit--home:focus-visible{outline-color:#fff}
+/* ===== Main menu PNG supplied on 13 Nov 2026 (tablet + TV, experience.js → frame) =====
+   1 unit (--u) = 1 px of the 1920 × 1080 artwork. The blue bar (126 px) stays at the top and the
+   body (954 px) is centred in the space left; at 16:9 the screen is the PNG pixel for pixel. */
+.tcm-menu{--u:min(calc(100vw / 1920),calc(100dvh / 1080));position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;background:#fff;font-family:Inter,'Segoe UI',Arial,sans-serif}
+.tcm-bar{flex:none;height:calc(126 * var(--u));display:flex;justify-content:center;background:#005cff}
+.tcm-body{flex:1;min-height:0;display:grid;place-items:center}
+.tcm-band{position:relative;flex:none;width:calc(1920 * var(--u));background-image:var(--art);background-repeat:no-repeat;background-size:calc(1920 * var(--u)) calc(1080 * var(--u))}
+.tcm-band--bar{height:calc(126 * var(--u));background-position:0 0}
+.tcm-band--body{height:calc(954 * var(--u));background-position:0 calc(-126 * var(--u))}
+.tcm-hit{position:absolute;border:0;padding:0;background:transparent;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.tcm-hit--home{left:calc(1720 * var(--u));top:calc(38 * var(--u));width:calc(132 * var(--u));height:calc(50 * var(--u));border-radius:99px}
+.tcm-hit--home::before,.tcm-back::before{content:'';position:absolute;inset:calc(-22 * var(--u)) calc(-10 * var(--u))}
+.tcm-hit--information,.tcm-hit--video{top:calc(517 * var(--u));width:calc(854 * var(--u));height:calc(267 * var(--u));border-radius:calc(22 * var(--u))}
+.tcm-hit--information{left:calc(67 * var(--u))}
+.tcm-hit--video{left:calc(1001 * var(--u))}
+.tcm-hit[aria-pressed="true"]{box-shadow:inset 0 0 0 calc(4 * var(--u)) #005cff}
+.tcm-hit:active{background:#005cff14}
+.tcm-hit:focus-visible,.tcm-back:focus-visible{outline:calc(4 * var(--u)) solid #f8b944;outline-offset:calc(3 * var(--u))}
+/* Back: same outlined pill as Home in the artwork, shown only while the TV shows the infographic or the video. */
+.tcm-back{position:absolute;right:calc(220 * var(--u));top:calc(38 * var(--u));box-sizing:border-box;display:inline-flex;align-items:center;gap:calc(14 * var(--u));height:calc(50 * var(--u));padding:0 calc(28 * var(--u)) 0 calc(22 * var(--u));border:1px solid #fff;border-radius:99px;background:transparent;color:#fff;font:700 calc(16.75 * var(--u))/1 Inter,'Segoe UI',Arial,sans-serif;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;animation:tcm-back-in .35s ease both}
+.tcm-back[hidden]{display:none}
+.tcm-back svg{flex:none;width:calc(18 * var(--u));height:calc(16 * var(--u))}
+.tcm-back:active{background:#ffffff26}
+@keyframes tcm-back-in{from{opacity:0;transform:translateX(calc(14 * var(--u)))}to{opacity:1;transform:none}}
+/* TV guidance pill of the main menu (same as AquaData, PredictToDo, Guatiguará and RegLAC): 390 × 64 blue pill centred under the cards. */
+.tcm-cta{position:absolute;left:50%;top:calc(834 * var(--u));transform:translateX(-50%);box-sizing:border-box;display:flex;align-items:center;gap:calc(15 * var(--u));height:calc(64 * var(--u));padding:0 calc(47 * var(--u)) 0 calc(27 * var(--u));border-radius:999px;background:#005cff;color:#fff;white-space:nowrap;animation:tcm-cta-in .5s ease .3s both}
+.tcm-cta svg{flex:none;width:calc(28 * var(--u));height:calc(21.3 * var(--u))}
+.tcm-cta strong{font:700 calc(19.1 * var(--u))/1 Inter,'Segoe UI',Arial,sans-serif;letter-spacing:0}
+@keyframes tcm-cta-in{from{opacity:0;transform:translate(-50%,calc(12 * var(--u)))}to{opacity:1;transform:translate(-50%,0)}}
 
-/* Back: same pill as "Start" in the artwork, shown only while the TV shows the infographic or the video. */
-.teachy-back{
- position:absolute;left:80.44%;top:3.4%;width:7.48%;height:5.1%;
- display:flex;align-items:center;justify-content:center;gap:.55cqw;
- padding:0;border:max(1px,.09cqw) solid #fff;border-radius:99px;
- background:#005cfe;color:#fff;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
- font:700 1.15cqw/1 Inter,'Segoe UI',Arial,sans-serif;
- animation:teachy-back-in .35s ease both;
-}
-.teachy-back[hidden]{display:none}
-.teachy-back::before{content:'';position:absolute;inset:-1.1cqw -.6cqw}
-.teachy-back svg{width:1.25cqw;height:1.25cqw;flex:none}
-.teachy-back:active{background:#0a4fd6}
-.teachy-back:focus-visible{outline-color:#fff}
-@keyframes teachy-back-in{from{opacity:0;transform:translateX(.8cqw)}to{opacity:1;transform:none}}
-
-/* TV: the main menu and the video fill the screen, also at the exhibition TV's 1920 × 1080. */
+/* TV: the infographic and the video fill the screen, also at the exhibition TV's 1920 × 1080. */
 .teachy-display{
  position:fixed;inset:0;width:100dvw;height:100dvh;
  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);
  padding:0;margin:0;overflow:hidden;background:#fff;
-}
-.teachy-display-image{
- display:block;width:100%;height:100%;min-width:0;min-height:0;
- max-width:none;max-height:none;object-fit:contain;
 }
 .teachy-display--video{background:#fff}
 .teachy-display-video{
@@ -98,4 +80,13 @@
 .tch-sheet.is-animated .tch-value>.tch-crop{animation:tch-rise .9s cubic-bezier(.2,.8,.2,1) calc(4.2s + var(--i) * .45s) both}
 .tch-sheet.is-animated .tch-label>.tch-crop{animation:tch-focus .8s cubic-bezier(.2,.8,.2,1) calc(4.45s + var(--i) * .45s) both}
 .tch-sheet.is-animated .tch-stage{animation:tch-drift 14s ease-out 6.4s both}
-@media (prefers-reduced-motion:reduce){.tch-sheet *,.tch-sheet .tch-stage{animation:none!important}}
+/* TV guidance pill of the infographic: flat blue pill centred in the white area, shown when the sheet has
+   finished building; the arrow slides down and fades, then starts again from the top: it points at the tablet. */
+.tch-cta{position:absolute;z-index:2;left:calc(50% + 382 * var(--u));top:calc(50% + 416 * var(--u));transform:translateX(-50%);box-sizing:border-box;display:flex;align-items:center;gap:calc(15 * var(--u));height:calc(62 * var(--u));padding:0 calc(30 * var(--u)) 0 calc(27 * var(--u));border-radius:999px;background:#005cff;color:#fff;white-space:nowrap;font-family:Inter,'Segoe UI',Arial,sans-serif;animation:tch-cta-in .45s ease 6.2s both}
+.tch-cta>svg{flex:none;width:calc(29 * var(--u));height:calc(22 * var(--u))}
+.tch-cta strong{font:700 calc(19 * var(--u))/1.2 Inter,'Segoe UI',Arial,sans-serif}
+.tch-cta i{display:grid;place-items:center;flex:none;width:calc(24 * var(--u));height:calc(24 * var(--u));margin-left:calc(4 * var(--u));animation:tch-cta-drop 1.6s cubic-bezier(.45,0,.55,1) infinite}
+.tch-cta i svg{width:100%;height:100%}
+@keyframes tch-cta-in{from{opacity:0;transform:translate(-50%,calc(16 * var(--u)))}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes tch-cta-drop{0%{opacity:0;transform:translateY(-45%)}25%{opacity:1}60%{opacity:1;transform:translateY(8%)}100%{opacity:0;transform:translateY(45%)}}
+@media (prefers-reduced-motion:reduce){.tch-sheet *,.tch-sheet .tch-stage,.tcm-cta,.tcm-back{animation:none!important}}

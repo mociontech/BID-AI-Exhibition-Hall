@@ -2,19 +2,33 @@
    Both clients use only files in 08-teachy/Public and 08-teachy/Video.
    Keep the capital P and V: hosting paths are case-sensitive. */
 (function(){
- const version='?v=20261113-portada-1';
+ const version='?v=20261113-menu-1';
  const base=new URL('./Public/',document.currentScript.src);
  const videoBase=new URL('./Video/',document.currentScript.src);
  const asset=name=>new URL(name,base).href+version;
  const art={
-  /* Main menu supplied in November 2026 (1672 × 941, English). */
-  tablet:asset('teachy-portada-en.png'),
+  /* Main menu supplied on 13 Nov 2026 (1920 × 1080, English): tablet and TV. */
+  menu:asset('teachy-menu-en.png'),
   /* "About project" infographic (1920 × 1080) and the same sheet with its content erased,
      used as the empty blue panel, card frames and impact bar while the sheet builds. */
   info:asset('teachy-infografia-en.png'),
   infoBase:asset('teachy-infografia-base.png'),
   video:new URL('Teachy_Musica_v2_web.mp4',videoBase).href+version
  };
+ const words={
+  screen:'Teachy, IDB Lab: AI Co-Pilot for Teachers. About the project and Video.',
+  tvCta:'Select an option on the tablet',
+  infoCta:'When you are ready, tap “Video” on the tablet'
+ };
+ /* The menu artwork is drawn in two bands of the same 1920 × 1080 image: the blue bar (top 126 px)
+    stays at the top of the screen and the body (the remaining 954 px) is centred in the space
+    left, so 4:3 and 16:10 tablets keep it balanced. At 16:9 it is the PNG pixel for pixel. */
+ function frame(cls,bar,body){
+  return `<main class="tcm-menu ${cls}" lang="en" style="--art:url('${art.menu}')" aria-label="${words.screen}"><div class="tcm-bar"><div class="tcm-band tcm-band--bar">${bar}</div></div><div class="tcm-body"><div class="tcm-band tcm-band--body">${body}</div></div></main>`;
+ }
+ const TABLET_ICON='<svg viewBox="0 0 21 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x=".75" y=".75" width="19.5" height="14.5" rx="2.2"/></svg>';
+ const DOWN_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5.5 13l6.5 6.5 6.5-6.5"/></svg>';
+ const BACK_ICON='<svg viewBox="0 0 18 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.6 8H1.4M7.4 1.8 1.4 8l6 6.2"/></svg>';
 
  /* The infographic animated element by element, like the IDB reference
     "Iniciativa 2.2_animada_PRO" (same timing as the VUCE 3.0 sheet): the blue panel sweeps in,
@@ -67,9 +81,17 @@
     ${piece('tch-bar',s.bar,'base',null,facts)}
     <img class="tch-final" src="${art.info}" width="1920" height="1080" alt="Teachy infographic: the challenge, the solution and the impact to date">
    </div>
+   <div class="tch-cta" role="status">${TABLET_ICON}<strong>${words.infoCta}</strong><i aria-hidden="true">${DOWN_ICON}</i></div>
   </section>`;
  }
 
+ /* Tablet: the menu artwork with touch zones; the Back pill sits next to Home (module.js shows it). */
+ function tabletMenu(t){
+  const hit=(action,label,extra='')=>`<button type="button" class="tcm-hit tcm-hit--${action}" data-action="${action}" aria-label="${label}"${extra}></button>`;
+  return frame('tcm-menu--tablet',
+   `<button type="button" class="tcm-back" data-action="back" aria-label="${t.back}" hidden>${BACK_ICON}<span>Back</span></button>`+hit('home',t.home),
+   hit('information',t.info,' aria-pressed="false"')+hit('video',t.video,' aria-pressed="false"'));
+ }
  function renderVideo(mount){
   // Keep the running video when the same state arrives again.
   if(mount.querySelector('.teachy-display-video'))return;
@@ -87,8 +109,9 @@
   document.documentElement.lang='en';
   if(data.mode==='video')return renderVideo(mount);
   if(data.mode==='info')return renderInfo(mount);
-  if(mount.querySelector('.teachy-display--landing'))return;
-  mount.innerHTML=`<main class="teachy-display teachy-display--landing" aria-label="Teachy main screen"><img class="teachy-display-image" src="${art.tablet}" alt="Teachy: AI for a more personalized and efficient school" width="1672" height="941"></main>`;
+  /* TV main menu: the same artwork as the tablet plus the guidance pill under the cards. */
+  if(mount.querySelector('.tcm-menu--landing'))return;
+  mount.innerHTML=frame('tcm-menu--tv tcm-menu--landing','',`<div class="tcm-cta" role="status">${TABLET_ICON}<strong>${words.tvCta}</strong></div>`);
  }
- window.TEACHY={art,renderDisplay};
+ window.TEACHY={art,words,renderDisplay,tabletMenu};
 })();

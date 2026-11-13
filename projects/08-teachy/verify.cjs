@@ -19,32 +19,33 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
  }
  await tv.goto(base+'/display.html?station=9');
  await tablet.goto(base+'/projects/08-teachy/index.html?station=9');
- await tablet.waitForFunction(()=>document.querySelector('.teachy-tablet-image')?.complete);
- await tv.waitForSelector('.teachy-display--landing img');
+ await tablet.waitForSelector('.tcm-menu--tablet');
+ await tv.waitForSelector('.tcm-menu--landing .tcm-cta');
  await wait(600);
  await tablet.screenshot({path:path.join(out,'01-tablet-landing.png')});
  await tv.screenshot({path:path.join(out,'02-tv-landing.png')});
- assert.equal(await tablet.locator('.teachy-back').isVisible(),false);
+ assert.equal(await tablet.locator('.tcm-back').isVisible(),false);
  // About project
- await tablet.locator('.teachy-hit--info').tap();
+ await tablet.locator('.tcm-hit--information').tap();
  await tv.waitForSelector('.tch-sheet');
  const t0=Date.now();
  for(const at of [2300,7200]){
   await wait(Math.max(0,at-(Date.now()-t0)));
   await tv.screenshot({path:path.join(out,`03-tv-info-${String(at).padStart(4,'0')}.png`)});
  }
- assert.equal(await tablet.locator('.teachy-back').isVisible(),true);
+ assert.equal(await tablet.locator('.tcm-back').isVisible(),true);
+ assert.equal(await tv.locator('.tch-cta').isVisible(),true);
  await tablet.screenshot({path:path.join(out,'04-tablet-info.png')});
  // Republishing the same state must not restart the animation
  const sheetHandle=await tv.$('.tch-sheet');
- await tablet.locator('.teachy-hit--info').tap();await wait(800);
+ await tablet.locator('.tcm-hit--information').tap();await wait(800);
  assert.equal(await sheetHandle.evaluate(n=>n.isConnected),true,'sheet must not remount');
  // Back
- await tablet.locator('.teachy-back').tap();
- await tv.waitForSelector('.teachy-display--landing img');
- assert.equal(await tablet.locator('.teachy-back').isVisible(),false);
+ await tablet.locator('.tcm-back').tap();
+ await tv.waitForSelector('.tcm-menu--landing .tcm-cta');
+ assert.equal(await tablet.locator('.tcm-back').isVisible(),false);
  // Video
- await tablet.locator('.teachy-hit--video').tap();
+ await tablet.locator('.tcm-hit--video').tap();
  await tv.waitForSelector('.teachy-display-video');
  await tv.waitForFunction(()=>{const v=document.querySelector('.teachy-display-video');return v&&v.currentTime>1.5;},null,{timeout:20000});
  const v=await tv.evaluate(()=>{const v=document.querySelector('.teachy-display-video');return {w:v.videoWidth,h:v.videoHeight,dur:Math.round(v.duration),muted:v.muted,t:v.currentTime.toFixed(1),src:decodeURI(v.currentSrc).split('/').pop()};});
@@ -56,18 +57,18 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
   await tablet.setViewportSize(size);await wait(150);
   const layout=await tablet.evaluate(()=>({scrollX:document.documentElement.scrollWidth>innerWidth,scrollY:document.documentElement.scrollHeight>innerHeight}));
   assert.deepEqual(layout,{scrollX:false,scrollY:false});
-  const back=await tablet.locator('.teachy-back').boundingBox();
-  const start=await tablet.locator('.teachy-hit--home').boundingBox();
+  const back=await tablet.locator('.tcm-back').boundingBox();
+  const start=await tablet.locator('.tcm-hit--home').boundingBox();
   assert.ok(back.x+back.width<=start.x,'Back must not overlap Start');
  }
  await tablet.setViewportSize({width:1180,height:820});
- await tablet.locator('.teachy-back').focus();
- {const b=await tablet.locator('.teachy-back').boundingBox();await tablet.screenshot({path:path.join(out,'07-tablet-back-focus.png'),clip:{x:b.x-200,y:b.y-20,width:b.width+330,height:b.height+40}});}
+ await tablet.locator('.tcm-back').focus();
+ {const b=await tablet.locator('.tcm-back').boundingBox();await tablet.screenshot({path:path.join(out,'07-tablet-back-focus.png'),clip:{x:b.x-200,y:b.y-20,width:b.width+330,height:b.height+40}});}
  // Back from video
- await tablet.locator('.teachy-back').tap();
- await tv.waitForSelector('.teachy-display--landing img');
+ await tablet.locator('.tcm-back').tap();
+ await tv.waitForSelector('.tcm-menu--landing .tcm-cta');
  // Start → home menu
- await tablet.locator('.teachy-hit--home').tap();
+ await tablet.locator('.tcm-hit--home').tap();
  await tablet.waitForURL(u=>!u.pathname.includes('08-teachy'));
  await wait(800);
  const state=await (await tablet.request.get(base+'/api/state?station=9')).json();
