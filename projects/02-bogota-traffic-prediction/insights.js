@@ -42,7 +42,78 @@
  };
  const langOf=language=>language==='es'?'es':'en';
  function cta(text){return `<footer class="ptd-tv-cta"><div role="status"><span>${tabletIcon}</span><strong>${esc(text)}</strong><b aria-hidden="true">↓</b></div></footer>`;}
- function information({language,image,label}){const lang=langOf(language);return `<main class="ptd-tv-information" lang="${lang}"><div class="ptd-tv-art">${window.AI_ARTWORK(image,`class="ptd-tv-infographic" alt="${esc(label)}"`)}</div>${cta(copy[lang].infoCta)}</main>`;}
+ /* «About the project» (13 Nov 2026 infographic) assembled element by element, like the IDB reference
+    «Iniciativa 2.2_animada_PRO» (same choreography as stations 03 and 08): the blue panel sweeps in,
+    the title rises, then the challenge, the solution, each impact figure and the GitHub QR.
+    Every piece is a crop of the supplied PNG laid over the same sheet with its content erased,
+    so the finished frame is the PNG itself; at the end the full PNG fades in on top to remove any seam.
+    Boxes are in the 1920 × 1080 pixels of the PNG. */
+ const box=(x,y,w,h)=>({x,y,w,h});
+ const SHEET={
+  panel:box(0,0,764,1080),
+  logo:box(60,64,300,76),title:box(62,464,630,96),sub:box(62,570,512,54),unit:box(62,630,200,50),
+  cards:[
+   {frame:box(838,98,485,395),head:box(866,124,300,42),icon:box(868,187,122,122),text:box(868,326,380,140)},
+   {frame:box(1366,97,485,396),head:box(1394,123,272,42),icon:box(1396,186,122,122),text:box(1396,325,426,140)}
+  ],
+  impactTitle:box(866,534,300,42),
+  bar:box(838,592,1007,184),
+  facts:[
+   {value:box(874,614,244,67),label:box(874,681,170,57)},
+   {value:box(1212,614,230,62),label:box(1212,678,180,34),divider:box(1176,620,10,128)},
+   {value:box(1532,612,270,60),label:box(1532,676,200,58),divider:box(1500,620,10,128)}
+  ],
+  qr:box(854,837,131,130),
+  repo:[box(992,860,70,22),box(992,882,190,34),box(992,917,266,28)]
+ };
+ const sheetAlt={
+  es:'Infografía de PredictToDo: el reto, la solución, el impacto a la fecha y el código en GitHub',
+  en:'PredictToDo infographic: the challenge, the solution, the impact to date and the code on GitHub'
+ };
+ /* One cropped piece: --x/--y are relative to its parent piece, --sx/--sy pick the crop. */
+ function piece(cls,b,source,parent,inner='',style=''){
+  const px=parent?parent.x:0,py=parent?parent.y:0;
+  return `<span class="ptd-sh-el ${cls}" style="--x:${b.x-px};--y:${b.y-py};--w:${b.w};--h:${b.h};${style}"><i class="ptd-sh-crop ptd-sh-crop--${source}" style="--sx:${b.x};--sy:${b.y}"></i>${inner}</span>`;
+ }
+ function sheet(lang,image,base){
+  const s=SHEET;
+  const panel=piece('ptd-sh-panel',s.panel,'base',null,
+   piece('ptd-sh-logo',s.logo,'full',s.panel)+
+   piece('ptd-sh-rise',s.title,'full',s.panel,'','--t:1.2s')+
+   piece('ptd-sh-rise',s.sub,'full',s.panel,'','--t:1.5s')+
+   piece('ptd-sh-rise',s.unit,'full',s.panel,'','--t:1.8s'));
+  const cards=s.cards.map((c,i)=>piece(`ptd-sh-card ptd-sh-card--${i?'solution':'challenge'}`,c.frame,'base',null,
+   piece('ptd-sh-head',c.head,'full',c.frame)+
+   piece('ptd-sh-icon',c.icon,'full',c.frame)+
+   piece('ptd-sh-text',c.text,'full',c.frame),
+   `--d:${(1.8+i*.7).toFixed(1)}s`)).join('');
+  const facts=s.facts.map((f,i)=>
+   (f.divider?piece('ptd-sh-divider',f.divider,'full',s.bar,'',`--i:${i}`):'')+
+   piece('ptd-sh-value',f.value,'full',s.bar,'',`--i:${i}`)+
+   piece('ptd-sh-label',f.label,'full',s.bar,'',`--i:${i}`)).join('');
+  const repo=s.repo.map((b,i)=>piece('ptd-sh-repo',b,'full',null,'',`--i:${i}`)).join('');
+  // Absolute URLs: a relative url() inside a custom property may resolve against the stylesheet.
+  const abs=src=>{try{return new URL(src,document.baseURI).href;}catch{return src;}};
+  return `<section class="ptd-sh is-animated" style="--full:url('${esc(abs(image))}');--base:url('${esc(abs(base))}')" aria-label="${esc(sheetAlt[lang])}">
+   <i class="ptd-sh-veil" aria-hidden="true"></i><i class="ptd-sh-bleed" aria-hidden="true"></i>
+   <div class="ptd-sh-stage">
+    ${panel}${cards}
+    ${piece('ptd-sh-impact-title',s.impactTitle,'full',null)}
+    ${piece('ptd-sh-bar',s.bar,'base',null,facts)}
+    ${piece('ptd-sh-qr',s.qr,'full',null)}${repo}
+    <img class="ptd-sh-final" src="${esc(image)}" width="1920" height="1080" alt="${esc(sheetAlt[lang])}">
+    ${cta(copy[lang].infoCta)}
+   </div>
+  </section>`;
+ }
+ if(typeof Image!=='undefined'&&window.BOGOTA_TRAFFIC?.INFO_SHEET&&!/\/projects\//.test(location.pathname))new Image().src=window.BOGOTA_TRAFFIC.INFO_SHEET.base;
+ function information({language,image,label}){
+  const lang=langOf(language);
+  const art=window.BOGOTA_TRAFFIC?.INFO_SHEET;
+  // The crop boxes belong to that exact PNG; any other artwork falls back to the plain image.
+  if(art&&image===art.image)return `<main class="ptd-tv-information ptd-tv-information--sheet" lang="${lang}">${sheet(lang,image,art.base)}</main>`;
+  return `<main class="ptd-tv-information" lang="${lang}"><div class="ptd-tv-art">${window.AI_ARTWORK(image,`class="ptd-tv-infographic" alt="${esc(label)}"`)}</div>${cta(copy[lang].infoCta)}</main>`;
+ }
  function gameView(options){
   const phase=options.game?.phase||'intro';
   if(window.PREDICTTODO_CONTROL&&['explore','decision','result'].includes(phase))return window.PREDICTTODO_CONTROL.render({...options,readonly:true});

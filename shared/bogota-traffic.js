@@ -1,11 +1,14 @@
 /* User-supplied PredictToDo information artwork, shared by controller and TV. */
 (function(){
-  const INFO_IMAGES=Object.freeze({
-    // The replacement supplied by the client is a single English PNG.
-    // Both interface languages use that exact artwork; the UI stays bilingual.
-    es:'projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png',
-    en:'projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png'
+  // «About the project» infographic supplied on 13 Nov 2026 (a single English PNG, 1920 × 1080)
+  // and the same sheet with its content erased: the TV assembles the first from crops laid
+  // over the second (insights.js → sheet), so the finished frame is the supplied PNG.
+  const INFO_SHEET=Object.freeze({
+    image:'projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_2026-11_1920x1080.png',
+    base:'projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_2026-11_base.png'
   });
+  // Both interface languages use that exact artwork; the UI stays bilingual.
+  const INFO_IMAGES=Object.freeze({es:INFO_SHEET.image,en:INFO_SHEET.image});
   const SATELLITE_MAP_IMAGE='/assets/img/predicttodo/PredictToDo_Mapa_Satelital_Simulado.png';
   function infoImagePath(language){return INFO_IMAGES[language==='es'?'es':'en'];}
   // Compatibility helpers keep the generic display receiver small while all
@@ -16,5 +19,5 @@
     const satelliteImage=new Image();
     satelliteImage.src=SATELLITE_MAP_IMAGE;
   }
-  window.BOGOTA_TRAFFIC=Object.freeze({INFO_IMAGES,SATELLITE_MAP_IMAGE,infoImagePath,screen,imagePath});
+  window.BOGOTA_TRAFFIC=Object.freeze({INFO_SHEET,INFO_IMAGES,SATELLITE_MAP_IMAGE,infoImagePath,screen,imagePath});
 })();

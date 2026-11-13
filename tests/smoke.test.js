@@ -86,13 +86,19 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
 });
 
 test('PredictToDo information uses the new client-supplied 1920 x 1080 PNG',()=>{
- const imagePath='projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_Challenge_Solution_1920x1080.png';
- const artwork=fs.readFileSync(path.join(root,imagePath));
- assert.equal(artwork.readUInt32BE(16),1920);assert.equal(artwork.readUInt32BE(20),1080);
+ const imagePath='projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_2026-11_1920x1080.png';
+ const basePath='projects/02-bogota-traffic-prediction/assets/PredictToDo_Infographic_2026-11_base.png';
+ // The supplied sheet and its content-erased copy (the animation's background) share the same 1920 × 1080 grid.
+ for(const file of [imagePath,basePath]){
+  const artwork=fs.readFileSync(path.join(root,file));
+  assert.equal(artwork.readUInt32BE(16),1920,file);assert.equal(artwork.readUInt32BE(20),1080,file);
+ }
  const context={window:{}};
  vm.runInNewContext(fs.readFileSync(path.join(root,'shared','bogota-traffic.js'),'utf8'),context);
  assert.equal(context.window.BOGOTA_TRAFFIC.infoImagePath('es'),imagePath);
  assert.equal(context.window.BOGOTA_TRAFFIC.infoImagePath('en'),imagePath);
+ assert.equal(context.window.BOGOTA_TRAFFIC.INFO_SHEET.image,imagePath);
+ assert.equal(context.window.BOGOTA_TRAFFIC.INFO_SHEET.base,basePath);
  assert.match(context.window.BOGOTA_TRAFFIC.SATELLITE_MAP_IMAGE,/PredictToDo_Mapa_Satelital_Simulado\.png$/);
  const controller=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','module.js'),'utf8');
  const visual=fs.readFileSync(path.join(root,'projects','02-bogota-traffic-prediction','visual.js'),'utf8');

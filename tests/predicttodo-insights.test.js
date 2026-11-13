@@ -88,3 +88,29 @@ test('simulated hotspot markers match the counter for every event and action, in
   }
  }
 });
+
+test('PredictToDo information assembles the supplied infographic from crops and ends on the PNG itself',()=>{
+ vm.runInNewContext(fs.readFileSync(path.join(project,'..','..','shared','bogota-traffic.js'),'utf8'),context);
+ const sheet=context.window.BOGOTA_TRAFFIC.INFO_SHEET;
+ for(const language of ['es','en']){
+  const html=insights.information({language,image:sheet.image,label:'PredictToDo: Information'});
+  assert.match(html,/class="ptd-tv-information ptd-tv-information--sheet" lang="(es|en)"/);
+  assert.match(html,/class="ptd-sh is-animated"/);
+  // Blue panel, both card frames and the impact bar come from the erased copy;
+  // logo, title, subtitle, unit, 2 × (heading, icon, text), impact title, 2 dividers, 3 figures, 3 labels, QR and 3 repo lines from the PNG.
+  assert.equal((html.match(/ptd-sh-crop--base/g)||[]).length,4);
+  assert.equal((html.match(/ptd-sh-crop--full/g)||[]).length,23);
+  // Every crop stays inside the 1920 × 1080 sheet.
+  const crops=[...html.matchAll(/--w:(\d+);--h:(\d+);[^"]*"><i class="ptd-sh-crop ptd-sh-crop--\w+" style="--sx:(\d+);--sy:(\d+)"/g)];
+  assert.equal(crops.length,27);
+  for(const [,w,h,x,y] of crops)assert.ok(+x+ +w<=1920&&+y+ +h<=1080,`${x},${y} ${w}×${h}`);
+  // The last frame is the supplied PNG itself, with the guidance pill on top.
+  assert.ok(html.includes(`class="ptd-sh-final" src="${sheet.image}" width="1920" height="1080"`));
+  assert.match(html,language==='es'?/Experiencia interactiva/:/Interactive experience/);
+  assert.doesNotMatch(html,/data-action=/);
+ }
+ // The crops belong to that exact PNG: any other artwork falls back to the plain image.
+ context.window.AI_ARTWORK=(src,attributes)=>`<img src="${src}" ${attributes}>`;
+ const plain=insights.information({language:'en',image:'other.png',label:'PredictToDo: Information'});
+ assert.match(plain,/ptd-tv-infographic/);assert.doesNotMatch(plain,/ptd-sh/);
+});

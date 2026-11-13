@@ -54,3 +54,56 @@
 .ptd-tv-cta>div>b,.cc-notice-arrow{animation:ptd-guidance-down 2.4s ease-in-out infinite}
 @keyframes ptd-guidance-down{0%,100%{transform:translateY(-1.5px)}50%{transform:translateY(1.5px)}}
 @media(prefers-reduced-motion:reduce){.ptd-tv-cta>div>b,.cc-notice-arrow{animation:none;transform:none}}
+
+/* «About the project» (13 Nov 2026): the supplied infographic assembled element by element (insights.js → sheet).
+   1920 × 1080 grid, 1 unit = --u. Same choreography as stations 03 and 08 («Iniciativa 2.2_animada_PRO»).
+   On screens that are not 16:9 the blue panel bleeds to the edge instead of leaving white bands. */
+.ptd-sh{--u:min(calc(100vw / 1920),calc(100vh / 1080));position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;background:#fff}
+.ptd-sh-stage{position:relative;width:calc(1920 * var(--u));height:calc(1080 * var(--u))}
+.ptd-sh-veil,.ptd-sh-bleed{position:absolute;left:0;top:0;bottom:0;display:block;pointer-events:none}
+.ptd-sh-veil{width:calc((100% - 1920 * var(--u)) / 2 + 834 * var(--u));background:#7fa7ff;opacity:0}
+.ptd-sh-bleed{width:calc((100% - 1920 * var(--u)) / 2 + 764 * var(--u));background:#005cff}
+.ptd-sh-el{position:absolute;left:calc(var(--x) * var(--u));top:calc(var(--y) * var(--u));width:calc(var(--w) * var(--u));height:calc(var(--h) * var(--u));overflow:hidden}
+.ptd-sh-crop{position:absolute;inset:0;display:block;background-repeat:no-repeat;background-size:calc(1920 * var(--u)) calc(1080 * var(--u));background-position:calc(var(--sx) * -1 * var(--u)) calc(var(--sy) * -1 * var(--u))}
+.ptd-sh-crop--full{background-image:var(--full)}
+.ptd-sh-crop--base{background-image:var(--base)}
+.ptd-sh-panel,.ptd-sh-card,.ptd-sh-bar,.ptd-sh-icon,.ptd-sh-qr{overflow:visible}
+.ptd-sh-icon::after{content:'';position:absolute;inset:calc(6 * var(--u));border:calc(2 * var(--u)) solid #8fb3ff;border-radius:50%;opacity:0;pointer-events:none}
+.ptd-sh-final{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* Guidance pill under the impact bar, in the empty white strip of the sheet. */
+.ptd-sh-stage>.ptd-tv-cta{position:absolute;z-index:2;left:calc(838 * var(--u));top:calc(992 * var(--u));width:calc(1007 * var(--u));min-height:0;padding:0;background:transparent;pointer-events:none}
+.ptd-sh-stage>.ptd-tv-cta>div{gap:calc(12 * var(--u));padding:calc(6 * var(--u)) calc(22 * var(--u)) calc(6 * var(--u)) calc(6 * var(--u));box-shadow:none}
+.ptd-sh-stage>.ptd-tv-cta strong{font-size:calc(23 * var(--u))}
+.ptd-sh-stage>.ptd-tv-cta>div>span{width:calc(40 * var(--u));height:calc(40 * var(--u))}
+.ptd-sh-stage>.ptd-tv-cta svg{width:calc(24 * var(--u));height:calc(24 * var(--u))}
+.ptd-sh-stage>.ptd-tv-cta>div>b{font-size:calc(28 * var(--u))}
+@keyframes ptd-sh-veil{0%{opacity:1;clip-path:inset(0 100% 0 0)}60%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes ptd-sh-wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+/* Starts far enough below its mask that the blur halo does not show inside it while waiting. */
+@keyframes ptd-sh-rise{from{transform:translateY(130%);filter:blur(6px)}to{transform:none;filter:none}}
+@keyframes ptd-sh-drop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes ptd-sh-card{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes ptd-sh-pop{0%{transform:scale(0)}65%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes ptd-sh-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.6)}}
+@keyframes ptd-sh-focus{from{opacity:0;transform:translateY(16px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes ptd-sh-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes ptd-sh-show{from{opacity:0}to{opacity:1}}
+.ptd-sh.is-animated .ptd-sh-veil{animation:ptd-sh-veil 1.2s cubic-bezier(.65,0,.25,1) both}
+.ptd-sh.is-animated .ptd-sh-bleed,.ptd-sh.is-animated .ptd-sh-panel{animation:ptd-sh-wipe 1s cubic-bezier(.65,0,.25,1) .15s both}
+.ptd-sh.is-animated .ptd-sh-logo{animation:ptd-sh-drop .8s ease 1s both}
+.ptd-sh.is-animated .ptd-sh-rise>.ptd-sh-crop{animation:ptd-sh-rise 1s cubic-bezier(.2,.8,.2,1) var(--t) both}
+.ptd-sh.is-animated .ptd-sh-card{animation:ptd-sh-card .9s cubic-bezier(.2,.8,.2,1) var(--d) both}
+.ptd-sh.is-animated .ptd-sh-head{animation:ptd-sh-wipe .8s cubic-bezier(.65,0,.25,1) calc(var(--d) + .25s) both}
+.ptd-sh.is-animated .ptd-sh-icon>.ptd-sh-crop{animation:ptd-sh-pop .8s cubic-bezier(.2,.9,.3,1.2) calc(var(--d) + .4s) both}
+.ptd-sh.is-animated .ptd-sh-icon::after{animation:ptd-sh-ring 1.2s ease-out calc(var(--d) + .9s) forwards}
+.ptd-sh.is-animated .ptd-sh-text>.ptd-sh-crop{animation:ptd-sh-focus .9s cubic-bezier(.2,.8,.2,1) calc(var(--d) + .7s) both}
+.ptd-sh.is-animated .ptd-sh-impact-title{animation:ptd-sh-wipe .9s cubic-bezier(.65,0,.25,1) 3.5s both}
+.ptd-sh.is-animated .ptd-sh-bar{animation:ptd-sh-wipe 1.1s cubic-bezier(.65,0,.25,1) 3.7s both}
+.ptd-sh.is-animated .ptd-sh-divider{transform-origin:top;animation:ptd-sh-grow .7s ease calc(4.1s + var(--i) * .45s) both}
+.ptd-sh.is-animated .ptd-sh-value>.ptd-sh-crop{animation:ptd-sh-rise .9s cubic-bezier(.2,.8,.2,1) calc(4.2s + var(--i) * .45s) both}
+.ptd-sh.is-animated .ptd-sh-label>.ptd-sh-crop{animation:ptd-sh-focus .8s cubic-bezier(.2,.8,.2,1) calc(4.45s + var(--i) * .45s) both}
+.ptd-sh.is-animated .ptd-sh-qr>.ptd-sh-crop{animation:ptd-sh-pop .8s cubic-bezier(.2,.9,.3,1.2) 5.3s both}
+.ptd-sh.is-animated .ptd-sh-repo>.ptd-sh-crop{animation:ptd-sh-focus .8s cubic-bezier(.2,.8,.2,1) calc(5.55s + var(--i) * .15s) both}
+.ptd-sh.is-animated .ptd-sh-final{animation:ptd-sh-show .5s ease 6.7s both}
+.ptd-sh.is-animated .ptd-sh-stage>.ptd-tv-cta{animation:ptd-sh-focus .7s cubic-bezier(.2,.8,.2,1) 6.9s both}
+@media (prefers-reduced-motion:reduce){.ptd-sh *,.ptd-sh .ptd-sh-stage{animation:none!important}}
