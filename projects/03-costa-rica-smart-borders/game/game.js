@@ -215,7 +215,7 @@ const COPY={
   units:{cantidad:'boxes',peso:'kg'},
   entities:{aduana:{name:'Customs',short:'Customs',rule:'Quantity, weight and plate must match across the 3 documents.'},policia:{name:'Police',short:'Police',rule:'Driver and plate must match the licence and the registration card.'},salud:{name:'Ministry of Health',short:'Health',rule:'The sanitary registration must match the product and the quantity.'},animal:{name:'Animal Health',short:'Animal',rule:'Product and origin must match the zoosanitary certificate.'},vegetal:{name:'Plant Health',short:'Plant',rule:'Batch and weight must match the phytosanitary certificate.'}},
   border:'Border',start:'Start',vuce:'VUCE 3.0 · one single window',
-  introTitle:'A truck arrives at the border.',introTitleA:'A truck arrives',introTitleB:'at the border.',howExplore:'How to explore',seeHow:'Click to see how VUCE 3.0 would do it',startPill:'Start',
+  introTitle:'A truck arrives at the border.',introTitleA:'A truck arrives',introTitleB:'at the border.',howExplore:'How to explore',seeHow:'Click to see how VUCE 3.0 would do it',startPill:'Home',
   introBig:'It must clear 5 agencies.',
   introBody:'First you check it, stop by stop. Then the VUCE 3.0 AI does it in a single stop.',
   introHow:[['eye','You check','5 stops, 3 documents each.'],['cpu','AI checks','One single stop.'],['timer','We compare','Stops, time and correct answers.']],
@@ -414,7 +414,7 @@ function clock(label){return `<div class="clock"><span>${esc(label)}</span><b da
 function header(){
  return `<header class="top">
   <div class="top-brand"><img class="top-idb-group" src="../public/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="top-sep"></span><span><b>${esc(t('brand'))}</b><small>IDB Group Projects Across the Region</small></span></div>
-  <div class="top-tools"><div class="langs" aria-hidden="true"><button id="es" type="button" tabindex="-1">ES</button><button id="en" type="button" tabindex="-1">EN</button></div><button type="button" class="home-btn home-btn--start" data-act="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg><span>${esc(t('startPill'))}</span></button></div>
+  <div class="top-tools"><div class="langs" aria-hidden="true"><button id="es" type="button" tabindex="-1">ES</button><button id="en" type="button" tabindex="-1">EN</button></div><button type="button" class="home-btn home-btn--start" data-act="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M10 20v-5h4v5"/></svg><span>${esc(t('startPill'))}</span></button></div>
  </header>`;
 }
 

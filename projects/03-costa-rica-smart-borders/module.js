@@ -12,7 +12,7 @@ window.ProjectModule={
   /* Resumen del minijuego (etapa, camión, cronómetro, semáforos) que el iframe envía por postMessage; la TV lo pinta con tv.js. Nunca incluye documentos. */
   let gameState=null;
   function packet(){const isGame=state.screen==='game',mode=isGame?'game':state.displayMode;return {view:isGame?'game':'project',projectId:'03',section:mode,language:state.language,mode,screenIndex:isGame?3:(mode==='landing'?1:2),game:isGame?gameState:null};}
-  window.addEventListener('message',event=>{const data=event.data;if(data&&data.type==='cr-back'&&state.screen==='game'){returnToMenu();return;}if(!data||data.type!=='cr-game'||state.screen!=='game')return;gameState=data.game&&(data.game.v===1||data.game.v===2)?data.game:null;if(gameState&&gameState.lang)state.language=gameState.lang==='es'?'es':'en';void sync.send(packet());});
+  window.addEventListener('message',event=>{const data=event.data;if(data&&data.type==='cr-back'&&state.screen==='game'){returnToMenu();return;}if(!data||data.type!=='cr-game'||state.screen!=='game')return;gameState=data.game&&(data.game.v===1||data.game.v===2)?data.game:null;void sync.send(packet());});
   function cancelTimer(){if(timer){clearTimeout(timer);timer=null;}}
   function render(){mount.innerHTML=state.screen==='game'?game():home();bind();}
   function update(next){state={...state,...next};render();void sync.send(packet());}
@@ -46,7 +46,7 @@ window.ProjectModule={
    mount.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{const action=button.dataset.action;if(action==='information')startInformation();if(action==='video')startVideo();if(action==='game')openGame();if(action==='menu')returnToMenu();if(action==='home')void goExhibitionHome();});
    const frame=mount.querySelector('.crb-prototype iframe');if(frame)connectGame(frame);
   }
-  try{const remote=await sync.read();if(remote?.projectId==='03'){state.language=remote.language==='es'?'es':'en';if(remote.mode==='game')state={...state,screen:'game',displayMode:'game',gameReady:true};else if(remote.mode==='cta')state={...state,displayMode:'cta',gameReady:true};else if(remote.mode==='info')state={...state,displayMode:'info',gameReady:true};else if(remote.mode==='video')state={...state,displayMode:'video',gameReady:true};}}catch{}
+  try{const remote=await sync.read();if(remote?.projectId==='03'){/* la estación va solo en inglés: no se restaura el idioma */if(remote.mode==='game')state={...state,screen:'game',displayMode:'game',gameReady:true};else if(remote.mode==='cta')state={...state,displayMode:'cta',gameReady:true};else if(remote.mode==='info')state={...state,displayMode:'info',gameReady:true};else if(remote.mode==='video')state={...state,displayMode:'video',gameReady:true};}}catch{}
   render();void sync.send(packet());
  }
 };

@@ -951,3 +951,14 @@ div.crc-card{cursor:default}
 .crc-body--video .crc-card-text b{font-size:calc(48 * var(--u))}
 .crc-body--video .crc-card-text span{font-size:calc(30 * var(--u));max-width:calc(390 * var(--u))}
 .crc-body--video .crc-card--video .crc-card-text span{max-width:calc(420 * var(--u))}
+
+/* Navbar y píldora de guía como AquaData (nov 2026): sin ES/EN, «Home» con su icono, y píldora de la TV con tableta + flecha */
+.crc-pill{gap:calc(17 * var(--u));padding:0 calc(28 * var(--u)) 0 calc(22 * var(--u));font-weight:700;-webkit-tap-highlight-color:transparent}
+.crc-pill svg{width:max(15px,calc(18 * var(--u)));height:auto}
+.crb-display-cta.crb-display-cta--pill.crb-display-cta--aqd{bottom:clamp(18px,3.23vw,62px);height:clamp(44px,3.23vw,62px);box-sizing:border-box;gap:clamp(10px,.78vw,15px);padding:0 clamp(20px,1.6vw,30px) 0 clamp(18px,1.4vw,27px);max-width:92vw;background:#005cff;box-shadow:none}
+.crb-display-cta--aqd .crb-cta-icon{width:clamp(22px,1.5vw,29px);height:auto;aspect-ratio:29/22;border-radius:0;background:none;color:#fff}
+.crb-display-cta--aqd .crb-cta-icon svg{display:block;width:100%;height:100%}
+.crb-display-cta.crb-display-cta--aqd b{font-size:clamp(15px,.99vw,19px);font-weight:700;line-height:1.2;white-space:nowrap}
+.crb-display-cta--aqd .crb-cta-arrow{width:clamp(18px,1.25vw,24px);height:clamp(18px,1.25vw,24px);margin-left:clamp(2px,.2vw,4px);animation:crbCtaDrop 1.6s cubic-bezier(.45,0,.55,1) infinite}
+.crb-display-cta--aqd .crb-cta-arrow svg{display:block;width:100%;height:100%}
+@keyframes crbCtaDrop{0%{opacity:0;transform:rotate(90deg) translateX(-45%)}25%{opacity:1}60%{opacity:1;transform:rotate(90deg) translateX(8%)}100%{opacity:0;transform:rotate(90deg) translateX(45%)}}

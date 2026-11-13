@@ -236,7 +236,7 @@ html:has(.fig),body:has(.fig){background:#fff}
 
 /* ---- ajustes tras comparar con Figma ---- */
 .fig .intro-hero h1{white-space:nowrap}
-.fig .intro-actions .cta{flex:none}
+.fig .intro-actions .cta{flex:none;min-width:0} /* el min-width:240px viejo empujaba «Start checking» bajo el panel en la tableta 1280×800 */
 .fig .desk-entity{justify-content:flex-start;align-items:center}
 .fig .row{flex:none}
 .fig .actions--col .btn .light--big{width:calc(44 * var(--u));height:calc(44 * var(--u));border-width:calc(2.6 * var(--u))}
@@ -280,3 +280,7 @@ html:has(.fig),body:has(.fig){background:#fff}
 .fig .res-sign--big p{font-size:calc(34 * var(--u))}
 .fig .screen--results .res-actions{gap:calc(30 * var(--u));margin-right:0}
 .fig .screen--results .res-actions .cta{height:calc(86 * var(--u));width:auto;padding:0 calc(52 * var(--u));border-radius:calc(17 * var(--u));font-size:calc(30 * var(--u))}
+
+/* Píldora «Home» como AquaData */
+.fig .home-btn{gap:calc(17 * var(--u));padding:0 calc(28 * var(--u)) 0 calc(22 * var(--u));border:1.5px solid #fff;font-weight:700;font-size:max(13px,calc(18 * var(--u)));-webkit-tap-highlight-color:transparent}
+.fig .home-btn svg{width:max(15px,calc(18 * var(--u)));height:auto}
