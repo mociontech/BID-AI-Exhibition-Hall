@@ -45,7 +45,8 @@
  }
  function navigation(s){
   const back=[1492,28,250,70],full=[1790,34,58,58];
-  return `<nav class="mai-art-navigation" aria-label="Exhibition navigation"><a class="mai-art-hit" style="${box([56,20,710,84])}" href="/index.html${esc(AI_SYNC.stationQuery)}&amp;projects=1" data-action="home" aria-label="Home: back to all projects"></a>${fragment('intro',[1316,915,250,70],back)}${hit(back,'menu','Back to MAIIA menu')}${fragment('final',[1789,37,52,52],full)}${patch([1800,43,38,39],MAIIA.icon('expand'),'mai-art-fullscreen-symbol')}${hit([1778,23,82,82],'fullscreen','Full screen')}</nav>`;
+  const backControl=s.mode==='landing'?`<a class="mai-art-hit" style="${box(back)}" href="/index.html${esc(AI_SYNC.stationQuery)}&amp;projects=1" data-action="home" data-navigation="back" aria-label="Back to all projects"></a>`:hit(back,'menu','Back to MAIIA menu');
+  return `<nav class="mai-art-navigation" aria-label="Exhibition navigation"><a class="mai-art-hit" style="${box([56,20,710,84])}" href="/index.html${esc(AI_SYNC.stationQuery)}&amp;projects=1" data-action="home" aria-label="Home: back to all projects"></a>${fragment('intro',[1316,915,250,70],back)}${backControl}${fragment('final',[1789,37,52,52],full)}${patch([1800,43,38,39],MAIIA.icon('expand'),'mai-art-fullscreen-symbol')}${hit([1778,23,82,82],'fullscreen','Full screen')}</nav>`;
  }
  function legend(s){
   const t=MAIIA.words.en;
