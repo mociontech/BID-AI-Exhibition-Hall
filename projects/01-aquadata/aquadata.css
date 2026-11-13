@@ -862,3 +862,25 @@
 .aqd-select .aqd-actions{gap:clamp(12px,1.93vw,37px)}
 .aqd-select .aqd-secondary{min-width:clamp(150px,13vw,250px)}
 .aqd-select .aqd-primary{min-width:clamp(200px,17.9vw,343px);padding:0 clamp(18px,1.5vw,30px)}
+
+/* ===== Tablet main menu: the supplied artwork (menu-principal-en.png, 1920 x 1080) with touch zones over Home and the
+   three cards. The stage keeps 16:9 at the top of the screen; the header blue fills any spare width beside it. ===== */
+.aqd-menu{--u:min(calc(100vw / 1920),calc(100dvh / 1080));flex:1;min-height:0;display:flex;justify-content:center;align-items:flex-start;overflow:hidden;background:linear-gradient(#005cff 0 calc(126 * var(--u)),#fff 0)}
+.aqd-menu-stage{position:relative;flex:none;width:calc(1920 * var(--u));height:calc(1080 * var(--u))}
+.aqd-menu-image{display:block;width:100%;height:100%;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.aqd-menu-hit{position:absolute;padding:0;border:0;border-radius:calc(16 * var(--u));background:transparent;-webkit-tap-highlight-color:transparent}
+.aqd-menu-hit--home{left:calc(1720 * var(--u));top:calc(38 * var(--u));width:calc(132 * var(--u));height:calc(50 * var(--u));border-radius:99px}
+.aqd-menu-hit--video{left:calc(1001 * var(--u));top:calc(296 * var(--u));width:calc(854 * var(--u));height:calc(267 * var(--u))}
+.aqd-menu-hit--information{left:calc(67 * var(--u));top:calc(643 * var(--u));width:calc(854 * var(--u));height:calc(267 * var(--u))}
+.aqd-menu-hit--game{left:calc(1001 * var(--u));top:calc(643 * var(--u));width:calc(854 * var(--u));height:calc(267 * var(--u))}
+/* Back pill drawn like the Home pill of the artwork, 20 px to its left. */
+.aqd-menu-back{position:absolute;right:calc(220 * var(--u));top:calc(38 * var(--u));display:inline-flex;align-items:center;gap:calc(10 * var(--u));height:calc(50 * var(--u));padding:0 calc(24 * var(--u));border:calc(1.5 * var(--u)) solid #fff;border-radius:99px;background:transparent;color:#fff;font:700 calc(17 * var(--u))/1 Inter,'Segoe UI',Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+.aqd-menu-back svg{width:calc(18 * var(--u));height:auto}
+
+/* ===== Top bar of every screen as in the November 2026 main menu artwork: the divider and the titles 48 px apart,
+   bold (not black) title, and Home / Back as outlined pills (white border, no fill). ===== */
+.aqd-brand{gap:clamp(12px,2.5vw,48px)}
+.aqd-brand-copy strong{font-weight:700}
+.aqd-home{min-height:clamp(40px,2.6vw,50px);gap:clamp(8px,.9vw,17px);padding:0 clamp(14px,1.45vw,28px) 0 clamp(12px,1.15vw,22px);border:1.5px solid #fff;background:transparent;font-weight:700;-webkit-tap-highlight-color:transparent}
+.aqd-home svg{width:clamp(15px,.95vw,18px)}
+.aqd-brand-copy small{font-size:clamp(11px,1.28vw,24.5px)}

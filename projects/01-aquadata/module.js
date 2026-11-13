@@ -40,7 +40,7 @@ window.ProjectModule={
    else if(action==='video')set({mode:'video'});
    else if(action==='game')set({mode:'game',step:1,p1:[],p2:[],act:0,take:0,analysisReady:false});
    else if(action==='next'){const step=Math.min(LAST,state.step+1);set(step===ANALYSIS?{step,act:0,take:0,analysisReady:false}:{step});}
-   else if(action==='back'){if(state.step<=1)set({mode:'landing'});else set({step:state.step-1,analysisReady:state.step-1===ANALYSIS&&state.act===LAST_ACT});}
+   else if(action==='back'){if(state.mode!=='game'||state.step<=1)set({mode:'landing'});else set({step:state.step-1,analysisReady:state.step-1===ANALYSIS&&state.act===LAST_ACT});}
    /* Each act plays on the screen when the tablet asks for it; "take" makes a repeated act play again. */
    else if(action==='play'&&state.step===ANALYSIS&&state.act<LAST_ACT)set({act:state.act+1,take:state.take+1,analysisReady:false});
    else if(action==='replay'&&state.step===ANALYSIS&&state.act>0)set({act:Math.max(1,state.act-1),take:state.take+1,analysisReady:false});

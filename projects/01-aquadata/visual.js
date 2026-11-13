@@ -6,6 +6,8 @@
  const logo=url('aquadata/idb-group-white.svg');
  /* Landing artwork from the Figma rebrand: the video and project cards carry a photo, the game card an icon. */
  const landingArt={video:url('aquadata/card-video.png'),about:url('aquadata/card-about.png')};
+ /* Tablet main menu supplied in November 2026 (1920 × 1080, English, with the Home pill in its header). */
+ const menuArt=url('aquadata/menu-principal-en.png');
  const dataRoot=url('AquaData_12_Imagenes_Ligeras_JPG/');
  const MAX_PICKS=3;
  /* Game steps: 1 mission, 2 blind round, 3 blind result, 4 how the score works, 5 analysis,
@@ -19,8 +21,8 @@
  const copy={
   en:{
    brand:'AI in Action',brandSub:'IDB Group Projects Across the Region',home:'Home',station:'Station',onTablet:'On the tablet',
-   kicker:'VPS · INE',intro:'Artificial intelligence to help decide which water accounts to inspect first.',
-   info:'About the project',infoBody:'Explore the challenge, the solution, how AI works and its impact.',
+   kicker:'VPS · INE',intro:'Smarter Commercial Water Loss Detection',
+   info:'About the project',infoBody:'Explore the challenge, the solution and its impact.',menuAlt:'AquaData: Smarter Commercial Water Loss Detection. Video, About the project and Interactive experience.',
    video:'Video',videoBody:'Watch the video to see AquaData in action and discover how it transforms inspection workflows.',
    game:'Interactive experience',gameBody:'Choose which accounts to inspect before and after AI prioritization.',
    entered:"You've entered the interactive experience",
@@ -51,8 +53,8 @@
   },
   es:{
    brand:'AI in Action',brandSub:'IDB Group Projects Across the Region',home:'Inicio',station:'Estación',onTablet:'En la tableta',
-   kicker:'VPS · INE',intro:'Inteligencia artificial para decidir qué contratos de agua inspeccionar primero.',
-   info:'Sobre el proyecto',infoBody:'Explora el reto, la solución, cómo funciona la IA y su impacto.',
+   kicker:'VPS · INE',intro:'Detección más inteligente de pérdidas comerciales de agua',
+   info:'Sobre el proyecto',infoBody:'Explora el reto, la solución y su impacto.',menuAlt:'AquaData: detección más inteligente de pérdidas comerciales de agua. Video, Sobre el proyecto y Experiencia interactiva.',
    video:'Video',videoBody:'Mira el video para ver AquaData en acción y descubrir cómo transforma el trabajo de inspección.',
    game:'Experiencia interactiva',gameBody:'Elige qué contratos inspeccionar antes y después de la priorización con IA.',
    entered:'Has entrado a la experiencia interactiva',
@@ -214,9 +216,16 @@
    const key=(step===2||step===4)&&picks.length===MAX_PICKS?2.5:step;
    return `<aside class="aqd-cta" role="status"><span class="aqd-cta-icon">${icons.pillTablet}</span><span><small>${x.onTablet}</small><strong>${x.cta[key]}</strong></span><i aria-hidden="true">${icons.arrow}</i></aside>`;
   }
-  /* Landing: the title and three options (video, the project sheet, the game). Whatever
-     is showing on the TV, the cards stay as they are: nothing is added on tap. */
+  /* Landing. The tablet shows the supplied main menu artwork with touch zones over Home and the three cards;
+     while the TV shows the video or the project sheet, a Back pill sits next to Home. The cards never change
+     when tapped. The read-only view keeps the HTML version. */
+  function menu(){
+   const hit=(action,label)=>`<button type="button" class="aqd-menu-hit aqd-menu-hit--${action}" data-action="${action}" aria-label="${esc(label)}"></button>`;
+   const back=state.mode==='info'||state.mode==='video'?`<button type="button" class="aqd-menu-back" data-action="back">${icons.back}<span>${x.back}</span></button>`:'';
+   return `<section class="aqd-menu" aria-label="AquaData"><div class="aqd-menu-stage"><img class="aqd-menu-image" src="${menuArt}" width="1920" height="1080" alt="${esc(x.menuAlt)}" draggable="false">${hit('video',x.video)}${hit('information',x.info)}${hit('game',x.game)}${back}${hit('home',x.home)}</div></section>`;
+  }
   function landing(){
+   if(!readonly)return menu();
    const card=(action,head,body,media)=>`<${tag} class="aqd-home-card" data-action="${action}"><span class="aqd-home-card-copy"><strong>${head}</strong><small>${body}</small></span>${media}</${close}>`;
    return `${header()}<section class="aqd-screen aqd-landing aqd-landing--three"><div class="aqd-landing-grid">${title(x.kicker,'Aqua','Data',x.intro,'')}${card('video',x.video,x.videoBody,`<img src="${landingArt.video}" alt="" aria-hidden="true">`)}${card('information',x.info,x.infoBody,`<img src="${landingArt.about}" alt="" aria-hidden="true">`)}${card('game',x.game,x.gameBody,`<span class="aqd-home-card-icon" aria-hidden="true">${icons.explore}</span>`)}</div></section>`;
   }
@@ -264,7 +273,7 @@
    return `${header()}<section class="aqd-screen aqd-impact aqd-impact--remote">${title(x.s6Kicker,x.s6Title,x.s6Accent,'')}${watch(x.watch6,true)}${action}</section>`;
   }
   const screen=state.mode!=='game'?landing():step===1?mission():step===2?selection(false):step===3?blindResult():step===4?explain():step===5?analysis():step===6?selection(true):step===7?results():impact();
-  return `<main class="aqd-app ${state.mode==='game'?'aqd-app--game':'aqd-app--landing'} ${readonly?'aqd-app--readonly':''}">${screen}${cta()}</main>`;
+  return `<main class="aqd-app ${state.mode==='game'?'aqd-app--game':'aqd-app--landing'} ${readonly?'aqd-app--readonly':state.mode==='game'?'':'aqd-app--menu'}">${screen}${cta()}</main>`;
  }
  function notice(language){return `<aside class="aqd-notice" role="status">${copy[language==='es'?'es':'en'].entered}</aside>`;}
  const tvCopy={
