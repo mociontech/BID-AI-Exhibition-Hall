@@ -24,7 +24,8 @@ try{
  await tablet.goto(base+'/projects/11-rsm-rise/index.html'+query);
  await tv.goto(base+'/display.html'+query);await both('intro',2);
  const out=new URL('../artifacts/hosted/',import.meta.url);mkdirSync(out,{recursive:true});
- await tablet.screenshot({path:fileURLToPath(new URL('tablet-back.png',out))});
+ await tablet.bringToFront();
+ await tablet.screenshot({path:fileURLToPath(new URL('tablet-back.png',out)),animations:'disabled'});
  await frame().getByRole('button',{name:'Back',exact:true}).click();await both('intro',0);
  await frame().locator('[data-ip="1"]').click();await both('intro',1);
  await frame().locator('[data-ip="2"]').click();await both('intro',2);
