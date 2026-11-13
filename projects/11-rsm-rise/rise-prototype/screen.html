@@ -1,0 +1,21 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RISE</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap">
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./screen.css?v=opening-5">
+<link rel="stylesheet" href="./client.css?v=opening-5">
+<div id="tv-pane"><div class="tv" id="tv" aria-live="polite"></div></div>
+<div id="tab-pane"><div class="tab" id="tab"></div></div>
+<span id="tvstate" hidden></span>
+<script>
+  document.documentElement.dataset.device=new URLSearchParams(location.search).get('role')==='tv'?'tv':'tablet';
+</script>
+<script src="../state.js?v=20261112-opening-5"></script>
+<script src="./app.js"></script>
+<script src="./opening.js?v=opening-5"></script>
+<script src="./i18n.js"></script>
+<script src="./client.js?v=opening-5"></script>
+<script src="./station.js?v=20261112-opening-5"></script>

@@ -1,0 +1,12 @@
+{
+  "name": "rise-v36-original-integration",
+  "private": true,
+  "scripts": {
+    "dev": "node ../../../server.js",
+    "extract": "node extract.mjs",
+    "test": "node tests/flow.mjs",
+    "test:visual": "node tests/visual.mjs",
+    "test:state": "node --test tests/state.mjs"
+  },
+  "engines": {"node": ">=18"}
+}

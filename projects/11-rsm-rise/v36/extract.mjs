@@ -1,0 +1,12 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+const root=new URL('./',import.meta.url),original=readFileSync(new URL('original.html',root),'utf8');
+const css=original.match(/<style>([\s\S]*?)<\/style>/)[1],js=original.match(/<script>([\s\S]*?)<\/script>/)[1];
+const open='\n(function(){\n',close='})();\n';
+if(!js.startsWith(open)||!js.endsWith(close))throw Error('Unexpected source wrapper');
+const body=js.slice(open.length,-close.length),split=body.indexOf('  var ES=');
+if(split<0)throw Error('Dictionary not found');
+writeFileSync(new URL('styles.css',root),css);
+writeFileSync(new URL('app.js',root),body.slice(0,split));
+writeFileSync(new URL('i18n.js',root),body.slice(split));
+writeFileSync(new URL('index.html',root),original.replace(/<style>[\s\S]*?<\/style>/,'<link rel="stylesheet" href="./styles.css">').replace(/<script>[\s\S]*?<\/script>/,'<script src="./app.js"></script>\n<script src="./i18n.js"></script>'));
+console.log('v36 CSS and source statements extracted without edits.');

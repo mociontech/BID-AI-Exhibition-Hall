@@ -1,0 +1,91 @@
+/* Presentation refinement only: approved copy, IDB palette and existing assets. */
+.tv .rise-client-foot>span:first-child{max-width:60cqw;white-space:normal;font-size:.9cqw;line-height:1.35;text-align:left}
+.tv.rise-client-intro{background:#fff}
+.rise-entry-notice{position:absolute;z-index:2;left:4.8cqw;top:11.3cqw;width:53cqw;padding:0;background:none;border:0;border-radius:0;box-shadow:none;color:var(--black)}
+.rise-entry-notice .k{color:var(--idb-blue);font-size:1.25cqw;letter-spacing:.15em}
+.rise-entry-notice h1{margin:1.05cqw 0 2cqw;font-size:4.1cqw;font-weight:900;line-height:1.035;letter-spacing:-.035em;text-wrap:balance}
+.rise-entry-notice h1 em{font-style:normal;color:var(--idb-blue)}
+.rise-entry-notice p{display:grid;gap:.65cqw;font-size:1.4cqw;line-height:1.4}
+.rise-entry-notice p b{font-size:1.55cqw}
+/* Before touch, show the notice. Once running, use the original animation CSS
+   without a crop, mask, side column, or reduced opacity. */
+.tv.rise-client-intro:not(.rise-intro-running) canvas.iwall{opacity:0}
+.rise-client-intro:not(.rise-intro-running) .opn-t{inset:13cqw 3.2cqw 8cqw auto;width:32cqw;gap:1.4cqw;background:none;transform:none}
+.rise-client-intro:not(.rise-intro-running) .opn-t::before{content:'';position:absolute;left:-1.8cqw;top:22%;bottom:22%;width:.1cqw;background:var(--blue-4)}
+.rise-client-intro:not(.rise-intro-running) .opn-t b{font-size:9.5cqw;letter-spacing:-.055em}
+.rise-client-intro:not(.rise-intro-running) .opn-t span{font-size:1.65cqw;line-height:1.2;max-width:30cqw}
+.dsup .dq p{font-size:1.2cqw;line-height:1.4;margin-top:.7cqw}
+.dsup .dn{font-size:1.1cqw}
+.rise-client-loop .srow{grid-template-columns:10cqw minmax(0,1fr);gap:1cqw;font-size:1.15cqw}
+.rise-client-loop .srow b{white-space:normal}
+.rise-client-loop .srow small{display:block;font-size:1cqw;font-weight:400;line-height:1.35;margin-top:.4cqw}
+
+/* Tablet typography uses pixels and responds to the actual device dimensions. */
+html[data-device="tablet"] .tband{min-height:96px;padding:18px 36px;gap:18px}
+html[data-device="tablet"] .tband .lg{width:130px;height:41.25px;background-size:885px 497.5px;background-position:-31.5px -25.375px;flex:none}
+html[data-device="tablet"] .tband .sep{height:34px}
+html[data-device="tablet"] .tband .ex{flex:1;min-width:0;gap:3px}
+html[data-device="tablet"] .tband .ex b{font-size:18px}
+html[data-device="tablet"] .tband .ex span{font-size:14px;line-height:1.2}
+html[data-device="tablet"] .tband .lang button{min-width:58px;min-height:48px;font-size:18px}
+html[data-device="tablet"] .tband .home{min-height:48px;padding:10px 16px;font-size:18px}
+html[data-device="tablet"] .tbody{max-width:none;padding:30px 40px 28px;gap:22px}
+html[data-device="tablet"] .tkick{font-size:15px;letter-spacing:.13em}
+html[data-device="tablet"] .thead{gap:22px;align-items:center}
+html[data-device="tablet"] .thead h3{font-size:46px;line-height:1.06;letter-spacing:-.025em}
+html[data-device="tablet"] .thead p{font-size:23px;line-height:1.3;margin-top:8px}
+html[data-device="tablet"] .thead .prog{min-width:112px;padding:12px 18px}
+html[data-device="tablet"] .thead .prog small{font-size:16px}
+html[data-device="tablet"] .thead .prog b{font-size:40px}
+html[data-device="tablet"] .tb{min-height:64px;padding:14px 28px;font-size:22px;gap:12px}
+html[data-device="tablet"] .tb svg{width:24px;height:24px}
+html[data-device="tablet"] .spill{min-height:44px;padding:10px 18px;font-size:17px;gap:10px}
+html[data-device="tablet"] .spill svg{width:22px;height:22px}
+html[data-device="tablet"] .thint{gap:16px}
+html[data-device="tablet"] .thint .ill{max-width:920px;min-height:230px;padding:24px 30px;gap:12px;align-content:center;background:#f6f8ff}
+html[data-device="tablet"] .thint .ill b{font-size:29px;line-height:1.2}
+html[data-device="tablet"] .thint .ill span{font-size:23px;line-height:1.3}
+html[data-device="tablet"] .thint .ill .tring b{font-size:32px}
+html[data-device="tablet"] .rise-insight-card .ill{max-width:none;grid-template-columns:48px minmax(0,1fr);padding:20px 24px;gap:10px 16px}
+html[data-device="tablet"] .rise-insight-card .ill>.wi{grid-column:1;margin:0;align-self:center;width:48px;height:48px}
+html[data-device="tablet"] .rise-insight-card .ill>b{grid-column:2;align-self:center;text-align:left}
+html[data-device="tablet"] .rise-insight-card .ill>span:not(.wi),html[data-device="tablet"] .rise-insight-card .rise-lesson{grid-column:1/-1}
+html[data-device="tablet"] .rise-insight-card .ill>span:not(.wi){font-size:21px;line-height:1.25}
+html[data-device="tablet"] .rise-insight-card .rise-lesson{padding:12px 18px;background:#e8eeff;border-radius:10px;font-size:23px;font-weight:700;line-height:1.25;text-wrap:balance}
+html[data-device="tablet"] .rise-insight-card .ill .rise-no-decision{color:var(--idb-blue);font-weight:700}
+html[data-device="tablet"] .tapp .opts2.deals{gap:18px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn{padding:22px 16px;gap:18px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn>span:not(.ico){font-size:24px;line-height:1.15}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn small{font-size:17px;line-height:1.35;margin-top:10px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn em{font-size:17px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn .ico{width:72px;height:72px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn .ico svg{width:40px;height:40px}
+html[data-device="tablet"] .tapp .play{width:240px;height:240px;font-size:22px;gap:12px}
+html[data-device="tablet"] .tapp .play img.eq{width:136px}
+html[data-device="tablet"] .tapp .play span{max-width:180px}
+html[data-device="tablet"] .runn{font-size:26px}
+
+/* Entry is an open composition, with its existing statements kept together. */
+html[data-device="tablet"] .tab.rise-client-intro .tbody{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:24px;padding:34px 44px}
+html[data-device="tablet"] .tab.rise-client-intro .thead h3{max-width:1120px;font-size:56px;line-height:1.055;letter-spacing:-.035em}
+.rise-entry-note{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:26px;padding:6px 0 8px 28px;border-left:4px solid var(--idb-blue)}
+.rise-entry-copy{display:grid;gap:14px;max-width:1080px}
+.rise-entry-copy b{font-size:29px;line-height:1.2;color:var(--idb-blue)}
+.rise-entry-copy p{font-size:25px;line-height:1.4;color:var(--black-1);text-wrap:pretty}
+html[data-device="tablet"] .tab.rise-client-intro .tfoot{justify-content:flex-start}
+html[data-device="tablet"] .tab.rise-client-intro .tb{min-width:280px}
+@media(max-height:800px){
+ html[data-device="tablet"] .tband{min-height:92px;padding:16px 32px}
+ html[data-device="tablet"] .tbody{padding:24px 32px;gap:18px}
+ html[data-device="tablet"] .thead h3{font-size:40px}
+ html[data-device="tablet"] .thead p{font-size:21px;line-height:1.25}
+ html[data-device="tablet"] .thint .ill{padding:16px 24px;gap:8px;min-height:220px}
+ html[data-device="tablet"] .thint .ill b{font-size:26px}
+ html[data-device="tablet"] .thint .ill span{font-size:20px;line-height:1.25}
+ html[data-device="tablet"] .rise-insight-card .ill{padding:16px 22px;gap:8px 14px}
+ html[data-device="tablet"] .rise-insight-card .ill>span:not(.wi){font-size:19px;line-height:1.25}
+ html[data-device="tablet"] .rise-insight-card .rise-lesson{font-size:21px;padding:10px 16px}
+ html[data-device="tablet"] .tab.rise-client-intro .tbody{padding:30px 36px;gap:22px}
+ html[data-device="tablet"] .tab.rise-client-intro .thead h3{font-size:48px}
+ .rise-entry-copy b{font-size:27px}.rise-entry-copy p{font-size:23px}
+}

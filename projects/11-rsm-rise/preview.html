@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RISE v36 · Tablet & TV</title><link rel="icon" href="data:,">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#ebedf7;color:#141414;font:16px Arial,sans-serif}header{padding:22px 28px;background:#005cff;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:24px}h1{font-size:24px;margin:0}header p{margin:6px 0 0;font-size:14px;opacity:.9}main{padding:28px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:start}section h2{font-size:18px;margin:0}section>div:first-child{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}a{color:#005cff;text-decoration:none;font-size:14px;font-weight:700}a:focus-visible{outline:3px solid #005cff;outline-offset:5px}.device{width:100%;position:relative;background:#0a0a0a;overflow:hidden;border:8px solid #141414;box-shadow:0 15px 35px #14141425}.tv{aspect-ratio:16/9;border-radius:12px}.tablet{aspect-ratio:4/3;border-radius:22px}.device iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;display:block}.tv iframe{width:1920px;height:1080px}.tablet iframe{width:1024px;height:768px}@media(max-width:1000px){main{grid-template-columns:1fr;padding:20px;gap:26px}.tablet{max-width:800px}header{padding:20px}}
+.device{box-sizing:content-box;width:calc(100% - 16px)}
+</style>
+</head>
+<body>
+<header><div><h1>RISE · v36</h1><p>Tablet controller + main display</p></div><span>AI in Action · IDB Group</span></header>
+<main>
+ <section><div><h2>TV · 1920 × 1080</h2><a id="tv-link" target="_blank" rel="noopener">Open TV ↗</a></div><div class="device tv" data-width="1920"><iframe id="tv" title="RISE TV at 1920 by 1080"></iframe></div></section>
+ <section><div><h2>Tablet · 1024 × 768</h2><a id="tablet-link" target="_blank" rel="noopener">Open tablet ↗</a></div><div class="device tablet" data-width="1024"><iframe id="tablet" title="RISE tablet at 1024 by 768"></iframe></div></section>
+</main>
+<script>
+const params=new URLSearchParams(location.search),station=Number(params.get('station'));
+const query=new URLSearchParams({station:String(station>=1&&station<=11?station:11)});
+const room=params.get('room');if(/^[a-f0-9]{32}$/.test(room||''))query.set('room',room);
+const tablet=new URL('./index.html',location.href),tv=new URL('../../display.html',location.href);
+for(const [id,url] of [['tv',tv],['tablet',tablet]]){url.search=query.toString();document.getElementById(id).src=url.href;document.getElementById(id+'-link').href=url.href;}
+new ResizeObserver(entries=>entries.forEach(({target})=>{target.querySelector('iframe').style.transform='scale('+(target.clientWidth/Number(target.dataset.width))+')';})).observe(document.querySelector('.tv'));
+new ResizeObserver(entries=>entries.forEach(({target})=>{target.querySelector('iframe').style.transform='scale('+(target.clientWidth/Number(target.dataset.width))+')';})).observe(document.querySelector('.tablet'));
+</script>
+</body></html>

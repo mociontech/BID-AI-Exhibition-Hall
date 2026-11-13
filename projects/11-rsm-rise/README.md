@@ -1,68 +1,78 @@
-﻿# 11 — RSM RISE
+# 11 — RSM RISE · v36 original integrado
 
-Experiencia bilingüe de tableta y TV para AI in Action. El diseño actual se conserva y el minijuego recupera la mecánica del HTML entregado por el usuario, `RSM RISE Prototipo (2).html`, idéntico al archivo `(1)`.
+La versión activa usa **RISE_Prototipo_v36.html** tal como fue entregado: diseño, CSS, copy EN/ES, cifras, casos, controles, escenas y animaciones. No carga estilos ni ajustes de las revisiones anteriores. El original está archivado byte por byte en `v36/original.html`.
 
-## Mecánica del prototipo restaurada
+## Abrir localmente
 
-El minijuego está disponible desde la primera visita y se puede abrir directamente, sin revisar la información. La información animada sigue disponible por separado; su secuencia dura 10 segundos y no condiciona el acceso al juego. Dentro del minijuego se sigue este recorrido:
-
-1. **Elegir una propuesta:** línea de crédito para pymes (186 páginas), metro urbano (412) o planta solar (268). Los tres casos y los datos en inglés proceden del prototipo.
-2. **Ejecutar RISE:** comparación simultánea entre lectura manual y lectura con RISE. La animación dura 4,8 segundos; la lectura manual alcanza aproximadamente un tercio de las páginas. Se extraen resumen, modelo de negocio, riesgos, mitigantes, vacíos y clasificación. El indicador `~3×` se presenta como comparación ilustrativa de tiempos simulados.
-3. **Decidir sobre la clasificación:** «¿Por qué?» muestra el razonamiento y tres evidencias con sus páginas. «Aceptar» y «Ajustar» registran la elección del participante sobre la clasificación. Ambas opciones permiten continuar, como en el prototipo; no se trata de una pregunta con respuesta correcta ni de aprobar/rechazar una inversión. Ajustar registra la intención de ajuste, igual que el HTML de referencia; no hay un editor de modelos ni un expediente real.
-4. **Supervisar años después:** línea de tiempo de años 0–4, alerta RISE del año 2 frente a revisión anual del año 3, hallazgo específico del caso y tres operaciones similares en la memoria. El participante elige monitorear, hablar con el cliente o escalar a Activos Especiales. Las tres acciones están disponibles, sin calificarlas como correctas o incorrectas.
-5. **Cerrar el ciclo:** resumen de propuesta, decisión de clasificación y acción de supervisión. Un mosaico nuevo, el documento ilustrativo #8.201, se suma al muro de memoria institucional. Cierre: «La IA lee. Los expertos deciden. La institución recuerda».
-
-Se eliminó el cuestionario de Proyecto Aurora. Las cifras de páginas, las evidencias, las confianzas 95/88/91%, las alertas, el muro de 8.200 documentos y las lecciones son ilustraciones del caso ficticio del prototipo. La confianza representa una clasificación simulada, no una probabilidad de impago ni un resultado real del modelo. No se añaden afirmaciones de métricas verificadas o de estado de producción.
-
-## Arquitectura y archivos
-
-Se conserva `mountController`, el shell de proyecto, `AI_SYNC`, el receptor compartido y la identidad existente de IDB Group. Los controles son HTML real; la memoria se dibuja en canvas, y los iconos son SVG. No se ejecuta el prototipo en un iframe ni se introduce otra aplicación o sistema de sincronización.
-
-- `index.html`: carga componentes con versiones de recursos.
-- `module.js`: menú, idioma, temporizador de información, controles y navegación.
-- `game.js`: tres casos del prototipo, traducciones, transiciones y renderizado del juego en tableta/TV.
-- `state.js`: estado versión 2 y validación compartida con el servidor.
-- `experience.js`: componentes y narrativa informativa, conservando el diseño revisado.
-- `module.css`: estilos encapsulados de información y juego.
-- `verification/check.cjs`: recorrido completo por las tres propuestas en las dos pantallas.
-- `verification/hosted-check.cjs`: el mismo recorrido usando transporte Firebase simulado.
-
-Cambios puntuales compartidos: `display.html` carga los componentes del proyecto 11; `shared/display.js` deriva su renderizado y cancela animaciones al cambiar de proyecto; `shared/sync.js` extiende el ajuste de reloj a RSM RISE; `server.js` valida su estado. Las carpetas 01–10, el registro de proyectos, el Home y las salas no se modifican.
-
-## Sincronización y recuperación
-
-El estado del juego conserva caso seleccionado, etapa, evidencias consultadas, decisión de clasificación, acción de supervisión y marcas temporales. Tableta y TV calculan la lectura y la línea de tiempo desde los mismos instantes (`readStartedAt`, `supStartedAt`), sin enviar escrituras por cada frame. Una pantalla abierta tarde o recargada recupera la animación en su punto actual.
-
-Cambiar de idioma conserva el avance. Volver atrás conserva el caso; elegir otra propuesta reinicia lectura y decisiones. Volver a empezar reinicia el minijuego desde la selección de propuesta. Volver al menú regresa a RSM RISE y mantiene el minijuego disponible. Home limpia el estado y abre todos los proyectos manteniendo `station` y `room`.
-
-El estado anterior de Aurora se descarta por su versión incompatible. El servidor local debe reiniciarse después de cambiar su esquema, ya que Node carga el validador con caché. Los estados v2 antiguos con `unlocked:false` se normalizan a `true` al recuperarlos, sin perder idioma, caso o avance.
-
-## Revisión local y publicación
-
-Iniciar desde esta carpeta raíz:
+Desde la raíz del repositorio:
 
 ```powershell
-$env:PORT='4181'
-node server.js
+$env:PORT='4191'
+npm run dev
 ```
 
-- Tableta: `http://localhost:4181/projects/11-rsm-rise/index.html?station=8&room=0123456789abcdef0123456789abcdef`
-- TV: `http://localhost:4181/display.html?station=8&room=0123456789abcdef0123456789abcdef`
-- Revisión con ambas pantallas: `http://localhost:4181/artifacts/rsm-rise-preview.html` (herramienta local ignorada por Git).
+- Tablet y TV juntas: http://localhost:4191/projects/11-rsm-rise/preview.html?station=11&v=36
+- Tablet: http://localhost:4191/projects/11-rsm-rise/index.html?station=11&v=36
+- TV: http://localhost:4191/display.html?station=11&v=36
+- Original v36: http://localhost:4191/projects/11-rsm-rise/v36/original.html
+- Prototipo v36 con CSS/JS separados: http://localhost:4191/projects/11-rsm-rise/v36/index.html
 
-La estación identifica la pareja de dispositivos, no el número del proyecto. Funciona también en las demás estaciones admitidas, incluida la 11. La misma sala debe usarse en las dos pantallas. En localhost se usa la API Node; en hosting público se conserva Firebase con salas privadas. No se realiza push ni publicación durante esta revisión local.
+En dispositivos de la misma red, sustituir `localhost` por la IP del ordenador y usar la misma estación y sala (`room`). No se ha publicado ni escrito en salas remotas. Recargar las pestañas de versiones anteriores para cargar v36.
 
-## Pruebas y límites
+## Comportamiento del archivo entregado
+
+`intro → problem → ficha → deal → read → decide → time → sup → loop`
+
+- **Apertura:** aviso de simulación → Continue → animación original del muro, de 8 segundos → Start experience. Se conservan Skip animation y Skip intro. Al terminar la animación no se avanza automáticamente al problema.
+- **Propuestas:** SME credit line, Urban metro line y Fiber broadband network, con 186, 412 y 268 páginas.
+- **Lectura:** Run manual and RISE inicia la comparación de 4,8 segundos. Next lleva al análisis de seis riesgos y Accept continúa.
+- **Paso del tiempo:** Play inicia la animación; Next pasa a supervisión cuando el visitante lo pulsa.
+- **Supervisión:** Read the reports inicia la lectura. Después se muestran los tres insights originales; se selecciona uno para añadirlo al análisis y pulsar See your review. Se respeta este control del v36 sin sustituirlo por la revisión anterior.
+- **Cierre:** resumen del insight considerado y documento #8,201. Start again reinicia el v36.
+
+Se conserva EN como idioma inicial y ES para revisión. Los avisos normales expiran a los 8,3 segundos; `.keep` permanece hasta cambiar de escena. Se mantienen los 45 segundos de inactividad del fuente.
+
+La TV muestra el panel original 16:9 con unidades `cqw`. La tablet muestra el panel original 736×552 en píxeles, ampliado proporcionalmente a su viewport y conservando 4:3. No se cambia el tamaño relativo de textos, botones ni imágenes. La vista conjunta usa resoluciones internas de 1024×768 y 1920×1080. En ventanas de otra proporción se conserva el encuadre del dispositivo.
+
+El único ajuste de navegación es que el botón Home existente devuelve a los proyectos de la exhibición, conservando estación y sala. No se agregan botones ni barras. En el original y su copia independiente Home conserva el reinicio del prototipo.
+
+## Archivos y sincronización
+
+- `v36/original.html`: archivo recibido intacto; guardado primero en el commit `7f4aab2`.
+- `v36/styles.css`, `app.js`, `i18n.js`: extracción literal. Sólo se retira la envoltura IIFE para compartir el ámbito entre scripts clásicos aislados. Reconstruirla produce exactamente el JavaScript original.
+- `v36/index.html`: markup original con enlaces a los archivos extraídos.
+- `v36/screen.html`, `device.css`: exposición de un único panel. El CSS adicional sólo coloca y escala el dispositivo completo.
+- `v36/timing.js`: algoritmo original del muro, con reloj anclado a la sesión para recuperar el tiempo transcurrido al recargar o abrir la TV tarde.
+- `v36/station.js`: enlace con el transporte existente sin cambiar plantilla ni copy; recupera lectura de documentos, lectura de informes y fase de Play.
+- `state.js`: esquema 36, flags originales `ip`, `tp`, `sr` y marcas temporales. Descarta versiones anteriores.
+- `module.js`, `game.js`, `experience.js`: montaje en el shell existente.
+
+`AI_SYNC` sigue siendo el único transporte. Se publican controles y cambios de fase; no se escribe por frame. La TV es pasiva. Salas y estaciones permanecen separadas. Al cambiar el esquema hay que reiniciar Node para recargar su validador; las sesiones locales están en memoria.
+
+`rise-prototype/` conserva el v34 y las revisiones previas como archivo; no forma parte del diseño activo.
+
+## Verificación actual
+
+Con el servidor local ejecutándose:
 
 ```powershell
-node --test tests/*.test.js
-$env:PLAYWRIGHT_MODULE='C:/Users/mateo/Downloads/BID/node_modules/playwright'
+node projects/11-rsm-rise/v36/tests/visual.mjs
 node projects/11-rsm-rise/verification/check.cjs
-node projects/11-rsm-rise/verification/hosted-check.cjs
+node --test projects/11-rsm-rise/v36/tests/state.mjs
 ```
 
-Playwright puede resolverse desde el entorno si se omite `PLAYWRIGHT_MODULE`. Los tests usan Edge/Chromium, el puerto 4181 por defecto y una sala de prueba; no se agregan dependencias de producción. Los reportes y capturas están en `verification/`.
+Playwright usa la instalación del entorno (`PLAYWRIGHT_MODULE` permite indicar otra ruta); no se añade como dependencia de producción. `BASE_URL` cambia el servidor de pruebas.
 
-Se verifican los tres casos, ambas decisiones de clasificación, las tres acciones de supervisión, evidencias, lectura, memoria, recargas, idioma, atrás, cambio de caso, reinicio, menú, Home y aislamiento entre salas. Se comprueban resoluciones 1024×768, 1180×820, 1366×768 y TV 1920×1080. La prueba pública sirve los archivos locales bajo un hostname público simulado y un transporte Firebase en memoria: no lee ni escribe la sala de producción.
+La comparación visual realiza **152 pares** del original frente a las vistas integradas: EN/ES, todas las escenas y los tres casos. Se coloca el panel de referencia en el origen sin modificar su contenido ni estilos, se comprueban los mismos tamaños y se finalizan las animaciones CSS para capturar el estado estable. Se permite hasta 0,01% de variación por antialias; CSS y sentencias de código deben ser exactos.
 
-Quedan pendientes la revisión del usuario, la prueba en hardware físico, la validación editorial/de marca y, si se autoriza, publicar y comprobar el sitio público. La duración depende de la lectura y de las decisiones del visitante; no se fuerza un avance automático. El servidor local mantiene sus sesiones en memoria y las limpia al reiniciar.
+El recorrido real usa la API local y comprueba Continue, final de animación sin avance automático, recargas, Play/Next manual, Read the reports, los tres insights, cierre, idioma, reinicio, Home, aislamiento de sala y ausencia de escrituras desde la TV. Verifica tablet a 1024×768, 1180×820 y 1366×768, y TV a 1920×1080. Falla ante errores de JavaScript, HTTP o claves en `window.__i18nMiss`.
+
+Capturas y reportes: `v36/artifacts/`, ignorado por Git. Las pruebas sustituyen Google Fonts por CSS vacío para comprobar la fuente de respaldo. En uso normal se conserva la URL original de Inter. Sin frameworks, bundlers, nuevos CDN ni analítica.
+
+## Back solicitado para v36
+
+Se agrega Back / Atr?s con el bot?n original en la introducci?n, el desaf?o y el cierre. Las dem?s escenas conservan su Back nativo. Desde el aviso inicial vuelve a Proyectos; durante o despu?s de la animaci?n vuelve al aviso; desde el desaf?o vuelve al final de la introducci?n; desde el cierre vuelve al insight conservando la selecci?n. La TV sigue los cambios sin emitir controles. El HTML original, su CSS, copy y animaci?n permanecen intactos.
+
+`node projects/11-rsm-rise/v36/tests/back.mjs` verifica las diez transiciones en EN/ES, el reinicio manual de la animaci?n y el regreso a Proyectos con ambas pantallas. La comparaci?n visual oculta exclusivamente el nuevo bot?n para comparar el resto con el original.
+
+Hosted verification: `node projects/11-rsm-rise/verification/hosted-check.cjs` checks the deployed screens with Firebase intercepted in Playwright, without changing exhibition sessions.

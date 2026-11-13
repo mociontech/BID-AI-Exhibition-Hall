@@ -1,0 +1,12 @@
+{
+  "name": "rise-v34-prototype",
+  "private": true,
+  "scripts": {
+    "dev": "node dev.cjs",
+    "test": "node tests/flow.mjs",
+    "test:integrated": "node tests/integrated-visual.mjs",
+    "test:opening": "node tests/opening.mjs",
+    "extract": "node extract.mjs"
+  },
+  "engines": { "node": ">=18" }
+}

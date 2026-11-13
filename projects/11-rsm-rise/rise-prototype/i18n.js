@@ -1,0 +1,371 @@
+  var ES={"AI in Action": "AI in Action", "RISE · Risk Intelligence and Strategy Engine": "RISE · Motor de inteligencia de riesgo y estrategia", "documents analyzed since 2016,": "documentos analizados desde 2016,", "now converted into institutional memory": "hoy convertidos en memoria institucional", "Simulation": "Simulación", "of how the tool works. Fictional deals, not real data.": "de cómo funciona la herramienta. Operaciones ficticias, no son datos reales.", "IDB Invest · Risk Management with Analytics & IT (ITA)": "BID Invest · Gestión de Riesgos con Analítica y TI (ITA)", "Welcome": "Bienvenida", "RISE": "RISE", "Risk Intelligence and Strategy Engine": "Motor de inteligencia de riesgo y estrategia", "8,200 documents, one memory": "8,200 documentos, una sola memoria", "Every square is a document RISE has already ingested.": "Cada cuadro de la pantalla es un documento que RISE ya leyó.", "Follow the story on the screen": "Sigue la historia en la pantalla", "Skip intro": "Omitir intro", "Problem": "Problema", "Solution": "Solución", "Proposal": "Propuesta", "Read": "Lectura", "Decide": "Decisión", "Supervise": "Supervisión", "Remember": "Memoria", "The challenge": "El desafío", "Every investment decision starts with hundreds of documents": "Toda decisión de inversión comienza con cientos de documentos", "As deals grow in number, size and complexity, can risk teams keep pace without losing consistency?": "A medida que las operaciones crecen en número, tamaño y complejidad, ¿pueden los equipos de riesgo mantener el ritmo sin perder consistencia?", "Hundreds": "Cientos", "of documents per deal: Investment Proposals, Annual Supervision Reports, aide memoires and ESG documents": "de páginas por operación: propuestas, informes de supervisión, ayudas de memoria y documentos ESG", "By hand": "A mano", "sector, subsector, country and scorecard set deal by deal": "sector, subsector, país y scorecard definidos operación por operación", "10 years": "10 años", "of risk knowledge locked in unstructured documents that are hard to search": "de conocimiento de riesgo repartido en archivos difíciles de consultar", "Tap «Start experience» on the tablet": "Toca «Start experience» en la tableta", "Hundreds of pages": "Cientos de páginas", "per deal": "por operación", "Stage": "Etapa", "Can risk teams keep pace?": "¿Pueden los equipos de riesgo mantener el ritmo?", "Deals grow in number, size and complexity.": "Las operaciones crecen en número, tamaño y complejidad.", "Start experience": "Iniciar experiencia", "The solution": "La solución", "RISE reads the documents, so experts can focus on the decision": "RISE lee los documentos para que los expertos se concentren en la decisión", "The first AI solution in production at IDB Invest, built in-house by Risk Management with the analytics and IT teams. It reads investment proposals and supervision reports, suggests risk classifications and flags early warnings.": "La primera solución de IA en producción en BID Invest, desarrollada internamente por Gestión de Riesgos junto con los equipos de analítica y TI. Lee propuestas de inversión e informes de supervisión, sugiere clasificaciones de riesgo y marca alertas tempranas.", "Every step logged, traceable and auditable": "Cada paso queda registrado y es auditable", "Risk experts and tech team, side by side": "Expertos en riesgo y equipo de tecnología, codo a codo", "One searchable document repository": "Un repositorio de documentos con búsqueda", "90%+": "90%+", "accuracy in sector, subsector, industry and scorecard classification": "de precisión en la clasificación de sector, subsector, industria y scorecard", "~3x": "~3x", "faster coverage of transactions, as reported by IDB Invest (2026)": "más rápida la cobertura de transacciones, según BID Invest (2026)", "documents ingested since 2016, now institutional memory": "documentos procesados desde 2016, hoy memoria institucional", "Tap «Start» on the tablet": "Toca «Start» en la tableta", "Insight": "Insight", "Key point": "Dato clave", "Push": "Push", "now": "ahora", "90%+ accuracy": "90%+ de precisión", "in classification. RISE is already in production at IDB Invest.": "en la clasificación. RISE ya está en producción en BID Invest.", "How it works and impact to date": "Cómo funciona y su impacto a la fecha", "Next, you choose a proposal.": "A continuación, eliges una propuesta.", "Back": "Atrás", "Start": "Iniciar", "A proposal lands": "Llega una propuesta", "A new investment proposal has just landed.": "Acaba de llegar una nueva propuesta de inversión.", "SME credit line": "Línea de crédito para pymes", "Commercial bank": "Banco comercial", "Urban metro line": "Línea de metro urbano", "Metro concessionaire": "Concesionaria de metro", "Fiber broadband network": "Red de banda ancha de fibra óptica", "Telecom operator": "Operador de telecomunicaciones", "Country A": "País A", "Country B": "País B", "Country C": "País C", "Choose a proposal on the tablet": "Elige una propuesta en la tableta", "Choose a": "Elige una", "proposal": "propuesta", "Which deal lands on your desk?": "¿Qué operación llega a tu escritorio?", "Send to RISE": "Enviar a RISE", "Investment proposal": "Propuesta de inversión", "Tap «Send to RISE» on the tablet": "Toca «Send to RISE» en la tableta", ". RISE starts from the risks, not from page one.": ". RISE empieza por los riesgos, no por la página uno.", "RISE reads": "RISE lee", "With RISE": "Con RISE", "Summary": "Resumen", "…": "…", "Business model": "Modelo de negocio", "Risks": "Riesgos", "Mitigants": "Mitigantes", "Gaps": "Vacíos", "Classification": "Clasificación", "Press «Run RISE» on the tablet to start both reviews.": "Toca «Run RISE» en la tableta para iniciar ambas revisiones.", "Tap «Run RISE» on the tablet": "Toca «Run RISE» en la tableta", "Run": "Ejecuta", "Both reviews start at once on screen.": "Ambas revisiones inician a la vez en pantalla.", "Run RISE": "Ejecutar RISE", "Next": "Siguiente", "RISE is reading the proposal…": "RISE está leyendo la propuesta…", "RISE pulls the": "RISE extrae el", "summary, business model, risks, mitigants and gaps": "resumen, el modelo de negocio, los riesgos, los mitigantes y los vacíos", "at the same time.": "al mismo tiempo.", "No critical gaps found": "No se encontraron vacíos críticos", "Still reading…": "Sigue leyendo…", "✓ Smart pre-analysis ready": "✓ Preanálisis inteligente listo", "Faster coverage": "Cobertura más rápida", "What the officer gains": "Lo que gana el oficial", "The review starts from the risks, not from page one, with the same criteria on every deal.": "La revisión parte de los riesgos, no de la página uno, con los mismos criterios en cada operación.", "As reported by IDB Invest (2026). Times shown are simulated.": "Según BID Invest (2026). Los tiempos mostrados son simulados.", "Tap «Next» on the tablet": "Toca «Next» en la tableta", "~3x faster coverage": "~3x más rápida la cobertura", "of transactions. As reported by IDB Invest, 2026.": "de transacciones. Según BID Invest, 2026.", "Both reviews are on the screen.": "Ambas revisiones están en la pantalla.", "Pre-analysis ready": "Preanálisis listo", "RISE · Smart pre-analysis": "RISE · Preanálisis inteligente", "To: Credit Risk Officer": "Para: oficial de riesgo de crédito", "Country": "País", "CECL sector": "Sector CECL", "CECL subsector": "Subsector CECL", "Scorecard": "Scorecard", "Financial intermediaries": "Intermediarios financieros", "Bank": "Banco", "Infrastructure": "Infraestructura", "Transport": "Transporte", "Project finance": "Financiamiento de proyectos", "Telecommunications": "Telecomunicaciones", "Fixed broadband": "Banda ancha fija", "Corporate": "Corporativo", "S&P Bank Model": "Modelo bancario de S&P", "FX risk": "Riesgo cambiario", "Deposit concentration": "Concentración de depósitos", "Portfolio concentration": "Concentración de cartera", "Solid liquidity": "Liquidez sólida", "Diversified funding": "Fondeo diversificado", "Use-of-funds covenants": "Cláusulas sobre el uso de fondos", "Construction delays": "Retrasos de obra", "Cost overruns": "Sobrecostos", "Ridership below forecast": "Demanda de pasajeros por debajo de lo proyectado", "Fixed-price EPC contract": "Contrato EPC a precio fijo", "Availability payments": "Pagos por disponibilidad", "Contingency reserve": "Reserva de contingencia", "Subscriber growth": "Crecimiento de suscriptores", "Technology change": "Cambio tecnológico", "Anchor customer contracts": "Contratos con clientes ancla", "Phased rollout": "Despliegue por fases", "Debt service reserve": "Reserva de servicio de la deuda", "This AI-driven analysis suggests classifications based on the proposal content.": "Este análisis con IA sugiere clasificaciones a partir del contenido de la propuesta.", "High confidence in scorecard selection": "Alta confianza en el scorecard", "80%+ high: strong document evidence · 60–79% medium: some ambiguity · below 60% low: limited or conflicting evidence.": "80%+ alta · 60–79% media · menos de 60% baja, según la evidencia del documento.", "Tap «Why?» on the tablet to see RISE’s reasoning and source pages.": "Toca «Why?» en la tableta para ver la evidencia detrás de la sugerencia.", "Your decision": "Tu decisión", "✓ Accept suggestion": "✓ Aceptar sugerencia", "✎ Adjust": "✎ Ajustar", "Waiting for the risk officer’s decision.": "Esperando la decisión del oficial de riesgo.", "Tap «Why?», then Accept or Adjust": "Toca «Why?» y luego Accept o Adjust", "AI suggests. The risk officer decides.": "La IA sugiere. El oficial de riesgo decide.", "The confidence level helps prioritize.": "El nivel de confianza ayuda a priorizar.", "Accept or": "¿Aceptar o", "adjust?": "ajustar?", "RISE suggests. You decide.": "RISE sugiere. Tú decides.", "Why?": "¿Por qué?", "See the evidence": "Ver la evidencia", "Accept": "Aceptar", "Keep the suggestion": "Mantener la sugerencia", "Adjust": "Ajustar", "Change and log why": "Cambiar y registrar el motivo", "RISE reasoning": "Razonamiento de RISE", "Choose Accept or Adjust on the tablet": "Elige Accept o Adjust en la tableta", "Every suggestion points to": "Cada sugerencia indica", "the page it comes from": "la página de donde proviene", ".": ".", "Adjusted by the risk officer. The change and the reason are logged.": "Ajustado por el oficial de riesgo. El cambio y el motivo quedan registrados.", "Decision logged:": "Decisión registrada:", "who decided, what changed and why": "quién decidió, qué cambió y por qué", "Accepted by the risk officer. Every step is logged with full traceability.": "Aceptado por el oficial de riesgo. Cada paso queda registrado con total trazabilidad.", "Years later, RISE keeps reading": "Años después, RISE sigue leyendo", "Reports and aide memoires are summarized as they arrive.": "Los informes y las ayudas de memoria se resumen a medida que llegan.", "Approval": "Aprobación", "Annual report": "Informe anual", "Reading supervision reports…": "Leyendo informes de supervisión…", "Institutional memory": "Memoria institucional", "8,200 documents since 2016.": "8,200 documentos desde 2016.", "RISE flags an": "RISE marca una", "early warning": "alerta temprana", "Years later, RISE keeps reading…": "Años después, RISE sigue leyendo…", "See your review": "Ver tu revisión", "RISE early warning": "Alerta temprana de RISE", "Early warning": "Alerta temprana", "Deposit concentration above the agreed limit": "Concentración de depósitos por encima del límite acordado", "Detected in quarterly financials and the latest aide memoire, months before the next annual review.": "Detectada en los estados financieros trimestrales y en la última ayuda de memoria, meses antes de la siguiente revisión anual.", "Keep monitoring": "Seguir monitoreando", "Engage the client": "Dialogar con el cliente", "Escalate to Special Assets": "Escalar a Activos Especiales", "The risk officer decides the next step.": "El oficial de riesgo decide el siguiente paso.", "3 similar deals since 2016. Clients asked to diversify funding early recovered faster.": "3 operaciones similares desde 2016. Los clientes a quienes se pidió diversificar el fondeo a tiempo se recuperaron más rápido.", "3 similar deals since 2016.": "3 operaciones similares desde 2016.", "Clients asked to diversify funding early recovered faster.": "Los clientes a quienes se pidió diversificar el fondeo a tiempo se recuperaron más rápido.", "Early warning": "Alerta temprana", ". Year 2.": ". Año 2.", "Without RISE: annual review": "Sin RISE: revisión anual", "Choose the next step on the tablet": "Elige el siguiente paso en la tableta", "What do you do?": "¿Qué haces?", "Watch the next quarterly figures": "Vigilar las próximas cifras trimestrales", "Agree on a corrective plan now": "Acordar ya un plan correctivo", "Bring in the recovery team": "Convocar al equipo de recuperación", "Action logged. RISE flagged it a full annual review earlier.": "Acción registrada. RISE lo señaló una revisión anual completa antes.", "Tap «See your review» on the tablet": "Toca «See your review» en la tableta", "✓": "✓", "Your review": "Tu revisión", "AI reads.": "La IA lee.", "Experts decide.": "Los expertos deciden.", "Institutional memory created.": "Memoria institucional creada.", "Accepted by you": "Aceptado por ti", "Adjusted by you": "Ajustado por ti", "#8,201": "#8,201", "Your review feeds IDB Invest’s institutional memory. Every document RISE analyzes makes the next review better informed.": "Tu revisión se suma a la memoria del banco. Cada operación que RISE lee hace que la siguiente revisión esté mejor informada.", "Tap «Start again» on the tablet": "Toca «Start again» en la tableta", "Your review is": "Tu revisión es el", "document #8,201": "documento #8,201", ". Every review makes the next one better informed.": ". Cada revisión hace que la siguiente esté mejor informada.", "Review": "Revisión", "complete": "completa", "Document #8,201 feeds IDB Invest’s institutional memory.": "El documento #8,201 se suma a la memoria del banco.", "AI reads. Experts decide. Institutional memory created.": "La IA lee. Los expertos deciden. Memoria institucional creada.", "Your decisions and the impact are on the screen.": "Tus decisiones y el impacto están en la pantalla.", "Start again": "Reiniciar", "Long-term financing for the construction of an underground metro line.": "Financiamiento a largo plazo para construir una línea de metro subterráneo.", "Special purpose vehicle (SPV) that builds and operates the line under a concession.": "Sociedad de propósito especial que construye y opera la línea bajo una concesión.", "Senior loan to a commercial bank to grow its SME and green lending portfolios.": "Préstamo senior a un banco comercial para ampliar sus carteras de crédito a pymes y verde.", "Universal bank serving individuals, companies and SMEs.": "Banco universal que atiende a personas, empresas y pymes.", "Financing to roll out a fiber-optic network to underserved areas.": "Financiamiento para desplegar una red de fibra óptica en zonas con poca cobertura.", "Telecom operator selling wholesale and retail broadband under long-term contracts.": "Operador de telecomunicaciones que vende banda ancha mayorista y minorista con contratos de largo plazo.", "A regulated commercial bank. Loans are most of its assets, and repayment relies on the bank’s overall operations, not on a single project.": "Un banco comercial regulado. Los préstamos son la mayor parte de sus activos y el pago depende de las operaciones generales del banco, no de un solo proyecto.", "Repayment depends on the cash flows of one project, held in a special purpose vehicle (SPV), so the project finance scorecard applies.": "El pago depende de los flujos de un solo proyecto, en una sociedad de propósito especial, por lo que aplica el scorecard de financiamiento de proyectos.", "A telecom operator whose debt is repaid from the revenues of its whole network, not from a single asset, so the corporate scorecard applies.": "Un operador de telecomunicaciones cuya deuda se paga con los ingresos de toda su red, no de un solo activo, por lo que aplica el scorecard corporativo.", "“…supervised by the national banking regulator…”": "“…supervisado por el regulador bancario nacional…”", "“…loans represent 70% of total assets…”": "“…los préstamos representan el 70% de los activos totales…”", "“…repaid from the bank’s general cash flows…”": "“…se pagan con los flujos de caja generales del banco…”", "“…a special purpose vehicle created for the concession…”": "“…una sociedad de propósito especial creada para la concesión…”", "“…debt service from project revenues only…”": "“…servicio de la deuda solo con los ingresos del proyecto…”", "“…availability payments by the transport authority…”": "“…pagos por disponibilidad de la autoridad de transporte…”", "“…wholesale agreements with three anchor customers…”": "“…acuerdos mayoristas con tres clientes ancla…”", "“…repayment from network revenues…”": "“…pago con los ingresos de la red…”", "“…rollout in phases over four years…”": "“…despliegue por fases durante cuatro años…”", "Construction nine months behind plan": "Obra con nueve meses de retraso frente al plan", "Detected in the latest aide memoire and site progress data, months before the next annual review.": "Detectada en la última ayuda de memoria y en los datos de avance de obra, meses antes de la siguiente revisión anual.", "3 similar deals since 2016. An early meeting on schedule recovery limited cost overruns.": "3 operaciones similares desde 2016. Una reunión temprana sobre la recuperación del cronograma limitó los sobrecostos.", "An early meeting on schedule recovery limited cost overruns.": "Una reunión temprana sobre la recuperación del cronograma limitó los sobrecostos.", "Subscriber growth below the agreed plan": "Crecimiento de suscriptores por debajo del plan acordado", "Detected in subscriber reports and the latest aide memoire, months before the next annual review.": "Detectada en los informes de suscriptores y en la última ayuda de memoria, meses antes de la siguiente revisión anual.", "3 similar deals since 2016. Re-phasing the rollout early protected debt service.": "3 operaciones similares desde 2016. Reprogramar el despliegue a tiempo protegió el servicio de la deuda.", "Re-phasing the rollout early protected debt service.": "Reprogramar el despliegue a tiempo protegió el servicio de la deuda.", "This proposal has": "Esta propuesta tiene", "You decide": "Tú decides"};
+
+  ES["Tap «Start experience» on the tablet"]="Toca «Iniciar experiencia» en la tableta";
+  ES["Tap «Start» on the tablet"]="Toca «Iniciar» en la tableta";
+  ES["Tap «Send to RISE» on the tablet"]="Toca «Enviar a RISE» en la tableta";
+  ES["Tap «Run RISE» on the tablet"]="Toca «Ejecutar RISE» en la tableta";
+  ES["Press «Run RISE» on the tablet to start both reviews."]="Toca «Ejecutar RISE» en la tableta para iniciar ambas revisiones.";
+  ES["Tap «Next» on the tablet"]="Toca «Siguiente» en la tableta";
+  ES["Tap «Why?» on the tablet to see RISE’s reasoning and source pages."]="Toca «¿Por qué?» en la tableta para ver la evidencia detrás de la sugerencia.";
+  ES["Tap «Why?», then Accept or Adjust"]="Toca «¿Por qué?» y luego Aceptar o Ajustar";
+  ES["Choose Accept or Adjust on the tablet"]="Elige Aceptar o Ajustar en la tableta";
+  ES["Tap «See your review» on the tablet"]="Toca «Ver tu revisión» en la tableta";
+  ES["Tap «Start again» on the tablet"]="Toca «Reiniciar» en la tableta";
+  ES["RISE is reading"]="RISE está leyendo";
+  ES["Stage 2 · How it works"]="Etapa 2 · Cómo funciona";
+  ES["You are the risk officer. RISE reads, you decide"]="Tú eres el oficial de riesgos. RISE lee, tú decides";
+  ES["In the next minutes you will review a real-sized proposal. RISE does the reading and suggests. The judgment stays with you."]="En los próximos minutos revisarás una propuesta de tamaño real. RISE hace la lectura y sugiere. El criterio queda contigo.";
+  ES["Every suggestion cites its source page"]="Cada sugerencia cita su página de origen";
+  ES["Every step logged, traceable and auditable"]="Cada paso queda registrado y es auditable";
+  ES["You"]="Tú";
+  ES["Pick a proposal"]="Elige una propuesta";
+  ES["A deal with hundreds of pages lands on your desk."]="Una operación de cientos de páginas llega a tu escritorio.";
+  ES["Reads it in parallel"]="Lo lee en paralelo";
+  ES["Splits the document and pulls the summary, business model, risks, mitigants and gaps at the same time."]="Divide el documento y extrae al mismo tiempo el resumen, el modelo de negocio, los riesgos, los mitigantes y los vacíos.";
+  ES["Suggests, with evidence"]="Sugiere, con evidencia";
+  ES["Proposes a risk classification with its confidence level and the source page. Compares with similar deals since 2016."]="Propone una clasificación de riesgo con su nivel de confianza y la página de origen. Compara con operaciones similares desde 2016.";
+  ES["Accept or adjust. Your decision is logged and becomes precedent for the next deal."]="Acepta o ajusta. Tu decisión queda registrada y sirve de precedente para la siguiente operación.";
+  ES["Every suggestion shows"]="Cada sugerencia muestra";
+  ES["its confidence level"]="su nivel de confianza";
+  ES["the page it came from"]="la página de la que proviene";
+  ES["Your role: risk officer"]="Tu rol: oficial de riesgos";
+  ES["A new proposal is about to land. Compare the manual review with RISE, then make the call."]="Una nueva propuesta está por llegar. Compara la revisión manual con RISE y toma la decisión.";
+  ES["Look at the screen"]="Mira la pantalla";
+  ES["Preparation & Approval"]="Preparación y aprobación";
+  ES["Execution & Supervision"]="Ejecución y supervisión";
+  ES["Close & Measurement"]="Cierre y medición";
+  ES["Portfolio Monitoring"]="Seguimiento del portafolio";
+  ES["RISE across IDB Invest’s operational cycle"]="RISE en el ciclo operativo de BID Invest";
+  ES["Reads the proposal and suggests a classification."]="Lee la propuesta y sugiere una clasificación.";
+  ES["Summarizes each supervision report as it arrives."]="Resume cada informe de supervisión a medida que llega.";
+  ES["Keeps every outcome as lessons learned."]="Conserva cada resultado como lección aprendida.";
+  ES["Flags early warning signals across the portfolio."]="Detecta alertas tempranas en todo el portafolio.";
+  ES["Risk indicators"]="Indicadores de riesgo";
+  ES["Accept if confidence is high and overall risk is low or medium."]="Acepta si la confianza es alta y el riesgo global es bajo o medio.";
+  ES["Overall risk"]="Riesgo global";
+  ES["Credit risk"]="Riesgo crediticio";
+  ES["Financial risk"]="Riesgo financiero";
+  ES["Market risk"]="Riesgo de mercado";
+  ES["Environmental and social (E&S) risk"]="Riesgo ambiental y social (A&S)";
+  ES["Integrity and reputational risk"]="Riesgo de integridad y reputacional";
+  ES["Corporate governance risk"]="Riesgo de gobierno corporativo";
+  ES["Low below 35% · Medium 35–64% · High 65%+"]="Bajo menos de 35% · Medio 35–64% · Alto 65%+";
+  ES["Review the risk indicators, then accept or adjust."]="Revisa los indicadores de riesgo y luego acepta o ajusta.";
+  ES["Review the risk indicators, then make the call."]="Revisa los indicadores de riesgo y decide.";
+  ES["Change one indicator"]="Cambiar un indicador";
+  ES["Indicator updated. Logged: who decided, what changed and when."]="Indicador actualizado. Registrado: quién decidió, qué cambió y cuándo.";
+  ES["Accept if confidence is high and residual risk is low or medium."]="Acepta si la confianza es alta y el riesgo residual es bajo o medio.";
+  ES["High 65%+"]="Alto 65%+";
+  ES["Medium 35–64%"]="Medio 35–64%";
+  ES["Low below 35%"]="Bajo menos de 35%";
+  ES["Most critical risks"]="Riesgos más críticos";
+  ES["5 of 5 risks incorporated in the review"]="5 de 5 riesgos incorporados en la revisión";
+  ES["Probability of occurrence"]="Probabilidad de ocurrencia";
+  ES["Impact on results"]="Impacto sobre los resultados";
+  ES["Residual level after mitigation"]="Nivel residual después de mitigación";
+  ES["High risk"]="Riesgo alto";
+  ES["Medium risk"]="Riesgo medio";
+  ES["Low risk"]="Riesgo bajo";
+  ES["Illustrative values. Scale: low below 35%, medium 35–64%, high 65% or more."]="Valores ilustrativos. Escala: bajo menos de 35%, medio 35–64%, alto 65% o más.";
+  ES["Probability × impact, after mitigants"]="Probabilidad × impacto, tras los mitigantes";
+  ES["Classification confidence"]="Confianza en la clasificación";
+  ES["Residual risk"]="Riesgo residual";
+  ES["Accept if confidence is high and residual risk is low or medium. Adjust if you disagree with a rating."]="Acepta si la confianza es alta y el riesgo residual es bajo o medio. Ajusta si no estás de acuerdo con una calificación.";
+  ES["How likely the risks are to occur"]="Qué tan probable es que ocurran los riesgos";
+  ES["Effect on project results"]="Efecto sobre los resultados del proyecto";
+  ES["What remains after mitigants"]="Lo que queda tras los mitigantes";
+  ES["Score across the 5 indicators"]="Puntaje global de los 5 indicadores";
+  ES["Risk indicators"]="Indicadores de riesgo";
+  ES["Accept if confidence is high and overall risk is low or medium."]="Acepta si la confianza es alta y el riesgo global es bajo o medio.";
+  ES["Risk matrix"]="Matriz de riesgo";
+  ES["Review the risk matrix and make the call."]="Revisa la matriz de riesgo y toma la decisión.";
+  ES["Review the risk matrix, then make the call."]="Revisa la matriz de riesgo y decide.";
+  ES["Executor’s institutional capacity"]="Capacidad institucional del ejecutor";
+  ES["Fiduciary risk"]="Riesgo fiduciario";
+  ES["Environmental and social risk"]="Riesgo ambiental y social";
+  ES["Political and institutional risk"]="Riesgo político e institucional";
+  ES["Climate risk"]="Riesgo climático";
+  ES["Risk"]="Riesgo";
+  ES["Probability"]="Probabilidad";
+  ES["Impact"]="Impacto";
+  ES["Residual after mitigation"]="Residual tras mitigación";
+  ES["Low"]="Baja";
+  ES["Medium"]="Media";
+  ES["High"]="Alta";
+  ES["Low​"]="Bajo";
+  ES["Medium​"]="Medio";
+  ES["High​"]="Alto";
+  ES["Adjusted"]="Ajustado";
+  ES["Preliminary view from the proposal. The risk officer validates every rating."]="Vista preliminar a partir de la propuesta. El oficial de riesgo valida cada calificación.";
+  ES["Base your call on the risk matrix above."]="Basa tu decisión en la matriz de riesgo.";
+  ES["Investment approved"]="Inversión aprobada";
+  ES["Approved with your adjustment"]="Aprobada con tu ajuste";
+  ES["Accepted as suggested. Logged with full traceability: who decided and when."]="Aceptado como se sugirió. Registrado con total trazabilidad: quién decidió y cuándo.";
+  ES["Residual risk updated. Logged: who decided, what changed and when."]="Riesgo residual actualizado. Registrado: quién decidió, qué cambió y cuándo.";
+  ES["Accepted as suggested."]="Aceptado como se sugirió.";
+  ES["The investment is approved."]="La inversión queda aprobada.";
+  ES["Adjustment applied."]="Ajuste aplicado.";
+  ES["The investment is approved with your change."]="La inversión queda aprobada con tu cambio.";
+  ES["Review the risk indicators, then accept or adjust."]="Revisa la matriz de riesgo y luego acepta o ajusta.";
+  ES["Approve as suggested"]="Aprobar como se sugiere";
+  ES["Change one rating"]="Cambiar una calificación";
+  ES["Risk assessment"]="Evaluación de riesgo";
+  ES["Top depositors’ share rising each quarter"]="La participación de los mayores depositantes sube cada trimestre";
+  ES["Progress curve below schedule for three quarters"]="Curva de avance por debajo del cronograma durante tres trimestres";
+  ES["Net subscriber additions falling"]="Las altas netas de suscriptores van a la baja";
+  ES["How RISE works"]="Cómo funciona RISE";
+  ES["Built in-house on the Databricks analytics environment"]="Desarrollado en casa sobre el entorno analítico de Databricks";
+  ES["Ingest"]="Ingesta";
+  ES["Documents loaded and structured in an AI-ready repository"]="Documentos cargados y estructurados en un repositorio listo para IA";
+  ES["Classify"]="Clasificación";
+  ES["LLM guided by business-rule guardrails"]="Modelo de lenguaje guiado por reglas de negocio";
+  ES["Validate"]="Validación";
+  ES["Schema validation blocks invented results"]="La validación de esquemas evita resultados inventados";
+  ES["Trace"]="Trazabilidad";
+  ES["Every step logged with MLflow for audit"]="Cada paso queda registrado con MLflow para auditoría";
+  ES["Business rule applied"]="Regla de negocio aplicada";
+  ES["Schema validation passed"]="Validación de esquema aprobada";
+  ES["Run logged and reproducible"]="Ejecución registrada y reproducible";
+  ES["Sector, subsector and scorecard in valid format."]="Sector, subsector y scorecard en formato válido.";
+  ES["Model, rules and sources recorded."]="Modelo, reglas y fuentes registrados.";
+  ES["Financial intermediaries use the bank scorecard."]="Los intermediarios financieros usan el scorecard bancario.";
+  ES["Single-project repayment uses the project finance scorecard."]="Si el repago depende de un solo proyecto, se usa el scorecard de financiamiento de proyectos.";
+  ES["Operators repaid from the whole network use the corporate scorecard."]="Los operadores que pagan con los ingresos de toda la red usan el scorecard corporativo.";
+  ES["Structured data"]="Datos estructurados";
+  ES["Unstructured text"]="Texto no estructurado";
+  ES["Deposit concentration above limit"]="Concentración de depósitos sobre el límite";
+  ES["Funding diversification delayed"]="Diversificación de fondeo retrasada";
+  ES["Progress nine months behind plan"]="Avance con nueve meses de retraso";
+  ES["Contractor requests a schedule review"]="El contratista pide revisar el cronograma";
+  ES["Subscribers below plan"]="Suscriptores por debajo del plan";
+  ES["Rollout phase 2 postponed"]="Fase 2 del despliegue pospuesta";
+  ES["Repository: 8,200 → 8,201 documents since 2016"]="Repositorio: de 8,200 a 8,201 documentos desde 2016";
+  ES["Every square is a document RISE has already ingested."]="Cada cuadro es un documento que RISE ya procesó.";
+  ES["of documents per deal: Investment Proposals, Annual Supervision Reports, aide memoires and ESG documents"]="de documentos por operación: propuestas de inversión, informes anuales de supervisión, ayudas memoria y documentos ASG";
+  ES["Manual review"]="Revisión manual";
+  ES["CECL sector, subsector, country and scorecard assigned for each project"]="sector CECL, subsector, país y scorecard asignados para cada proyecto";
+  ES["of risk knowledge locked in unstructured documents that are hard to search"]="de conocimiento de riesgo atrapado en documentos no estructurados y difíciles de consultar";
+  ES["Every step logged, traceable and auditable"]="Cada paso queda registrado, es trazable y auditable";
+  ES["Pick an Investment Proposal"]="Elige una propuesta de inversión";
+  ES["Parallel review"]="Revisión en paralelo";
+  ES["The same deal: manual review vs. RISE. Compare times."]="La misma operación: revisión manual vs. RISE. Compara tiempos.";
+  ES["Classifies, with evidence"]="Clasifica, con evidencia";
+  ES["CECL classification, scorecard, confidence score and source page."]="Clasificación CECL, scorecard, nivel de confianza y página de origen.";
+  ES["Accept or adjust. Every decision is logged and auditable."]="Acepta o ajusta. Cada decisión queda registrada y es auditable.";
+  ES["Transaction summary"]="Resumen de la operación";
+  ES["Gaps and inconsistencies"]="Vacíos e inconsistencias";
+  ES["Suggested classification"]="Clasificación sugerida";
+  ES["RISE ingests the document and extracts the"]="RISE analiza el documento y extrae el";
+  ES[", validated against business rules."]=", validados con reglas de negocio.";
+  ES["To: Credit Risk Officer"]="Para: oficial de riesgo de crédito";
+  ES["High confidence in scorecard selection"]="Alta confianza en la selección del scorecard";
+  ES["80%+ high: strong document evidence · 60–79% medium: some ambiguity · below 60% low: limited or conflicting evidence."]="80%+ alta: evidencia sólida en el documento · 60–79% media: cierta ambigüedad · menos de 60% baja: evidencia limitada o contradictoria.";
+  ES["The LLM works inside business-rule guardrails."]="El modelo de lenguaje trabaja dentro de reglas de negocio.";
+  ES["RISE suggests; it never closes a classification on its own."]="RISE sugiere; nunca cierra una clasificación por sí sola.";
+  ES["RISE suggests; the risk officer decides."]="RISE sugiere; el oficial de riesgo decide.";
+  ES["The confidence score helps prioritize the review."]="El nivel de confianza ayuda a priorizar la revisión.";
+  ES["Every suggestion is"]="Cada sugerencia es";
+  ES["traceable to its source page"]="trazable hasta su página de origen";
+  ES["Decision logged with a full audit trail:"]="Decisión registrada con pista de auditoría completa:";
+  ES["Use the confidence score and RISE’s reasoning to make the call."]="Usa el nivel de confianza y el razonamiento de RISE.";
+  ES["Base your call on the confidence score and the reasoning above."]="Basa tu decisión en el nivel de confianza y el razonamiento.";
+  ES["The investment is approved. Execution and supervision begin."]="La inversión se aprueba. Comienzan la ejecución y la supervisión.";
+  ES["Years go by. RISE keeps reading every supervision report."]="Pasan los años. RISE sigue leyendo cada informe de supervisión.";
+  ES["RISE summarizes each supervision report and aide memoire as it arrives."]="RISE resume cada informe y ayuda memoria al llegar.";
+  ES["Early warning signal · Year 2"]="Señal de alerta temprana · Año 2";
+  ES["RISE early warning signal"]="Señal de alerta temprana de RISE";
+  ES["Supervision report"]="Informe de supervisión";
+  ES["3 similar deals in the repository since 2016."]="3 operaciones similares en el repositorio desde 2016.";
+  ES["Your review feeds IDB Invest’s institutional memory. Every document RISE analyzes makes the next review better informed."]="Tu revisión alimenta la memoria institucional de BID Invest. Cada documento que RISE analiza hace que la siguiente revisión esté mejor informada.";
+  ES["Document #8,201 feeds IDB Invest’s institutional memory."]="El documento #8,201 alimenta la memoria institucional de BID Invest.";
+  ES["See reasoning and sources"]="Ver razonamiento y fuentes";
+  ES["Tap «Why?» on the tablet to see RISE’s reasoning and source pages."]="Toca «¿Por qué?» en la tableta para ver el razonamiento de RISE y las páginas de origen.";
+  ES["Supervision"]="Supervisión";
+  ES["Early alert detection"]="Detección temprana de alertas";
+  ES["Monitoring report"]="Informe de seguimiento";
+  ES["Monitoring and Evaluation report"]="Informe de seguimiento y evaluación";
+  ES["Impact Evaluation"]="Evaluación de impacto";
+
+  ES["What is your next step?"]="¿Cuál es tu siguiente paso?";
+  ES["Annual review without RISE"]="Revisión anual sin RISE";
+  ES["Choose on the tablet."]="Elige en la tableta.";
+
+  ES["Your decision is logged."]="Tu decisión queda registrada.";
+  ES["Stage 6 · Supervision"]="Etapa 6 · Supervisión";
+  ES["Years"]="Pasan los";
+  ES["go by"]="años";
+  ES["The project moves into execution."]="El proyecto entra en ejecución.";
+  ES["Supervision is next"]="Sigue la supervisión";
+  ES["On the screen: the project runs and RISE keeps reading."]="En la pantalla: el proyecto avanza y RISE sigue leyendo.";
+  ES["Skip ahead"]="Saltar";
+
+  ES["RISE pre-analysis"]="Preanálisis de RISE";
+  ES["A suggested classification, with its confidence level."]="Una clasificación sugerida, con su nivel de confianza.";
+  ES["Your decision"]="Tu decisión";
+  ES["RISE suggests"]="RISE sugiere";
+  ES["Accept the suggestion or adjust it?"]="¿Aceptas la sugerencia o la ajustas?";
+  ES["Suggestion accepted"]="Sugerencia aceptada";
+  ES["Suggestion adjusted"]="Sugerencia ajustada";
+  ES["Logged with full traceability: who decided, what changed and why."]="Queda registrado con trazabilidad total: quién decidió, qué cambió y por qué.";
+  ES["Accept"]="Aceptar";
+  ES["Adjust"]="Ajustar";
+  ES["Tap «Your decision» on the tablet"]="Toca «Tu decisión» en la tableta";
+  ES["Tap «Why?», then choose Accept or Adjust"]="Toca «¿Por qué?» y luego elige Aceptar o Ajustar";
+  ES["Stage 5 · Result"]="Etapa 5 · Resultado";
+  ES["RISE <em>pre-analysis</em>"]="RISE <em>preanálisis</em>";
+  ES["pre-analysis"]="preanálisis";
+  ES["A suggestion with its confidence level."]="Una sugerencia con su nivel de confianza.";
+  ES["Your decision"]="Tu decisión";
+  ES["Check the evidence, then make the call."]="Revisa la evidencia y toma la decisión.";
+  ES["The call is yours."]="La decisión es tuya.";
+  ES["Check the evidence, then accept or adjust."]="Revisa la evidencia y luego acepta o ajusta.";
+
+  ES["Tap «Run manual and RISE» on the tablet"]="Toca «Ejecutar manual y con RISE» en la tableta";
+  ES["Pick a proposal, compare the manual review with RISE and decide."]="Elige una propuesta, compara la revisión manual con RISE y decide.";
+  ES["Run manual and RISE"]="Ejecutar manual y con RISE";
+  ES["manual and RISE"]="manual y con RISE";
+  ES["Both run in parallel. Compare the times."]="Ambas corren en paralelo. Compara los tiempos.";
+  ES["Manual vs. RISE, in parallel"]="Manual vs. RISE, en paralelo";
+  ES["Manual + RISE"]="Manual + RISE";
+  ES["Read in parallel"]="Lectura en paralelo";
+  ES["The same deal, by hand and with RISE. Compare times."]="La misma operación, a mano y con RISE. Compara tiempos.";
+  ES["One of three investment deals."]="Una de tres operaciones de inversión.";
+  ES["Risk classification, confidence and source page."]="Clasificación de riesgo, confianza y página de origen.";
+  ES["Accept or adjust. Your decision is logged."]="Acepta o ajusta. Tu decisión queda registrada.";
+  ES["Home"]="Inicio";
+  ES["Three new investment proposals have just landed. Choose one to review."]="Acaban de llegar tres nuevas propuestas de inversión. Elige una para revisar.";
+  ES["Step 1 · Proposals land"]="Paso 1 · Llegan las propuestas";
+  ES["Choose one proposal on the tablet"]="Elige una propuesta en la tableta";
+  ES["Which one do you review first?"]="¿Cuál revisas primero?";
+  ES["Stage 2 · Your role"]="Etapa 2 · Tu rol";
+  ES["Now you are the"]="Ahora eres el";
+  ES["You are a"]="Eres un";
+  ES["risk officer"]="oficial de riesgos";
+  ES["What happens next"]="Lo que sigue";
+  ES["Choose one of three investment deals, each with hundreds of pages."]="Elige una de tres operaciones de inversión, cada una con cientos de páginas.";
+  ES["You are a risk officer"]="Eres un oficial de riesgos";
+  ES["Pick a proposal, watch RISE read it and make the call."]="Elige una propuesta, mira cómo RISE la lee y toma la decisión.";
+  ES["RISE reads in parallel; judgment stays with you."]="RISE lee en paralelo; el criterio es tuyo.";
+  ES["It never closes a classification on its own."]="Nunca cierra una clasificación por sí sola.";
+  function I18N_EXTRA(x,t){var m;
+    if((m=x.match(/^(\d+) pages$/)))return m[1]+' páginas';
+    if((m=x.match(/^(\d+) pp\. read by RISE$/)))return m[1]+' pp. leídas por RISE';
+    if((m=x.match(/^RISE is reading · (\d+)%$/)))return 'RISE está leyendo · '+m[1]+'%';
+    if((m=x.match(/^Reading Year (\d+) report$/)))return 'Leyendo el informe del año '+m[1];
+    if((m=x.match(/^Year (\d+)$/)))return 'Año '+m[1];
+    if((m=x.match(/^RISE classifies the operation with (\d+)% confidence\.$/)))return 'RISE clasifica la operación con '+m[1]+'% de confianza.';
+    if((m=x.match(/^Accepted, (\d+)% classification confidence$/)))return 'Aceptado, '+m[1]+'% de confianza en la clasificación';
+    if((m=x.match(/^RISE suggests a classification with (\d+)% confidence\.$/)))return 'RISE sugiere una clasificación con '+m[1]+'% de confianza.';
+    if((m=x.match(/^RISE finished while the manual review is still on page (\d+)\.$/)))return 'RISE terminó mientras la revisión manual va en la página '+m[1]+'.';
+    if((m=x.match(/^The same (\d+)-page document: manual review vs\. RISE\.$/)))return 'Documento de '+m[1]+' páginas: revisión manual vs. RISE.';
+    if((m=x.match(/^(\d+) pages to review\. Where does a risk officer start\?$/)))return m[1]+' páginas por revisar. ¿Por dónde empieza un oficial de riesgo?';
+    return null;}
+  ES["Risk analysis"]="Análisis de riesgo";
+  ES["Risk Analysis with RISE"]="Análisis de riesgo con RISE";
+  ES["Classification and risk indicators for the technical team’s review."]="Clasificación e indicadores de riesgo para la revisión del equipo técnico.";
+  ES["Classification and risk indicators."]="Clasificación e indicadores de riesgo.";
+  ES["Investment Proposal"]="Propuesta de inversión";
+  ES["The technical team analyzes the result and decides whether to accept it."]="El equipo técnico analiza el resultado y decide si lo acepta o no.";
+  ES["A specialist always makes the final decision."]="Un especialista siempre toma la decisión final.";
+  ES["Risk analysis ready"]="Análisis de riesgo listo";
+  ES["Stage 4 · Risk analysis"]="Etapa 4 · Análisis de riesgo";
+  ES["Stage 5 · Supervision"]="Etapa 5 · Supervisión";
+  ES["Stage 5 · Supervise"]="Etapa 5 · Supervisión";
+  ES["Stage 6 · Remember"]="Etapa 6 · Memoria";
+  ES["Risk Analysis <em>with RISE</em>"]="Análisis de riesgo <em>con RISE</em>";
+  ES["A new proposal is about to land. Compare the manual review with RISE, then follow the operation into supervision."]="Una nueva propuesta está por llegar. Compara la revisión manual con RISE y sigue la operación hasta la supervisión.";
+  ES["CECL classification, scorecard, confidence score and six risk indicators."]="Clasificación CECL, scorecard, nivel de confianza y seis indicadores de riesgo.";
+  ES["Respond to an early warning"]="Responde a una alerta temprana";
+  ES["In supervision, RISE flags a risk and you choose the next step. Every step is logged and auditable."]="En la supervisión, RISE marca un riesgo y tú eliges el siguiente paso. Cada paso queda registrado y es auditable.";
+  ES["Risk analysis logged and auditable."]="Análisis de riesgo registrado y auditable.";
+  ES["The technical team approves the operation. Execution and supervision begin."]="El equipo técnico aprueba la operación. Comienzan la ejecución y la supervisión.";
+  ES["Pick a proposal, compare the manual review with RISE and respond to the early warning."]="Elige una propuesta, compara la revisión manual con RISE y responde a la alerta temprana.";
+  ES["Risk Analysis"]="Análisis de riesgo";
+  ES["with RISE"]="con RISE";
+  ES["Stage 5 · Execution & Supervision"]="Etapa 5 · Ejecución y supervisión";
+  ES["Annual <em>Supervision Reports</em>"]="Informes <em>anuales de supervisión</em>";
+  ES["RISE reads each report and aide memoire as it arrives."]="RISE lee cada informe y ayuda memoria a medida que llega.";
+  ES["Early warning monitoring"]="Monitoreo de alertas tempranas";
+  ES["On the screen: RISE ingests each report and looks for early warning signals."]="En la pantalla: RISE procesa cada informe y busca señales de alerta temprana.";
+  ES["RISE reviews every monitoring report, evaluation, and aide memoire."]="RISE revisa cada informe de seguimiento, evaluación y ayuda memoria.";
+  ES["Annual"]="Informes anuales de";
+  ES["Supervision Reports"]="supervisión";
+  ES["Tap «Accept» on the tablet"]="Toca «Aceptar» en la tableta";
+  ES["Accept to advance the project."]="Acepta para avanzar con el proyecto.";
+  ES["Acceptance logged and auditable."]="Aceptación registrada y auditable.";
+  ES["Operation accepted. Execution and supervision begin."]="Operación aceptada. Comienzan la ejecución y la supervisión.";
+  ES["CECL classification, scorecard, confidence score and six risk indicators. You accept to advance the project."]="Clasificación CECL, scorecard, nivel de confianza y seis indicadores de riesgo. Tú aceptas para avanzar con el proyecto.";
+  ES["Pick a proposal, compare the manual review with RISE, accept the analysis and respond to the early warning."]="Elige una propuesta, compara la revisión manual con RISE, acepta el análisis y responde a la alerta temprana.";
+  /* ===== Selector EN / ES (solo para revisión del texto; la versión final es en inglés) ===== */
+  var I18N_LANG='en', I18N_MAP=new WeakMap(), I18N_MISS={}; window.__i18nMiss=I18N_MISS;
+  try{var sv0=localStorage.getItem('aia-lang'); if(sv0==='es')I18N_LANG='es';}catch(e){}
+  function i18nUnits(s){return s.replace(/\bweeks\b/g,'semanas').replace(/\bweek\b/g,'semana').replace(/\bdays\b/g,'días').replace(/\bday\b/g,'día').replace(/\bhours\b/g,'horas').replace(/\bhour\b/g,'hora');}
+  function i18nTr(s){
+    var core=s.trim(); if(!core)return s;
+    var lead=s.match(/^\s*/)[0], trail=s.match(/\s*$/)[0], out;
+    function t(x){
+      if(Object.prototype.hasOwnProperty.call(ES,x))return ES[x];
+      var m;
+      if(x.indexOf('✓ ')===0)return '✓ '+t(x.slice(2));
+      if(x.indexOf(' · ')>-1){return x.split(' · ').map(t).join(' · ');}
+      if((m=x.match(/^Stage (\d)$/)))return 'Etapa '+m[1];
+      if((m=x.match(/^Step (\d)$/)))return 'Paso '+m[1];
+      if((m=x.match(/^Moment (\d) of 3$/)))return 'Momento '+m[1]+' de 3';
+      if((m=x.match(/^(\d+) of (\d+)$/)))return m[1]+' de '+m[2];
+      if((m=x.match(/^(\d+) of (\d+) signals connected$/)))return m[1]+' de '+m[2]+' señales conectadas';
+      if((m=x.match(/^(\d+) sources$/)))return m[1]+' fuentes';
+      if((m=x.match(/^(Week|Day|Hour) (\d+)( of (\d+))?$/)))return ({Week:'Semana',Day:'Día',Hour:'Hora'})[m[1]]+' '+m[2]+(m[4]?' de '+m[4]:'');
+      if((m=x.match(/^Early warning at (M\d)$/)))return 'Alerta temprana en '+m[1];
+      if((m=x.match(/^Risk found at (M\d)$/)))return 'Riesgo detectado en '+m[1];
+      if((m=x.match(/^Typical time: (.*)$/)))return 'Tiempo típico: '+i18nUnits(m[1]);
+      if((m=x.match(/^With AI: (.*)$/)))return 'Con IA: '+i18nUnits(m[1]);
+      if((m=x.match(/^Done in (.*)$/)))return 'Listo en '+i18nUnits(m[1]);
+      if((m=x.match(/^placed on (.+)\.$/)))return 'ubicada en '+m[1].split(' and ').map(t).join(' y ')+'.';
+      if((m=x.match(/^(\d+) of (\d+) operations miss expected results\.$/)))return m[1]+' de '+m[2]+' operaciones no alcanzan los resultados esperados.';
+      if((m=x.match(/^Executing units need support in (\d+) operations$/)))return 'Las unidades ejecutoras necesitan apoyo en '+m[1]+' operaciones';
+      if((m=x.match(/^Critical outputs at risk in (\d+) operations$/)))return 'Productos críticos en riesgo en '+m[1]+' operaciones';
+      if((m=x.match(/^Procurement delays across (\d+) sectors$/)))return 'Retrasos en adquisiciones en '+m[1]+' sectores';
+      if(/^[~\d\s→]*(weeks?|days?|hours?)(\s*→\s*[~\d\s]*(weeks?|days?|hours?))?$/i.test(x))return i18nUnits(x);
+      if(typeof I18N_EXTRA==='function'){var r=I18N_EXTRA(x,t);if(r!=null)return r;}
+      if(/[A-Za-z]{3,}/.test(x))I18N_MISS[x]=1;
+      return x;
+    }
+    out=t(core); return lead+out+trail;
+  }
+  function i18nWalk(root,fn){var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),n,a=[];while((n=w.nextNode()))a.push(n);a.forEach(fn);}
+  function i18nApply(){
+    i18nObs.disconnect();
+    [tv,tab].forEach(function(root){i18nWalk(root,function(n){
+      var rec=I18N_MAP.get(n);
+      if(I18N_LANG==='es'){
+        var orig=(rec&&n.nodeValue===rec.tr)?rec.orig:n.nodeValue;
+        if(rec&&n.nodeValue===rec.tr)return;
+        var tr=i18nTr(orig); I18N_MAP.set(n,{orig:orig,tr:tr}); n.nodeValue=tr;
+      }else if(rec&&n.nodeValue===rec.tr){n.nodeValue=rec.orig; I18N_MAP.delete(n);}
+    });});
+    i18nObs.observe(tv,{childList:true,subtree:true,characterData:true});
+    i18nObs.observe(tab,{childList:true,subtree:true,characterData:true});
+  }
+  var i18nObs=new MutationObserver(function(){i18nApply();});
+  function setLang(l){
+    I18N_LANG=l; try{localStorage.setItem('aia-lang',l);}catch(e){}
+    i18nApply();
+    tab.querySelectorAll('.lang button').forEach(function(b){var on=b.dataset.lang===l;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
+  }
+  function langBtns(){return '<div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" class="'+(I18N_LANG==='en'?'on':'')+'" aria-pressed="'+(I18N_LANG==='en')+'">EN</button><button type="button" data-lang="es" class="'+(I18N_LANG==='es'?'on':'')+'" aria-pressed="'+(I18N_LANG==='es')+'">ES</button></div>';}
+
+  tab.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b||b.disabled)return;
+    if(b.dataset.lang){setLang(b.dataset.lang);return;}
+    if(b.dataset.home){reset();return;}
+    if(b.dataset.go){go(b.dataset.go);return;}
+    if(b.dataset.deal!=null){S.deal=+b.dataset.deal;S.run=0;S.p=0;S.why=false;S.dec=null;S.t=0;S.act=null;render();return;}
+    if(b.dataset.run){runRead();return;}
+    if(b.dataset.why){S.why=true;render();return;}
+    if(b.dataset.dec){S.dec=b.dataset.dec;render();return;}
+    if(b.dataset.act!=null){S.act=+b.dataset.act;render();return;}
+    if(b.dataset.reset){reset();}
+  });
+  var rz;window.addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(function(){tv.querySelectorAll('canvas.wall').forEach(drawWall);},150);});
+  reset();
+  i18nApply();

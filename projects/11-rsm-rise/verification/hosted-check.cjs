@@ -1,2 +1,1 @@
-﻿process.env.RISE_HOSTED='1';
-require('./check.cjs');
+void import('../v36/tests/hosted.mjs');

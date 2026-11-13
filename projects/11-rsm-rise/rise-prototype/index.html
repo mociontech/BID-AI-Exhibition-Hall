@@ -1,0 +1,88 @@
+<title>RISE Prototipo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap">
+<link rel="stylesheet" href="./styles.css">
+
+<div class="wrap">
+  <div class="intro">
+    <span class="kick">AI in Action · Estación RISE (BID Invest) · Prototipo navegable v2</span>
+    <h1>RISE · AI reads. Experts decide.</h1>
+    <p>El visitante se pone en los zapatos de un oficial de riesgo de BID Invest: recibe una propuesta de inversión de cientos de páginas, ve a RISE leerla, decide sobre la clasificación sugerida y, años después, actúa ante una alerta temprana. Al final su revisión se suma, como documento #8,201, a la memoria institucional del banco. La tableta, en horizontal frente al televisor, controla y el televisor cuenta la historia. Look IDB Group según el manual de marca. Operaciones ficticias y datos simulados.</p>
+  </div>
+  <div class="stage">
+    <div><div class="devlabel"><span>Televisor 70" · 16:9</span><span id="tvstate"></span></div><div class="tvframe"><div class="tv" id="tv" aria-live="polite"></div></div></div>
+    <div class="tabcol"><div class="devlabel"><span>Tableta horizontal 4:3 · app de control</span><span>Toca para avanzar</span></div><div class="tabframe"><div class="tab" id="tab"></div></div></div>
+  </div>
+</div>
+
+<div class="wrap sec">
+  <h2>La idea creativa</h2>
+  <p class="lead">El hilo visual es un muro de 8,200 mosaicos, uno por cada documento que RISE ya procesó desde 2016. Aparece al principio como conocimiento disperso y al final recibe un mosaico nuevo, la revisión del visitante. La frase de cierre tiene tres verbos, uno por cada capacidad del proyecto: leer (análisis de propuestas), decidir (el equipo técnico y el especialista tienen la última palabra, con trazabilidad) y recordar (supervisión y memoria institucional).</p>
+  <div class="notes">
+    <div class="notec"><b>Por qué funciona para visitantes BID de alto nivel</b>Cada uno vive el proyecto desde el rol del oficial de riesgo: elige una operación, compara la lectura manual con RISE, ve el análisis de riesgo y responde a una alerta temprana. No hace falta saber de crédito: la clasificación, la confianza y los seis indicadores se leen en pantalla.</div>
+    <div class="notec"><b>Mensaje que se lleva</b>Velocidad (~3x de cobertura), consistencia (más de 90% de precisión) y control humano (la IA sugiere y un especialista toma siempre la decisión final, con cada paso registrado).</div>
+    <div class="notec"><b>Coherencia con la sala</b>Sigue el mismo patrón de Country Intelligence: primero el problema, luego la solución, la comparación de hacerlo a mano o con IA, y el cierre con lo que gana el equipo.</div>
+  </div>
+</div>
+
+<div class="wrap sec">
+  <h2>Guion pantalla por pantalla</h2>
+  <p class="lead">Para diseño y programación. Los textos en inglés salen de la ficha IDB Ideation 2026 (D5421), el correo de ejemplo de RISE, la presentación de RSM y ITA y el anuncio del premio Databricks 2026. Las operaciones, las páginas, la confianza y las alertas son simuladas.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Pantalla</th><th>Televisor</th><th>Tableta</th><th>Qué entiende el visitante</th><th>Tiempo</th></tr></thead>
+    <tbody>
+      <tr><td class="n">A</td><td><b>Apertura · muro de documentos</b><br>Fondo blanco + muro</td><td>8,200 cuadros aparecen y se iluminan desde el centro, uno por documento procesado desde 2016. Luego, en grande: «8,200 documents analyzed since 2016, now converted into institutional memory».</td><td>Solo un mensaje de bienvenida y «Skip intro».</td><td>La memoria institucional existe antes de que empiece el recorrido.</td><td>12 s</td></tr>
+      <tr><td class="n">0</td><td><b>El problema</b><br>Fondo blanco + muro tenue</td><td>«Every investment decision starts with hundreds of documents». Tres tarjetas: cientos de documentos por operación, clasificación a mano y 10 años de conocimiento en archivos.</td><td>La pregunta y tres problemas. «See the solution».</td><td>El volumen crece y la lectura manual no escala.</td><td>15 s</td></tr>
+      <tr><td class="n">1</td><td><b>La solución · ficha animada</b><br>Fondo blanco + franja azul</td><td>Qué es RISE, tres cifras (90%+, ~3x, 8,200) y marcadores G · P · D.</td><td>Resumen, tres cifras y el recorrido en tres pasos. «Start».</td><td>Qué es y qué va a hacer.</td><td>15 s</td></tr>
+      <tr><td class="n">2</td><td><b>Llega una propuesta</b><br>Fondo blanco + muro</td><td>Tres operaciones ficticias. La elegida cae al centro como una pila de páginas.</td><td>Elige banco, metro o red de fibra óptica. «Send to RISE».</td><td>El punto de partida real de un oficial.</td><td>20 s</td></tr>
+      <tr><td class="n">3</td><td><b>RISE lee</b><br>A mano vs. con RISE</td><td>Dos paneles en carrera: páginas leídas a mano y con RISE. Con RISE aparecen resumen, modelo de negocio, riesgos, mitigantes, vacíos y clasificación. El «~3x faster coverage» sale solo en el pop-up (sin banda).</td><td>Botón «Run manual and RISE» (manual y RISE corren en paralelo), progreso y cifra final.</td><td>El oficial empieza por los riesgos, no por la página uno.</td><td>30 s</td></tr>
+      <tr><td class="n">4</td><td><b>Análisis de riesgo · Risk Analysis with RISE</b><br>Resumen + 6 indicadores</td><td>Propuesta analizada, nivel de confianza de la clasificación y riesgo global; campos de la clasificación (país, sector y subsector CECL, scorecard) y seis indicadores de riesgo con una barra de semáforo y un porcentaje cada uno: riesgo crediticio, financiero, de mercado, ambiental y social (A&amp;S), de integridad y reputacional, y de gobierno corporativo. Pop-up: «El equipo técnico analiza el resultado y decide si lo acepta o no». Sin franja de decisión.</td><td>Círculo de score (88%) y botón «Accept» para avanzar con el proyecto. Sin opción Adjust.</td><td>Qué clasifica RISE, con qué confianza y qué riesgos marca. Al aceptar, la operación avanza.</td><td>30 s</td></tr>
+      <tr><td class="n">5</td><td><b>Años después · supervisión</b><br>Línea de tiempo</td><td>Informes anuales del año 1 al 4. RISE marca la alerta en el año 2, con el último informe de misión y los datos financieros; sin RISE, la señal llega en la revisión anual del año 3. Muro: 3 operaciones similares y su lección.</td><td>Elige la acción: monitorear, hablar con el cliente o escalar.</td><td>Alertas a tiempo y memoria institucional.</td><td>35 s</td></tr>
+      <tr><td class="n">6</td><td><b>Cierre · Remember</b><br>Fondo blanco + franja azul</td><td>«AI reads. Experts decide. Institutional memory created.», resumen de la revisión (propuesta, análisis de riesgo, acción ante la alerta) y el mosaico #8,201 que entra al muro.</td><td>«See your review» y «Start again».</td><td>Cada revisión hace mejor la siguiente.</td><td>20 s</td></tr>
+    </tbody>
+  </table></div>
+  <div class="notes">
+    <div class="notec"><b>Avisos fijos</b>«Simulation of how the tool works. Fictional deals, not real data.» en todas las pantallas. Junto a «~3x»: «As reported by IDB Invest, 2026».</div>
+    <div class="notec"><b>Tableta</b>Pop-ups negros en el televisor (push, recordatorios e insights de valor sobre la IA). Tableta: solo control: etapa, título corto, instrucción, botones y progreso. El contenido, las decisiones y los resultados van en el televisor, con un aviso «Tap … on the tablet». Tras 45 s sin uso vuelve al inicio.</div>
+    <div class="notec"><b>Marca</b>Tokens del IDB Group Design System. El logo de IDB Invest y el degradado se aplican en producción desde los archivos oficiales.</div>
+  </div>
+</div>
+
+<div class="wrap sec">
+  <h2>Glosario técnico (inglés)</h2>
+  <p>Términos tomados de la bibliografía de RISE. Al ser una exposición interna del BID, se usan también los nombres de herramientas de la propuesta de Ideation (Databricks, MLflow, validación de esquemas).</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Término en pantalla</th><th>Origen / uso</th></tr></thead>
+    <tbody>
+      <tr><td><b>Investment Proposal (IP), Annual Supervision Report (ASR), aide memoire</b></td><td>Documentos fuente de RISE (ficha oficial y presentación técnica)</td></tr>
+      <tr><td><b>Ingestion / ingested document repository</b></td><td>Lectura y estructuración de documentos; repositorio listo para IA</td></tr>
+      <tr><td><b>CECL sector, subsector, scorecard</b></td><td>Campos de la clasificación sugerida (ficha y correo de RISE)</td></tr>
+      <tr><td><b>Confidence score (80%+ / 60–79% / &lt;60%)</b></td><td>Bandas de confianza del correo de RISE</td></tr>
+      <tr><td><b>Business-rule guardrails</b></td><td>Requisitos de negocio convertidos en reglas que guían al modelo de lenguaje</td></tr>
+      <tr><td><b>Traceable to source page; end-to-end traceability</b></td><td>Trazabilidad de cada paso, base de la auditoría</td></tr>
+      <tr><td><b>Early warning signal</b></td><td>Señales de alerta temprana durante la supervisión</td></tr>
+      <tr><td><b>Schema validation</b></td><td>Control de formato que evita resultados inventados (propuesta de Ideation)</td></tr>
+      <tr><td><b>MLflow traceability</b></td><td>Registro de cada paso del modelo para auditar y reproducir (propuesta de Ideation)</td></tr>
+      <tr><td><b>Structured / unstructured data</b></td><td>Datos que alimentan la alerta temprana (presentación RSM-ITA)</td></tr>
+      <tr><td><b>Institutional memory</b></td><td>Conocimiento acumulado en el repositorio de documentos</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Avance y próximos pasos</h2>
+  <p class="lead">Por validar con BID Invest (Igor Valentim, Maiquel Sampaio y el equipo de RSM) antes de producir.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Tema</th><th>Detalle</th><th>Responsable</th><th>Fecha</th><th>Estado</th></tr></thead>
+    <tbody>
+      <tr><td><b>Mecánica</b></td><td>Aprobar este recorrido, que reemplaza el árbol de decisiones «Analista por un día» del 30 de octubre.</td><td>BID Invest · Mocion (Jazmín)</td><td>6 nov</td><td>Decisión pendiente</td></tr>
+      <tr><td><b>Cifra ~3x</b></td><td>Sale de un correo interno marcado como confidencial. Confirmar que se puede mostrar en la sala; si no, se deja solo «90%+» y «8,200».</td><td>BID Invest</td><td>6 nov</td><td>Riesgo</td></tr>
+      <tr><td><b>Operaciones ficticias</b></td><td>Confirmar que se pueden usar casos inspirados en un banco, un metro y una red de fibra óptica, sin datos de clientes.</td><td>BID Invest</td><td>6 nov</td><td>Decisión pendiente</td></tr>
+      <tr><td><b>Alerta temprana</b></td><td>Confirmar cómo nombrar la capacidad de predicción de incumplimiento (en producción o en desarrollo). El prototipo solo dice «early warning».</td><td>BID Invest (RSM)</td><td>6 nov</td><td>Por confirmar</td></tr>
+      <tr><td><b>Video</b></td><td>El video de la carpeta llegó por WhatsApp. Pedir el original o los videos de YouTube y Vimeo de la ficha para la parte «Conoce».</td><td>Mocion (Jazmín)</td><td>5 nov</td><td>Por confirmar</td></tr>
+      <tr><td><b>Desarrollo</b></td><td>Pasar a producción en la tableta y la TV de 70" con los textos aprobados.</td><td>Mocion (tecnología)</td><td>10 nov</td><td>En espera</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<script src="./app.js"></script>
+<script src="./i18n.js"></script>
