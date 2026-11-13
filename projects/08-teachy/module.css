@@ -1,11 +1,11 @@
-/* The client-supplied PNGs define the complete tablet visual. */
+/* The client-supplied main-menu PNG (1672 × 941) defines the complete tablet visual. */
 .teachy-tablet{
  width:100%;height:100dvh;display:grid;place-items:center;
- overflow:hidden;background:#f4fbff;
+ overflow:hidden;background:#fff;
 }
 .teachy-artboard{
  position:relative;width:min(100dvw,177.6833156dvh);aspect-ratio:1672 / 941;
- overflow:hidden;
+ overflow:hidden;container-type:inline-size;
 }
 .teachy-tablet-image{
  display:block;width:100%;height:100%;object-fit:contain;
@@ -14,23 +14,35 @@
 .teachy-controls{position:absolute;inset:0}
 .teachy-hit{
  position:absolute;border:0;padding:0;background:transparent;cursor:pointer;
- border-radius:18px;touch-action:manipulation;
+ border-radius:1.5cqw;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
-.teachy-hit:focus-visible{
- outline:4px solid #005da8;outline-offset:-4px;background:#ffffff26;
+.teachy-hit:focus-visible,.teachy-back:focus-visible{
+ outline:4px solid #003fb4;outline-offset:2px;
 }
-.teachy-hit:disabled{cursor:default}
-.teachy-hit--es{left:88.8%;top:3%;width:3.6%;height:5.3%;border-radius:99px}
-.teachy-hit--en{left:92.4%;top:3%;width:3.6%;height:5.3%;border-radius:99px}
-.teachy-hit--info{left:4%;top:58%;width:45.4%;height:27.8%}
-.teachy-hit--video{left:50.6%;top:58%;width:45.4%;height:27.8%}
-.teachy-hit--home-text{left:4.4%;top:92%;width:5.6%;height:5.7%}
-.teachy-hit--home{left:83.8%;top:91.8%;width:3.6%;height:6%;border-radius:50%}
-.teachy-hit--back{left:88%;top:91.8%;width:3.6%;height:6%;border-radius:50%}
-.teachy-hit--next{left:92.3%;top:91.8%;width:3.6%;height:6%;border-radius:50%}
-.teachy-hit--fullscreen{left:71%;top:3%;width:17%;height:5.3%;border-radius:99px}
+/* Positions in % of the 1672 × 941 artwork. */
+.teachy-hit--fullscreen{left:4.19%;top:20.19%;width:24.88%;height:4.04%;border-radius:99px}
+.teachy-hit--home{left:88.4%;top:2.34%;width:8.25%;height:7.23%;border-radius:99px}
+.teachy-hit--info{left:4.19%;top:62.17%;width:44.98%;height:27.52%}
+.teachy-hit--video{left:50.84%;top:62.17%;width:45.45%;height:27.52%}
+.teachy-hit--home:focus-visible{outline-color:#fff}
 
-/* A single full-viewport image, also at the exhibition TV's 1920 × 1080. */
+/* Back: same pill as "Start" in the artwork, shown only while the TV shows the infographic or the video. */
+.teachy-back{
+ position:absolute;left:80.44%;top:3.4%;width:7.48%;height:5.1%;
+ display:flex;align-items:center;justify-content:center;gap:.55cqw;
+ padding:0;border:max(1px,.09cqw) solid #fff;border-radius:99px;
+ background:#005cfe;color:#fff;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+ font:700 1.15cqw/1 Inter,'Segoe UI',Arial,sans-serif;
+ animation:teachy-back-in .35s ease both;
+}
+.teachy-back[hidden]{display:none}
+.teachy-back::before{content:'';position:absolute;inset:-1.1cqw -.6cqw}
+.teachy-back svg{width:1.25cqw;height:1.25cqw;flex:none}
+.teachy-back:active{background:#0a4fd6}
+.teachy-back:focus-visible{outline-color:#fff}
+@keyframes teachy-back-in{from{opacity:0;transform:translateX(.8cqw)}to{opacity:1;transform:none}}
+
+/* TV: the main menu and the video fill the screen, also at the exhibition TV's 1920 × 1080. */
 .teachy-display{
  position:fixed;inset:0;width:100dvw;height:100dvh;
  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);
@@ -45,3 +57,45 @@
  display:block;width:100%;height:100%;min-width:0;min-height:0;
  max-width:none;max-height:none;object-fit:contain;background:#fff;
 }
+
+/* ===== "About project": the supplied infographic animated element by element (experience.js → sheet).
+   1920 × 1080 grid, 1 unit = --u. Same choreography as the VUCE 3.0 sheet («Iniciativa 2.2_animada_PRO»). ===== */
+.tch-sheet{--u:min(calc(100vw / 1920),calc(100vh / 1080));position:fixed;inset:0;display:grid;place-items:center;overflow:hidden;background:#fff}
+.tch-stage{position:relative;width:calc(1920 * var(--u));height:calc(1080 * var(--u));transform-origin:72% 50%}
+.tch-el{position:absolute;left:calc(var(--x) * var(--u));top:calc(var(--y) * var(--u));width:calc(var(--w) * var(--u));height:calc(var(--h) * var(--u));overflow:hidden}
+.tch-crop{position:absolute;inset:0;display:block;background-repeat:no-repeat;background-size:calc(1920 * var(--u)) calc(1080 * var(--u));background-position:calc(var(--sx) * -1 * var(--u)) calc(var(--sy) * -1 * var(--u))}
+.tch-crop--full{background-image:var(--full)}
+.tch-crop--base{background-image:var(--base)}
+.tch-veil{position:absolute;left:0;top:0;width:calc(834 * var(--u));height:100%;background:#7fa7ff;opacity:0}
+.tch-icon{overflow:visible}
+.tch-icon::after{content:'';position:absolute;inset:calc(4 * var(--u)) calc(5 * var(--u)) calc(5 * var(--u)) calc(4 * var(--u));border:calc(2 * var(--u)) solid #8fb3ff;border-radius:50%;opacity:0;pointer-events:none}
+.tch-card,.tch-bar,.tch-panel{overflow:visible}
+.tch-final{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:1}
+@keyframes tch-veil{0%{opacity:1;clip-path:inset(0 100% 0 0)}60%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes tch-wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes tch-rise{from{transform:translateY(105%);filter:blur(6px)}to{transform:none;filter:none}}
+@keyframes tch-drop{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@keyframes tch-card{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes tch-pop{0%{transform:scale(0)}65%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes tch-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.6)}}
+@keyframes tch-focus{from{opacity:0;transform:translateY(16px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes tch-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes tch-show{from{opacity:0}to{opacity:1}}
+@keyframes tch-drift{from{transform:scale(1)}to{transform:scale(1.012)}}
+.tch-sheet.is-animated .tch-final{animation:tch-show .5s ease 6s both}
+.tch-sheet.is-animated .tch-veil{animation:tch-veil 1.2s cubic-bezier(.65,0,.25,1) both}
+.tch-sheet.is-animated .tch-panel{animation:tch-wipe 1s cubic-bezier(.65,0,.25,1) .15s both}
+.tch-sheet.is-animated .tch-logo{animation:tch-drop .8s ease 1s both}
+.tch-sheet.is-animated .tch-rise:not(.tch-value)>.tch-crop{animation:tch-rise 1s cubic-bezier(.2,.8,.2,1) var(--t) both}
+.tch-sheet.is-animated .tch-card{animation:tch-card .9s cubic-bezier(.2,.8,.2,1) var(--d) both}
+.tch-sheet.is-animated .tch-head{animation:tch-wipe .8s cubic-bezier(.65,0,.25,1) calc(var(--d) + .25s) both}
+.tch-sheet.is-animated .tch-icon>.tch-crop{animation:tch-pop .8s cubic-bezier(.2,.9,.3,1.2) calc(var(--d) + .4s) both}
+.tch-sheet.is-animated .tch-icon::after{animation:tch-ring 1.2s ease-out calc(var(--d) + .9s) forwards}
+.tch-sheet.is-animated .tch-text>.tch-crop{animation:tch-focus .9s cubic-bezier(.2,.8,.2,1) calc(var(--d) + .7s) both}
+.tch-sheet.is-animated .tch-impact-title{animation:tch-wipe .9s cubic-bezier(.65,0,.25,1) 3.5s both}
+.tch-sheet.is-animated .tch-bar{animation:tch-wipe 1.1s cubic-bezier(.65,0,.25,1) 3.7s both}
+.tch-sheet.is-animated .tch-divider{transform-origin:top;animation:tch-grow .7s ease calc(4.1s + var(--i) * .45s) both}
+.tch-sheet.is-animated .tch-value>.tch-crop{animation:tch-rise .9s cubic-bezier(.2,.8,.2,1) calc(4.2s + var(--i) * .45s) both}
+.tch-sheet.is-animated .tch-label>.tch-crop{animation:tch-focus .8s cubic-bezier(.2,.8,.2,1) calc(4.45s + var(--i) * .45s) both}
+.tch-sheet.is-animated .tch-stage{animation:tch-drift 14s ease-out 6.4s both}
+@media (prefers-reduced-motion:reduce){.tch-sheet *,.tch-sheet .tch-stage{animation:none!important}}

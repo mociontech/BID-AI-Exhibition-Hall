@@ -1,54 +1,64 @@
-/* Station 08: supplied tablet artwork with functional touch controls.
-   Information and Video change only the TV; the tablet keeps its artwork. */
+/* Station 08: the supplied main-menu PNG (November 2026) with functional touch controls.
+   "About project" shows the animated infographic on the TV and "Video" plays the Teachy video;
+   the tablet keeps its artwork and only adds a Back pill while the TV shows one of them. */
 window.ProjectModule={
  id:'08',
  async mountController({sync,mount,home}){
-  let state={language:'en',mode:'landing'};
-  const labels={
-   es:{screen:'Teachy: pantalla principal',info:'Mostrar información en la TV',video:'Reproducir el video en la TV',home:'Inicio: volver a los proyectos',back:'Volver al inicio de Teachy',fullscreen:'Activar o salir de pantalla completa'},
-   en:{screen:'Teachy: main screen',info:'Show information on the TV',video:'Play the video on the TV',home:'Home: back to projects',back:'Back to Teachy',fullscreen:'Enter or exit fullscreen'}
+  let state={mode:'landing'};
+  const t={
+   screen:'Teachy: AI for a more personalized and efficient school',
+   info:'About project: show the infographic on the TV',
+   video:'Video: play the Teachy video on the TV',
+   home:'Start: back to all projects',
+   back:'Back: show the Teachy main screen on the TV',
+   fullscreen:'Enter or exit fullscreen'
   };
+  const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>';
   function publish(){
-   return sync.send({view:'project',projectId:'08',section:state.mode==='info'||state.mode==='video'?state.mode:null,language:state.language,mode:state.mode,screenIndex:null,game:null});
+   return sync.send({view:'project',projectId:'08',section:state.mode==='info'||state.mode==='video'?state.mode:null,language:'en',mode:state.mode,screenIndex:null,game:null});
   }
   async function goHome(){
-   await sync.send({view:'home',projectId:null,section:null,language:state.language,mode:null,screenIndex:null,game:null});
+   await sync.send({view:'home',projectId:null,section:null,language:'en',mode:null,screenIndex:null,game:null});
    location.assign(home);
   }
   function render(){
-   const t=labels[state.language];
-   document.documentElement.lang=state.language;
-   mount.innerHTML=`<main class="teachy-tablet" aria-label="${t.screen}">
+   document.documentElement.lang='en';
+   mount.innerHTML=`<main class="teachy-tablet" aria-label="Teachy">
     <div class="teachy-artboard">
-     ${AI_ARTWORK(`${TEACHY.art[state.language].tablet}`,`class="teachy-tablet-image"  alt="${t.screen}" draggable="false"`)}
+     <img class="teachy-tablet-image" src="${TEACHY.art.tablet}" width="1672" height="941" alt="${t.screen}" draggable="false">
      <nav class="teachy-controls" aria-label="Teachy">
-      <button class="teachy-hit teachy-hit--es" type="button" data-language="es" aria-label="Español" aria-pressed="${state.language==='es'}"></button>
-      <button class="teachy-hit teachy-hit--en" type="button" data-language="en" aria-label="English" aria-pressed="${state.language==='en'}"></button>
-      <button class="teachy-hit teachy-hit--info" type="button" data-action="information" aria-label="${t.info}"></button>
-      <button class="teachy-hit teachy-hit--video" type="button" data-action="video" aria-label="${t.video}" title="${t.video}"></button>
-      <button class="teachy-hit teachy-hit--home-text" type="button" data-action="home" aria-label="${t.home}"></button>
-      <button class="teachy-hit teachy-hit--home" type="button" data-action="home" aria-label="${t.home}"></button>
-      <button class="teachy-hit teachy-hit--back" type="button" data-action="back" aria-label="${t.back}"></button>
-      <button class="teachy-hit teachy-hit--next" type="button" data-action="information" aria-label="${t.info}"></button>
       <button class="teachy-hit teachy-hit--fullscreen" type="button" data-action="fullscreen" aria-label="${t.fullscreen}" title="${t.fullscreen}"></button>
+      <button class="teachy-back" type="button" data-action="back" aria-label="${t.back}" hidden>${ARROW}<span>Back</span></button>
+      <button class="teachy-hit teachy-hit--home" type="button" data-action="home" aria-label="${t.home}"></button>
+      <button class="teachy-hit teachy-hit--info" type="button" data-action="information" aria-label="${t.info}" aria-pressed="false"></button>
+      <button class="teachy-hit teachy-hit--video" type="button" data-action="video" aria-label="${t.video}" aria-pressed="false"></button>
      </nav>
     </div>
    </main>`;
+   update();
+  }
+  /* Only the Back pill and the pressed state change; the artwork is never re-rendered. */
+  function update(){
+   const back=mount.querySelector('.teachy-back');
+   if(back)back.hidden=state.mode==='landing';
+   mount.querySelector('.teachy-hit--info')?.setAttribute('aria-pressed',String(state.mode==='info'));
+   mount.querySelector('.teachy-hit--video')?.setAttribute('aria-pressed',String(state.mode==='video'));
+  }
+  function show(mode){
+   state.mode=mode;update();void publish();
   }
   mount.addEventListener('click',async event=>{
    const button=event.target.closest('button');if(!button||button.disabled)return;
-   if(button.dataset.language){
-    if(button.dataset.language===state.language)return;
-    state.language=button.dataset.language;
-    render();
-    mount.querySelector('[data-language="'+state.language+'"]').focus({preventScroll:true});
-    void publish();return;
+   const action=button.dataset.action;
+   if(action==='information')return show('info');
+   if(action==='video')return show('video');
+   if(action==='back'){
+    show('landing');
+    mount.querySelector('.teachy-hit--info')?.focus({preventScroll:true});
+    return;
    }
-   if(button.dataset.action==='information'){state.mode='info';void publish();return;}
-   if(button.dataset.action==='video'){state.mode='video';void publish();return;}
-   if(button.dataset.action==='back'){state.mode='landing';void publish();return;}
-   if(button.dataset.action==='home'){void goHome();return;}
-   if(button.dataset.action==='fullscreen'){
+   if(action==='home')return void goHome();
+   if(action==='fullscreen'){
     try{
      if(document.fullscreenElement)await document.exitFullscreen();
      else await document.documentElement.requestFullscreen();
@@ -57,10 +67,7 @@ window.ProjectModule={
   });
   try{
    const remote=await sync.read();
-   if(remote?.projectId==='08'&&remote.view!=='home'){
-    state.language=remote.language==='es'?'es':'en';
-    state.mode=['info','video'].includes(remote.mode)?remote.mode:'landing';
-   }
+   if(remote?.projectId==='08'&&remote.view!=='home'&&['info','video'].includes(remote.mode))state.mode=remote.mode;
   }catch{}
   render();void publish();
  }

@@ -16,13 +16,22 @@ test('the exhibition registry has ten projects and only one Teachy at 08',()=>{
 
 test('Teachy ships its supplied tablet, infographic and video resources',()=>{
  const folder=path.join(root,'projects','08-teachy');
- assert.ok(fs.existsSync(path.join(folder,'Video','muestra-estacion-teachy-BID.mp4')));
- assert.equal(fs.readdirSync(path.join(folder,'Public')).filter(file=>file.endsWith('.png')).length,4);
+ const video=path.join(folder,'Video','Teachy_Musica_v2_web.mp4');
+ assert.ok(fs.existsSync(video));
+ assert.ok(fs.statSync(video).size<100*1024*1024,'GitHub rejects files over 100 MB');
+ for(const [file,width,height] of [['teachy-portada-en.png',1672,941],['teachy-infografia-en.png',1920,1080],['teachy-infografia-base.png',1920,1080]]){
+  const png=fs.readFileSync(path.join(folder,'Public',file));
+  assert.equal(png.readUInt32BE(16),width);assert.equal(png.readUInt32BE(20),height);
+ }
  const experience=fs.readFileSync(path.join(folder,'experience.js'),'utf8');
- assert.match(experience,/muestra-estacion-teachy-BID\.mp4/);
+ assert.match(experience,/Teachy_Musica_v2_web\.mp4/);
  assert.match(experience,/data\.mode==='video'/);
+ assert.match(experience,/data\.mode==='info'/);
  const controller=fs.readFileSync(path.join(folder,'module.js'),'utf8');
  assert.match(controller,/data-action="video"/);
+ assert.match(controller,/data-action="information"/);
+ assert.match(controller,/data-action="back"/);
+ assert.match(controller,/data-action="home"/);
  assert.doesNotMatch(controller,/teachy-hit--video" type="button" disabled/);
 });
 
