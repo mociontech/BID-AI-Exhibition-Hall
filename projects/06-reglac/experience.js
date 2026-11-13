@@ -2,13 +2,13 @@
    Both clients use only files in 06-reglac/Public and 06-reglac/Video.
    Keep the capital P and V: hosting paths are case-sensitive. */
 (function(){
- const version='?v=20261113-portada-1';
+ const version='?v=20261113-menu-1';
  const base=new URL('./Public/',document.currentScript.src);
  const videoBase=new URL('./Video/',document.currentScript.src);
  const asset=name=>new URL(name,base).href+version;
  const art={
-  /* Main menu supplied in November 2026 (1672 × 941, English). */
-  tablet:asset('reglac-portada-en.png'),
+  /* Main menu supplied on 13 Nov 2026 (1920 × 1080, English). */
+  menu:asset('reglac-menu-en.png'),
   /* "About project" infographic (1920 × 1080) and the same sheet with its content erased,
      used as the empty blue panel, card frames and impact bar while the sheet builds. */
   info:asset('reglac-infografia-en.png'),
@@ -16,13 +16,25 @@
   video:new URL('RegLac_SUB_EN_web.mp4',videoBase).href+version
  };
  const words={
-  screen:'RegLAC: AI for smarter regulatory simplification',
+  screen:'RegLAC, VPS · IFD: AI-Powered Regulatory Analysis. About the project and Video.',
   info:'RegLAC infographic: the challenge, the solution and the impact to date',
-  video:'RegLAC video'
+  video:'RegLAC video',
+  tvCta:'Select an option on the tablet',
+  infoCta:'When you are ready, tap “Video” on the tablet'
  };
 
  /* Older packets (game, results, cta) open their replacement: the video or the infographic. */
  const normalizeMode=mode=>['video','game','results'].includes(mode)?'video':['info','cta'].includes(mode)?'info':'landing';
+
+ /* The menu artwork is drawn in two bands of the same 1920 × 1080 image: the blue bar (top 126 px)
+    stays at the top of the screen and the body (the remaining 954 px) is centred in the space
+    left, so 4:3 and 16:10 tablets keep it balanced. At 16:9 it is the PNG pixel for pixel. */
+ function frame(cls,label,bar,body){
+  return `<main class="rgl-menu ${cls}" lang="en" style="--art:url('${art.menu}')" aria-label="${label}"><div class="rgl-bar"><div class="rgl-band rgl-band--bar">${bar}</div></div><div class="rgl-body"><div class="rgl-band rgl-band--body">${body}</div></div></main>`;
+ }
+ const TABLET_ICON='<svg viewBox="0 0 21 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x=".75" y=".75" width="19.5" height="14.5" rx="2.2"/></svg>';
+ const DOWN_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M5.5 13l6.5 6.5 6.5-6.5"/></svg>';
+ const BACK_ICON='<svg viewBox="0 0 18 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.6 8H1.4M7.4 1.8 1.4 8l6 6.2"/></svg>';
 
  /* The infographic animated element by element, like the IDB reference
     "Iniciativa 2.2_animada_PRO" (same timing as the VUCE 3.0 and Teachy sheets): the blue panel
@@ -76,7 +88,16 @@
     ${piece('rls-bar',s.bar,'base',null,facts)}
     <img class="rls-final" src="${art.info}" width="1920" height="1080" alt="${words.info}">
    </div>
+   <div class="rls-cta" role="status">${TABLET_ICON}<strong>${words.infoCta}</strong><i aria-hidden="true">${DOWN_ICON}</i></div>
   </section>`;
+ }
+
+ /* Tablet: the menu artwork with touch zones; the Back pill sits next to Home (module.js shows it). */
+ function tabletMenu(t){
+  const hit=(action,label,extra='')=>`<button type="button" class="rgl-hit rgl-hit--${action}" data-action="${action}" aria-label="${label}"${extra}></button>`;
+  return frame('rgl-menu--tablet',words.screen,
+   `<button type="button" class="rgl-back" data-action="back" aria-label="${t.back}" hidden>${BACK_ICON}<span>Back</span></button>`+hit('home',t.home),
+   hit('information',t.info,' aria-pressed="false"')+hit('video',t.video,' aria-pressed="false"'));
  }
 
  function renderVideo(mount){
@@ -92,9 +113,11 @@
   if(mount.querySelector('.rls-sheet'))return;
   mount.innerHTML=`<main class="reglac-display reglac-display--info" aria-label="RegLAC infographic">${sheet()}</main>`;
  }
+ /* TV main menu: the same artwork without controls, plus the guidance pill used on the other TV menus. */
  function renderLanding(mount){
-  if(mount.querySelector('.reglac-display--landing'))return;
-  mount.innerHTML=`<main class="reglac-display reglac-display--landing" aria-label="RegLAC main screen"><img class="reglac-display-image" src="${art.tablet}" alt="${words.screen}" width="1672" height="941"></main>`;
+  if(mount.querySelector('.rgl-menu--landing'))return;
+  mount.innerHTML=frame('rgl-menu--tv rgl-menu--landing',words.screen,'',
+   `<div class="rgl-cta" role="status">${TABLET_ICON}<strong>${words.tvCta}</strong></div>`);
  }
  /* TV entry point: shared/display.js calls REGLAC.renderInto(app,data,{readonly:true}). */
  function renderInto(mount,data){
@@ -104,5 +127,5 @@
   if(mode==='info')return renderInfo(mount);
   return renderLanding(mount);
  }
- window.REGLAC={art,words,normalizeMode,renderInto};
+ window.REGLAC={art,words,normalizeMode,renderInto,tabletMenu};
 })();
