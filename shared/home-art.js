@@ -2,7 +2,7 @@
 (function(){
  const cards=[
   {id:'10',name:'AI-Powered Country Strategies',subtitle:'From Country Dialogue to Results'},
-  {id:'01',name:'AquaData',subtitle:'Smarter Water Loss Detection'},
+  {id:'01',name:'AquaData',subtitle:'Smarter Commercial Water Loss Detection'},
   {id:'07',name:'MAIIA',subtitle:'Mapping with AI for Informal Areas'},
   {id:'04',name:'Parque Tecnológico Guatiguará',subtitle:'Regional AI Hub'},
   {id:'02',name:'PredictToDo',subtitle:'Bogotá Traffic Prediction'},
@@ -21,7 +21,7 @@
    const left=columns[index%5]/1920*100,top=(index<5?293:618)/1080*100;
    return `<a class="home-art-target" href="${escape(project.href+stationQuery)}" data-project="${card.id}" aria-label="${escape(card.name+' — '+card.subtitle)}" style="left:${left}%;top:${top}%;width:${329/1920*100}%;height:${294/1080*100}%"></a>`;
   }).join('')}</nav>`:'';
-  return `<main class="home-art-viewport" aria-label="AI in Action — IDB Group Projects Across the Region"><div class="home-art-canvas"><img class="home-art-image" src="assets/home/${interactive?'tablet':'display'}-en.png?v=20261112-home-final" width="1920" height="1080" alt="AI in Action. IDB Group Projects Across the Region. ${interactive?'':cards.map(card=>escape(card.name+' — '+card.subtitle)).join('; ')+'. '}${instruction}." draggable="false">${links}</div></main>`;
+  return `<main class="home-art-viewport" aria-label="AI in Action — IDB Group Projects Across the Region"><div class="home-art-canvas"><img class="home-art-image" src="assets/home/${interactive?'tablet':'display'}-en.png?v=20261113-home-final" width="1920" height="1080" alt="AI in Action. IDB Group Projects Across the Region. ${interactive?'':cards.map(card=>escape(card.name+' — '+card.subtitle)).join('; ')+'. '}${instruction}." draggable="false">${links}</div></main>`;
  }
  window.EXHIBITION_HOME={cards,render};
 })();
