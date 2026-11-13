@@ -41,6 +41,8 @@ try{
     await original.bringToFront();
     await original.evaluate(({id,size})=>{
      const node=document.getElementById(id),marker=document.createComment('reference origin');node.before(marker);window.originMarker=marker;
+     // The integrated tablet now reaches the physical edges, without a device bezel.
+     if(id==='tab')node.style.borderRadius='0';
      const wrapper=document.createElement('div');wrapper.id='reference-origin';
      Object.assign(wrapper.style,{position:'fixed',left:'0',top:'0',width:size.width+'px',height:size.height+'px',background:'#0a0a0a',zIndex:'2147483647'});
      document.body.append(wrapper);wrapper.append(node);void wrapper.offsetHeight;

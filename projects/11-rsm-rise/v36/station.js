@@ -2,7 +2,7 @@
 (function(){
  const controller=document.documentElement.dataset.device==='tablet';
  let ready=false,applying=false,envelope=RISE_STATE.fresh(),lastSignature='',recoveryTimer=0,offset=0;
- const baseRender=render,baseUpdIntro=updIntro,baseSetLang=setLang,basePoke=poke;
+ const baseRender=render,baseUpdIntro=updIntro,baseSetLang=setLang;
  const baseTabView=tabView;
  tabView=function(){
   const html=baseTabView(),holder=document.createElement('div');holder.innerHTML=html;
@@ -14,7 +14,12 @@
  };
  const now=()=>Date.now()+offset;
  RISE_V36_CLOCK.now=now;
- function fit(){const scale=Math.min(innerWidth/736,innerHeight/552);document.documentElement.style.setProperty('--device-scale',scale===1?'none':`scale(${scale})`);}
+ function fit(){
+  const scale=Math.min(innerWidth/736,innerHeight/552),style=document.documentElement.style;
+  style.setProperty('--device-scale',scale===1?'none':`scale(${scale})`);
+  style.setProperty('--tablet-width',innerWidth/scale+'px');
+  style.setProperty('--tablet-height',innerHeight/scale+'px');
+ }
  fit();window.addEventListener('resize',fit);
  function signature(){return JSON.stringify([S.sc,S.deal,S.run,S.why,S.dec,S.act,S.ip,S.tp,S.sr,S.t>=1,I18N_LANG]);}
  function publish(){
@@ -36,7 +41,10 @@
  render=function(){baseRender();i18nApply();publish();};
  updIntro=function(){baseUpdIntro();i18nApply();publish();};
  setLang=function(language){baseSetLang(language);document.documentElement.lang=language;publish();};
- poke=function(){clearTimeout(idle);if(controller)basePoke();};
+ // The exhibition stays on the current scene until a visitor navigates.
+ // Clear the source's already scheduled reset and never arm another one.
+ clearTimeout(idle);
+ poke=function(){clearTimeout(idle);};
  if(!controller){clearTimeout(idle);go=function(){};document.addEventListener('keydown',e=>e.preventDefault(),true);}
  if(controller)tab.addEventListener('click',event=>{
   const back=event.target.closest('[data-rise-back]');

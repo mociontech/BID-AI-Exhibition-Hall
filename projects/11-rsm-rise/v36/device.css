@@ -1,9 +1,9 @@
-/* Placement only; all visible component CSS comes literally from v36. */
+/* Fullscreen device placement; component styling stays in the v36 source. */
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0a}
 body{display:flex;align-items:center;justify-content:center}
 #tv-pane .tv{width:min(100vw,177.7777778vh)}
-#tab-pane{width:736px;height:552px;flex:none;transform:var(--device-scale,none);transform-origin:center}
-#tab-pane .tab{width:736px;height:552px;aspect-ratio:4/3;min-height:0}
+#tab-pane{position:fixed;left:0;top:0;width:var(--tablet-width,736px);height:var(--tablet-height,552px);transform:var(--device-scale,none);transform-origin:0 0}
+#tab-pane .tab{width:100%;height:100%;aspect-ratio:auto;min-height:0;border-radius:0}
 html[data-device="tv"] #tab-pane,html[data-device="tablet"] #tv-pane{position:fixed;left:-100000px;visibility:hidden;pointer-events:none}
 html[data-device="tablet"] #tv-pane .tv{width:1328px}
 html[data-device="tv"] body{pointer-events:none;user-select:none}
