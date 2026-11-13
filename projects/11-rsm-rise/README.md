@@ -17,7 +17,7 @@ npm run dev
 - Original v36: http://localhost:4191/projects/11-rsm-rise/v36/original.html
 - Prototipo v36 con CSS/JS separados: http://localhost:4191/projects/11-rsm-rise/v36/index.html
 
-En dispositivos de la misma red, sustituir `localhost` por la IP del ordenador y usar la misma estación y sala (`room`). No se ha publicado ni escrito en salas remotas. Recargar las pestañas de versiones anteriores para cargar v36.
+En dispositivos de la misma red, sustituir `localhost` por la IP del ordenador y usar la misma estación y sala (`room`). Recargar las pestañas de versiones anteriores para cargar v36.
 
 ## Comportamiento del archivo entregado
 
@@ -76,3 +76,24 @@ Se agrega Back / Atr?s con el bot?n original en la introducci?n, el desaf?o y el
 `node projects/11-rsm-rise/v36/tests/back.mjs` verifica las diez transiciones en EN/ES, el reinicio manual de la animaci?n y el regreso a Proyectos con ambas pantallas. La comparaci?n visual oculta exclusivamente el nuevo bot?n para comparar el resto con el original.
 
 Hosted verification: `node projects/11-rsm-rise/verification/hosted-check.cjs` checks the deployed screens with Firebase intercepted in Playwright, without changing exhibition sessions.
+
+## Netlify: entrada desde el menu y pareja real
+
+Abre `/sesiones.html` en Netlify y usa **Abrir tableta** y **Abrir TV** de la misma sala. El enlace de la tableta apunta al menu principal (`/index.html`); toca **RISE** para abrir el controlador v36. La tarjeta conserva el arte aprobado de `assets/home/tablet-en.png` y su zona interactiva; no se sustituye la tarjeta ni se cambia el orden del menu. La TV carga `/display.html` y recibe la escena correspondiente, sin controles activos.
+
+Ambos enlaces deben tener los mismos `station` y `room`. Las salas de `sesiones.html` usan estaciones 1 a 10: **11 es el ID del proyecto RISE**, no una estacion obligatoria. Para las pruebas publicas con `room`, las reglas de `aiExhibitionHall.rooms` deben estar publicadas en la base `f1-sap-default-rtdb`. Un GET de una sala nueva debe responder `200` con `null`; `401` significa que faltan permisos, aunque la tableta muestre su copia local. El bloque necesario ya esta en `firebase.rules.fragment.json`; conserva las demas reglas al publicarlo.
+
+Home y Back desde el aviso inicial vuelven al menu y llevan la TV al menu. Al volver a tocar RISE comienza una experiencia nueva. Una recarga dentro de RISE recupera la escena de esa sala. Los parametros se conservan al entrar, volver y reingresar.
+
+Prueba de la entrada completa con tres contextos de navegador independientes (tableta, TV y otra sala), captura del menu y recorrido EN/ES:
+
+```powershell
+# Assets publicados, Firebase simulado, sin escrituras remotas:
+node projects/11-rsm-rise/v36/tests/session.mjs
+
+# Assets publicados y Firebase real, usando salas nuevas generadas por sesiones.html:
+$env:RISE_LIVE='1'
+node projects/11-rsm-rise/v36/tests/session.mjs
+```
+
+`HOSTED_URL` permite probar un Deploy Preview. La prueba real falla ante un 401, verifica lectura y escritura reales, recorrido, recarga, Back, Home, reingreso, aislamiento de otra sala y cero escrituras desde la TV. Solo escribe en las salas nuevas creadas por la propia prueba y termina dejando la pareja en el menu. El reporte y los dos enlaces comprobados se guardan en `v36/artifacts/session-live/report.json` (ignorado por Git). La prueba con transporte simulado guarda su reporte por separado en `session-mock/`.

@@ -6,7 +6,8 @@
     "extract": "node extract.mjs",
     "test": "node tests/flow.mjs",
     "test:visual": "node tests/visual.mjs",
-    "test:state": "node --test tests/state.mjs"
+    "test:state": "node --test tests/state.mjs",
+    "test:session": "node tests/session.mjs"
   },
   "engines": {"node": ">=18"}
 }
