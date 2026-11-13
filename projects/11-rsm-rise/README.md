@@ -1,5 +1,7 @@
 # 11 — RSM RISE · v36 original integrado
 
+El control que antes decía Accept / Aceptar ahora dice Next step / Siguiente paso. La indicación de la TV y la ayuda de la tableta usan el mismo texto de navegación. Es un ajuste aprobado en el adaptador de integración; el archivo original archivado permanece intacto.
+
 La versión activa usa **RISE_Prototipo_v36.html** tal como fue entregado: diseño, CSS, copy EN/ES, cifras, casos, controles, escenas y animaciones. No carga estilos ni ajustes de las revisiones anteriores. El original está archivado byte por byte en `v36/original.html`.
 
 ## Abrir localmente

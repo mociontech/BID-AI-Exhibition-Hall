@@ -1,13 +1,23 @@
 /* Transport and clock recovery only. Rendering and controls are the v36 source. */
 (function(){
  const controller=document.documentElement.dataset.device==='tablet';
+ ES['Next step']='Siguiente paso';
+ ES['Continue to the next step.']='Continúa al siguiente paso.';
+ ES['Tap «Next step» on the tablet']='Toca «Siguiente paso» en la tableta';
+ const basePillTxt=pillTxt;
+ pillTxt=function(){return S.sc==='decide'?'Tap «Next step» on the tablet':basePillTxt();};
  let ready=false,applying=false,envelope=RISE_STATE.fresh(),lastSignature='',recoveryTimer=0,offset=0;
  const baseRender=render,baseUpdIntro=updIntro,baseSetLang=setLang;
  const baseTabView=tabView;
  tabView=function(){
   const html=baseTabView(),holder=document.createElement('div');holder.innerHTML=html;
+  const next=holder.querySelector('button[data-go="time"]');
+  if(next){
+   [...next.childNodes].filter(n=>n.nodeType===3).forEach(n=>{n.textContent=n.textContent.replace('Accept','Next step');});
+   const hint=holder.querySelector('.accq');if(hint)hint.textContent='Continue to the next step.';
+  }
   const footer=holder.querySelector('.tfoot');if(!footer)return html;
-  if([...footer.querySelectorAll('button[data-go]')].some(b=>b.textContent.trim()==='Back'))return html;
+  if([...footer.querySelectorAll('button[data-go]')].some(b=>b.textContent.trim()==='Back'))return holder.innerHTML;
   const back=document.createElement('button');back.type='button';back.className='tb';
   back.dataset.riseBack=S.sc==='intro'?(S.ip?'notice':'projects'):S.sc==='problem'?'opening':S.sc==='loop'?'sup':'opening';
   back.innerHTML=IC.back+'Back';footer.prepend(back);return holder.innerHTML;
