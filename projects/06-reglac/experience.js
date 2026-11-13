@@ -1,29 +1,108 @@
+/* Shared asset map and TV renderer for station 06 (RegLAC).
+   Both clients use only files in 06-reglac/Public and 06-reglac/Video.
+   Keep the capital P and V: hosting paths are case-sensitive. */
 (function(){
- const base=new URL('./',document.currentScript.src).href;
- const words={
- es:{station:'ESTACIÓN',home:'Inicio',menu:'Volver al menú',back:'Volver',fullscreen:'Pantalla completa',info:'Información',description:'Inteligencia artificial para explorar regulaciones, detectar posibles barreras y apoyar decisiones de simplificación.',infoBody:'Conoce el reto, cómo funciona RegLAC, sus usos y beneficios.',human:'La decisión final sigue siendo humana',badge:'IA + revisión humana',network:'Sin conexión con la TV. Reintentando…',retry:'Reintentar',noFullscreen:'Pantalla completa no disponible en este navegador.',video:'Video institucional',videoBody:'Un espacio para conocer RegLAC a través de su video institucional.',pending:'Pendiente de recibir',videoPlaceholder:'Aquí irá el video institucional de RegLAC.',videoNote:'El contenido se incorporará cuando el cliente entregue el video.',tabletVideo:'El espacio del video está en la pantalla principal.',informationHelp:'La información de RegLAC está en la pantalla principal.',infoNote:'La evidencia informa. Las personas deciden.'},
- en:{station:'STATION',home:'Home',menu:'Back to menu',back:'Back',fullscreen:'Full screen',info:'Information',description:'Artificial intelligence to explore regulations, detect potential barriers, and support simplification decisions.',infoBody:'Learn about the challenge, how RegLAC works, its uses, and benefits.',human:'The final decision remains human',badge:'AI + human review',network:'Display connection lost. Retrying…',retry:'Retry',noFullscreen:'Full screen is unavailable in this browser.',video:'Institutional video',videoBody:'A space to discover RegLAC through its institutional video.',pending:'Awaiting video',videoPlaceholder:'The RegLAC institutional video will appear here.',videoNote:'Content will be added once the client provides the video.',tabletVideo:'The video space is on the main display.',informationHelp:'RegLAC information is on the main display.',infoNote:'Evidence informs. People decide.'}
+ const version='?v=20261113-portada-1';
+ const base=new URL('./Public/',document.currentScript.src);
+ const videoBase=new URL('./Video/',document.currentScript.src);
+ const asset=name=>new URL(name,base).href+version;
+ const art={
+  /* Main menu supplied in November 2026 (1672 × 941, English). */
+  tablet:asset('reglac-portada-en.png'),
+  /* "About project" infographic (1920 × 1080) and the same sheet with its content erased,
+     used as the empty blue panel, card frames and impact bar while the sheet builds. */
+  info:asset('reglac-infografia-en.png'),
+  infoBase:asset('reglac-infografia-base.png'),
+  video:new URL('RegLac_SUB_EN_web.mp4',videoBase).href+version
  };
- const paths={play:'M8 5l11 7-11 7z',document:'M5 2h9l5 5v15H5z M14 2v6h5 M8 12h8 M8 16h8 M8 19h5',scales:'M12 3v17 M6 21h12 M4 6h16 M6 6L2 14h8L6 6 M18 6l-4 8h8l-4-8',chip:'M5 5h14v14H5z M9 9h6v6H9z M8 1v4 M16 1v4 M8 19v4 M16 19v4 M1 8h4 M1 16h4 M19 8h4 M19 16h4',check:'M4 12l5 5L20 6',shield:'M12 2l9 4v6c0 5-9 10-9 10S3 17 3 12V6z M7 12l4 4 6-7',search:'M16 16l6 6 M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0',clock:'M9 1h6 M12 4v2 M21 13a9 9 0 1 1-18 0 9 9 0 0 1 18 0 M12 8v6l3 2',layers:'M2 7l10-5 10 5-10 5z M2 12l10 5 10-5 M2 17l10 5 10-5',building:'M4 22V7h10v15 M14 12h6v10 M8 10h2 M8 14h2 M8 18h2 M17 15h1 M17 18h1',map:'M2 5l7-3 6 3 7-3v17l-7 3-6-3-7 3z M9 2v17 M15 5v17',arrow:'M3 12h18 M14 5l7 7-7 7',home:'M3 11l9-8 9 8 M5 10v12h14V10',back:'M15 4l-8 8 8 8',expand:'M3 9V3h6 M15 3h6v6 M21 15v6h-6 M9 21H3v-6',link:'M9 8H7a5 5 0 0 0 0 10h3 M15 6h2a5 5 0 0 1 0 10h-3 M8 13h8',people:'M5 8a3 3 0 1 0 6 0 3 3 0 0 0-6 0 M14 6a3 3 0 1 0 6 0 3 3 0 0 0-6 0 M1 22v-3c0-6 14-6 14 0v3 M15 13c5 0 8 2 8 6v3'};
- const icon=name=>`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${paths[name]||paths.document}"/></svg>`;
- const button=(action,label,disabled=false,secondary=false)=>`<button type="button" class="rl-button ${secondary?'rl-secondary':''}" data-action="${action}" ${disabled?'disabled':''}>${label}${icon('arrow')}</button>`;
- Object.assign(words.es,{artLabel:'ANÁLISIS REGULATORIO',infoTitle:'¿Qué es RegLAC?',infoSubtitle:'Una forma más clara de entender regulaciones complejas.',evidence:'RegLAC no reemplaza a los expertos: los apoya con evidencia.',infoItems:[['El reto','Revisar miles de normas y trámites manualmente requiere tiempo y dificulta detectar posibles barreras.'],['La solución','RegLAC organiza información regulatoria y ayuda a identificar oportunidades de simplificación.'],['Cómo usa la IA','Agentes especializados analizan disposiciones y aplican criterios para señalar posibles hallazgos.'],['Qué permite','Explorar regulaciones, analizar trámites y apoyar decisiones con información estructurada.'],['Lo más importante','Las personas expertas verifican los hallazgos y los gobiernos deciden qué reformas considerar.']],informationStage:'Información general',mainStage:'Pantalla principal'});
- Object.assign(words.en,{artLabel:'REGULATORY ANALYSIS',infoTitle:'What is RegLAC?',infoSubtitle:'A clearer way to understand complex regulations.',evidence:'RegLAC does not replace experts: it supports them with evidence.',infoItems:[['The challenge','Manually reviewing thousands of regulations and procedures takes time and makes potential barriers difficult to spot.'],['The solution','RegLAC organizes regulatory information and helps identify opportunities for simplification.'],['How AI is used','Specialized agents analyze provisions and apply criteria to flag potential findings.'],['What it enables','Explore regulations, examine procedures, and support decisions with structured information.'],['Most important','Human experts verify findings and governments decide which reforms to consider.']],informationStage:'General information',mainStage:'Main screen'});
- function artwork(w){return `<div class="rl-art" aria-hidden="true"><img src="${base}assets/regulatory-analysis.svg" alt=""><span class="rl-art-caption">${icon('layers')}${w.artLabel}</span><span class="rl-human-badge">${icon('chip')}${w.badge}</span></div>`;}
- function header(w,lang,readonly){return `<header class="rl-header"><div class="rl-brand"><img src="${base}../../assets/brand/idb-group.jpg" alt="IDB Group"><span class="rl-brand-divider"></span><div><strong>AI in Action</strong><small>IDB Group Projects Across The Region</small></div></div><div class="rl-header-right"><span class="rl-station"><b>06</b><span>${w.station}<strong>RegLAC</strong></span></span><div class="rl-languages" aria-label="${lang==='es'?'Idioma':'Language'}">${['es','en'].map(l=>`<button type="button" data-language="${l}" aria-pressed="${lang===l}" ${readonly?'disabled':''}>${l.toUpperCase()}</button>`).join('')}</div></div></header>`;}
+ const words={
+  screen:'RegLAC: AI for smarter regulatory simplification',
+  info:'RegLAC infographic: the challenge, the solution and the impact to date',
+  video:'RegLAC video'
+ };
+
+ /* Older packets (game, results, cta) open their replacement: the video or the infographic. */
  const normalizeMode=mode=>['video','game','results'].includes(mode)?'video':['info','cta'].includes(mode)?'info':'landing';
- function landing(state,w,readonly){
-  return `<section class="rl-landing"><div class="rl-hero"><div class="rl-hero-copy"><p class="rl-kicker"><span>06</span> AI IN ACTION</p><h1>Reg<span>LAC</span><i>.</i></h1><p class="rl-description">${w.description}</p><div class="rl-hero-note">${icon('people')}<span>${w.human}</span></div></div>${artwork(w)}</div><div class="rl-options">${[['information',w.info,w.infoBody],['video',w.video,w.videoBody]].map(([action,title,body],i)=>`<button type="button" class="rl-option rl-option-${i}" data-action="${action}" ${readonly?'disabled':''}><span class="rl-option-number">0${i+1}</span><span class="rl-option-copy"><strong>${title}</strong><span>${body}</span>${i===1?`<small>${w.pending}</small>`:''}</span><span class="rl-option-arrow">${icon(i?'play':'arrow')}</span></button>`).join('')}</div></section>`;
+
+ /* The infographic animated element by element, like the IDB reference
+    "Iniciativa 2.2_animada_PRO" (same timing as the VUCE 3.0 and Teachy sheets): the blue panel
+    sweeps in, the title rises, then the challenge, the solution and each impact figure.
+    Every piece is a crop of the supplied PNG, so the finished frame is the PNG itself;
+    at the end the full PNG fades in on top to remove any sub-pixel seam.
+    These boxes are also the areas erased in reglac-infografia-base.png. */
+ const box=(x,y,w,h)=>({x,y,w,h});
+ const SHEET={
+  panel:box(0,0,764,1080),
+  logo:box(60,64,301,77),title:box(62,455,500,140),sub1:box(62,596,260,42),sub2:box(62,638,420,49),unit:box(62,689,200,48),
+  cards:[
+   {frame:box(838,200,486,397),head:box(870,228,296,41),icon:box(870,292,119,119),text:box(870,430,421,139)},
+   {frame:box(1366,199,486,398),head:box(1398,227,265,41),icon:box(1398,291,119,119),text:box(1398,429,403,139)}
+  ],
+  impactTitle:box(870,638,296,41),
+  bar:box(838,695,1008,185),
+  facts:[
+   {value:box(874,718,200,61),label:box(874,780,206,60)},
+   {value:box(1214,718,60,61),label:box(1214,780,196,32),divider:box(1177,723,9,128)},
+   {value:box(1535,716,170,63),label:box(1535,780,222,82),divider:box(1501,723,9,128)}
+  ]
+ };
+ /* One cropped piece: --x/--y are relative to its parent piece, --sx/--sy pick the crop. */
+ function piece(cls,b,source,parent,inner='',style=''){
+  const px=parent?parent.x:0,py=parent?parent.y:0;
+  return `<span class="rls-el ${cls}" style="--x:${b.x-px};--y:${b.y-py};--w:${b.w};--h:${b.h};${style}"><i class="rls-crop rls-crop--${source}" style="--sx:${b.x};--sy:${b.y}"></i>${inner}</span>`;
  }
- function information(state,w){return `<section class="rl-information" data-language="${state.language}"><div class="rl-information-heading"><div><p class="rl-kicker"><span>06</span> AI IN ACTION</p><h1>${w.infoTitle}</h1></div><p>${w.infoSubtitle}</p></div><div class="rl-information-columns">${w.infoItems.map(([title,body],i)=>`<article><div class="rl-information-icon">${icon(['clock','layers','chip','search','people'][i])}<span>0${i+1}</span></div><h2>${title}</h2><p>${body}</p></article>`).join('')}</div><div class="rl-evidence"><span>${icon('people')}</span><div><p>${w.infoNote}</p><h2>${w.evidence}</h2></div></div></section>`;}
- function video(w,readonly){
-  return `<section class="rl-video ${readonly?'rl-video-tv':'rl-video-controller'}"><div class="rl-video-heading"><p class="rl-kicker"><span>06</span> RegLAC</p><h1>${w.video}</h1></div><div class="rl-video-space"><span class="rl-video-symbol" aria-hidden="true">${icon('play')}</span><span class="rl-video-status">${w.pending}</span><h2>${readonly?w.videoPlaceholder:w.tabletVideo}</h2><p>${w.videoNote}</p></div>${!readonly?`<div class="rl-actions">${button('back',w.back,false,true)}</div>`:''}</section>`;
+ function sheet(){
+  const s=SHEET;
+  const panel=piece('rls-panel',s.panel,'base',null,
+   piece('rls-logo',s.logo,'full',s.panel)+
+   piece('rls-rise rls-title',s.title,'full',s.panel,'','--t:1.2s')+
+   piece('rls-rise rls-sub',s.sub1,'full',s.panel,'','--t:1.5s')+
+   piece('rls-rise rls-sub',s.sub2,'full',s.panel,'','--t:1.62s')+
+   piece('rls-rise rls-unit',s.unit,'full',s.panel,'','--t:1.8s'));
+  const cards=s.cards.map((c,i)=>piece(`rls-card rls-card--${i?'solution':'challenge'}`,c.frame,'base',null,
+   piece('rls-head',c.head,'full',c.frame)+
+   piece('rls-icon',c.icon,'full',c.frame)+
+   piece('rls-text',c.text,'full',c.frame),
+   `--d:${(1.8+i*.7).toFixed(1)}s`)).join('');
+  const facts=s.facts.map((f,i)=>
+   (f.divider?piece('rls-divider',f.divider,'full',s.bar,'',`--i:${i}`):'')+
+   piece('rls-rise rls-value',f.value,'full',s.bar,'',`--i:${i}`)+
+   piece('rls-label',f.label,'full',s.bar,'',`--i:${i}`)).join('');
+  return `<section class="rls-sheet is-animated" style="--full:url('${art.info}');--base:url('${art.infoBase}')" aria-label="RegLAC · AI-Powered Regulatory Analysis · VPS · IFD">
+   <div class="rls-stage">
+    <i class="rls-veil" aria-hidden="true"></i>
+    ${panel}${cards}
+    ${piece('rls-impact-title',s.impactTitle,'full',null)}
+    ${piece('rls-bar',s.bar,'base',null,facts)}
+    <img class="rls-final" src="${art.info}" width="1920" height="1080" alt="${words.info}">
+   </div>
+  </section>`;
  }
- function renderInto(mount,state,{readonly=false}={}){
-  const lang=state.language==='es'?'es':'en',w=words[lang],mode=normalizeMode(state.mode);
-  state={...state,language:lang,mode};document.documentElement.lang=lang;
-  const info=mode==='info',isVideo=mode==='video',number=isVideo?'03':info?'02':'01',stage=isVideo?w.video:info?w.informationStage:w.mainStage;
-  mount.innerHTML=`<div class="rl-app ${readonly?'rl-display':'rl-tablet'} ${info&&readonly?'rl-infographic':''}">${header(w,lang,readonly)}<div class="rl-content">${isVideo?video(w,readonly):info&&readonly?information(state,w):landing(state,w,readonly)}${info&&!readonly?`<div class="rl-info-status" role="status"><span>${icon('document')}${w.informationHelp}</span></div>`:''}</div><footer class="rl-footer"><div>${!readonly?`<button data-action="home">${icon('home')}${w.home}</button>`:`<span class="rl-footer-label">AI in Action</span>`}<span class="rl-breadcrumb">/ &nbsp; RegLAC &nbsp; / &nbsp; ${stage}</span></div><nav><span class="rl-page-indicator"><b>${number}</b><span>/ 03</span></span>${!readonly?`<button data-action="fullscreen" aria-label="${w.fullscreen}">${icon('expand')}</button><button data-action="menu" aria-label="${w.menu}">${icon('home')}</button><button data-action="back" aria-label="${w.back}">${icon('back')}</button>`:''}</nav></footer><div class="rl-network" role="status" hidden><span>${w.network}</span><button data-action="retry">${w.retry}</button></div><span class="rl-access-status" role="status" data-status></span></div>`;
+
+ function renderVideo(mount){
+  // Keep the running video when the same state arrives again.
+  if(mount.querySelector('.reglac-display-video'))return;
+  mount.innerHTML=`<main class="reglac-display reglac-display--video" aria-label="${words.video}"><video class="reglac-display-video" src="${art.video}" autoplay loop playsinline preload="auto" aria-label="${words.video}"></video></main>`;
+  const video=mount.querySelector('.reglac-display-video');
+  // Browsers may block sound without a user gesture on the TV: fall back to muted playback.
+  video.play().catch(()=>{video.muted=true;return video.play().catch(()=>{});});
  }
- window.REGLAC={renderInto,words,normalizeMode};
+ function renderInfo(mount){
+  // Do not remount (and restart the animation) if the sheet is already on screen.
+  if(mount.querySelector('.rls-sheet'))return;
+  mount.innerHTML=`<main class="reglac-display reglac-display--info" aria-label="RegLAC infographic">${sheet()}</main>`;
+ }
+ function renderLanding(mount){
+  if(mount.querySelector('.reglac-display--landing'))return;
+  mount.innerHTML=`<main class="reglac-display reglac-display--landing" aria-label="RegLAC main screen"><img class="reglac-display-image" src="${art.tablet}" alt="${words.screen}" width="1672" height="941"></main>`;
+ }
+ /* TV entry point: shared/display.js calls REGLAC.renderInto(app,data,{readonly:true}). */
+ function renderInto(mount,data){
+  document.documentElement.lang='en';
+  const mode=normalizeMode(data?.mode);
+  if(mode==='video')return renderVideo(mount);
+  if(mode==='info')return renderInfo(mount);
+  return renderLanding(mount);
+ }
+ window.REGLAC={art,words,normalizeMode,renderInto};
 })();

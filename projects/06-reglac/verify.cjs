@@ -1,64 +1,93 @@
-/* Current RegLAC experience: local integration and visual verification. */
-const {chromium}=require('playwright'),assert=require('node:assert/strict');
-const {spawn}=require('node:child_process'),net=require('node:net'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+/* RegLAC tablet + TV walkthrough. Run with the local server (BASE_URL, default http://127.0.0.1:4173)
+   and Playwright available through NODE_PATH. Uses station 6 and ends on the projects menu (Start). */
+const {chromium}=require('playwright');
+const assert=require('node:assert/strict');
+const path=require('node:path');
+const fs=require('node:fs');
+const out=path.join(__dirname,'verification','portada-2026-11');fs.mkdirSync(out,{recursive:true});
+const base=process.env.BASE_URL||'http://127.0.0.1:4173';
+const station=process.env.STATION||'6';
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
 (async()=>{
- const socket=net.createServer();await new Promise(r=>socket.listen(0,'127.0.0.1',r));const port=socket.address().port;await new Promise(r=>socket.close(r));
- const root=path.resolve(__dirname,'../..'),server=spawn(process.execPath,['server.js'],{cwd:root,env:{...process.env,PORT:String(port),HOST:'127.0.0.1'},stdio:'ignore'});
- let browser;
- try{
-  const base=`http://127.0.0.1:${port}`;
-  for(let i=0;i<60;i++){try{if((await fetch(base)).ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
-  browser=await chromium.launch({channel:'chrome',headless:true});
-  const controller=await browser.newContext({viewport:{width:1180,height:820},hasTouch:true}),receiver=await browser.newContext({viewport:{width:1920,height:1080}});
-  const tablet=await controller.newPage(),tv=await receiver.newPage(),errors=[],checks=[];
-  for(const p of [tablet,tv]){p.on('pageerror',e=>errors.push(e.message));p.on('response',r=>{if(r.status()>=400&&!r.url().endsWith('favicon.ico'))errors.push(r.status()+' '+r.url());});}
-  const read=async n=>(await controller.request.get(base+'/api/state?station='+n)).json();
-  const clean=s=>{const {serverNow,...rest}=s;return rest;};
-  const others=await Promise.all([1,2,3,4,5,7,8,9,10,11].map(async n=>clean(await read(n))));
-  const seed=async state=>{const response=await controller.request.post(base+'/api/state?station=6',{data:{view:'project',projectId:'06',language:'en',mode:'landing',game:null,...state}});assert.ok(response.ok());};
-  await seed({});await tv.goto(base+'/display.html?station=6');await tablet.goto(base+'/projects/06-reglac/index.html?station=6');
-  await tablet.waitForSelector('.rl-landing');await tv.waitForSelector('.rl-landing');
-  const click=action=>tablet.locator(`[data-action="${action}"]`).first().click();
-  async function noGame(page){assert.equal(await page.locator('[data-action="game"],[data-doc],.rl-clock,.rl-game,.rl-results').count(),0);assert.doesNotMatch(await page.locator('.rl-app').innerText(),/undefined|minigame|minijuego|Detective|Round 1|Ronda 1/i);}
-  async function fits(page,label){await page.evaluate(()=>document.fonts.ready);const d=await page.evaluate(()=>({w:innerWidth,h:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}));assert.ok(d.sw<=d.w+1&&d.sh<=d.h+1,label+' '+JSON.stringify(d));await noGame(page);checks.push(label);}
-  const out=path.join(os.tmpdir(),'reglac-video-qa');fs.mkdirSync(out,{recursive:true});
-  assert.equal(await tablet.locator('[data-action="video"]').isDisabled(),false);
-  await tablet.keyboard.press('Tab');assert.equal(await tablet.evaluate(()=>document.activeElement.tagName),'BUTTON');
-  for(const lang of ['en','es']){
-   await tablet.locator(`[data-language="${lang}"]`).click();
-   for(const size of [{width:1180,height:820},{width:1024,height:768}]){
-    await tablet.setViewportSize(size);await fits(tablet,`landing ${lang} ${size.width}`);
-   }
-   await click('information');await tv.waitForSelector(`.rl-information[data-language="${lang}"]`);
-   await fits(tablet,`information controller ${lang}`);await fits(tv,`information TV ${lang}`);
-   await click('video');await tv.waitForSelector('.rl-video-tv');
-   await tv.waitForFunction(l=>document.documentElement.lang===l,lang);
-   const title=lang==='es'?'Video institucional':'Institutional video';
-   assert.equal(await tablet.locator('.rl-video h1').innerText(),title);assert.equal(await tv.locator('.rl-video h1').innerText(),title);
-   const packet=await read(6);assert.equal(packet.mode,'video');assert.equal(packet.game,null);
-   await fits(tv,`video TV ${lang}`);
-   for(const size of [{width:1180,height:820},{width:1024,height:768}]){
-    await tablet.setViewportSize(size);await fits(tablet,`video tablet ${lang} ${size.width}`);
-   }
-   await tablet.screenshot({path:path.join(out,`tablet-video-${lang}.png`)});await tv.screenshot({path:path.join(out,`tv-video-${lang}.png`)});
-   const targets=await tablet.locator('button:not(:disabled):visible').evaluateAll(nodes=>nodes.map(n=>({w:n.getBoundingClientRect().width,h:n.getBoundingClientRect().height})));
-   assert.ok(targets.every(t=>t.w>=44&&t.h>=44),'minimum touch targets');
-   await tablet.reload();await tablet.waitForSelector('.rl-video-controller');
-   assert.equal(await tablet.locator('.rl-video h1').innerText(),title);
-   await click('back');await tv.waitForSelector('.rl-landing');
-  }
-  // Old packets must not resurrect the former game on either device.
-  for(const mode of ['game','results','cta']){
-   await tablet.goto('about:blank');
-   await seed({mode,view:mode==='game'?'game':'project',game:require('./state.js').fresh(true)});
-   await tablet.goto(base+'/projects/06-reglac/index.html?station=6');
-   await tablet.waitForSelector(mode==='cta'?'.rl-landing':'.rl-video-controller');
-   await tv.waitForSelector(mode==='cta'?'.rl-information':'.rl-video-tv');
-   await noGame(tablet);await noGame(tv);
-  }
-  await click('home');await tablet.waitForURL(/projects=1/);await tv.waitForFunction(()=>!document.querySelector('.rl-app'));
-  assert.equal((await read(6)).view,'home');
-  assert.deepEqual(await Promise.all([1,2,3,4,5,7,8,9,10,11].map(async n=>clean(await read(n)))),others);
-  assert.deepEqual(errors,[]);console.log(JSON.stringify({ok:true,checks,legacyMigration:true,reload:true,navigation:true,otherStationsUnchanged:true,errors,screenshots:out},null,2));
- }finally{if(browser)await browser.close();server.kill();}
-})().catch(error=>{console.error(error);process.exitCode=1;});
+ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+ const tablet=await browser.newPage({viewport:{width:1180,height:820},hasTouch:true});
+ const tv=await browser.newPage({viewport:{width:1920,height:1080}});
+ const errors=[];
+ for(const [name,page] of [['tablet',tablet],['tv',tv]]){
+  page.on('pageerror',e=>errors.push(name+' '+e.message));
+  page.on('response',r=>{if(r.status()>=400&&!r.url().endsWith('favicon.ico'))errors.push(name+' '+r.status()+' '+r.url());});
+ }
+ await tv.goto(`${base}/display.html?station=${station}`);
+ await tablet.goto(`${base}/projects/06-reglac/index.html?station=${station}`);
+ await tablet.waitForFunction(()=>document.querySelector('.reglac-tablet-image')?.complete);
+ await tv.waitForSelector('.reglac-display--landing img');
+ await tv.waitForFunction(()=>document.querySelector('.reglac-display-image')?.complete);
+ await wait(600);
+ await tablet.screenshot({path:path.join(out,'01-tablet-landing.png')});
+ await tv.screenshot({path:path.join(out,'02-tv-landing.png')});
+ assert.equal(await tablet.locator('.reglac-back').isVisible(),false);
+ // About project
+ await tablet.locator('.reglac-hit--info').tap();
+ await tv.waitForSelector('.rls-sheet');
+ const t0=Date.now();
+ for(const at of [1000,2300,4600,7200]){
+  await wait(Math.max(0,at-(Date.now()-t0)));
+  await tv.screenshot({path:path.join(out,`03-tv-info-${String(at).padStart(4,'0')}.png`)});
+ }
+ assert.equal(await tablet.locator('.reglac-back').isVisible(),true);
+ await tablet.screenshot({path:path.join(out,'04-tablet-info.png')});
+ // Republishing the same state must not restart the animation
+ const sheetHandle=await tv.$('.rls-sheet');
+ await tablet.locator('.reglac-hit--info').tap();await wait(800);
+ assert.equal(await sheetHandle.evaluate(n=>n.isConnected),true,'sheet must not remount');
+ // Back
+ await tablet.locator('.reglac-back').tap();
+ await tv.waitForSelector('.reglac-display--landing img');
+ assert.equal(await tablet.locator('.reglac-back').isVisible(),false);
+ // Second card → video
+ await tablet.locator('.reglac-hit--video').tap();
+ await tv.waitForSelector('.reglac-display-video');
+ await tv.waitForFunction(()=>{const v=document.querySelector('.reglac-display-video');return v&&v.currentTime>1.5;},null,{timeout:20000});
+ const v=await tv.evaluate(()=>{const v=document.querySelector('.reglac-display-video');return {w:v.videoWidth,h:v.videoHeight,dur:Math.round(v.duration),muted:v.muted,t:v.currentTime.toFixed(1),src:decodeURI(v.currentSrc).split('/').pop()};});
+ console.log('video',JSON.stringify(v));
+ assert.equal(v.w,1920);assert.equal(v.h,1080);
+ await tv.screenshot({path:path.join(out,'05-tv-video.png')});
+ await tablet.screenshot({path:path.join(out,'06-tablet-video.png')});
+ // A reload keeps the video on the tablet state
+ await tablet.reload();
+ await tablet.waitForFunction(()=>document.querySelector('.reglac-tablet-image')?.complete);
+ assert.equal(await tablet.locator('.reglac-back').isVisible(),true,'reload keeps the current screen');
+ assert.equal(await tablet.locator('.reglac-hit--video').getAttribute('aria-pressed'),'true');
+ // Layout at several tablet sizes
+ for(const size of [{width:1024,height:768},{width:1280,height:800},{width:1366,height:1024},{width:1920,height:1080}]){
+  await tablet.setViewportSize(size);await wait(150);
+  const layout=await tablet.evaluate(()=>({scrollX:document.documentElement.scrollWidth>innerWidth,scrollY:document.documentElement.scrollHeight>innerHeight}));
+  assert.deepEqual(layout,{scrollX:false,scrollY:false});
+  const back=await tablet.locator('.reglac-back').boundingBox();
+  const start=await tablet.locator('.reglac-hit--home').boundingBox();
+  assert.ok(back.x+back.width<=start.x,'Back must not overlap Start');
+ }
+ await tablet.setViewportSize({width:1180,height:820});
+ await tablet.locator('.reglac-back').focus();
+ {const b=await tablet.locator('.reglac-back').boundingBox();await tablet.screenshot({path:path.join(out,'07-tablet-back-focus.png'),clip:{x:b.x-200,y:b.y-20,width:b.width+330,height:b.height+40}});}
+ // Back from video
+ await tablet.locator('.reglac-back').tap();
+ await tv.waitForSelector('.reglac-display--landing img');
+ // Old saved packets (game/results) open the video, not the retired game
+ await tablet.request.post(`${base}/api/state?station=${station}`,{data:{view:'project',projectId:'06',section:'game',language:'en',mode:'game',screenIndex:null,game:null}});
+ await tv.waitForSelector('.reglac-display-video');
+ await tablet.request.post(`${base}/api/state?station=${station}`,{data:{view:'project',projectId:'06',section:null,language:'en',mode:'landing',screenIndex:null,game:null}});
+ await tv.waitForSelector('.reglac-display--landing img');
+ // Start → projects menu
+ await tablet.locator('.reglac-hit--home').tap();
+ await tablet.waitForURL(u=>!u.pathname.includes('06-reglac'));
+ await wait(800);
+ const state=await (await tablet.request.get(`${base}/api/state?station=${station}`)).json();
+ console.log('after Start',state.view,state.projectId,tablet.url());
+ assert.equal(state.view,'home');
+ assert.ok(tablet.url().includes('projects=1'));
+ console.log('errors',JSON.stringify(errors));
+ assert.deepEqual(errors,[]);
+ await browser.close();
+ console.log('OK');
+})().catch(e=>{console.error(e);process.exit(1);});

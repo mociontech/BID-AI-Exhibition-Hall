@@ -1,57 +1,83 @@
-/* RegLAC controller: information and an institutional video placeholder. */
-window.ProjectModule={id:'06',async mountController({sync,mount}){
- const api=window.REGLAC,home='/index.html'+sync.stationQuery+'&projects=1';
- let state={view:'project',projectId:'06',section:'landing',language:'en',mode:'landing',screenIndex:null,game:null};
- let heartbeat=null,leaving=false,dirty=false,publishing=0,reading=false;
- function connection(ok){const el=mount.querySelector('.rl-network');if(el)el.hidden=ok;}
- function publish(){
-  dirty=true;const snapshot=JSON.stringify(state);publishing++;
-  return sync.send(state).then(response=>{connection(!!response?.ok);if(response?.ok&&snapshot===JSON.stringify(state))dirty=false;return response;}).finally(()=>publishing--);
- }
- function render(){
-  const focus=mount.contains(document.activeElement)?document.activeElement:null;
-  const selector=focus?.dataset.language?`[data-language="${focus.dataset.language}"]`:focus?.dataset.action?`[data-action="${focus.dataset.action}"]`:null;
-  api.renderInto(mount,state);connection(!dirty);
-  if(selector)mount.querySelector(selector)?.focus({preventScroll:true});
- }
- function update(next){if(leaving)return;state={...state,...next};state.section=state.mode;render();void publish();}
- async function goHome(){
-  leaving=true;clearInterval(heartbeat);
-  await sync.send({view:'home',projectId:null,section:null,language:state.language,mode:null,screenIndex:null,game:null});
-  location.assign(home);
- }
- mount.addEventListener('click',async event=>{
-  const b=event.target.closest('button');if(!b||b.disabled||leaving)return;
-  if(b.dataset.language)return update({language:b.dataset.language});
-  const action=b.dataset.action;
-  if(action==='home')return goHome();
-  if(action==='menu')return update({mode:'landing'});
-  if(action==='back')return state.mode==='landing'?goHome():update({mode:'landing'});
-  if(action==='information')return update({mode:'info'});
-  if(action==='video')return update({mode:'video'});
-  if(action==='retry')return publish();
-  if(action==='fullscreen'){
-   try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}
-   catch{mount.querySelector('[data-status]').textContent=api.words[state.language].noFullscreen;}
+/* Station 06: the supplied main-menu PNG (November 2026) with functional touch controls.
+   "About project" shows the animated infographic on the TV and the second card plays the RegLAC
+   video; the tablet keeps its artwork and only adds a Back pill while the TV shows one of them. */
+window.ProjectModule={
+ id:'06',
+ async mountController({sync,mount}){
+  const api=window.REGLAC,home='/index.html'+sync.stationQuery+'&projects=1';
+  let state={mode:'landing'},failed=false,leaving=false,retry=null;
+  const t={
+   screen:api.words.screen,
+   info:'About project: show the infographic on the TV',
+   video:'Interactive experience: play the RegLAC video on the TV',
+   home:'Start: back to all projects',
+   back:'Back: show the RegLAC main screen on the TV',
+   fullscreen:'Enter or exit fullscreen'
+  };
+  const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>';
+  function publish(){
+   const mode=state.mode;
+   return sync.send({view:'project',projectId:'06',section:mode==='landing'?null:mode,language:'en',mode,screenIndex:null,game:null})
+    .then(response=>{failed=!response?.ok;return response;},()=>{failed=true;});
   }
- });
- const remote=await sync.read();
- if(remote?.projectId==='06'){
-  // Existing game/results packets open the replacement, never the retired game.
-  state.mode=api.normalizeMode(remote.mode);state.section=state.mode;
- }
- if(remote?.language==='es')state.language='es';
- render();void publish();
- heartbeat=setInterval(async()=>{
-  if(leaving||publishing||reading)return;reading=true;
-  try{
-   if(dirty)await publish();else{
-    const latest=await sync.read();
-    if(['view','projectId','mode','language','game'].some(key=>latest?.[key]!==state[key]))void publish();
+  async function goHome(){
+   leaving=true;clearInterval(retry);
+   await sync.send({view:'home',projectId:null,section:null,language:'en',mode:null,screenIndex:null,game:null});
+   location.assign(home);
+  }
+  function render(){
+   document.documentElement.lang='en';
+   mount.innerHTML=`<main class="reglac-tablet" aria-label="RegLAC">
+    <div class="reglac-artboard">
+     <img class="reglac-tablet-image" src="${api.art.tablet}" width="1672" height="941" alt="${t.screen}" draggable="false">
+     <nav class="reglac-controls" aria-label="RegLAC">
+      <button class="reglac-hit reglac-hit--fullscreen" type="button" data-action="fullscreen" aria-label="${t.fullscreen}" title="${t.fullscreen}"></button>
+      <button class="reglac-back" type="button" data-action="back" aria-label="${t.back}" hidden>${ARROW}<span>Back</span></button>
+      <button class="reglac-hit reglac-hit--home" type="button" data-action="home" aria-label="${t.home}"></button>
+      <button class="reglac-hit reglac-hit--info" type="button" data-action="information" aria-label="${t.info}" aria-pressed="false"></button>
+      <button class="reglac-hit reglac-hit--video" type="button" data-action="video" aria-label="${t.video}" aria-pressed="false"></button>
+     </nav>
+    </div>
+   </main>`;
+   update();
+  }
+  /* Only the Back pill and the pressed state change; the artwork is never re-rendered. */
+  function update(){
+   const back=mount.querySelector('.reglac-back');
+   if(back)back.hidden=state.mode==='landing';
+   mount.querySelector('.reglac-hit--info')?.setAttribute('aria-pressed',String(state.mode==='info'));
+   mount.querySelector('.reglac-hit--video')?.setAttribute('aria-pressed',String(state.mode==='video'));
+  }
+  function show(mode){
+   if(leaving)return;
+   state.mode=mode;update();void publish();
+  }
+  mount.addEventListener('click',async event=>{
+   const button=event.target.closest('button');if(!button||button.disabled||leaving)return;
+   const action=button.dataset.action;
+   if(action==='information')return show('info');
+   if(action==='video')return show('video');
+   if(action==='back'){
+    show('landing');
+    mount.querySelector('.reglac-hit--info')?.focus({preventScroll:true});
+    return;
    }
-  }finally{reading=false;}
- },1500);
- window.addEventListener('ai-sync-connection',event=>connection(event.detail.connected));
- window.addEventListener('pagehide',()=>{leaving=true;clearInterval(heartbeat);},{once:true});
- window.addEventListener('pageshow',event=>{if(event.persisted)location.reload();});
-}};
+   if(action==='home')return void goHome();
+   if(action==='fullscreen'){
+    try{
+     if(document.fullscreenElement)await document.exitFullscreen();
+     else await document.documentElement.requestFullscreen();
+    }catch{}
+   }
+  });
+  try{
+   const remote=await sync.read();
+   if(remote?.projectId==='06'&&remote.view!=='home')state.mode=api.normalizeMode(remote.mode);
+  }catch{}
+  render();void publish();
+  // If the TV could not be reached, keep resending the current screen until it is.
+  retry=setInterval(()=>{if(failed&&!leaving)void publish();},2000);
+  window.addEventListener('pagehide',()=>{leaving=true;clearInterval(retry);},{once:true});
+  window.addEventListener('pageshow',event=>{if(event.persisted)location.reload();});
+ }
+};
