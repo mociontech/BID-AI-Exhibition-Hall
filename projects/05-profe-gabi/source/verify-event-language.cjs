@@ -4,7 +4,8 @@ const schema=require('../state.js');
 (async()=>{
  const browser=await chromium.launch({channel:'chrome',headless:true});
  try{
-  const base=process.env.TEST_URL||'http://localhost:4173',out=path.resolve(__dirname,'../review/2026-11-09');
+  const base=process.env.TEST_URL||'http://localhost:4173',out=path.resolve(__dirname,'../review/2026-11-13');
+  fs.mkdirSync(out,{recursive:true});
   const es=JSON.parse(fs.readFileSync(path.join(__dirname,'conversations.es.json'),'utf8'));
   const en=JSON.parse(fs.readFileSync(path.join(__dirname,'conversations.en.json'),'utf8'));
   const controller=await browser.newContext({viewport:{width:1180,height:820}}),receiver=await browser.newContext({viewport:{width:1920,height:1080}});
@@ -13,10 +14,13 @@ const schema=require('../state.js');
   const state=async(station=5)=>(await controller.request.get(base+'/api/state?station='+station)).json();
   const clean=s=>{const {serverNow,updatedAt,...rest}=s;return rest;};
   const isolated=await Promise.all([1,2,3].map(async s=>clean(await state(s))));
-  const click=async a=>tablet.locator(`[data-action="${a}"]`).first().click();
+  const click=async a=>{
+   if(a==='menu'){await tablet.locator('[data-action="home"]').click();await tablet.waitForURL(base+'/index.html?station=5');await tablet.goto(base+'/projects/05-profe-gabi/index.html?station=5');await tablet.locator('[data-action="information"]').waitFor();return;}
+   await tablet.locator(`[data-action="${a}"]`).first().click();
+  };
   const ready=async()=>tablet.locator('[data-action="continue"]:not([disabled])').waitFor();
   const visible=async text=>tv.waitForFunction(text=>document.querySelector('.gabi-message-gabi:not([hidden]) p')?.textContent===text,text);
-  const disclaimer='English translation of adapted, anonymised real cases. Profe Gabi can make mistakes; the teacher decides.';
+  const disclaimer='Preprogrammed exhibition messages; these are not actual or verified Profe Gabi responses.';
   const pagedTopic=es.findIndex(t=>t.options[0].gabiParts.length>1);
   // A previously saved Spanish interface must restore as English without losing its part.
   await controller.request.post(base+'/api/state?station=5',{data:{projectId:'05',view:'game',mode:'game',language:'es',game:{...schema.fresh(),phase:'reading',topic:pagedTopic,situation:0,turn:'situation',part:1}}});
@@ -34,14 +38,19 @@ const schema=require('../state.js');
   assert.ok((await tv.locator('.gabi-art-welcome').textContent()).includes('Interactive Experience'));
   await tv.screenshot({path:path.join(out,'balanced-idle-en.png')});
   await tablet.locator('.gabi-approved-artwork').evaluate(img=>img.decode());await tablet.screenshot({path:path.join(out,'event-cover-en.png')});
-  await click('fullscreen');await tablet.waitForFunction(()=>!!document.fullscreenElement);await click('fullscreen');
+  assert.equal(await tablet.locator('[data-action=menu],[data-action=fullscreen],[data-gabi-connection]').count(),0);
   await click('information');await tv.locator('[data-file="tv-information-en.png"]').waitFor();
+  await tv.locator('.gabi-approved-artwork').evaluate(img=>img.decode());
+  assert.ok((await tv.locator('body').textContent()).includes('4,181 teachers with access'));
+  assert.ok(!(await tv.locator('body').textContent()).includes('550'));
+  await tv.screenshot({path:path.join(out,'updated-infographic-en.png')});
   assert.equal(await tablet.locator('[data-action="game"]').first().isEnabled(),true);await click('game');
   let pages=0,endings=0;
   async function read(pair,topic,turn,follow){
    const replyHeights=[];
    for(let part=0;part<pair.gabiParts.length;part++){
     await ready();await visible(pair.gabiParts[part]);
+    assert.equal(await tablet.locator('[data-action=menu],[data-action=fullscreen],[data-gabi-connection]').count(),0);
     assert.equal((await state()).game.part,part);
     assert.equal(await tablet.locator('[data-action="continue"]').textContent(),'Continue');
     assert.equal(await tablet.locator('[data-follow]').count(),0);
@@ -86,7 +95,11 @@ const schema=require('../state.js');
    await tablet.locator(`[data-follow="${follow}"]`).click();await click('skip');
    await read(es[topic].options[0].follow[follow],topic,'follow',follow);
    await tv.locator('.is-complete').waitFor();await tablet.locator('.gabi-summary').waitFor();
-   assert.ok((await tv.locator('.gabi-art-takeaway').textContent()).includes(en[topic].options[0].follow[follow].take));
+   if(topic===0&&follow===0){
+    await tablet.screenshot({path:path.join(out,'updated-tablet-result-en.png')});
+    assert.equal(await tablet.locator('[data-action=menu],[data-action=fullscreen],[data-gabi-connection]').count(),0);
+   }
+   assert.ok((await tv.locator('.gabi-art-takeaway').textContent()).includes('Useful guidance starts with describing the class'));
    assert.equal(await tv.locator('[data-file="tv-result-en.png"]').count(),1);
    assert.equal(await tv.locator('.gabi-chat-disclaimer').textContent(),disclaimer);endings++;
    if(topic===0&&follow===0)await tv.screenshot({path:path.join(out,'event-result-en.png')});
@@ -107,7 +120,7 @@ const schema=require('../state.js');
    assert.equal((await controller.request.get(base+'/projects/'+slug+'/index.html?station=1')).status(),200);
   }
   assert.deepEqual(errors,[]);
-  const report={passed:true,endings,spanishPartsRead:pages,interfaceLanguage:'en',conversationLanguage:'es',chatFontAtHD:'22px',exactDisclaimer:true,noSourceLine:true,manualContinue:true,englishResults:true,priorSpanishSessionMigrated:true,reloadOfflineHomeBackRestart:true,stationIsolation:true,interactiveExperienceNaming:true,centeredLargeIdleAvatar:true,twoPartDensityRatioAtMost:1.25};
+  const report={passed:true,removedExtraControls:true,updatedCover:true,endings,spanishPartsRead:pages,interfaceLanguage:'en',conversationLanguage:'es',chatFontAtHD:'22px',exactDisclaimer:true,noSourceLine:true,manualContinue:true,englishResults:true,priorSpanishSessionMigrated:true,reloadOfflineHomeBackRestart:true,stationIsolation:true,interactiveExperienceNaming:true,centeredLargeIdleAvatar:true,twoPartDensityRatioAtMost:1.25};
   fs.writeFileSync(path.join(out,'event-language-report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

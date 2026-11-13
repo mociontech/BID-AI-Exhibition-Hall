@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "removedExtraControls": true,
+  "updatedCover": true,
+  "endings": 8,
+  "spanishPartsRead": 23,
+  "interfaceLanguage": "en",
+  "conversationLanguage": "es",
+  "chatFontAtHD": "22px",
+  "exactDisclaimer": true,
+  "noSourceLine": true,
+  "manualContinue": true,
+  "englishResults": true,
+  "priorSpanishSessionMigrated": true,
+  "reloadOfflineHomeBackRestart": true,
+  "stationIsolation": true,
+  "interactiveExperienceNaming": true,
+  "centeredLargeIdleAvatar": true,
+  "twoPartDensityRatioAtMost": 1.25
+}
