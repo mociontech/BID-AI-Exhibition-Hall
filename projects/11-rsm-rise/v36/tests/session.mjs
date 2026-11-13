@@ -39,7 +39,9 @@ try{
   const probe=await tablet.request.get(`https://f1-sap-default-rtdb.firebaseio.com/aiExhibitionHall/rooms/${tq.get('room')}.json`);
   assert.equal(probe.status(),200,'Publish aiExhibitionHall.rooms rules before live testing');
  }
- await tv.goto(tvURL);await otherTV.goto(unrelatedURL);await tablet.goto(tabletURL);
+ const otherRoom=new URL(unrelatedURL);otherRoom.searchParams.set('station',tq.get('station'));
+ assert.notEqual(otherRoom.searchParams.get('room'),tq.get('room'));
+ await tv.goto(tvURL);await otherTV.goto(otherRoom.href);await tablet.goto(tabletURL);
  await tablet.locator('.home-art-image').waitFor();
  const card=tablet.locator('[data-project="11"]');
  assert.match(await card.getAttribute('aria-label'),/^RISE/);
