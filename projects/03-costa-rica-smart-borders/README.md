@@ -134,3 +134,17 @@ y un aviso "Mira la pantalla"; el copy nunca dice "TV"). Toda la animación vive
 - «Sobre el proyecto» en la TV ya no es una imagen: `cover.js` (`window.CRB_SHEET`) reconstruye en HTML la nueva `Infografia.png` y la anima por elementos (panel azul, títulos, tarjetas con icono, banda de impacto y cifras), con la misma secuencia que la infografía de AquaData basada en la referencia «Iniciativa 2.2_animada_PRO».
 - El PNG queda como respaldo en inglés: `public/info-en-2026-11.png`.
 - El texto en español es traducción propia del PNG en inglés y está pendiente de aprobación. Para que quepa se acortó: «Riesgo evaluado por separado», «5 entidades» y «para entrenar la IA».
+
+## Rebrand de Figma (13 nov 2026, local)
+
+- Fuente: archivo de Figma «BID AI Exhibition hall», página «10_Smart Borders», nodo 747:29301 (pantallas de tableta y TV).
+- Tableta: estilos nuevos en `game/figma.css` (medidas a 1920 × 1080 escaladas con `--u`, todo bajo la clase `.fig`). Barra con marca, «Volver» e «Inicio»; intro en dos columnas; tarjeta de la institución horizontal; semáforo sin el prefijo de color; «Siguiente parada» en la columna del semáforo; pasos de la IA con «Toca para ver cómo lo haría VUCE 3.0»; final «Mira la pantalla».
+- TV: barra solo con la marca, escena con esquinas redondeadas, tablero inferior y resultados con 3 barras y 3 ideas, sin la franja de cierre (estilos al final de `module.css`, bajo `.crtv--fig`).
+- Se mantiene «Volver» en la barra del juego aunque Figma solo muestra «Start», por la regla de navegación del proyecto. ES/EN quedan ocultos en el juego: el idioma se elige en la portada.
+- «Cómo explorar» abre «¿Cómo se juega?». El popup de Peñas Blancas sigue abriéndose solo al cruzar la frontera. El botón «En la vida real» del final se quitó, como en Figma.
+
+## Portada con video (13 nov 2026)
+
+- La portada sigue el mockup «VUCE 3.0_ Fronteras Inteligentes.png»: título a la izquierda, tarjeta «Video» arriba a la derecha y debajo «Sobre el proyecto» y «Experiencia interactiva». La foto de la tarjeta de video (`public/cover-video.jpg`) se recortó del mockup.
+- Al tocar «Video» la tableta pasa al modo `video` (aparece «Volver») y la TV reproduce a pantalla completa `video/PenasBlancas_web.mp4` (H.264 1080p ~3,8 Mbps, 74 MB, faststart), comprimido desde `BID_VideoCCIPenasBlancas_2025.11.17_GGC_v08.mp4` (299 MB, no versionado por superar 100 MB) con el ffmpeg de Effect House (h264_nvenc).
+- Si el navegador de la TV bloquea el audio automático, el video arranca sin sonido (igual que AquaData).

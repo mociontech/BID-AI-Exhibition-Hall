@@ -81,6 +81,10 @@ function renderCostaRica(data){
  const language=data.language==='es'?'es':'en';
  if(data.mode==='game'&&data.game&&(data.game.v===1||data.game.v===2)&&window.CRB_TV){window.CRB_TV.render(app,data.game);return;} // espejo del minijuego (tv.js)
  if(window.CRB_TV)window.CRB_TV.stop();
+ if(data.mode==='video'){ // video de Peñas Blancas a pantalla completa; cambiar el idioma no lo reinicia
+  if(!app.querySelector('.crb-video')){app.innerHTML='<main class="crb-display crb-display--video" aria-label="Costa Rica Smart Borders video"><video class="crb-video" src="projects/03-costa-rica-smart-borders/video/PenasBlancas_web.mp4" autoplay loop playsinline preload="auto"></video></main>';const v=app.querySelector('.crb-video');v.play().catch(()=>{v.muted=true;v.play().catch(()=>{});});}
+  return;
+ }
  const isInfo=data.mode==='info'||data.mode==='cta'||data.mode==='game'||data.mode==='results';
  if(!isInfo&&window.CRB_COVER){app.innerHTML=window.CRB_COVER(language,{base:'projects/03-costa-rica-smart-borders/public/',interactive:false});return;} // portada HTML idéntica a la tableta (cover.js)
  const image=COSTA_RICA_ART[language][isInfo?'info':'home'];

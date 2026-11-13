@@ -76,6 +76,10 @@ test('Costa Rica Smart Borders keeps its tablet home visual and unlocks the supp
  assert.ok(fs.existsSync(path.join(project,'cover.js')));assert.ok(fs.existsSync(path.join(project,'public','cover-truck.jpg')));
  assert.match(fs.readFileSync(path.join(project,'index.html'),'utf8'),/cover\.js/);
  assert.match(display,/window\.CRB_COVER\(language/);assert.match(fs.readFileSync(path.join(root,'display.html'),'utf8'),/03-costa-rica-smart-borders\/cover\.js/);
+ // Tarjeta «Video»: la TV reproduce el video comprimido (<100 MB para GitHub)
+ assert.match(display,/03-costa-rica-smart-borders\/video\/PenasBlancas_web\.mp4/);
+ assert.ok(fs.statSync(path.join(project,'video','PenasBlancas_web.mp4')).size<95*1024*1024);
+ assert.match(controller,/displayMode:'video'/);
  assert.match(display,/renderCostaRica/);
  assert.match(display,/data\.mode==='info'\|\|data\.mode==='cta'/);
  assert.match(server,/Invalid Costa Rica Smart Borders game state/);
@@ -208,8 +212,9 @@ test('Costa Rica Smart Borders mini-game carries bilingual VUCE 3.0 project popu
  assert.match(script,/Selección aleatoria/);
  assert.match(script,/El semáforo de riesgo/);
  assert.match(script,/ya está en producción/);
- assert.match(script,/data-act="pop:place"/);
- assert.match(script,/data-act="pop:real"/);
+ // Rebrand de Figma (nov 2026): Peñas Blancas se abre solo al cruzar; «Cómo explorar» abre «¿Cómo se juega?»
+ assert.match(script,/openModal\('place'\)/);
+ assert.match(script,/data-act="pop:play"/);
  assert.match(script,/data-tap="inst"/);
  assert.match(css,/\.modal\{position:fixed/);
  assert.match(css,/\.light--red/);

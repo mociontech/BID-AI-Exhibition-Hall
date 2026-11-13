@@ -16,11 +16,12 @@ window.ProjectModule={
   function cancelTimer(){if(timer){clearTimeout(timer);timer=null;}}
   function render(){mount.innerHTML=state.screen==='game'?game():home();bind();}
   function update(next){state={...state,...next};render();void sync.send(packet());}
+  function startVideo(){cancelTimer();update({screen:'home',displayMode:'video',gameReady:true});} // la TV reproduce el video de Peñas Blancas
   function startInformation(){cancelTimer();update({screen:'home',displayMode:'info',gameReady:true});}
   function returnToMenu(){cancelTimer();update({screen:'home',displayMode:'landing',gameReady:true});}
   async function goExhibitionHome(){cancelTimer();await sync.send({view:'home',projectId:null,section:null,language:null,mode:null,screenIndex:null,game:null});location.assign('/index.html'+sync.stationQuery);}
   function openGame(){cancelTimer();gameState=null;update({screen:'game',displayMode:'game'});}
-  function home(){/* portada HTML compartida con la TV (cover.js, diseño prueba1.png) */const live=state.displayMode==='info'?(state.language==='es'?'La información se muestra en la pantalla principal.':'Information is playing on the main display.'):'';return window.CRB_COVER(state.language,{base:asset,interactive:true,back:state.displayMode!=='landing'}).replace('</main>',`<span class="crb-sr" aria-live="polite">${live}</span></main>`);}
+  function home(){/* portada HTML compartida con la TV (cover.js, diseño prueba1.png) */const live=state.displayMode==='info'?(state.language==='es'?'La información se muestra en la pantalla principal.':'Information is playing on the main display.'):state.displayMode==='video'?(state.language==='es'?'El video se reproduce en la pantalla principal.':'The video is playing on the main display.'):'';return window.CRB_COVER(state.language,{base:asset,interactive:true,back:state.displayMode!=='landing'}).replace('</main>',`<span class="crb-sr" aria-live="polite">${live}</span></main>`);}
   function game(){return `<main class="crb-prototype" aria-label="Costa Rica Smart Borders mini-game"><iframe src="${gameUrl}" title="Costa Rica Smart Borders mini-game"></iframe>${legacyGame?`<button class="crb-exit" type="button" data-action="home">${state.language==='es'?'Inicio':'Home'}</button>`:''}</main>`;}
   function connectGame(frame){
    frame.addEventListener('load',()=>{
@@ -42,10 +43,10 @@ window.ProjectModule={
   }
   function bind(){
    mount.querySelectorAll('[data-language]').forEach(button=>button.onclick=()=>update({language:button.dataset.language}));
-   mount.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{const action=button.dataset.action;if(action==='information')startInformation();if(action==='game')openGame();if(action==='menu')returnToMenu();if(action==='home')void goExhibitionHome();});
+   mount.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>{const action=button.dataset.action;if(action==='information')startInformation();if(action==='video')startVideo();if(action==='game')openGame();if(action==='menu')returnToMenu();if(action==='home')void goExhibitionHome();});
    const frame=mount.querySelector('.crb-prototype iframe');if(frame)connectGame(frame);
   }
-  try{const remote=await sync.read();if(remote?.projectId==='03'){state.language=remote.language==='es'?'es':'en';if(remote.mode==='game')state={...state,screen:'game',displayMode:'game',gameReady:true};else if(remote.mode==='cta')state={...state,displayMode:'cta',gameReady:true};else if(remote.mode==='info')state={...state,displayMode:'info',gameReady:true};}}catch{}
+  try{const remote=await sync.read();if(remote?.projectId==='03'){state.language=remote.language==='es'?'es':'en';if(remote.mode==='game')state={...state,screen:'game',displayMode:'game',gameReady:true};else if(remote.mode==='cta')state={...state,displayMode:'cta',gameReady:true};else if(remote.mode==='info')state={...state,displayMode:'info',gameReady:true};else if(remote.mode==='video')state={...state,displayMode:'video',gameReady:true};}}catch{}
   render();void sync.send(packet());
  }
 };

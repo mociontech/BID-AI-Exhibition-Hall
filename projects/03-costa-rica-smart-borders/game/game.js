@@ -65,6 +65,7 @@ const ICONS={
  box:'<path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/>',
  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
 };
+function farrow(){return '<svg class="ico ico--farrow" viewBox="0 0 26.0002 16.1382" fill="currentColor" aria-hidden="true"><path d="M21.9656 7.1727H0V8.96581H21.9656V7.1727Z"/><path d="M17.932 1.01848C20.007 3.14257 22.082 5.26666 24.157 7.39181C24.272 7.50999 24.3614 7.65455 24.4024 7.81599C24.4209 7.88775 24.4322 7.96899 24.4312 8.05763C24.4312 8.13149 24.4209 8.20008 24.4055 8.26128C24.3655 8.43011 24.272 8.581 24.1519 8.70235L17.932 14.9965C18.2698 15.3775 18.6086 15.7584 18.9464 16.1382C21.0902 13.9593 23.234 11.7803 25.3768 9.60137C25.6016 9.37239 25.7782 9.09699 25.8799 8.78887C25.9487 8.58417 25.999 8.33725 26 8.05657C26 7.70414 25.922 7.40553 25.8296 7.17655C25.7372 6.94757 25.5955 6.73443 25.4209 6.5561C23.2864 4.37081 21.1518 2.18552 19.0183 0.000229456C18.6559 0.339999 18.2934 0.678714 17.931 1.01848H17.932Z"/></svg>';}
 function ico(name,cls){return `<svg class="ico ico--${name} ${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.doc}</svg>`;}
 const AI_STEPS=['merging','toVuce','scanning','verdict','toBorder'];
 /* Apariencia de «papel» de cada documento (simulado): emisor, icono del sello y prefijo del número. */
@@ -99,7 +100,7 @@ const COPY={
   entities:{aduana:{name:'Aduana',short:'Aduana',rule:'Cantidad, peso y placa deben coincidir en los 3 documentos.'},policia:{name:'Policía',short:'Policía',rule:'Conductor y placa deben coincidir con la licencia y la tarjeta de circulación.'},salud:{name:'Ministerio de Salud',short:'Salud',rule:'El registro sanitario debe coincidir con el producto y la cantidad.'},animal:{name:'Sanidad Animal',short:'S. Animal',rule:'Producto y origen deben coincidir con el certificado zoosanitario.'},vegetal:{name:'Sanidad Vegetal',short:'S. Vegetal',rule:'Lote y peso deben coincidir con el certificado fitosanitario.'}},
   border:'Frontera',start:'Salida',vuce:'VUCE 3.0 · una sola ventanilla',
   // Intro
-  introTitle:'Un camión llega a la frontera.',
+  introTitle:'Un camión llega a la frontera.',introTitleA:'Un camión llega',introTitleB:'a la frontera.',howExplore:'Cómo explorar',seeHow:'Toca para ver cómo lo haría VUCE 3.0',startPill:'Inicio',
   introBig:'Debe pasar por 5 instituciones.',
   introBody:'Primero lo revisas tú, parada por parada. Luego la IA de VUCE 3.0 lo hace en una sola.',
   introHow:[['eye','Tú revisas','5 paradas, 3 documentos en cada una.'],['cpu','La IA revisa','Una sola parada.'],['timer','Comparamos','Paradas, tiempo y aciertos.']],
@@ -154,7 +155,7 @@ const COPY={
   resSimulated:'Datos simulados con fines educativos.',
   again:'Jugar otro turno',toHome:'Volver al inicio',
   truckAria:'Camión {id}, {cargo}',
-  tv:{intro:'Toca «Empezar la revisión» en la tableta.',deciding:'Decidiendo el semáforo de {entity} en la tableta…',feedback:'Toca «Siguiente parada» en la tableta.',moving:'El camión avanza a la siguiente parada…',crossedManual:'Toca «Ver cómo lo hace la IA» en la tableta.',waiting:'Lee el paso 1 en la tableta y toca «Ver en la pantalla».',nextStep:'Lee el paso {n} en la tableta y toca «Ver en la pantalla».',merging:'Las 5 instituciones se unen en una sola ventanilla',toVuce:'El camión llega a la ventanilla única…',scanning:'El sistema híbrido revisa las 5 instituciones a la vez',verdict:'Cada institución confirma la decisión final',toBorder:'Semáforo listo: el camión cruza…',crossedAi:'Toca «Comparar resultados» en la tableta.',results:'Toca «Jugar otro turno» o «Inicio» en la tableta.',reading:'Se está leyendo en la tableta'},
+  tv:{intro:'Toca «Empezar la revisión» en la tableta.',deciding:'Decidiendo el semáforo de {entity} en la tableta…',feedback:'Toca «Siguiente parada» en la tableta.',moving:'El camión avanza a la siguiente parada…',crossedManual:'Toca «Ver cómo lo hace la IA» en la tableta.',waiting:'Lee el paso 1 en la tableta y toca «{cta}».',nextStep:'Lee el paso {n} en la tableta y toca «{cta}».',merging:'Las 5 instituciones se unen en una sola ventanilla',toVuce:'El camión llega a la ventanilla única…',scanning:'El sistema híbrido revisa las 5 instituciones a la vez',verdict:'Cada institución confirma la decisión final',toBorder:'Semáforo listo: el camión cruza…',crossedAi:'Toca «Comparar resultados» en la tableta.',results:'Toca «Jugar otro turno» o «Inicio» en la tableta.',reading:'Se está leyendo en la tableta'},
   watchTv:'Mira la pantalla',watchTvIntro:'Aquí decides tú; allá avanza el camión.',
   explain:{deciding:['Parada {i} de 5','{entity} revisa con sus propias reglas.'],feedback:['Semáforo de {entity}','Cada institución pone su semáforo.'],moving:['Otra fila','El camión pasa a la siguiente fila.'],crossedManual:['Así era antes','5 filas, 5 revisiones, el mismo camión.'],waiting:['VUCE 3.0','Una sola puerta para las 5 instituciones.'],merging:['Paso 1 · Una sola ventanilla','Los documentos llegan a un solo lugar.'],toVuce:['Paso 2 · Una sola parada','El camión se detiene una sola vez.'],scanning:['Paso 3 · Sistema híbrido','Reglas + aprendizaje automático + azar, en una sola revisión.'],verdict:['Paso 4 · Cada institución decide','La IA propone; cada institución confirma.'],toBorder:['Paso 5 · Cruza','Un solo semáforo para las 5.'],crossedAi:['Resultado','Cruzó con una sola parada.']},
   aiSteps:['Una sola ventanilla','Una sola parada','Sistema híbrido','Cada institución decide','Cruza la frontera'],
@@ -214,11 +215,11 @@ const COPY={
   units:{cantidad:'boxes',peso:'kg'},
   entities:{aduana:{name:'Customs',short:'Customs',rule:'Quantity, weight and plate must match across the 3 documents.'},policia:{name:'Police',short:'Police',rule:'Driver and plate must match the licence and the registration card.'},salud:{name:'Ministry of Health',short:'Health',rule:'The sanitary registration must match the product and the quantity.'},animal:{name:'Animal Health',short:'Animal',rule:'Product and origin must match the zoosanitary certificate.'},vegetal:{name:'Plant Health',short:'Plant',rule:'Batch and weight must match the phytosanitary certificate.'}},
   border:'Border',start:'Start',vuce:'VUCE 3.0 · one single window',
-  introTitle:'A truck arrives at the border.',
+  introTitle:'A truck arrives at the border.',introTitleA:'A truck arrives',introTitleB:'at the border.',howExplore:'How to explore',seeHow:'Click to see how VUCE 3.0 would do it',startPill:'Start',
   introBig:'It must clear 5 agencies.',
   introBody:'First you check it, stop by stop. Then the VUCE 3.0 AI does it in a single stop.',
   introHow:[['eye','You check','5 stops, 3 documents each.'],['cpu','AI checks','One single stop.'],['timer','We compare','Stops, time and correct answers.']],
-  introWhat:'Today truck <b>{id}</b> arrives with <b>{cargo}</b>. Watch the screen: the truck moves with every decision you make.',
+  introWhat:'Today truck <b>{id}</b> arrives with <b>{cargo}</b>. Watch on the screen: the truck moves with every decision you make.',
   introLearn:'Three queues, three checks, the same truck. That is how it used to be.',
   introCta:'Start checking',
   manualTitle:'Look for irregularities',
@@ -266,12 +267,12 @@ const COPY={
   resSimulated:'Simulated data for educational purposes.',
   again:'Play another round',toHome:'Back to start',
   truckAria:'Truck {id}, {cargo}',
-  tv:{intro:'Tap “Start checking” on the tablet.',deciding:'Deciding the {entity} light on the tablet…',feedback:'Tap “Next stop” on the tablet.',moving:'The truck moves to the next stop…',crossedManual:'Tap “See how the AI does it” on the tablet.',waiting:'Read step 1 on the tablet and tap “Watch on the screen”.',nextStep:'Read step {n} on the tablet and tap “Watch on the screen”.',merging:'The 5 agencies merge into one single window',toVuce:'The truck reaches the single window…',scanning:'The hybrid system checks the 5 agencies at once',verdict:'Each institution confirms the final decision',toBorder:'Light ready: the truck crosses…',crossedAi:'Tap “Compare results” on the tablet.',results:'Tap “Play another round” or “Home” on the tablet.',reading:'Being read on the tablet'},
-  watchTv:'Watch the screen',watchTvIntro:'You decide here; the truck moves over there.',
+  tv:{intro:'Tap “Start checking” on the tablet.',deciding:'Deciding the {entity} light on the tablet…',feedback:'Tap “Next stop” on the tablet.',moving:'The truck moves to the next stop…',crossedManual:'Tap “See how the AI does it” on the tablet.',waiting:'Read step 1 on the tablet and tap “{cta}”.',nextStep:'Read step {n} on the tablet and tap “{cta}”.',merging:'The 5 agencies merge into one single window',toVuce:'The truck reaches the single window…',scanning:'The hybrid system checks the 5 agencies at once',verdict:'Each institution confirms the final decision',toBorder:'Light ready: the truck crosses…',crossedAi:'Tap “Compare results” on the tablet.',results:'Tap “Play another round” or “Home” on the tablet.',reading:'Being read on the tablet'},
+  watchTv:'Watch on the screen',watchTvIntro:'You decide here; the truck moves over there.',
   explain:{deciding:['Stop {i} of 5','{entity} checks with its own rules.'],feedback:['{entity} light','Each agency sets its own light.'],moving:['Another queue','The truck moves to the next queue.'],crossedManual:['How it used to be','5 queues, 5 checks, the same truck.'],waiting:['VUCE 3.0','One door for the 5 agencies.'],merging:['Step 1 · One single window','Documents arrive in one place.'],toVuce:['Step 2 · One single stop','The truck stops only once.'],scanning:['Step 3 · Hybrid system','Rules + machine learning + chance, in one check.'],verdict:['Step 4 · Each institution decides','The AI suggests; each agency confirms.'],toBorder:['Step 5 · It crosses','One single light for all 5.'],crossedAi:['Result','It crossed with a single stop.']},
   aiSteps:['One single window','One single stop','Hybrid system','Each institution decides','Crosses the border'],
-  replay:'Replay step {n}',stepOf:'Step {i} of 5',confirmCta:'Each institution confirms',confirms:'{entity} confirms the final decision',confirmWait:'{entity} is deciding…',resOnScreenTitle:'Look at the screen',resOnScreen:'There you will find the comparative results: human review vs VUCE 3.0.',chartTitle:'Human review vs VUCE 3.0',seeTv:'Watch on the screen',watchingTv:'Watch the screen…',stepDone:'Done',nextStop:'Next stop',crossNow:'Cross the border',
-  aiIntro:'Tap each step and watch the screen.',
+  replay:'Replay step {n}',stepOf:'Step {i} of 5',confirmCta:'Each institution confirms',confirms:'{entity} confirms the final decision',confirmWait:'{entity} is deciding…',resOnScreenTitle:'Look at the screen',resOnScreen:'There you will find the comparative results: human review vs VUCE 3.0.',chartTitle:'Human review vs VUCE 3.0',seeTv:'Watch on the screen',watchingTv:'Watch on the screen…',stepDone:'Done',nextStop:'Next stop',crossNow:'Cross the border',
+  aiIntro:'Tap each step and watch on the screen.',
   solTitle:'Challenge solution',solBody:'This is what had to be spotted at each agency.',solFinal:'Final light for the truck',solYou:'Your light',
   resChallenge:['The challenge','About 650 trucks cross Peñas Blancas every day. Each one went through 5 agencies: 5 queues, 5 separate checks and the same truck opened several times.'],
   resHow:'How the AI solved it',resInsightsTitle:'What to take away from VUCE 3.0',
@@ -400,8 +401,7 @@ function docCard(c,doc,{reveal=false,scan=false}={}){
 function entityCard(s,i){
  const E=t('entities')[s.key];
  const G=t('guide'),F=t('fields');const fieldsToCheck=s.fields.filter(f=>f!=='producto').map(f=>`<span class="chk">${esc(F[f])}</span>`).join('');
- return `<div class="desk-truck desk-entity"><span class="desk-counter">${esc(fill(t('stopOf'),{i:i+1}))}</span><span class="entity-icon">${ico(s.icon)}</span><b>${esc(E.name)}</b>
-  <div class="guide"><p class="guide-title">${esc(G.check)}</p><div class="guide-fields">${fieldsToCheck}</div></div></div>`;
+ return `<div class="desk-entity"><span class="entity-icon">${ico(s.icon)}</span><div class="entity-name"><span class="desk-counter">${esc(fill(t('stopOf'),{i:i+1}))}</span><b>${esc(E.name)}</b></div><i class="entity-sep" aria-hidden="true"></i><div class="guide"><p class="guide-title">${esc(G.check)}</p><div class="guide-fields">${fieldsToCheck}</div></div></div>`;
 }
 function stopPanel(s,{reveal=false,scan=false}={}){
  return `<div class="desk">${entityCard(s,state.idx)}<div class="docs">${s.docs.map(d=>docCard(s,d,{reveal,scan})).join('')}</div></div>`;
@@ -412,11 +412,9 @@ function box(kind,title,body){
 }
 function clock(label){return `<div class="clock"><span>${esc(label)}</span><b data-clock>${fmt(state.screen==='ai'?state.ai.time:state.manual.time)} s</b></div>`;}
 function header(){
- const steps=t('steps');const index={intro:0,manual:1,ai:2,results:3}[state.screen];
  return `<header class="top">
   <div class="top-brand"><img class="top-idb-group" src="../public/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="top-sep"></span><span><b>${esc(t('brand'))}</b><small>IDB Group Projects Across the Region</small></span></div>
-  <ol class="stepper">${steps.map((s,i)=>`<li class="${i<index?'done':i===index?'current':''}"><span>${i+1}</span><em>${esc(s)}</em></li>`).join('')}</ol>
-  <div class="top-tools"><button type="button" class="home-btn back-btn" data-act="back"><span aria-hidden="true">←</span><span>${state.lang==='es'?'Volver':'Back'}</span></button><div class="langs" aria-label="Language"><button id="es" type="button" aria-pressed="${state.lang==='es'}">ES</button><button id="en" type="button" aria-pressed="${state.lang==='en'}">EN</button></div><button type="button" class="home-btn" data-act="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg><span>${esc(t('home'))}</span></button></div>
+  <div class="top-tools"><div class="langs" aria-hidden="true"><button id="es" type="button" tabindex="-1">ES</button><button id="en" type="button" tabindex="-1">EN</button></div><button type="button" class="home-btn home-btn--start" data-act="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg><span>${esc(t('startPill'))}</span></button></div>
  </header>`;
 }
 
@@ -452,7 +450,7 @@ function modalHtml(){
   <h2>${esc(p.title)}</h2>
   <p class="pop-lead">${p.lead}</p>
   ${body}
-  <div class="modal-actions"><button type="button" class="cta" data-act="close">${esc(p.cta)} →</button></div>
+  <div class="modal-actions"><button type="button" class="cta" data-act="close">${esc(p.cta)} ${farrow()}</button></div>
  </div></div>`;
 }
 function openModal(k){
@@ -475,33 +473,29 @@ function factsStrip(){return `<div class="facts"><p class="facts-title">${esc(t(
 function screenIntro(){
  return `<main class="screen screen--intro">
   <section class="intro-hero">
-   
-   <h1>${esc(t('introTitle'))}</h1>
-   <p class="intro-big">${esc(t('introBig'))}</p>
-   <p class="intro-body">${t('introBody')}</p>
-   <button type="button" class="link-btn intro-place" data-act="pop:place">${ico('info')} ${esc(t('pop').place.title)}</button>
-   <ol class="how">${t('introHow').map(([i,a,b],k)=>`<li><span class="how-num">${k+1}</span><span class="how-icon">${ico(i)}</span><span><b>${esc(a)}</b><small>${esc(b)}</small></span></li>`).join('')}</ol>
-   <button type="button" class="cta" data-act="start">${esc(t('introCta'))} →</button>
+   <h1>${esc(t('introTitleA'))}<br><span>${esc(t('introTitleB'))}</span></h1>
+   <p class="intro-body">${esc(t('introBig'))} ${t('introBody')}</p>
+   <ol class="how">${t('introHow').map(([i,a,b],k)=>`<li><span class="how-num">${k+1}</span><span><b>${esc(a)}</b><small>${esc(b)}</small></span></li>`).join('')}</ol>
+   <div class="intro-actions"><button type="button" class="cta cta--ghost" data-act="pop:play">${esc(t('howExplore'))}</button><button type="button" class="cta" data-act="start">${esc(t('introCta'))} ${farrow()}</button></div>
   </section>
-  <section class="intro-visual" aria-hidden="true">
+  <section class="intro-visual" aria-hidden="true"><div class="intro-panel">
    <div class="intro-truck"><img class="intro-truck-img" src="../public/tv-truck.png" alt=""><span><b>${esc(truckId())}</b><small>${esc(t('cargo')[state.cargo])}</small></span></div>
    ${tvCue(t('watchTvIntro'))}
-  </section>
+  </div></section>
  </main>`;
 }
 function crossedCard(){
  const hits=state.manual.answers.filter(a=>a.ok).length;
- if(state.screen==='ai'){const l=overall();return `<div class="done-card done-card--ai"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedAi'))}</p><p>${fill(t('crossedAiTime'),{t:fmt(state.ai.time),light:esc(t('lights')[l].name)})}</p><p class="done-sim">${fill(t('crossedAiSim'),{m:fmtMin(SIM.ai)})}</p><div class="step-actions"><button type="button" class="cta" data-act="to-results">${esc(t('aiCta'))} →</button><button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:5}))}</button></div></div></div>`;}
- return `<div class="done-card"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedManual'))}</p><p>${fill(t('crossedTime'),{t:fmt(state.manual.time),h:hits})}</p><p class="done-sim">${fill(t('crossedSim'),{m:fmtMin(N*SIM.stop)})}</p><button type="button" class="cta" data-act="to-ai">${esc(t('manualCta'))} →</button></div></div>`;
+ if(state.screen==='ai'){const l=overall();return `<div class="done-wrap"><div class="done-card done-card--ai"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedAi'))}</p><p>${fill(t('crossedAiTime'),{t:fmt(state.ai.time),light:esc(t('lights')[l].name)})}</p></div></div><div class="done-actions"><button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:5}))}</button><button type="button" class="cta" data-act="to-results">${esc(t('aiCta'))} ${farrow()}</button></div></div>`;}
+ return `<div class="done-wrap"><div class="done-card"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedManual'))}</p><p>${fill(t('crossedTime'),{t:fmt(state.manual.time),h:hits})}</p></div></div><div class="done-actions"><button type="button" class="cta" data-act="to-ai">${esc(t('manualCta'))} ${farrow()}</button></div></div>`;
 }
 function screenManual(){
  const s=state.stops[state.idx];const done=state.manual.done;
- const E=t('entities');
+ const E=t('entities'),L=t('lights');
  return `<main class="screen screen--manual">
   <section class="stage">
-   <div class="stage-head"><div><h1>${esc(t('manualTitle'))} ${infoBtn('play')}</h1><p class="stage-lead">${done?esc(t('manualDone')):fill(t('manualBody'),{i:state.idx+1,entity:esc(E[s.key].name)})}</p></div>${clock(t('yourTime'))}</div>
-   <div class="manual-body ${done?'is-done':''}"><div data-desk>${done?crossedCard():stopPanel(s)}</div>${done?'':`<div class="actions actions--col" data-actions>${['green','yellow','red'].map(c=>`<button type="button" class="btn btn--${c}" data-act="${c}"><span class="light light--big light--${c}"></span><span><b>${esc(t('lights')[c].name)} · ${esc(t('lights')[c].action)}</b><small>${esc(t('lights')[c].when)}</small></span></button>`).join('')}</div>`}</div>
-   ${done?'':`<div class="manual-foot" data-feedback><p class="manual-hint">${esc(t('manualHint'))} ${ico('arrow')}</p></div>`}
+   <div class="stage-head"><div><h1>${esc(t('manualTitle'))}</h1><p class="stage-lead">${done?esc(t('manualDone')):fill(t('manualBody'),{i:state.idx+1,entity:esc(E[s.key].name)})}</p></div>${clock(t('yourTime'))}</div>
+   ${done?`<div class="manual-done" data-desk>${crossedCard()}</div>`:`<div class="manual-grid"><div class="manual-main" data-desk>${stopPanel(s)}</div><div class="actions actions--col" data-actions>${['green','yellow','red'].map(c=>`<button type="button" class="btn btn--${c}" data-act="${c}"><span class="light light--big light--${c}"></span><span><b>${esc(L[c].action)}</b><small>${esc(L[c].when)}</small></span></button>`).join('')}</div><div class="manual-foot" data-feedback><p class="manual-hint">${esc(t('manualHint'))} ${farrow()}</p></div></div>`}
   </section>
  </main>`;
 }
@@ -510,11 +504,11 @@ function screenManual(){
 function aiPanel(){
  const E=t('entities'),i=state.ai.step,busy=state.ai.busy;
  const steps=`<ol class="ai-steps">${t('aiSteps').map((x,k)=>`<li class="${k<i?'done':k===i?'current':''}"><span>${k+1}</span>${esc(x)}</li>`).join('')}</ol>`;
- if(i>=5)return steps+crossedCard();
+ if(i>=5)return `<div class="ai-wait ai-wait--done">${steps}${crossedCard()}</div>`;
  const ex=t('explain')[AI_STEPS[i]];
- const prev=i>0&&!busy?`<p class="step-prev">✓ ${esc(t('stepDone'))}: ${esc(t('aiSteps')[i-1])}</p>`:'';
+ const prev=''; // sin la línea «✓ Listo: …» en los pasos de la IA
  const card=`<div class="step-card ${busy?'is-busy':''}"><span class="desk-counter">${esc(fill(t('stepOf'),{i:i+1}))}</span><h2>${esc(t('aiSteps')[i])}</h2><p>${esc(ex[1])}</p>${prev}
-  <div class="step-actions">${busy?`<button type="button" class="cta cta--tv" disabled><span class="tv-anim">${ico('screen')}</span>${esc(t('watchingTv'))}</button>`:`<button type="button" class="cta cta--tv" data-act="ai-step">${i===3?ico('aduana')+' '+esc(t('confirmCta')):ico('screen')+' '+esc(t('seeTv'))} →</button>`}${i>0&&!busy?`<button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:i}))}</button>`:''}</div></div>`;
+  <div class="step-actions">${busy?`<button type="button" class="cta cta--tv cta--dark" disabled><span class="tv-anim">${ico('screen')}</span>${esc(t('watchingTv'))}</button>`:`<button type="button" class="cta cta--tv" data-act="ai-step">${ico('screen')} ${esc(i===4?t('seeTv'):t('seeHow'))} ${farrow()}</button>`}${i>0&&!busy?`<button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:i}))}</button>`:''}</div></div>`;
  let vuce='';
  if(i>=2&&(i>2||busy)){
   const rows=state.stops.map((s,k)=>{
@@ -532,7 +526,7 @@ function screenAi(){
  const done=state.ai.step>=5;
  return `<main class="screen screen--ai">
   <section class="stage">
-   <div class="stage-head"><div><h1>${esc(t('aiTitle'))} ${infoBtn('how')}</h1><p class="stage-lead">${t('aiBody')} ${esc(t('aiIntro'))}</p></div>${clock(t('aiTime'))}</div>
+   <div class="stage-head"><div><h1>${esc(t('aiTitle'))}</h1><p class="stage-lead">${t('aiBody')} ${esc(t('aiIntro'))}</p></div>${clock(t('aiTime'))}</div>
    <div data-desk>${aiPanel()}</div>
   </section>
  </main>`;
@@ -557,11 +551,8 @@ function screenResults(){
    <div class="stat"><small>${esc(t('time'))}</small><b>${fmt(time)}<em> ${esc(t('seconds'))}</em></b><i class="bar"><i style="width:${Math.max(4,time/maxT*100)}%"></i></i></div>
    <div class="stat"><small>${esc(t('hits'))}</small><b>${hits}<em> / ${N}</em></b></div>${extra||''}</section>`;
  return `<main class="screen screen--results">
-  <div class="res-only"><section class="res-sign res-sign--big"><span>${ico('screen')}</span><div><b>${esc(t('resOnScreenTitle'))}</b><p>${esc(t('resOnScreen'))}</p></div></section></div>
-  <div class="res-bottom res-bottom--simple">
-   <p class="res-tv">${esc(t('seeTvResults'))} ${esc(t('resOnScreen'))}</p>
-   <div class="res-actions"><button type="button" class="cta cta--info" data-act="pop:real">${ico('globe')} ${esc(t('realLife'))}</button><button type="button" class="cta" data-act="again">${esc(t('again'))}</button><button type="button" class="cta cta--ghost" data-act="home">${esc(t('toHome'))}</button><p class="simulated-note">${esc(t('resSimulated'))}</p></div>
-  </div>
+  <div class="res-only"><section class="res-sign res-sign--big"><span>${ico('screen')}</span><div><b>${esc(t('resOnScreenTitle'))}</b><p>${esc(t('resOnScreen'))}</p></div></section>
+   <div class="res-actions"><button type="button" class="cta cta--ghost" data-act="again">${ico('replay')} ${esc(t('again'))}</button><button type="button" class="cta" data-act="home">${esc(t('toHome'))} ${farrow()}</button></div></div>
  </main>`;
 }
 
@@ -569,7 +560,7 @@ function screenResults(){
 function render(){
  const screens={intro:screenIntro,manual:screenManual,ai:screenAi,results:screenResults};
  app.innerHTML=header()+screens[state.screen]()+modalHtml();
- app.className='app app--'+state.screen;
+ app.className='app fig app--'+state.screen;
  bind();window.scrollTo(0,0);emit();
 }
 function setBox(kind,html){const el=app.querySelector(`[data-box="${kind}"]`);if(el)el.innerHTML=html;}
@@ -589,15 +580,15 @@ function answerManual(choice){
  flash(exp);
  setDesk(stopPanel(s,{reveal:true}));
  const last=state.idx>=state.stops.length-1;
- app.querySelectorAll('[data-actions] .btn').forEach(b=>{b.classList.toggle('is-picked',b.dataset.act===choice);b.classList.toggle('is-dim',b.dataset.act!==choice);b.disabled=true;});
- const fbEl=app.querySelector('[data-feedback]');if(fbEl)fbEl.innerHTML=`<div class="feedback ${ok?'feedback--ok':'feedback--bad'}"><span class="light light--big light--${exp}"></span><div><b>${esc(ok?t('fbRight'):t('fbWrong'))}</b><span>${esc(msg)}</span></div><button type="button" class="cta cta--next" data-act="next-stop">${esc(last?t('crossNow'):t('nextStop'))} →</button></div>`;
+ app.querySelectorAll('[data-actions] .btn').forEach(b=>{b.classList.toggle('is-picked',b.dataset.act===choice);b.disabled=true;});
+ const fbEl=app.querySelector('[data-feedback]');if(fbEl)fbEl.innerHTML=`<div class="feedback ${ok?'feedback--ok':'feedback--bad'}"><span class="light light--${exp}"></span><b>${esc(ok?t('fbRight'):t('fbWrong'))}</b><i class="fb-sep" aria-hidden="true"></i><span>${esc(msg)}</span></div><button type="button" class="cta cta--next" data-act="next-stop">${esc(last?t('crossNow'):t('nextStop'))} ${farrow()}</button>`;
  setBox('decided',`<b>${esc(ok?t('fbRight'):t('fbWrong'))}</b> ${esc(msg)}`);
  bind();emit();
 }
 function nextStop(){
  if(!state.manual.feedback||state.moving)return;
  state.manual.feedback=null;state.moving=true;state.pos=state.idx+2;
- const a=app.querySelector('[data-feedback]');if(a)a.innerHTML=`<div class="feedback feedback--move"><span class="move-icon">${ico('screen')}</span><b>${esc(t('watchTv'))}</b><span>${esc(t('moving'))}</span><span class="move-arrow" aria-hidden="true">${ico('arrow')}</span></div>`;
+ const a=app.querySelector('[data-feedback]');if(a)a.innerHTML=`<div class="feedback feedback--move"><span class="move-icon">${ico('screen')}</span><b>${esc(t('watchTv'))}</b><i class="fb-sep" aria-hidden="true"></i><span>${esc(t('moving'))}</span><span class="move-arrow" aria-hidden="true">${farrow()}</span></div>`;
  emit();
  after(()=>{
   state.moving=false;state.idx+=1;
@@ -664,7 +655,7 @@ function tvPacket(){
  else if(screen==='ai'){title=t('aiTitle');clockLabel=t('aiTime');
   const p=state.ai.phase,busy=state.ai.busy,st=state.ai.step;
   if(st>=5){phase='crossed';hint=TV.crossedAi;}
-  else if(!busy){phase=st===0?'waiting':'stepDone';hint=st===0?TV.waiting:fill(TV.nextStep,{n:st+1});}
+  else if(!busy){const cta=st>=4?t('seeTv'):t('seeHow');phase=st===0?'waiting':'stepDone';hint=st===0?fill(TV.waiting,{cta}):fill(TV.nextStep,{n:st+1,cta});}
   else if(p==='replay'){phase='waiting';hint=TV.reading;}else if(p==='merging'){phase='merging';hint=TV.merging;}else if(p==='toVuce'){phase='moving';hint=TV.toVuce;}
   else if(p==='scanning'){phase='scanning';hint=TV.scanning;}else if(p==='verdict'){phase='verdict';hint=TV.verdict;}else{phase='moving';hint=TV.toBorder;}}
  else{phase='results';title=t('resTitle');hint=TV.results;}
@@ -676,7 +667,7 @@ function tvPacket(){
   results={verdict:ratio>=1.5?fill(t('faster'),{x:Math.round(ratio)}):t('sameTime'),learnTitle:t('resLearnTitle'),learnBig:t('resLearnBig'),learn:t('resLearn'),
    solTitle:t('solTitle'),solBody:t('solBody'),solFinal:t('solFinal'),solYou:t('solYou'),
    solution:state.stops.map((s,i)=>{const l=expected(s);const y=state.manual.answers[i];return {name:E[s.key].name,icon:s.icon,light:l,action:L[l].action,why:fill(t('why')[l],{entity:E[s.key].name,field:s.issue?t('fields')[s.issue.field]:'',doc:s.missing?t('docs')[s.missing]:''}),you:y?y.choice:null,youName:y?L[y.choice].name:'',ok:y?y.ok:false};}),
-   final:{light:ol,action:L[ol].action,name:L[ol].name},chart:chartRows(),chartTitle:t('chartTitle'),
+   final:{light:ol,action:L[ol].action,name:L[ol].name},chart:chartRows().filter(r=>r.label!==t('simTime')),chartTitle:t('chartTitle'),
    challenge:{title:t('resChallenge')[0],text:t('resChallenge')[1]},how:t('resHow'),insightsTitle:t('resInsightsTitle'),insights:t('insights').map(([big,title,text])=>({big,title,text})),
    stats:{you:{stops:N,time:fmt(mt),hits:state.manual.answers.filter(a=>a.ok).length,sim:'≈ '+fmtMin(3*SIM.stop)},ai:{stops:1,time:fmt(at),hits:state.ai.answers.filter(a=>a.ok).length,sim:'≈ '+fmtMin(SIM.ai)}}};
  }
@@ -686,7 +677,7 @@ function tvPacket(){
  const explain=exRaw?{step:fill(exRaw[0],{i:state.idx+1,entity:E[cur.key].name}),text:fill(exRaw[1],{entity:E[cur.key].name,left:Math.max(0,N-1-state.idx)})}:null;
  return {v:2,screen,lang:state.lang,step:{intro:0,manual:1,ai:2,results:3}[screen],steps:t('steps'),simulated:t('simulated'),
   mode:m,truck:{id:truckId(),cargo:t('cargo')[state.cargo],icon:cargoOf().icon},stops,idx:Math.min(state.idx,N-1),pos:state.pos,moving:state.moving,
-  merged:m==='ai'&&(state.ai.step>=1||(state.ai.busy&&state.ai.phase!=='replay')),busy:state.ai.busy,aiStep:state.ai.step,scanIdx:state.ai.scanIdx,confirmed:state.ai.confirmed,title,subtitle:screen==='intro'?t('introBig'):'',hint,phase,clockLabel,
+  merged:m==='ai'&&(state.ai.step>=1||(state.ai.busy&&state.ai.phase!=='replay')),busy:state.ai.busy,aiStep:state.ai.step,scanIdx:state.ai.scanIdx,confirmed:state.ai.confirmed,title,titleA:t('introTitleA'),titleB:t('introTitleB'),subtitle:screen==='intro'?t('introBig'):'',hint,phase,clockLabel,
   time:Math.round(state[who].time),running:!!state[who].running,sim:{label:t('simLabel'),text:sim?'≈ '+fmtMin(sim):'0 min'},explain,
   feedback:fb?{ok:fb.ok,light:fb.light,title:fb.ok?t('fbRight'):t('fbWrong'),msg:fb.msg}:null,
   verdict:v?{light:v.light,title:fill(t('semaforo'),{name:L[v.light].name.toLowerCase()})+' · '+L[v.light].action,msg:v.msg,lines:v.lines}:null,

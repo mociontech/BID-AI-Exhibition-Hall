@@ -78,8 +78,7 @@
  const pct=g=>{const P=posOf(g);return P[Math.max(0,Math.min(P.length-1,Number(g.pos)||0))];};
  function header(g){
   return `<header class="crtv-top"><div class="crtv-brand"><img src="projects/03-costa-rica-smart-borders/public/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="crtv-sep"></span><span><b>AI in Action</b><small>IDB Group Projects Across the Region</small></span></div>
-   <ol class="crtv-steps">${(g.steps||[]).map((s,i)=>`<li class="${i<g.step?'done':i===g.step?'current':''}"><span>${i+1}</span><em>${esc(s)}</em></li>`).join('')}</ol>
-   <div class="crtv-tools" aria-hidden="true"><span class="crtv-pill crtv-pill--back"><i>←</i>${g.lang==='es'?'Volver':'Back'}</span><span class="crtv-langs"><i class="${g.lang==='es'?'on':''}">ES</i><i class="${g.lang==='es'?'':'on'}">EN</i></span><span class="crtv-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg>${g.lang==='es'?'Inicio':'Home'}</span></div></header>`;
+</header>`;
  }
  /* Escena: carretera con 3 paradas (o 1 ventanilla única), frontera y el camión. */
  function scene(g,merged){
@@ -103,7 +102,7 @@
  }
  function status(g){
   const p=g.phase;
-  if(p==='feedback'&&g.feedback)return `<div class="crtv-status crtv-status--${g.feedback.ok?'ok':'bad'}">${light(g.feedback.light,true)}<div><h2>${esc(g.feedback.title)}</h2><p>${esc(g.feedback.msg)}</p></div></div>`;
+  if(p==='feedback'&&g.feedback)return `<div class="crtv-status crtv-status--${g.feedback.ok?'ok':'bad'}">${light(g.feedback.light,true)}<div class="crtv-fb"><h2>${esc(g.feedback.title)}</h2><i class="crtv-fb-sep" aria-hidden="true"></i><p>${esc(g.feedback.msg)}</p></div></div>`;
   if(p==='verdict'){const conf=Number(g.confirmed)||0;return `<div class="crtv-status crtv-status--confirm"><div><h2>${esc(g.hint)}<i class="crtv-dots"><i></i><i></i><i></i></i></h2><div class="crtv-confirm">${(g.stops||[]).map((s,i)=>`<em class="${i<conf?'is-confirmed':i===conf?'is-next':''}"><span>${ico(s.icon)}</span><b>${esc(s.short)}</b><i>✓</i></em>`).join('')}</div></div></div>`;}
   if(p==='scanning')return `<div class="crtv-status crtv-status--scan"><div><h2>${esc(g.hint)}<i class="crtv-dots"><i></i><i></i><i></i></i></h2><span class="crtv-segs">${(g.stops||[]).map((s,i)=>`<i class="${s.light?'is-done':i===g.scanIdx?'is-reading':''}"></i>`).join('')}</span></div></div>`;
   if(p==='merging')return `<div class="crtv-status crtv-status--scan"><div><h2>${esc(g.hint)}<i class="crtv-dots"><i></i><i></i><i></i></i></h2></div></div>`;
@@ -126,7 +125,7 @@
   </section>`;
  }
  function intro(g){
-  return `<section class="crtv-hero crtv-hero--compact"><div><h1>${esc(g.title)}</h1><p class="crtv-big">${esc(g.subtitle)}</p></div><p class="crtv-hint">${esc(g.hint)}</p></section>${scene(g,false)}`;
+  return `<section class="crtv-hero crtv-hero--compact"><div><h1>${g.titleA?esc(g.titleA)+' <span>'+esc(g.titleB||'')+'</span>':esc(g.title)}</h1><p class="crtv-big">${esc(g.subtitle)}</p></div><p class="crtv-hint">${esc(g.hint)}</p></section>${scene(g,false)}`;
  }
  /* Final: la TV muestra solo LO QUE TE LLEVAS de VUCE 3.0 (3 ideas grandes) y la frase de cierre.
     El semáforo final es el único elemento de color. La comparación con cifras queda en la tableta. */
@@ -138,7 +137,7 @@
   const chart=`<section class="crtv-chart"><header><h2>${esc(r.chartTitle)}</h2><div><b><i class="crtv-key crtv-key--you"></i>${esc(L.you)}</b><b><i class="crtv-key crtv-key--ai"></i>${esc(L.ai)}</b></div></header><div class="crtv-groups">${(r.chart||[]).map(x=>{const m=Math.max(x.you,x.ai,1);return `<div class="crtv-group"><div class="crtv-cols">${col('you',x.you,m,x.youText)}${col('ai',x.ai,m,x.aiText)}</div><small>${esc(x.label)}</small></div>`;}).join('')}</div></section>`;
   return `<section class="crtv-results crtv-res2 crtv-res3">
    <div class="crtv-res3-body">${chart}<div class="crtv-res3-side"><h2 class="crtv-res2-title">${esc(r.insightsTitle)}</h2><div class="crtv-ins3 crtv-ins3--col">${ins}</div></div></div>
-   <div class="crtv-learn crtv-learn--row"><p>${esc(r.learnTitle)}</p><b>${esc(r.learnBig)}</b><small>${esc(r.learn)}</small></div></section>`;
+</section>`;
  }
  function tickClock(){
   const el=document.querySelector('[data-crtv-clock]');if(!el)return;
@@ -161,7 +160,7 @@
   const animateMerge=merged&&(!prevMerged||(g.phase==='merging'&&prevPhase!=='merging')); // primera vez o al repetir el paso 1: pintar sin unir y animar la unión
   const body=g.screen==='intro'?intro(g):g.screen==='results'?results(g):`${scene(g,merged&&!animateMerge)}${board(g)}`;
   document.documentElement.lang=g.lang==='es'?'es':'en';
-  app.innerHTML=`<main class="crtv crtv--${esc(g.screen)}" aria-label="Costa Rica Smart Borders">${header(g)}${body}</main>`;
+  app.innerHTML=`<main class="crtv crtv--fig crtv--${esc(g.screen)}" aria-label="Costa Rica Smart Borders">${header(g)}${body}</main>`;
   if(g.screen==='intro')lastPct=null; // el camión arranca en la salida sin animación
   if(g.phase==='feedback'&&prevPhase!=='feedback'&&g.feedback)flashTv(app,g.feedback.light); // destello: semáforo manual
   const lit=g.screen==='ai'?(g.stops||[]).filter(x=>x.light).length:0;
