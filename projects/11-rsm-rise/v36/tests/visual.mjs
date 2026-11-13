@@ -39,7 +39,14 @@ try{
     await page.waitForFunction(({sc,lang})=>{const w=document.querySelector('iframe')?.contentWindow;return w?.S?.sc===sc&&w.document.documentElement.lang===lang;},{sc:game.sc,lang});
     if(advance)await page.clock.runFor(advance);
     await original.bringToFront();
-    await original.evaluate(({id,size})=>{
+    await original.evaluate(({id,size,lang})=>{
+     // Approved navigation copy differs from the archived v36 source.
+     const next=document.querySelector('#tab button[data-go="time"]');
+     if(next){
+      [...next.childNodes].filter(n=>n.nodeType===3).forEach(n=>{n.textContent=n.textContent.replace('Accept','Next step').replace('Aceptar','Siguiente paso');});
+      const hint=document.querySelector('#tab .accq');if(hint)hint.textContent=lang==='es'?'Continúa al siguiente paso.':'Continue to the next step.';
+      const pill=document.querySelector('#tv .tpill');if(pill)[...pill.childNodes].filter(n=>n.nodeType===3).forEach(n=>{n.textContent=lang==='es'?'Toca «Siguiente paso» en la tableta':'Tap «Next step» on the tablet';});
+     }
      const node=document.getElementById(id),marker=document.createComment('reference origin');node.before(marker);window.originMarker=marker;
      // The integrated tablet now reaches the physical edges, without a device bezel.
      if(id==='tab')node.style.borderRadius='0';
@@ -47,7 +54,7 @@ try{
      Object.assign(wrapper.style,{position:'fixed',left:'0',top:'0',width:size.width+'px',height:size.height+'px',background:'#0a0a0a',zIndex:'2147483647'});
      document.body.append(wrapper);wrapper.append(node);void wrapper.offsetHeight;
      document.getAnimations().forEach(a=>{try{a.finish();}catch{a.pause();}});
-    },{id,size:sizes[id]});
+    },{id,size:sizes[id],lang});
     const expected=await original.screenshot({clip:{x:0,y:0,width:Math.round(sizes[id].width),height:Math.round(sizes[id].height)},path:fileURLToPath(new URL(`${lang}-${name}-${role}-original.png`,out)),animations:'disabled'});
     await original.evaluate(id=>{originMarker.replaceWith(document.getElementById(id));document.getElementById('reference-origin').remove();},id);
     await page.bringToFront();
