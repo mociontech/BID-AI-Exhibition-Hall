@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "staggeredFragments": 9,
+  "durationSeconds": 4.6,
+  "originalPNGUnmodified": true,
+  "tabletHint": true,
+  "hintCenteredUnderInfographic": true,
+  "hintTestedAtWidths": [
+    1280,
+    1920,
+    3840
+  ],
+  "tabletRemainsOnCover": true,
+  "replaysOnEachClick": true,
+  "gameImmediatelyAvailable": true,
+  "animationRemovedOnNavigation": true,
+  "reducedMotion": true,
+  "extraToolbarAbsent": true,
+  "browserErrors": []
+}
