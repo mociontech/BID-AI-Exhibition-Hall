@@ -53,7 +53,6 @@ window.ProjectModule={
    }
   }
   function bind(){
-   mount.querySelectorAll('[data-language]').forEach(button=>button.onclick=()=>{if(button.dataset.language!==state.language)set({language:button.dataset.language});});
    mount.querySelectorAll('[data-contract]').forEach(button=>button.onclick=()=>toggle(button.dataset.contract));
    mount.querySelectorAll('[data-action]').forEach(button=>button.onclick=()=>act(button.dataset.action));
   }
