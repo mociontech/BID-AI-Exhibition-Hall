@@ -4,7 +4,7 @@
  const base=new URL('./',document.currentScript.src);
  const files={
   landing:'TABLET/ES/00 Portada.png',tvLanding:'TABLET/ES/00 Portada-1.png',
-  info:'Frame 11.png',intro:'Frame 3.png',tvIntro:'Frame 27.png',
+  info:'../infographics/Group 2147213272.png',intro:'Frame 3.png',tvIntro:'Frame 27.png',
   easy:'Frame 4.png',easyResult:'Frame 22.png',manual:'Frame 23.png',
   manualResult:'Frame 24.png',analysis:'Frame 25.png',assisted:'Frame 26.png',
   tvEasy:'Frame 28.png',tvEasyResult:'Frame 29.png',tvManual:'Frame 30.png',
@@ -113,7 +113,7 @@
  function television(s){
   const g=s.game,p=g.phase,t=MAIIA.words.en;
   let screen='tvLanding',html='',cls='';
-  if(s.mode==='info')return {screen:'info',html:liveMap(s,[1476,314,404,228],{kind:'hard',decorative:true,readonly:true}),cls:'mai-infographic'};
+  if(s.mode==='info')return {screen:'info',html:'',cls:'mai-infographic'};
   if(s.mode!=='game')return televisionMap(s);
   if(p==='final'){
    const a=g.manual,b=g.assisted;

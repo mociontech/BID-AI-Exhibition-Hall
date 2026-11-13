@@ -2,6 +2,8 @@
 
 English tablet controller and passive TV, using the approved screens from `Maiia.zip`.
 
+The information screen uses the original 1920 × 1080 `Group 2147213272.png` in `assets/infographics/`, without recompression, rewritten text or map overlays. It opens on the TV when Information is selected on the tablet.
+
 ## November screen adaptation (local review)
 
 `assets/screens-2026-11/` preserves the 20 original PNG exports from the latest `MAIIA_Pantallas.zip`, with SHA-256 hashes and viewport offsets in its manifest. The 18 in-game tablet/TV states and two zoom-out transition screens use these original images as backgrounds. CSS clips only the extra 28/60-pixel Figma labels; source files are not cropped or recompressed. The existing landing and information artwork remains in place because this delivery covers the game screens.

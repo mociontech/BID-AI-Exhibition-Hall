@@ -29,7 +29,7 @@ function interior(z){
  }
  await tv.goto(base+'/display.html?station='+station);await tablet.goto(base+'/projects/07-csd-maiia/index.html?station='+station);
  await tablet.waitForSelector('.mai-landing .mai-viewing');assert.ok(await tablet.locator('[data-action=game]').isEnabled());assert.ok(await tablet.locator('[data-action=information]').isEnabled());await checkScale(tablet,'easy');await shot(tablet,'tablet-menu');
- await click('information');await tv.waitForSelector('.mai-infographic .mai-viewing');await checkScale(tv,'hard');await shot(tv,'tv-information');
+ await click('information');await tv.waitForSelector('.mai-infographic .mai-approved-art');assert.ok(decodeURI(await tv.locator('.mai-infographic .mai-approved-art').getAttribute('src')).endsWith('/assets/infographics/Group 2147213272.png'));assert.equal(await tv.locator('.mai-infographic .mai-map').count(),0);await shot(tv,'tv-information');
  await click('menu');await click('game');await phase('intro');await shot(tablet,'tablet-intro');await click('start');await phase('easy');await noAnswers();
  const box=await tablet.locator('[data-map]').boundingBox(),vertices=C.easy.reference[0].points;
  await tablet.mouse.move(box.x+vertices[0][0]*box.width,box.y+vertices[0][1]*box.height);await tablet.mouse.down();
