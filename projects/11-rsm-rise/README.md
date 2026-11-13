@@ -30,9 +30,9 @@ En dispositivos de la misma red, sustituir `localhost` por la IP del ordenador y
 - **Supervisión:** Read the reports inicia la lectura. Después se muestran los tres insights originales; se selecciona uno para añadirlo al análisis y pulsar See your review. Se respeta este control del v36 sin sustituirlo por la revisión anterior.
 - **Cierre:** resumen del insight considerado y documento #8,201. Start again reinicia el v36.
 
-Se conserva EN como idioma inicial y ES para revisión. Los avisos normales expiran a los 8,3 segundos; `.keep` permanece hasta cambiar de escena. Se mantienen los 45 segundos de inactividad del fuente.
+Se conserva EN como idioma inicial y ES para revisión. Los avisos normales expiran a los 8,3 segundos; `.keep` permanece hasta cambiar de escena. La integración desactiva el reinicio por inactividad de 45 segundos del fuente; la escena se conserva hasta navegar, usar Home o reiniciar de forma explícita.
 
-La TV muestra el panel original 16:9 con unidades `cqw`. La tablet muestra el panel original 736×552 en píxeles, ampliado proporcionalmente a su viewport y conservando 4:3. No se cambia el tamaño relativo de textos, botones ni imágenes. La vista conjunta usa resoluciones internas de 1024×768 y 1920×1080. En ventanas de otra proporción se conserva el encuadre del dispositivo.
+La TV muestra el panel original 16:9 con unidades `cqw`. La tablet llena todo el viewport sin franjas ni esquinas de un marco simulado. Usa 736×552 como tamaño mínimo de composición en píxeles: conserva una escala uniforme para textos e iconos y amplía la dimensión necesaria para adaptarse a cada proporción. Las tarjetas y zonas flexibles ocupan el espacio disponible. La vista conjunta conserva sus resoluciones internas de 1024×768 y 1920×1080.
 
 El único ajuste de navegación es que el botón Home existente devuelve a los proyectos de la exhibición, conservando estación y sala. No se agregan botones ni barras. En el original y su copia independiente Home conserva el reinicio del prototipo.
 
@@ -97,3 +97,5 @@ node projects/11-rsm-rise/v36/tests/session.mjs
 ```
 
 `HOSTED_URL` permite probar un Deploy Preview. La prueba real falla ante un 401, verifica lectura y escritura reales, recorrido, recarga, Back, Home, reingreso, aislamiento de otra sala y cero escrituras desde la TV. Solo escribe en las salas nuevas creadas por la propia prueba y termina dejando la pareja en el menu. El reporte y los dos enlaces comprobados se guardan en `v36/artifacts/session-live/report.json` (ignorado por Git). La prueba con transporte simulado guarda su reporte por separado en `session-mock/`.
+
+Responsive e inactividad: `node projects/11-rsm-rise/v36/tests/responsive.mjs` comprueba todas las escenas en EN/ES a 1024×768, 1180×820, 1366×768, 1920×1080 y 768×1024. Verifica los cuatro bordes, controles visibles, ausencia de desbordamiento y conservación de escena/propuesta/insight tras dos minutos simulados sin actividad. La comparación con el original normaliza únicamente el radio exterior de la tablet, además del Back añadido anteriormente.

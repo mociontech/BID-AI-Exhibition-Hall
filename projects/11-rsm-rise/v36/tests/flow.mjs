@@ -31,8 +31,7 @@ const fit=async()=>{
   await tablet.setViewportSize({width,height});await tablet.waitForTimeout(150);
   assert.equal(await tablet.evaluate(()=>document.documentElement.scrollWidth>innerWidth||document.documentElement.scrollHeight>innerHeight),false);
   const panel=await frame().locator('#tab').evaluate(el=>{const r=el.getBoundingClientRect(),s=getComputedStyle(el);return {left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:s.width,height:s.height};});
-  assert.equal(panel.width,'736px');assert.equal(panel.height,'552px');
-  assert(panel.left>=-1&&panel.top>=-1&&panel.right<=width+1&&panel.bottom<=height+1,'Original pane fits without distortion');
+  assert(Math.abs(panel.left)<1&&Math.abs(panel.top)<1&&Math.abs(panel.right-width)<1&&Math.abs(panel.bottom-height)<1,'Responsive pane fills the viewport without distortion');
  }
 };
 try{
