@@ -3,8 +3,8 @@
 (function(){
  const base=new URL('./',document.currentScript.src);
  const files={
-  landing:'TABLET/ES/00 Portada.png',tvLanding:'TABLET/ES/00 Portada-1.png',
-  info:'../infographics/Group 2147213272.png',intro:'Frame 3.png',tvIntro:'Frame 27.png',
+  landing:'../covers/Portada_MAIIA.png',tvLanding:'../covers/Portada_MAIIA.png',
+  info:'../infographics/Infografia_MAIIA.png',intro:'Frame 3.png',tvIntro:'Frame 27.png',
   easy:'Frame 4.png',easyResult:'Frame 22.png',manual:'Frame 23.png',
   manualResult:'Frame 24.png',analysis:'Frame 25.png',assisted:'Frame 26.png',
   tvEasy:'Frame 28.png',tvEasyResult:'Frame 29.png',tvManual:'Frame 30.png',
@@ -52,19 +52,38 @@
   const t=MAIIA.words.en;
   return MAIIA.legend(t,[['mai-approved-key',t.correctAreas],['mai-kept-key',t.assistedAnswers]])+MAIIA.markerLegend(s);
  }
+ function cover(s,readonly=false){
+  const html=readonly?'':hit([68,644,852,266],'information','About the project')+hit([1002,644,852,266],'game','Interactive experience');
+  return {screen:readonly?'tvLanding':'landing',html,cls:'mai-landing mai-cover',cover:true};
+ }
+ function coverNavigation(){
+  const href=`/index.html${esc(AI_SYNC.stationQuery)}&amp;projects=1`;
+  return `<nav class="mai-art-navigation" aria-label="Exhibition navigation"><a class="mai-art-hit" style="${box([56,20,710,84])}" href="${href}" data-action="home" aria-label="Home: back to all projects"></a><a class="mai-art-hit" style="${box([1720,38,132,50])}" href="${href}" data-action="home" data-navigation="back" aria-label="Home: back to all projects"></a></nav>`;
+ }
+ function infographic(){
+  const url=asset('info');
+  const crop=(rect,delay)=>`<div class="mai-info-piece" style="${box(rect)}background-image:url('${url}');background-position:-${rect[0]}px -${rect[1]}px;--info-delay:${delay}s" aria-hidden="true"></div>`;
+  const frame=(rect,delay,cls)=>`<div class="mai-info-piece ${cls}" style="${box(rect)}--info-delay:${delay}s" aria-hidden="true"></div>`;
+  const pieces=[
+   [[60,66,310,75],.55],[[60,425,490,125],.85],[[60,566,640,90],1.05],[[60,662,320,55],1.2],
+   [[872,228,425,45],1.5],[[872,294,116,114],1.7],[[872,430,430,139],1.95],
+   [[1400,228,425,45],2.2],[[1400,294,116,114],2.4],[[1400,430,430,139],2.65],
+   [[871,635,380,45],3.05],[[873,716,225,145],3.5],[[1158,716,300,145],3.8],[[1518,716,310,145],4.1]
+  ];
+  let html='<div class="mai-info-motion" aria-hidden="true"><div class="mai-info-blue-panel"></div>';
+  html+=frame([840,203,481,392],1.35,'mai-info-card')+frame([1368,202,481,393],2.05,'mai-info-card');
+  html+=frame([840,697,1003,181],3.25,'mai-info-impact');
+  html+=frame([1121,727,2,120],3.45,'mai-info-divider')+frame([1487,727,2,120],3.75,'mai-info-divider');
+  html+=pieces.map(([rect,delay])=>crop(rect,delay)).join('')+'</div>';
+  html+='<div class="mai-info-prompt-wrap"><p class="mai-info-prompt"><svg viewBox="0 0 28 22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="2" width="24" height="18" rx="2"/></svg><span>When you are ready, tap “Interactive experience” on the tablet</span><svg class="mai-info-prompt-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6"/></svg></p></div>';
+  html+='<div class="mai-art-sr">MAIIA. Mapping with AI for Informal Areas. VPS · CSD. THE CHALLENGE. Manual Territory Observation. Identifying informal settlements across large territories through manual image observation can take considerable time and effort. THE SOLUTION. Satellite AI Mapping. MAIIA analyzes satellite imagery to detect and map informal settlements, supporting urban planning and human decision-making. IMPACT TO DATE. 6 metropolitan areas across 3 countries covered (so far!). &gt; 6 billion square meters analyzed. Up to 85% additional informal settlements revealed vs. previous data.</div>';
+  return {screen:'info',html,cls:'mai-infographic mai-animated-info',animatedInfo:true};
+ }
  function tablet(s){
   const g=s.game,p=g.phase,t=MAIIA.words.en;
   let screen=p,html='',cls='';
   if(s.mode!=='game'){
-   screen='landing';cls='mai-landing';
-   html+=patch([64,257,710,48],'07 MAIIA','mai-art-project-label');
-   html+=patch([64,418,665,112],esc(t.landingInvite),'mai-conversation-landing');
-   html+=patch([160,585,330,44],esc(t.info),'mai-conversation-menu-label');
-   html+=patch([160,702,330,44],esc(t.game),'mai-conversation-menu-label');
-   html+=hit([66,560,512,85],'information',t.info);
-   html+=hit([66,677,512,85],'game',t.game);
-   html+=liveMap(s,[788,257,1065,600],{kind:'easy',decorative:true,readonly:true});
-   if(s.mode==='info')html+='<span class="mai-art-information-selected" aria-hidden="true"></span>';
+   return cover(s);
   }else if(p==='intro'){
    cls='mai-intro';
    html+=patch([60,249,675,620],`<h1>${esc(t.introTitle)}</h1><p>${esc(t.introText)}</p><ol>${t.steps.map(step=>`<li>${esc(step)}</li>`).join('')}</ol>`,'mai-art-activation-copy mai-conversation-intro');
@@ -114,8 +133,8 @@
  function television(s){
   const g=s.game,p=g.phase,t=MAIIA.words.en;
   let screen='tvLanding',html='',cls='';
-  if(s.mode==='info')return {screen:'info',html:'',cls:'mai-infographic'};
-  if(s.mode!=='game')return televisionMap(s);
+  if(s.mode==='info')return infographic();
+  if(s.mode!=='game')return cover(s,true);
   if(p==='final'){
    const a=g.manual,b=g.assisted;
    html+=title([330,230,1280,82],"Let's",'compare.');
@@ -162,7 +181,9 @@
   return (disabled?`<span class="mai-supplied-inactive" style="${box(rect)}" aria-hidden="true"></span>`:'')+hit(rect,action,label,{disabled});
  }
  function suppliedNavigation(){
-  return `<nav class="mai-art-navigation" aria-label="Exhibition navigation"><a class="mai-art-hit" style="${box([56,20,710,84])}" href="/index.html${esc(AI_SYNC.stationQuery)}&amp;projects=1" data-action="home" aria-label="Home: back to all projects"></a>${hit([1720,38,132,50],'menu','Back to MAIIA start')}</nav>`;
+  const arrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6"/></svg>';
+  const home='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 9-7 9 7M5 10v10h14V10M10 20v-6h4v6"/></svg>';
+  return `<nav class="mai-art-navigation" aria-label="Exhibition navigation"><span class="mai-game-nav-mask" aria-hidden="true"></span><div class="mai-game-navigation"><button type="button" class="mai-game-nav-control" data-action="menu" aria-label="Back to MAIIA main screen">${arrow}<span>Back</span></button><a class="mai-game-nav-control" href="/index.html${esc(AI_SYNC.stationQuery)}&amp;projects=1" data-action="home" aria-label="Home: back to all projects">${home}<span>Home</span></a></div></nav>`;
  }
  const suppliedMap=(s,rect,options={})=>liveMap(s,rect,options,'mai-modern-canvas');
  // Keep all static instructions, headings and legends in the supplied PNG.
@@ -277,13 +298,16 @@
  window.addEventListener('resize',scale);
  function renderInto(mount,state,{readonly=false}={}){
   const s={...state,language:'en',game:state.game||MAIIA_STATE.fresh()};
+  // Polling snapshots must not restart the information entrance animation.
+  if(readonly&&s.mode==='info'&&mount.querySelector('.mai-animated-info')){scale();return;}
   const art=s.mode==='game'?(readonly?suppliedTelevision(s):suppliedTablet(s)):(readonly?television(s):tablet(s)),phase=s.mode==='game'?s.game.phase:s.mode==='info'&&readonly?'information':'landing';
   const t=MAIIA.words.en,titles={intro:t.introTitle,easy:t.easyTitle,easyResult:t.easyResult,manual:t.manualTitle,manualResult:t.manualResult,activation:t.activationTitle,analysis:t.analysisTitle,assisted:t.assistedTitle,final:t.finalTitle};
   const label=s.mode==='game'?titles[s.game.phase]:s.mode==='info'&&readonly?'MAIIA information':'MAIIA main menu';
   const wasCloseUp=!!mount.querySelector('.mai-phase-intro,.mai-phase-easy,.mai-phase-easyResult');
   document.documentElement.lang='en';
   const imageSrc=art.modern?suppliedAsset(art.screen):asset(art.screen),imageStyle=art.modern?`top:-${supplied[art.screen][1]}px;height:${supplied[art.screen][2]}px;`:'';
-  mount.innerHTML=`<main class="mai-app mai-branded ${art.modern?'mai-new-screen':''} ${readonly?'mai-tv':'mai-tablet'} mai-phase-${phase}" data-language="en" aria-label="${label}"><div class="mai-artboard"><section class="mai-art-content ${art.cls}" aria-label="${label}"><img class="mai-approved-art" src="${imageSrc}" style="${imageStyle}" alt="" draggable="false" aria-hidden="true"><p class="mai-art-sr">${label}. ${s.mode==='game'&&s.game.phase==='intro'?esc(MAIIA.words.en.introText):''}</p>${art.html}</section>${readonly?'':art.modern?suppliedNavigation():navigation(s)}${readonly||art.modern?'':`<small class="mai-art-disclaimer">${esc(MAIIA.words.en.demo)}</small>`}${readonly?'':'<div class="mai-feedback" role="status" aria-live="polite"></div>'}</div></main>`;
+  mount.innerHTML=`<main class="mai-app mai-branded ${art.modern?'mai-new-screen':''} ${readonly?'mai-tv':'mai-tablet'} mai-phase-${phase}" data-language="en" aria-label="${label}"><div class="mai-artboard"><section class="mai-art-content ${art.cls}" aria-label="${label}"><img class="mai-approved-art" src="${imageSrc}" style="${imageStyle}" alt="" draggable="false" aria-hidden="true"><p class="mai-art-sr">${label}. ${s.mode==='game'&&s.game.phase==='intro'?esc(MAIIA.words.en.introText):''}</p>${art.html}</section>${readonly?'':art.cover?coverNavigation():art.modern?suppliedNavigation():navigation(s)}${readonly||art.modern||art.cover?'':`<small class="mai-art-disclaimer">${esc(MAIIA.words.en.demo)}</small>`}${readonly?'':'<div class="mai-feedback" role="status" aria-live="polite"></div>'}</div></main>`;
+  if(art.animatedInfo){const sheet=mount.querySelector('.mai-animated-info'),image=sheet.querySelector('.mai-approved-art');image.decode().then(()=>{if(sheet.isConnected)sheet.classList.add('mai-info-ready');}).catch(()=>{if(sheet.isConnected)sheet.classList.add('mai-info-fallback');});}
   mount.querySelectorAll('.mai-art-map .mai-map').forEach(svg=>svg.setAttribute('preserveAspectRatio','none'));
   if(s.game.phase==='analysis'&&s.game.analysisAt)mount.querySelector('.mai-app').style.setProperty('--elapsed',`-${Math.max(0,AI_SYNC.now()-s.game.analysisAt)}ms`);
   territoryCamera(mount,s,{readonly,wasCloseUp});

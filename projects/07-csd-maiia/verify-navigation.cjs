@@ -67,7 +67,7 @@ const S=require('./state.js');
   hold=false;for(const release of releases)release();
   await tablet.locator('[data-project="07"]').tap();await tablet.waitForSelector('.mai-landing');
   await tablet.locator('[data-action="information"]').tap();await tv.waitForSelector('.mai-infographic');
-  await tablet.locator('.mai-art-navigation [data-action="menu"]').tap();await tv.waitForSelector('.mai-phase-landing');
+  await tablet.locator('[data-action="information"]').tap();await tv.waitForSelector('.mai-phase-landing');
   assert.equal(JSON.parse(stored.payload).mode,'landing');
   fail=true;
   await tablet.locator('[data-action="game"]').tap();await tablet.waitForSelector('.mai-phase-intro');
@@ -75,6 +75,15 @@ const S=require('./state.js');
   assert.equal(await tablet.locator('.mai-network').count(),0);
   await tablet.locator('.mai-art-navigation [data-navigation="back"]').tap();await tablet.waitForSelector('[data-project="07"]',{timeout:3000});
   assert.equal(new URL(tablet.url()).searchParams.get('station'),'7');assert.equal(new URL(tablet.url()).searchParams.get('room'),room);
+  fail=false;
+  await tablet.locator('[data-project="07"]').tap();await tablet.waitForSelector('.mai-landing');
+  await tablet.locator('[data-action="game"]').tap();await tablet.waitForSelector('.mai-phase-intro');
+  const gameHome=tablet.locator('.mai-game-navigation [data-action="home"]');
+  assert.equal(await gameHome.innerText(),'Home');
+  assert.equal(await tablet.locator('.mai-game-navigation [data-action="menu"]').innerText(),'Back');
+  for(const control of await tablet.locator('.mai-game-nav-control').all()){const rect=await control.boundingBox();assert.ok(rect.width>=44&&rect.height>=44);}
+  await gameHome.focus();await gameHome.press('Enter');await tablet.waitForSelector('[data-project="07"]',{timeout:3000});
+  assert.equal(new URL(tablet.url()).searchParams.get('room'),room);
   assert.deepEqual(errors,[]);
   console.log(JSON.stringify({passed:true,checks:['TV still receives writes while acknowledgements are delayed','no misleading sync banner','Back to menu works with a pending write and from Information','Home uses a native link without waiting for queued writes','Home reaches the project grid and updates the TV','station and private room survive navigation','Home and Back remain usable during a write outage'],errors},null,2));
  }finally{for(const release of releases)release();await browser.close();}
