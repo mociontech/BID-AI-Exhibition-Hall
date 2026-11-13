@@ -1,34 +1,10 @@
 {
-  "sourceArchive": "BID AI Exhibition hall (1).zip",
+  "sourceArchive": "BID AI Exhibition hall (6).zip",
   "assets": [
-    {
-      "sourceEntry": "Tablet/Mini-game state — EN.png",
-      "file": "tablet-cases-wait-en.png",
-      "sha256": "8fa2085628054a4bd54413decc09a66c8d194df16a62667bdc24314afe44f6c2",
-      "width": 1920,
-      "height": 1080,
-      "language": "en"
-    },
-    {
-      "sourceEntry": "Tablet/Mini-game state — EN-1.png",
-      "file": "tablet-cases-en.png",
-      "sha256": "e394ac0633dec1ff84dd17b883bf22f02dce3174f797c29081e8b3556b7672d4",
-      "width": 1920,
-      "height": 1080,
-      "language": "en"
-    },
-    {
-      "sourceEntry": "Tablet/Mini-game state — EN-2.png",
-      "file": "tablet-cases-thinking-en.png",
-      "sha256": "7b61910ca179e447816ae9a0fb63e413f533b9d3cd9d14698c8ecabfb3b86f0e",
-      "width": 1920,
-      "height": 1080,
-      "language": "en"
-    },
     {
       "sourceEntry": "Tablet/Mini-game state — EN-3.png",
       "file": "tablet-follow-en.png",
-      "sha256": "ebacae8dd1d5a4667c5439f7b7001f5f8b9a70c00687cf967ae90df5722b9acf",
+      "sha256": "864e0a113addec27632159a4ec26590768baba6007ab2abb34767e26e30bf06e",
       "width": 1920,
       "height": 1080,
       "language": "en"
@@ -36,7 +12,7 @@
     {
       "sourceEntry": "Tablet/Mini-game state — EN-4.png",
       "file": "tablet-result-en.png",
-      "sha256": "edcdca8207d8c482271176cfc149b21ae90e0aff8b88d2a368c9c1a1577d4da7",
+      "sha256": "fb6febfc37eb6b982319503dbcf5fab543a6cd11a0c20b2084baf4a4c4ae60ab",
       "width": 1920,
       "height": 1080,
       "language": "en"
@@ -44,7 +20,7 @@
     {
       "sourceEntry": "TV/Mini-game — EN.png",
       "file": "tv-chat-en.png",
-      "sha256": "031834acf3504b9ce743e444b04254acbd8f6e055324be5a3a852d70060b32a9",
+      "sha256": "167dd94f153f673058cc2a0850b5f656ac3421e452f8167702e3af703862185b",
       "width": 1920,
       "height": 1080,
       "language": "en"
@@ -52,7 +28,7 @@
     {
       "sourceEntry": "TV/Mini-game — EN-1.png",
       "file": "tv-situation-en.png",
-      "sha256": "9582dfc29747f520bb73a6324b10f61545a30e9cbc81c3de3a01f9135bfcaed3",
+      "sha256": "a46a64e72a5f6d883fce31c7b95ad929ecee7862148a58378ed5238efb3269eb",
       "width": 1920,
       "height": 1080,
       "language": "en"
@@ -60,22 +36,32 @@
     {
       "sourceEntry": "TV/Mini-game — EN-2.png",
       "file": "tv-result-en.png",
-      "sha256": "41f80139d5b60fe30487ee460fff45346b09d30b576cc61943fab86dd32e27a0",
+      "sha256": "f641093dc79003356274d677297cfd026c63096218bfd7a759c5534b9b133940",
       "width": 1920,
       "height": 1080,
       "language": "en"
     },
     {
-      "sourceEntry": "TABLET/ES/00 Portada.png",
+      "sourceEntry": "Group 2147213273.png",
+      "file": "tv-information-en.png",
+      "sha256": "a8119cd1a793da2a86aea3b5e51fe659e1306e9a17829e9f80fe0f67abd63758",
+      "width": 1920,
+      "height": 1080,
+      "language": "en"
+    },
+    {
+      "sourceEntry": "Group 2147213243.png",
       "file": "tablet-cover-en.png",
-      "sha256": "111204ac6740d12d57fffe79ef1c82f0bb2c142c476d9d8f0ed1df57946ddb54",
+      "sha256": "5ef1e4b3adec808a4008889ff78514483518294f3bb5ca41e674f614ac1f5d72",
       "width": 1920,
       "height": 1080,
       "language": "en"
     }
   ],
   "retainedFromPreviousArchive": [
-    "tv-information-en.png"
+    "tablet-cases-wait-en.png",
+    "tablet-cases-en.png",
+    "tablet-cases-thinking-en.png"
   ],
-  "notes": "Original English artwork; Spanish messages are rendered as live HTML. The cover is English despite the TABLET/ES folder name."
+  "notes": "Original PNG bytes retained. Live Spanish conversation and dynamic choices overlay the supplied artwork. Infographic supplied separately as Group 2147213273.png. Case selection, waiting and thinking images intentionally retained at user request: no autism case or label added."
 }

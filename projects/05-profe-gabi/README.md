@@ -68,3 +68,8 @@ node --test tests/smoke.test.js tests/firebase-sync.test.js
 Puede indicarse otro servidor mediante `TEST_URL`. La integración recorre los ocho desenlaces y sus 23 entregas, verificando idioma, texto íntegro, disclaimer, ausencia de recortes, avance manual, recarga, fullscreen, reconexión, Home/Back/reinicio y aislamiento. Los informes están en `review/2026-11-09/`.
 
 La prueba usa contextos independientes y tamaños de navegador emulados; no sustituye una revisión con el hardware físico del evento.
+
+
+## Approved artwork update ? 2026-11-13
+
+Uses the original supplied English cover and infographic PNGs and the updated follow-up and result screens. Transparent touch areas preserve Home (Start), Information, Interactive Experience, Back and Play again. The former language/menu/fullscreen/connection toolbar is removed. Case selection and its initial waiting/thinking artwork remain unchanged at the user's request; no autism case was added. Existing Spanish conversations and balanced manual reading parts are preserved. See `review/2026-11-13/README.md` for exact image sources, copy and verification.

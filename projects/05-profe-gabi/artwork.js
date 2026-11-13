@@ -1,35 +1,33 @@
 /* Approved PNGs + proportional HTML hit areas; current dialogue stays live. */
 (function(){
  const observers=new WeakMap();
- const R={info:[68,554,853,345],game:[964,554,853,345],topics:[[140,588,449,101],[670,588,443,99],[142,712,443,97],[670,712,443,97]],follow:[[140,586,619,102],[142,712,615,96]],back:[142,889,249,69],skip:[436,889,321,70],resultBack:[142,743,249,69],again:[436,743,321,69]};
+ const R={info:[68,618,853,265],game:[1001,618,853,265],topics:[[140,588,449,101],[670,588,443,99],[142,712,443,97],[670,712,443,97]],follow:[[140,586,619,102],[142,712,615,96]],back:[142,889,249,69],skip:[436,889,321,70],resultBack:[142,743,249,69],again:[436,743,321,69]};
  const rect=r=>`left:${r[0]}px;top:${r[1]}px;width:${r[2]}px;height:${r[3]}px`;
  function dispose(mount){observers.get(mount)?.disconnect();observers.delete(mount);}
  function paint(mount,state,api){
   const image=mount.querySelector('[data-art-initial]');
-  if(image){const a=api.animation(state),file=a?.sent?'tablet-cases-thinking-en.png':'tablet-cases-wait-en.png';if(image.dataset.file!==file){image.src=api.assets('branded/'+file)+'?v=20261109-event-en-chat-es';image.dataset.file=file;}}
+  if(image){const a=api.animation(state),file=a?.sent?'tablet-cases-thinking-en.png':'tablet-cases-wait-en.png';if(image.dataset.file!==file){image.src=api.assets('branded/'+file)+'?v=20261113-start-only';image.dataset.file=file;}}
  }
  function render({mount,state,readonly,api}){
   if(state.language!=='en')return false;
   const {assets,escape,icon,avatar,chat,words:t,scripts,header,footer,content,connectionLabel}=api;
   const g=state.game,isGame=state.mode==='game'||state.mode==='results',isInfo=['info','cta'].includes(state.mode),busy=isGame&&g.phase==='animating',complete=isGame&&g.phase==='complete';
+  const legacyCases=isGame&&(g.phase==='topics'||busy&&g.turn==='situation'&&g.part===0);
   const topic=scripts.en[g.topic],branch=topic?.options[0],follow=branch?.follow[g.follow];
-  const path=name=>assets('branded/'+name)+'?v=20261109-event-en-chat-es';
+  const path=name=>assets('branded/'+name)+'?v=20261113-start-only';
   const hot=(r,label,attrs,disabled=false)=>`<button type="button" class="gabi-art-hotspot" style="${rect(r)}" aria-label="${escape(label)}" ${attrs} ${disabled?'disabled aria-disabled="true"':''}><span class="gabi-artwork-accessible">${escape(label)}</span></button>`;
   const crop=(file,r,cls='')=>`<div class="gabi-art-crop ${cls}" style="${rect(r)}"><img src="${path(file)}" alt="" style="left:${-r[0]}px;top:${-r[1]}px"></div>`;
   const mask=(r,html,cls='')=>`<div class="gabi-art-mask ${cls}" style="${rect(r)}">${html}</div>`;
   const outline=(r,selected,disabled=false)=>`<span class="gabi-art-outline ${selected?'is-selected':''} ${disabled?'is-disabled':''}" style="${rect(r)}" aria-hidden="true"></span>`;
-  const toolbar=readonly?'':`<div class="gabi-art-toolbar"><div class="gabi-language" aria-label="Interface language"><span class="is-active">EN</span></div><button type="button" class="gabi-button gabi-icon" data-action="home" aria-label="${t.home}" title="${t.home}">${icon('home')}</button><button type="button" class="gabi-button" data-action="menu">${t.menu}</button><button type="button" class="gabi-button gabi-icon" data-action="fullscreen" aria-label="${t.fullscreen}" title="${t.fullscreen}">${icon('expand')}</button><span class="gabi-art-connection" data-gabi-connection data-status="connected" role="status">${connectionLabel('en')}</span></div>`;
+  const toolbar=readonly?'':hot([1720,38,132,50],t.home,'data-action="home" title="Home"');
   let file,overlays='',semantic='',marker='',initial=false;
-  if(readonly&&isInfo){file='tv-information-en.png';semantic=`<section class="gabi-artwork-accessible">${header}${content}${footer}</section>`;}
+  if(!readonly&&isGame)overlays+=crop('tablet-follow-en.png',[0,0,1920,126],'gabi-art-header');
+  if(readonly&&isInfo){file='tv-information-en.png';semantic=`<section class="gabi-artwork-accessible"><h1>Profe Gabi — Mentoring Novice Teachers</h1><p>VPS · SCL</p><h2>THE CHALLENGE</h2><p>Limited Access to Mentorship. Less than 1% of new teachers in Chile receive formal mentoring, leaving thousands without support.</p><h2>THE SOLUTION</h2><p>AI-Powered Teacher Support. Profe Gabi offers 24/7 guidance via WhatsApp on teaching, well-being, and professional growth.</p><h2>IMPACT TO DATE</h2><p>4,181 teachers with access. 85% of novice teachers satisfied. In 2027 it was escalated with Ministry of Education.</p></section>`;}
   else if(!readonly&&!isGame){
    file='tablet-cover-en.png';marker='gabi-hero';
-   overlays+=mask([64,262,850,165],'<p class="gabi-art-kicker">05 / AI in Action</p><h1>Profe <em>Gabi</em></h1>','gabi-art-cover-title');
-   if(!g.ready)overlays+=crop(file,R.game,'is-locked');
-   overlays+=hot(R.info,t.info,'data-action="information"');
-   const game=hot(R.game,g.ready?t.start:t.game,'data-action="game"',!g.ready);
-   overlays+=isInfo&&g.ready?`<div class="gabi-info-controls gabi-art-cta">${game}</div>`:game;
-   overlays+=mask([995,650,480,105],'<h2>Interactive<br>Experience</h2>','gabi-art-cover-game');
-   overlays+=mask([70,930,1745,70],`<p>${isInfo?(g.ready?t.ready:t.watch):g.ready?'':t.locked}</p>`,'gabi-art-status');
+   overlays+=hot(R.info,'About the project','data-action="information"');
+   const game=hot(R.game,'Interactive Experience','data-action="game"');
+   overlays+=isInfo?`<div class="gabi-info-controls gabi-art-cta">${game}</div>`:game;
    semantic=`<section class="gabi-artwork-accessible"><h1>Profe Gabi</h1><p>${t.description}</p></section>`;
   }else if(!readonly){
    const cases=g.phase==='topics'||busy&&g.turn==='situation';
@@ -47,7 +45,7 @@
     if(busy){overlays+=crop('tablet-cases-thinking-en.png',R.back)+crop('tablet-cases-thinking-en.png',R.skip);overlays+=hot(R.back,t.back,'data-action="back"')+hot(R.skip,t.skip,'data-action="skip"');}
    }else if(complete){
     file='tablet-result-en.png';marker='gabi-summary';
-    overlays+=mask([135,400,990,310],`<h1>Conversation <em>completed!</em></h1><p>${escape(follow.take)}</p>`,'gabi-art-result-copy');
+    semantic=`<section class="gabi-artwork-accessible"><h1>Conversation completed!</h1><p>Profe Gabi supports planning while the teacher adapts and decides, complementing mentors and colleagues without replacing professional judgment.</p></section>`;
     overlays+=hot(R.resultBack,t.back,'data-action="back"')+hot(R.again,t.again,'data-action="restart"');
    }else{
     file='tablet-follow-en.png';
@@ -57,12 +55,19 @@
     if(busy){overlays+=crop('tablet-cases-thinking-en.png',R.skip);overlays+=hot(R.skip,t.skip,'data-action="skip"');}
    }
    if(!complete)overlays+=mask([140,829,990,47],`<p ${busy?'data-animation-status':''}>${busy?t.writing:t.controlHint}</p>`,'gabi-art-status');
-   overlays+=mask([1237,540,521,138],`<p>${topic?t.selectedTopic:'PROFE GABI'}</p><h2>${escape(topic?.title||t.subtitle)}</h2>`,'gabi-art-context');
-   overlays+=mask([1240,744,510,35],`<p>${t.tag}</p>`,'gabi-art-tag');
+   if(legacyCases){
+    overlays+=mask([1237,540,521,138],`<p>${topic?t.selectedTopic:'PROFE GABI'}</p><h2>${escape(topic?.title||t.subtitle)}</h2>`,'gabi-art-context');
+    overlays+=mask([1240,744,510,35],`<p>${t.tag}</p>`,'gabi-art-tag');
+   }else{
+   overlays+=mask([1248,540,505,134],`<p>SELECTED TOPIC</p><h2>${escape(topic?.title||'Profe Gabi')}</h2><div>You choose on the tablet. The conversation comes to life on the main display.</div>`,'gabi-art-context is-updated');
+   const step=complete?3:g.turn==='follow'||g.phase==='follow'?2:1;
+   overlays+=mask([1248,681,400,54],`<div class="gabi-art-steps" aria-label="Step ${step} of 3">${[1,2,3].map(i=>`<span class="${i<=step?'is-active':''}">${String(i).padStart(2,'0')}</span>`).join('')}</div>`,'gabi-art-progress');
+   }
   }else{
    file=complete?'tv-result-en.png':busy?'tv-chat-en.png':'tv-situation-en.png';
-   if(complete){overlays+=mask([135,790,655,180],`<p>${escape(follow.take)}</p>`,'gabi-art-takeaway');}
-   else overlays+=mask([135,265,655,435],`<h1>${!isGame?'Profe <em>Gabi</em>':g.phase==='topics'?'What do you <em>need today?</em>':'<span class="gabi-heading-line">Virtual</span><span class="gabi-heading-line">assistant</span><em class="gabi-heading-name">Profe Gabi</em>'}</h1><p>${topic?`${t.selectedTopic}: ${escape(topic.title)}`:t.inviteAction}</p>`,'gabi-art-tv-heading');
+   if(complete){semantic=`<section class="gabi-artwork-accessible gabi-art-takeaway"><h1>Conversation completed!</h1><p>What you learned with Profe Gabi</p>${t.lessons.map(l=>`<p>${escape(l)}</p>`).join('')}<p>Useful guidance starts with describing the class, the content and what you want to achieve.</p></section>`;}
+   else if(!isGame||g.phase==='topics')overlays+=mask([135,265,655,435],`<h1>${!isGame?'Profe <em>Gabi</em>':'What do you <em>need today?</em>'}</h1><p>${t.inviteAction}</p>`,'gabi-art-tv-heading');
+   else overlays+=mask([136,574,660,90],`<p>${t.selectedTopic}: ${escape(topic.title)}</p>`,'gabi-art-tv-selected');
    const r=[860,206,920,778];
    if(!isGame||g.phase==='topics'){
     overlays+=`<section class="gabi-art-welcome ${isGame?'gabi-game-welcome':'gabi-tv-invite'}" style="${rect(r)}">${avatar()}<h2>${isGame?t.topicTitle:t.invite}</h2><p>${isGame?t.topicBody:t.inviteAction}</p>${isGame?`<div class="gabi-art-case-list">${scripts.en.map(c=>`<p><strong>${escape(c.title)}</strong><small>${escape(c.sub)}</small></p>`).join('')}</div>`:''}</section>`;
