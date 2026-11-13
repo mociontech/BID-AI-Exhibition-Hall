@@ -28,9 +28,9 @@ function interior(z){
   assert.ok(Math.abs(info.barRatio*C[kind].groundWidthMeters-C[kind].scaleBarMeters)<3);
  }
  await tv.goto(base+'/display.html?station='+station);await tablet.goto(base+'/projects/07-csd-maiia/index.html?station='+station);
- await tablet.waitForSelector('.mai-landing .mai-viewing');assert.ok(await tablet.locator('[data-action=game]').isEnabled());assert.ok(await tablet.locator('[data-action=information]').isEnabled());await checkScale(tablet,'easy');await shot(tablet,'tablet-menu');
- await click('information');await tv.waitForSelector('.mai-infographic .mai-approved-art');assert.ok(decodeURI(await tv.locator('.mai-infographic .mai-approved-art').getAttribute('src')).endsWith('/assets/infographics/Group 2147213272.png'));assert.equal(await tv.locator('.mai-infographic .mai-map').count(),0);await shot(tv,'tv-information');
- await click('menu');await click('game');await phase('intro');await shot(tablet,'tablet-intro');await click('start');await phase('easy');await noAnswers();
+ await tablet.waitForSelector('.mai-cover .mai-approved-art');assert.ok(await tablet.locator('[data-action=game]').isEnabled());assert.ok(await tablet.locator('[data-action=information]').isEnabled());await shot(tablet,'tablet-menu');
+ await click('information');await tv.waitForSelector('.mai-infographic.mai-info-ready');assert.ok(decodeURI(await tv.locator('.mai-infographic .mai-approved-art').getAttribute('src')).endsWith('/assets/infographics/Infografia_MAIIA.png'));assert.equal(await tv.locator('.mai-infographic .mai-map').count(),0);await tv.waitForTimeout(5100);await shot(tv,'tv-information');
+ await click('information');await tv.waitForSelector('.mai-cover');await click('game');await phase('intro');await shot(tablet,'tablet-intro');await click('start');await phase('easy');await noAnswers();
  const box=await tablet.locator('[data-map]').boundingBox(),vertices=C.easy.reference[0].points;
  await tablet.mouse.move(box.x+vertices[0][0]*box.width,box.y+vertices[0][1]*box.height);await tablet.mouse.down();
  for(const [x,y]of [...vertices.filter((_,i)=>i%3===0),vertices[0]])await tablet.mouse.move(box.x+x*box.width,box.y+y*box.height);

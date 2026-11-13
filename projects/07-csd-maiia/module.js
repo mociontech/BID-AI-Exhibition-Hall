@@ -103,7 +103,7 @@ window.ProjectModule={id:'07',async mountController({sync,mount}){
   if(stroke)cancelStroke();const action=b.dataset.action,g=state.game;
   if(action==='fullscreen'){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{feedback('fullError');}return;}
   if(action==='menu')return update({view:'project',mode:'landing',game:S.fresh()});
-  if(action==='information'){if(state.mode==='info')return;return update({mode:'info',view:'project',game:{...g,ready:true,unlockAt:0}});}
+  if(action==='information'){if(state.mode==='info')return update({mode:'landing',view:'project'});return update({mode:'info',view:'project',game:{...g,ready:true,unlockAt:0}});}
   if(action==='game'||action==='replay')return update({view:'game',mode:'game',game:S.fresh(true)});
   if(state.mode!=='game')return;
   if(action==='start'&&g.phase==='intro')return setGame({phase:'easy',startedAt:now()});

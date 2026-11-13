@@ -2,7 +2,13 @@
 
 English tablet controller and passive TV, using the approved screens from `Maiia.zip`.
 
-The information screen uses the original 1920 × 1080 `Group 2147213272.png` in `assets/infographics/`, without recompression, rewritten text or map overlays. It opens on the TV when Information is selected on the tablet.
+## Updated cover and animated infographic (local review)
+
+`assets/covers/Portada_MAIIA.png` and `assets/infographics/Infografia_MAIIA.png` preserve the latest supplied 1920 × 1080 images byte for byte. Both the tablet and passive TV use the cover without rewritten text or map overlays. Transparent tablet targets follow the supplied About the project, Interactive experience and Home buttons.
+
+About the project opens the infographic on the TV. Its entrance follows the supplied `Iniciativa 2.2_animada_PRO.mp4` reference: the blue panel moves into position, followed by the project identity, challenge, solution and impact figures. CSS layers show fragments of the original PNG rather than recreating its text or icons. After approximately five seconds the complete original image is shown. Repeated sync snapshots do not restart playback; leaving and reopening About replays it. Reduced-motion users see the complete infographic immediately.
+
+The tablet keeps its cover while About is open. Tapping About again returns the TV to the cover; Interactive experience starts the existing map game. Home returns to all projects and preserves station/room pairing. This revision remains local pending approval.
 
 ## November screen adaptation (local review)
 
