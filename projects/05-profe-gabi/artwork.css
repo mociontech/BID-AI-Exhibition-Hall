@@ -52,6 +52,32 @@
 .gabi-art-utilities [data-gabi-connection]{font-size:16px}
 .gabi-art-tv-selected p{font-size:30px;line-height:1.2;margin:0}
 .gabi-art-header{border-radius:0}
+.gabi-art-home-label{position:absolute;left:1770px;top:46px;width:68px;height:34px;z-index:3;display:flex;align-items:center;justify-content:center;background:#005cff;color:#fff;font-size:20px;line-height:1;font-weight:700;pointer-events:none}
 /* Retire the former toolbar, including when an older renderer is still loaded. */
 .gabi-approved-screen .gabi-art-toolbar,
 .gabi-approved-screen .gabi-art-utilities{display:none!important}
+.gabi-info-animated{background:#fff}
+.gabi-info-animated>.gabi-approved-artwork{opacity:0}
+.gabi-info-motion{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.gabi-info-blue-panel{position:absolute;left:0;top:0;width:764px;height:1080px;background:#005cff}
+.gabi-info-fragment{position:absolute;overflow:hidden;opacity:0;will-change:clip-path,transform,opacity}
+.gabi-info-fragment>img{position:absolute;width:1920px;height:1080px;max-width:none}
+.is-info-ready>.gabi-approved-artwork{animation:gabi-info-original 4.6s steps(1,end) forwards}
+.is-info-ready .gabi-info-motion{opacity:1;animation:gabi-info-overlay 4.6s steps(1,end) forwards}
+.is-info-ready .gabi-info-blue-panel{animation:gabi-info-panel .8s cubic-bezier(.22,1,.36,1) both}
+.is-info-ready .gabi-info-fragment{animation:gabi-info-reveal .75s cubic-bezier(.22,1,.36,1) var(--gabi-info-delay) both}
+.is-info-fallback>.gabi-approved-artwork{opacity:1}
+.is-info-fallback .gabi-info-motion{display:none}
+@keyframes gabi-info-panel{from{width:1920px}to{width:764px}}
+@keyframes gabi-info-reveal{from{clip-path:inset(0 100% 0 0);opacity:0;transform:translateX(16px)}to{clip-path:inset(0);opacity:1;transform:none}}
+@keyframes gabi-info-original{from{opacity:0}to{opacity:1}}
+@keyframes gabi-info-overlay{from{visibility:visible}to{visibility:hidden}}
+@media(prefers-reduced-motion:reduce){.gabi-info-animated>.gabi-approved-artwork{animation:none;opacity:1}.gabi-info-animated .gabi-info-motion{display:none}}
+.gabi-info-tablet-hint{position:absolute;left:832px;top:961px;width:1020px;height:76px;border-radius:40px;background:#005cff;color:#fff;display:flex;align-items:center;justify-content:center;gap:20px;padding:0 30px;opacity:0;pointer-events:none}
+.gabi-info-tablet-hint>span{font-size:26px;font-weight:700;line-height:1.15;white-space:nowrap}
+.gabi-info-tablet-hint>svg{width:32px;height:32px;flex:none}
+.gabi-info-tablet-hint>.gabi-info-hint-arrow{width:27px;height:27px;opacity:.5}
+.is-info-ready .gabi-info-tablet-hint{animation:gabi-info-hint-in .45s ease-out 4.6s both}
+.is-info-fallback .gabi-info-tablet-hint{opacity:1}
+@keyframes gabi-info-hint-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.gabi-info-animated .gabi-info-tablet-hint{animation:none;opacity:1}}

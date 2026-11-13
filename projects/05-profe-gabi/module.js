@@ -63,8 +63,7 @@ window.ProjectModule={
    if(action==='menu')return menu();
    if(action==='back')return back();
    if(action==='information'){
-    if(state.mode==='info'||state.mode==='cta')return;
-    return update({view:'project',mode:'info',game:schema.fresh()});
+    return update({view:'project',mode:'info',screenIndex:(state.screenIndex||0)%9+1,game:schema.fresh()});
    }
    if(action==='game')return restart();
    if(state.mode!=='game')return;

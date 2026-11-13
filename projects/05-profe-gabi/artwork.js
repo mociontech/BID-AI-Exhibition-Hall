@@ -6,7 +6,7 @@
  function dispose(mount){observers.get(mount)?.disconnect();observers.delete(mount);}
  function paint(mount,state,api){
   const image=mount.querySelector('[data-art-initial]');
-  if(image){const a=api.animation(state),file=a?.sent?'tablet-cases-thinking-en.png':'tablet-cases-wait-en.png';if(image.dataset.file!==file){image.src=api.assets('branded/'+file)+'?v=20261113-start-only';image.dataset.file=file;}}
+  if(image){const a=api.animation(state),file=a?.sent?'tablet-cases-thinking-en.png':'tablet-cases-wait-en.png';if(image.dataset.file!==file){image.src=api.assets('branded/'+file)+'?v=20261113-home-label';image.dataset.file=file;}}
  }
  function render({mount,state,readonly,api}){
   if(state.language!=='en')return false;
@@ -14,12 +14,12 @@
   const g=state.game,isGame=state.mode==='game'||state.mode==='results',isInfo=['info','cta'].includes(state.mode),busy=isGame&&g.phase==='animating',complete=isGame&&g.phase==='complete';
   const legacyCases=isGame&&(g.phase==='topics'||busy&&g.turn==='situation'&&g.part===0);
   const topic=scripts.en[g.topic],branch=topic?.options[0],follow=branch?.follow[g.follow];
-  const path=name=>assets('branded/'+name)+'?v=20261113-start-only';
+  const path=name=>assets('branded/'+name)+'?v=20261113-home-label';
   const hot=(r,label,attrs,disabled=false)=>`<button type="button" class="gabi-art-hotspot" style="${rect(r)}" aria-label="${escape(label)}" ${attrs} ${disabled?'disabled aria-disabled="true"':''}><span class="gabi-artwork-accessible">${escape(label)}</span></button>`;
   const crop=(file,r,cls='')=>`<div class="gabi-art-crop ${cls}" style="${rect(r)}"><img src="${path(file)}" alt="" style="left:${-r[0]}px;top:${-r[1]}px"></div>`;
   const mask=(r,html,cls='')=>`<div class="gabi-art-mask ${cls}" style="${rect(r)}">${html}</div>`;
   const outline=(r,selected,disabled=false)=>`<span class="gabi-art-outline ${selected?'is-selected':''} ${disabled?'is-disabled':''}" style="${rect(r)}" aria-hidden="true"></span>`;
-  const toolbar=readonly?'':hot([1720,38,132,50],t.home,'data-action="home" title="Home"');
+  const toolbar=readonly?'':`<span class="gabi-art-home-label" aria-hidden="true">Home</span>`+hot([1720,38,132,50],t.home,'data-action="home" title="Home"');
   let file,overlays='',semantic='',marker='',initial=false;
   if(!readonly&&isGame)overlays+=crop('tablet-follow-en.png',[0,0,1920,126],'gabi-art-header');
   if(readonly&&isInfo){file='tv-information-en.png';semantic=`<section class="gabi-artwork-accessible"><h1>Profe Gabi — Mentoring Novice Teachers</h1><p>VPS · SCL</p><h2>THE CHALLENGE</h2><p>Limited Access to Mentorship. Less than 1% of new teachers in Chile receive formal mentoring, leaving thousands without support.</p><h2>THE SOLUTION</h2><p>AI-Powered Teacher Support. Profe Gabi offers 24/7 guidance via WhatsApp on teaching, well-being, and professional growth.</p><h2>IMPACT TO DATE</h2><p>4,181 teachers with access. 85% of novice teachers satisfied. In 2027 it was escalated with Ministry of Education.</p></section>`;}
@@ -73,8 +73,15 @@
     overlays+=`<section class="gabi-art-welcome ${isGame?'gabi-game-welcome':'gabi-tv-invite'}" style="${rect(r)}">${avatar()}<h2>${isGame?t.topicTitle:t.invite}</h2><p>${isGame?t.topicBody:t.inviteAction}</p>${isGame?`<div class="gabi-art-case-list">${scripts.en.map(c=>`<p><strong>${escape(c.title)}</strong><small>${escape(c.sub)}</small></p>`).join('')}</div>`:''}</section>`;
    }else overlays+=`<div class="gabi-art-live-chat ${complete?'is-complete':''}" style="${rect(r)}">${chat()}</div>`;
   }
-  mount.innerHTML=`<main class="gabi-app gabi-approved-screen ${readonly?'gabi-display':'gabi-tablet'}" aria-label="Profe Gabi"><div class="gabi-artwork-canvas"><img class="gabi-approved-artwork" ${initial?'data-art-initial':''} data-file="${file}" src="${path(file)}" alt="" width="1920" height="1080" decoding="sync" fetchpriority="high"><div class="gabi-artboard ${marker}">${overlays}${toolbar}</div></div>${semantic}<p class="gabi-artwork-accessible" data-status role="status"></p></main>`;
+  if(readonly&&isInfo){
+   const fragments=[['logo',[64,64,310,82],.55],['title',[62,450,655,113],.95],['subtitle',[64,570,650,145],1.2],['challenge',[839,201,483,395],1.65],['solution',[1367,201,483,395],2.05],['impact',[870,638,440,45],2.65],['metric-one',[839,696,332,183],2.95],['metric-two',[1171,696,328,183],3.25],['metric-three',[1499,696,346,183],3.55]];
+   overlays=`<div class="gabi-info-motion" aria-hidden="true"><div class="gabi-info-blue-panel"></div>${fragments.map(([name,r,delay])=>`<div class="gabi-info-fragment" data-info-fragment="${name}" style="${rect(r)};--gabi-info-delay:${delay}s"><img src="${path(file)}" alt="" width="1920" height="1080" style="left:${-r[0]}px;top:${-r[1]}px"></div>`).join('')}</div><aside class="gabi-info-tablet-hint" role="note"><svg viewBox="0 0 32 28" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="28" height="22" rx="2"/></svg><span>When you are ready, tap “Interactive experience” on the tablet</span><svg class="gabi-info-hint-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6"/></svg></aside>`;
+  }
+  mount.innerHTML=`<main class="gabi-app gabi-approved-screen ${readonly?'gabi-display':'gabi-tablet'}" aria-label="Profe Gabi"><div class="gabi-artwork-canvas ${readonly&&isInfo?'gabi-info-animated':''}"><img class="gabi-approved-artwork" ${initial?'data-art-initial':''} data-file="${file}" src="${path(file)}" alt="" width="1920" height="1080" decoding="sync" fetchpriority="high"><div class="gabi-artboard ${marker}">${overlays}${toolbar}</div></div>${semantic}<p class="gabi-artwork-accessible" data-status role="status"></p></main>`;
   const canvas=mount.querySelector('.gabi-artwork-canvas');const size=()=>canvas.style.setProperty('--gabi-art-scale',canvas.clientWidth/1920);size();const observer=new ResizeObserver(size);observer.observe(canvas);observers.set(mount,observer);
+  if(readonly&&isInfo)Promise.all([...canvas.querySelectorAll('img')].map(img=>img.decode())).then(()=>{
+   if(canvas.isConnected&&mount.querySelector('.gabi-artwork-canvas')===canvas)canvas.classList.add('is-info-ready');
+  }).catch(()=>{if(canvas.isConnected)canvas.classList.add('is-info-fallback');});
   return true;
  }
  window.PROFE_GABI_ARTWORK={render,paint,dispose,regions:R};

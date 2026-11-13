@@ -41,6 +41,7 @@ const schema=require('../state.js');
   assert.equal(await tablet.locator('[data-action=menu],[data-action=fullscreen],[data-gabi-connection]').count(),0);
   await click('information');await tv.locator('[data-file="tv-information-en.png"]').waitFor();
   await tv.locator('.gabi-approved-artwork').evaluate(img=>img.decode());
+  await tv.waitForFunction(()=>{const c=document.querySelector('.gabi-info-animated');return c&&getComputedStyle(c.querySelector('.gabi-approved-artwork')).opacity==='1';});
   assert.ok((await tv.locator('body').textContent()).includes('4,181 teachers with access'));
   assert.ok(!(await tv.locator('body').textContent()).includes('550'));
   await tv.screenshot({path:path.join(out,'updated-infographic-en.png')});
