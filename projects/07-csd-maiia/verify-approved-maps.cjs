@@ -58,7 +58,7 @@ function interior(z){
  await tv.reload();await tv.waitForSelector('.mai-final');assert.match(await tv.locator('.mai-scorecard-assisted').innerText(),/100%/);
  for(const size of [{width:1024,height:768},{width:1280,height:800}]){await tablet.setViewportSize(size);await checkScale(tablet,'hard');const fit=await tablet.evaluate(()=>({w:innerWidth,h:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}));assert.ok(fit.sw<=fit.w&&fit.sh<=fit.h);}
  await shot(tablet,'tablet-final-1280');await click('replay');await phase('intro');assert.deepEqual((await remote()).game,S.fresh());await click('menu');await tablet.waitForSelector('.mai-landing');
- await tablet.locator('[data-action=home]').click();await tablet.waitForURL(/\/index\.html\?/);assert.equal(new URL(tablet.url()).pathname,'/index.html');assert.deepEqual(await Promise.all([1,2,3].map(remote)),other);assert.deepEqual(errors,[]);
+ await tablet.locator('[data-navigation=back]').click();await tablet.waitForURL(/\/index\.html\?/);assert.equal(new URL(tablet.url()).pathname,'/index.html');assert.deepEqual(await Promise.all([1,2,3].map(remote)),other);assert.deepEqual(errors,[]);
  checks.push('late TV, landscape widths, resized scale bars, replay, Home and station isolation');
  const report={passed:true,checks,manual,assisted:final.assisted,errors,output:out};fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
  }finally{await browser.close();}
