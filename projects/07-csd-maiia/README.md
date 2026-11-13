@@ -2,6 +2,16 @@
 
 English tablet controller and passive TV, using the approved screens from `Maiia.zip`.
 
+## November screen adaptation (local review)
+
+`assets/screens-2026-11/` preserves the 20 original PNG exports from the latest `MAIIA_Pantallas.zip`, with SHA-256 hashes and viewport offsets in its manifest. The 18 in-game tablet/TV states and two zoom-out transition screens use these original images as backgrounds. CSS clips only the extra 28/60-pixel Figma labels; source files are not cropped or recompressed. The existing landing and information artwork remains in place because this delivery covers the game screens.
+
+Tablet drawing uses export 3197, drawing results use 3198, and unlimited-pin placement uses 3185. During zoom-out, exports 3183 (tablet) and 3184 (TV) appear before switching to the placement artwork, without replacing the interactive map. Older exports 3179 and 3181 are not part of this delivery.
+
+Transparent touch targets follow the buttons in each image. Live SVG maps fully cover the sample geography and polygons; dynamic text replaces sample scores and interaction counters. All static headings, instructions, legends and closing copy remain embedded in the original PNGs, without paraphrases or added explanatory paragraphs. This deliberately retains the supplied five-place wording and the literal `(AREAS MOSTRANDO)` placeholder. The approved AMA maps, freehand input, unlimited-pin mechanics, scoring, graded pin symbols, zoom, scale bars and paired scan keep the existing implementation. Final tablet colors match the supplied purple/cyan legend.
+
+The `Start` button returns to the MAIIA menu, and the brand area returns Home to all projects. This revision is prepared for local approval, without publishing.
+
 ## Client-approved maps (local revision)
 
 `assets/maps/` contains the four original AMA PNGs supplied by the client, without recompression. Its manifest records dimensions, SHA-256 hashes and registration transforms. AMA-01 is the clean level-1 map and AMA-02 its approved reference; AMA-03 is the clean territory map and AMA-04 its approved references. The artwork PNGs remain unchanged.
@@ -36,7 +46,7 @@ Entering level 2 animates the SVG camera from the registered close-up extent to 
 
 ## Visitor voice
 
-English game copy uses conversational questions, short actions and natural transitions throughout the welcome, drawing, wider search, AI activation, scan, review and comparison. Tablet prompts remain brief; the TV provides context. Text overlays also replace baked-in welcome and final captions without changing the approved PNG files. Results describe the actual score change; they do not congratulate automatically or claim the AI found more areas merely because its score improved. Scoring, map gestures and the pre-AI answer restriction stay unchanged.
+The November game flow uses the original PNG wording verbatim, including the close-up result explanation, wider-search instructions and MAIIA review text. Static copy is not covered by rewritten HTML. Scores and counters use actual game values; map gestures, scoring and the pre-AI answer restriction stay unchanged. Earlier landing/information artwork remains separate from this ZIP's game screens.
 
 ## Local preview
 

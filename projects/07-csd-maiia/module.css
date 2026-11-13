@@ -180,3 +180,30 @@
 .mai-branded .mai-manual-review-legend{display:flex;align-items:center}
 .mai-branded .mai-final-map .mai-pin-legend{font-size:22px;gap:12px 22px;margin-top:6px}
 .mai-branded .mai-final-map .mai-pin-legend i{width:26px;height:26px;font-size:20px}
+
+/* November screen exports stay intact under live maps and variable values. */
+.mai-new-screen .mai-art-content{overflow:hidden}
+.mai-modern-view-label{position:absolute;left:20px;top:20px;z-index:4;pointer-events:none;border-radius:7px;background:#005cff;color:#fff;font-size:20px;line-height:28px;padding:8px 12px}
+.mai-new-screen .mai-supplied-inactive{position:absolute;z-index:5;background:#ffffffa8;border-radius:10px;pointer-events:none}
+.mai-new-screen .mai-supplied-hint{font-size:30px;line-height:40px;letter-spacing:-.4px}
+.mai-new-screen .mai-supplied-area-count{display:flex;align-items:center;padding-left:15px;font-size:20px;line-height:28px;color:#005cff}
+.mai-new-screen .mai-supplied-count{display:flex;align-items:center;justify-content:center;font-size:26px;line-height:36px;font-weight:650;color:#53657f}
+.mai-new-screen .mai-supplied-kept-count{justify-content:flex-start;padding-left:28px;color:#141414;font-weight:700}
+.mai-new-screen .mai-supplied-tv-body{font-size:28px;line-height:1.35;letter-spacing:-.25px}
+.mai-new-screen .mai-supplied-tv-detail{font-size:24px;line-height:1.4}
+.mai-new-screen .mai-supplied-pin-hint{margin:18px 0 0;font-size:22px;color:#53657f}
+.mai-new-screen .mai-supplied-tv-counter{display:flex;align-items:center;font-size:28px;line-height:38px;font-weight:700;color:#005cff}
+.mai-new-screen .mai-supplied-overlap span{display:block;font-size:28px;line-height:40px;font-weight:700}
+.mai-new-screen .mai-supplied-overlap strong{display:block;font-size:104px;line-height:125px;font-weight:700;color:#005cff}
+.mai-new-screen .mai-big-score{font-size:116px;line-height:125px;letter-spacing:-5px;margin:0}
+.mai-new-screen .mai-supplied-tv-stage{font-size:20px;line-height:30px;letter-spacing:5px;color:#005cff}
+.mai-new-screen .mai-supplied-ai-context{font-size:23px;line-height:31px;letter-spacing:-.15px}
+.mai-new-screen .mai-supplied-tv-disclaimer{font-size:16px;line-height:24px;color:#53657f}
+.mai-new-screen .mai-supplied-scan-note{font-size:20px;line-height:30px;color:#53657f}
+.mai-new-screen .mai-scorecard .mai-result-errors{font-weight:700}
+.mai-new-screen .mai-scorecard{color:#005cff}
+.mai-new-screen .mai-final-message h2{font-size:35px;line-height:44px;letter-spacing:-.7px;margin:0}
+.mai-new-screen.mai-zooming .mai-zoom-controls{visibility:hidden}
+/* Match the final PNG's purple reference and cyan selection legend. */
+.mai-new-screen.mai-phase-final .mai-reference{fill:#ab8cff70;stroke:#b18dff}
+.mai-new-screen.mai-phase-final .mai-answer-selection.is-correct{fill:#82e7f960;stroke:#82efff}
