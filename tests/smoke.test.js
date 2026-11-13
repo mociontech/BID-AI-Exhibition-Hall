@@ -117,6 +117,7 @@ test('PredictToDo information uses the new client-supplied 1920 x 1080 PNG',()=>
  for(const action of ['information','open-game','home'])assert.match(tablet,new RegExp(`data-action="${action}"`));
  assert.doesNotMatch(tablet,/back-information/);assert.match(withSheet,/data-action="back-information"/);
  assert.doesNotMatch(tv,/<button|data-action/);
+ assert.match(tv,/class="ptd-menu-cta" role="status">.*Select an option on the tablet/);assert.doesNotMatch(tablet+withSheet,/ptd-menu-cta/);
  for(const html of [tablet,withSheet,tv])assert.doesNotMatch(html,/data-language/);
  assert.doesNotMatch(controller,/data-language/);
  assert.doesNotMatch(controller,/traffic-reference-grid/);

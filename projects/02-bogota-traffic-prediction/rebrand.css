@@ -337,3 +337,9 @@
 .ptd-menu-back{position:absolute;right:calc(220 * var(--u));top:calc(38 * var(--u));box-sizing:border-box;display:inline-flex;align-items:center;gap:calc(14 * var(--u));height:calc(50 * var(--u));padding:0 calc(28 * var(--u)) 0 calc(22 * var(--u));border:1px solid #fff;border-radius:99px;background:transparent;color:#fff;font:700 calc(16.75 * var(--u))/1 PTDInter,Inter,Arial,sans-serif;font-optical-sizing:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .ptd-menu-back svg{flex:none;width:calc(18 * var(--u));height:calc(16 * var(--u))}
 .ptd-menu-hit:focus-visible,.ptd-menu-back:focus-visible{outline:calc(4 * var(--u)) solid #f8b944;outline-offset:calc(3 * var(--u))}
+/* TV guidance pill of the main menu (AquaData TV reference, 13 Nov 2026): 390 x 64 blue pill centred under the cards. */
+.ptd-menu-cta{position:absolute;left:50%;top:calc(835 * var(--u));transform:translateX(-50%);box-sizing:border-box;display:flex;align-items:center;gap:calc(15 * var(--u));height:calc(64 * var(--u));padding:0 calc(47 * var(--u)) 0 calc(27 * var(--u));border-radius:999px;background:#005cff;color:#fff;white-space:nowrap;animation:ptd-menu-cta-in .5s ease .3s both}
+.ptd-menu-cta svg{flex:none;width:calc(28 * var(--u));height:calc(21.3 * var(--u))}
+.ptd-menu-cta strong{font:700 calc(19.1 * var(--u))/1 PTDInter,Inter,Arial,sans-serif;font-optical-sizing:none;letter-spacing:0}
+@keyframes ptd-menu-cta-in{from{opacity:0;transform:translate(-50%,calc(12 * var(--u)))}to{opacity:1;transform:translate(-50%,0)}}
+@media (prefers-reduced-motion:reduce){.ptd-menu-cta{animation:none}}
