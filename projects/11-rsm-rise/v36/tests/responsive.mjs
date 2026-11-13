@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import {mkdirSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
-import {chromium,base,state} from './runtime.mjs';
+import {chromium,base as localBase,state} from './runtime.mjs';
+const base=process.env.HOSTED_URL||localBase;
 const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'msedge'});
 const ctx=await browser.newContext({viewport:{width:1024,height:768},hasTouch:true});
 const out=new URL('../artifacts/responsive/',import.meta.url);mkdirSync(out,{recursive:true});
@@ -9,6 +10,7 @@ const errors=[];let fixture;
 await ctx.route('https://fonts.googleapis.com/**',r=>r.fulfill({contentType:'text/css',body:''}));
 await ctx.route('**/favicon.ico',r=>r.fulfill({status:204,body:''}));
 await ctx.route('**/api/state?**',r=>r.fulfill({contentType:'application/json',body:JSON.stringify({...fixture,serverNow:Date.now()})}));
+await ctx.route('https://f1-sap-default-rtdb.firebaseio.com/**',r=>r.fulfill({contentType:'application/json',body:JSON.stringify({payload:JSON.stringify(fixture)}),headers:{'access-control-allow-origin':'*'}}));
 const page=await ctx.newPage();page.on('pageerror',e=>errors.push(e.message));
 await page.clock.install();
 const check=async(width,height)=>{
