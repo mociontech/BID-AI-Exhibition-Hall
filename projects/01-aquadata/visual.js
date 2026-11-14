@@ -29,9 +29,9 @@
    back:'Back',next:'Start',continue:'Continue',confirm:'Confirm inspections',pick:'Tap 3 accounts',again:'Play again',menu:'Back to menu',
    watch3:'Watch the analysis on the big screen',watch5:'See the findings on the main screen',watch6:'Watch the real case on the big screen',
    f1Kicker:'Round 1 · Result',f1Of:'out of 3 cases found.',f1Body:'That’s how a random inspection works.',f1Next:'See how AI does it',
-   e1Kicker:'How AI does it',e1Title:'How AI reads',e1Accent:'each account',e1ScoreHead:'Risk score:',e1ScoreBody:'how likely fraud is',e1Body:'Each card now displays the consumption history and the score calculated by the model.',e1Ok:'Got it',sample:'Example',
-   s1Kicker:'Your mission',s1Title:'Can you uncover',s1Accent:'water fraud?',s1Body:'Some accounts hide irregularities. You have two rounds to find them.',watch1:'The instructions are on the screen',s1Go:'Choose 3 accounts blind',s1Menu:'Choose another option',
-   s1Contracts:'Contracts',s1ContractsBody:'on the water network',s1Visits:'Inspections',s1VisitsBody:'per round',s1Rounds:'Rounds',s1RoundsBody:'blind, then with AI',
+   e1Kicker:'How AI does it',e1Title:'How AI reads',e1Accent:'each account',e1ScoreHead:'Risk score:',e1ScoreBody:'how likely fraud is',e1Body:'AquaData uses machine learning to help water utilities detect fraud. Using existing billing data and meter readings, it assigns a fraud risk score to each account.',e1Ok:'Got it',sample:'Example',
+   s1Kicker:'Your mission',s1Title:'Can you uncover',s1Accent:'water fraud?',s1Body:'Some accounts hide irregularities. You have two rounds to find them.',watch1:'The instructions are on the screen',s1Go:'Choose 3 accounts manually',s1Menu:'Choose another option',
+   s1Contracts:'Contracts',s1ContractsBody:'on the water network',s1Visits:'Inspections',s1VisitsBody:'per round',s1Rounds:'Rounds',s1RoundsBody:'manual, then with AI',
    s2Kicker:'Round 1 · Decision without data',s2Title:'Select without',s2Accent:'artificial intelligence',s2Body:'8 customers in a water network. Some of them are hiding fraud.',
    s4Kicker:'Round 2 · With AquaData',s4Title:'Now choose',s4Accent:'using risk scores',s4Body:'Each card displays its risk score. Choose 3.',
    selected:'Selected inspections',risk:'Risk',
@@ -40,7 +40,7 @@
    s3Inputs:[['Consumption history','Monthly readings and evolution'],['Billing','Company records'],['Past inspections','Known outcomes']],
    s3Model:'AquaData · Analysis Agent',s3Working:'Analyzing accounts…',s3Done:'Scores ready',s3Play:'Play on screen',s3NextAct:'Next step',s3Prev:'Previous step',s3Replay:'Replay',s3Intro:'Four steps for reading the 8 accounts.',s3Rank:'RIR risk ranking',s3RankBody:'Suggested inspection order',
    s3Note:'A high score is not proof of fraud. The inspector verifies it in the field.',
-   s5Kicker:'The result',s5Title:'Same accounts.',s5Accent:'A different perspective.',s5Body:'This is what the field team found in each round.',s5Without:'Without AI',s5With:'With AquaData',
+   s5Kicker:'The result',s5Title:'AI significantly',s5Accent:'improves detection',s5Body:'This is what the field team found in each round.',s5Without:'Without AI',s5With:'With AquaData',
    found:'Irregularity',clear:'Nothing found',
    s5NoteMore:'In a real city, that difference means inspections that aren’t wasted and water that is actually recovered.',
    s5NoteSame:'A tie this round. AI improves the average, not every visit.',
@@ -130,7 +130,7 @@
  /* Entry animations play once per stage: re-renders of the same stage (a pick, a language switch) stay still. */
  const played={};
  const fresh=(scope,key)=>{const is=played[scope]!==key;played[scope]=key;return is;};
- const riskLevel=risk=>risk>=60?'high':risk>=40?'mid':'low';
+ const riskLevel=risk=>risk>=67?'high':risk>=34?'mid':'low';
  /* Consumption sparkline from the contract series; a dot marks a sharp drop. CSS draws the line. */
  function spark(series){
   const max=Math.max(...series)||1;
@@ -232,7 +232,7 @@
   function contractCard(c,withRisk,index){
    const selected=picks.includes(c.id);
    const full=picks.length>=MAX_PICKS&&!selected;
-   return `<${tag} class="aqd-contract ${selected?'is-selected':''}" data-contract="${c.id}" style="--i:${index}" aria-pressed="${selected}" ${full?'aria-disabled="true"':''}><span class="aqd-contract-top">${glyph(c,'xMinYMax')}${withRisk?`<span class="aqd-contract-score ${c.risk>=50?'is-strong':''}"><b class="aqd-count" style="--to:${c.risk}" aria-label="${c.risk}"></b><small>${x.risk}</small></span>`:''}</span><span class="aqd-contract-id">${c.id} · ${esc(type(c))}</span><span class="aqd-contract-name">${esc(name(c))}</span><span class="aqd-contract-check" aria-hidden="true">${icons.check}</span></${close}>`;
+   return `<${tag} class="aqd-contract ${selected?'is-selected':''}" data-contract="${c.id}" style="--i:${index}" aria-pressed="${selected}" ${full?'aria-disabled="true"':''}><span class="aqd-contract-top">${glyph(c,'xMinYMax')}${withRisk?`<span class="aqd-contract-score aqd-risk--${riskLevel(c.risk)}"><b class="aqd-count" style="--to:${c.risk}" aria-label="${c.risk}"></b><small>${x.risk}</small></span>`:''}</span><span class="aqd-contract-id">${c.id} · ${esc(type(c))}</span><span class="aqd-contract-name">${esc(name(c))}</span><span class="aqd-contract-check" aria-hidden="true">${icons.check}</span></${close}>`;
   }
   function selection(withRisk){
    const count=picks.length,ready=count===MAX_PICKS;
@@ -286,8 +286,8 @@
     cards:[['THE','CHALLENGE','Limited Inspection Capacity','Water service providers manage thousands of accounts but can only inspect a fraction, often missing potential irregularities.'],['THE','SOLUTION','AI-Powered Prioritization','AquaData analyzes existing billing and consumption data to rank accounts by risk, helping teams inspect the most critical cases first.']],
     impact:'IMPACT TO DATE',facts:[['7.3 times',['more detection','EMCALI','Cali, Colombia']],['2.3 times',['more detection','Aguas Regionales','Urabá, Colombia']],['53%',['more detection in','Guatemala']]]},
    s1Kicker:'Water Detective',s1Title:'Can you uncover',s1Accent:'water fraud?',
-   s1Stats:[['8','Accounts','in the water network'],['3','Inspections','per round'],['2','Rounds','blind and with AI']],
-   s1Insight:'Some hide irregularities. Without data, there are no clues.',s1Steps:[['Round 1 · Blind','Choose 3 accounts without any clues, just like a traditional inspection.'],['How AI Works','AquaData reads each account’s consumption and calculates a risk score.'],['Round 2 · With AquaData','Choose again using the scores and compare both results.']],
+   s1Stats:[['8','Accounts','in the water network'],['3','Inspections','per round'],['2','Rounds','manual and with AI']],
+   s1Insight:'Some hide irregularities. Without data, there are no clues.',s1Steps:[['Round 1 · Manual','Choose 3 accounts without any clues, just like a traditional inspection.'],['How AI Works','AquaData reads each account’s consumption and calculates a risk score.'],['Round 2 · With AquaData','Run the simulation with AI']],
    s2Kicker:'Round 1 · Decision without data',s2Title:'Select without',s2Accent:'artificial intelligence',s2Hint:'This is how a traditional inspection works: without any clues.',
    f1Kicker:'Round 1 · Result',f1Title:'This is how',f1Accent:'a random inspection works',f1Of:'out of 3 cases found.',f1Insight:'What if AI showed where to look first?',
    e1Kicker:'How AI does it',e1Title:'How AI reads',e1Accent:'each account',
@@ -295,8 +295,8 @@
    s3Kicker:'AquaData in action',s3Title:'AquaData reads',s3Accent:'each account’s data',
    s3Captions:['Gathers the data the utility already has: billing, meter readings and inspections.','Reads the consumption history of each account.','Detects patterns: a sudden change in consumption is a clue.','Calculates the risk score and ranks the accounts.'],
    s4Kicker:'Round 2 · With AquaData',s4Title:'Choose 3',s4Accent:'using risk scores',s4Hint:'A high score is not proof of fraud.',s4RankTitle:'Risk score: likelihood of an irregularity.',
-   s5Kicker:'The result',s5Title:'Same accounts.',s5Accent:'A different perspective.',
-   s6Kicker:'Real case · EMCALI, Cali',s6Title:'More findings',s6Accent:'with the same effort',
+   s5Kicker:'The result',s5Title:'AI significantly',s5Accent:'improves detection',
+   s6Kicker:'Real case · EMCALI, Cali',s6Title:'More findings',s6Accent:'with the same team',
    s6Facts:[['x7.3','more detection in Cali (EMCALI)'],['x2.3','more detection in Urabá (Aguas Regionales)'],['53 %','more detection in Guatemala']],
    selected:'Your inspections',
    cta:{mission:'Tap “Start” on the tablet',pick:'Tap 3 accounts on the tablet',confirm:'Tap “Confirm inspections” on the tablet',feedback:'Tap “See how AI does it” on the tablet',explain:'Tap “Got it” on the tablet',analysis:'Tap “Play on screen” on the tablet',analysisNext:'Tap “Next step” on the tablet',analysisDone:'Tap “Continue” on the tablet',results:'Tap “Continue” on the tablet',impact:'Play again or go back to the menu'},

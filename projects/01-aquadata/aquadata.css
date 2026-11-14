@@ -884,3 +884,19 @@
 .aqd-home{min-height:clamp(40px,2.6vw,50px);gap:clamp(8px,.9vw,17px);padding:0 clamp(14px,1.45vw,28px) 0 clamp(12px,1.15vw,22px);border:1.5px solid #fff;background:transparent;font-weight:700;-webkit-tap-highlight-color:transparent}
 .aqd-home svg{width:clamp(15px,.95vw,18px)}
 .aqd-brand-copy small{font-size:clamp(11px,1.28vw,24.5px)}
+
+/* ===== Client review (November 2026): risk is shown as a percentage and coloured by band:
+   0–33 % green, 34–66 % yellow, 67–100 % red. Applies to score figures, bars and the dots on the charts. ===== */
+.aqd-app{--aqd-risk-high:#d92d3a;--aqd-risk-mid:#f0b400;--aqd-risk-low:#1fa463}
+.aqd-count::after{content:counter(aqd-n) '%'}
+.aqd-risk--high{--aqd-band:var(--aqd-risk-high)}.aqd-risk--mid{--aqd-band:var(--aqd-risk-mid)}.aqd-risk--low{--aqd-band:var(--aqd-risk-low)}
+.aqd-risk--high b,.aqd-risk--mid b,.aqd-risk--low b,.aqd-risk--high .aqd-scan-score b,.aqd-risk--mid .aqd-scan-score b,.aqd-risk--low .aqd-scan-score b{color:var(--aqd-band)}
+.aqd-risk--high .aqd-scan-score>i::after,.aqd-risk--mid .aqd-scan-score>i::after,.aqd-risk--low .aqd-scan-score>i::after{background:var(--aqd-band)}
+.aqd-risk--high .aqd-spark-dot,.aqd-risk--mid .aqd-spark-dot,.aqd-risk--low .aqd-spark-dot{fill:var(--aqd-band)}
+.aqd-risk--high .aqd-spark polyline{stroke:var(--aqd-blue)}
+.aqd-tv-ranking li.aqd-risk--high i,.aqd-tv-ranking li.aqd-risk--mid i,.aqd-tv-ranking li.aqd-risk--low i{background:var(--aqd-band)}
+.aqd-tv-ranking li.aqd-risk--high em,.aqd-tv-ranking li.aqd-risk--mid em,.aqd-tv-ranking li.aqd-risk--low em{color:var(--aqd-band)}
+.aqd-risk-meter.aqd-risk--high i,.aqd-risk-meter.aqd-risk--mid i,.aqd-risk-meter.aqd-risk--low i{background:var(--aqd-band)}
+.aqd-contract-score.aqd-risk--high,.aqd-contract-score.aqd-risk--mid,.aqd-contract-score.aqd-risk--low{background:var(--aqd-band);color:#fff}
+.aqd-contract-score.aqd-risk--high b,.aqd-contract-score.aqd-risk--mid b,.aqd-contract-score.aqd-risk--low b{color:#fff}
+.aqd-scan-card.aqd-risk--high .aqd-scan-head b{color:var(--aqd-blue)}.aqd-scan-card:is(.aqd-risk--mid,.aqd-risk--low) .aqd-scan-head b{color:var(--aqd-light)}
