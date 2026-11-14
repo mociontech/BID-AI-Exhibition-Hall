@@ -1,5 +1,43 @@
 {
   "aiExhibitionHall": {
+    "analytics": {
+      "projects": {
+        "$project": {
+          ".read": false,
+          ".validate": "$project === '01' || $project === '02' || $project === '03' || $project === '04' || $project === '05' || $project === '06' || $project === '07' || $project === '08' || $project === '10' || $project === '11'",
+          "events": {
+            "$event": {
+              ".write": "($project === '01' || $project === '02' || $project === '03' || $project === '04' || $project === '05' || $project === '06' || $project === '07' || $project === '08' || $project === '10' || $project === '11') && !data.exists() && newData.exists()",
+              ".validate": "newData.hasChildren(['type', 'visitId', 'ts', 'station']) && ((newData.child('type').val() === 'click' && newData.hasChild('action') && !newData.hasChild('durationMs')) || (newData.child('type').val() === 'duration' && newData.hasChild('durationMs') && !newData.hasChild('action')) || (newData.child('type').val() === 'visit' && !newData.hasChild('action') && !newData.hasChild('durationMs')))",
+              "type": {
+                ".validate": "newData.isString() && (newData.val() === 'visit' || newData.val() === 'click' || newData.val() === 'duration')"
+              },
+              "visitId": {
+                ".validate": "newData.isString() && newData.val().matches(/^[a-f0-9]{32}$/)"
+              },
+              "ts": {
+                ".validate": "newData.isNumber() && newData.val() > now - 300000 && newData.val() < now + 300000"
+              },
+              "station": {
+                ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 11"
+              },
+              "action": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 80"
+              },
+              "durationMs": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 86400000"
+              },
+              "$other": {
+                ".validate": false
+              }
+            }
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    },
     "rooms": {
       "$room": {
         ".read": "$room.matches(/^[a-f0-9]{32}$/)",
