@@ -2,7 +2,7 @@
    Both clients use only files in 08-teachy/Public and 08-teachy/Video.
    Keep the capital P and V: hosting paths are case-sensitive. */
 (function(){
- const version='?v=20261113-menu-1';
+ const version='?v=20261113-video-3';
  const base=new URL('./Public/',document.currentScript.src);
  const videoBase=new URL('./Video/',document.currentScript.src);
  const asset=name=>new URL(name,base).href+version;
@@ -13,7 +13,7 @@
      used as the empty blue panel, card frames and impact bar while the sheet builds. */
   info:asset('teachy-infografia-en.png'),
   infoBase:asset('teachy-infografia-base.png'),
-  video:new URL('Teachy_Musica_v2_web.mp4',videoBase).href+version
+  video:new URL('Teachy_Musica_v3_web.mp4',videoBase).href+version
  };
  const words={
   screen:'Teachy, IDB Lab: AI Co-Pilot for Teachers. About the project and Video.',

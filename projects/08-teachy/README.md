@@ -14,8 +14,8 @@
 - `Public/teachy-infografia-base.png`: la misma infografía con el contenido borrado (panel azul,
   marcos de las tarjetas y barra de impacto vacíos). Se genera a partir de la anterior; si cambia
   la infografía, hay que regenerarla y revisar las coordenadas de `SHEET` en `experience.js`.
-- `Video/Teachy_Musica_v2_web.mp4`: video del TV (H.264 1080p ~5 Mbps, AAC 160 kbps, faststart,
-  68 MB), comprimido desde `Teachy_Musica_v2.mp4` (210 MB, no se versiona: GitHub limita a 100 MB).
+- `Video/Teachy_Musica_v3_web.mp4`: video del TV (H.264 1080p ~5 Mbps, AAC 160 kbps, faststart,
+  68 MB), comprimido desde `Teachy_Musica_v3.mp4` (210 MB, no se versiona: GitHub limita a 100 MB).
 - Los cuatro PNG ES/EN anteriores siguen en `Public/` como referencia; ya no se usan.
 
 ## Funcionamiento

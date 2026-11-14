@@ -16,7 +16,7 @@ test('the exhibition registry has ten projects and only one Teachy at 08',()=>{
 
 test('Teachy ships its supplied tablet, infographic and video resources',()=>{
  const folder=path.join(root,'projects','08-teachy');
- const video=path.join(folder,'Video','Teachy_Musica_v2_web.mp4');
+ const video=path.join(folder,'Video','Teachy_Musica_v3_web.mp4');
  assert.ok(fs.existsSync(video));
  assert.ok(fs.statSync(video).size<100*1024*1024,'GitHub rejects files over 100 MB');
  for(const [file,width,height] of [['teachy-menu-en.png',1920,1080],['teachy-infografia-en.png',1920,1080],['teachy-infografia-base.png',1920,1080]]){
@@ -24,7 +24,7 @@ test('Teachy ships its supplied tablet, infographic and video resources',()=>{
   assert.equal(png.readUInt32BE(16),width);assert.equal(png.readUInt32BE(20),height);
  }
  const experience=fs.readFileSync(path.join(folder,'experience.js'),'utf8');
- assert.match(experience,/Teachy_Musica_v2_web\.mp4/);
+ assert.match(experience,/Teachy_Musica_v3_web\.mp4/);
  assert.match(experience,/data\.mode==='video'/);
  assert.match(experience,/data\.mode==='info'/);
  // Touch zones and the Back pill are drawn by experience.js (tabletMenu); module.js handles the actions.
