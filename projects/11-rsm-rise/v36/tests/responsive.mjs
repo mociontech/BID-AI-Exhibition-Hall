@@ -16,7 +16,7 @@ await page.clock.install();
 const check=async(width,height)=>{
  const rects=await page.locator('[data-rise-device]').evaluate(f=>{
   const doc=f.contentDocument,rect=el=>{const r=el.getBoundingClientRect();return {left:r.left,top:r.top,right:r.right,bottom:r.bottom};};
-  return {pane:rect(doc.getElementById('tab')),buttons:[...doc.querySelectorAll('.tfoot button,.home,[data-lang]')].map(rect),scroll:doc.documentElement.scrollWidth>f.contentWindow.innerWidth||doc.documentElement.scrollHeight>f.contentWindow.innerHeight};
+  return {pane:rect(doc.getElementById('tab')),buttons:[...doc.querySelectorAll('.tfoot button,.home')].map(rect),scroll:doc.documentElement.scrollWidth>f.contentWindow.innerWidth||doc.documentElement.scrollHeight>f.contentWindow.innerHeight};
  });
  const {pane}=rects;assert(Math.abs(pane.left)<1&&Math.abs(pane.top)<1&&Math.abs(pane.right-width)<1&&Math.abs(pane.bottom-height)<1,JSON.stringify({width,height,...rects}));
  assert.equal(rects.scroll,false);

@@ -1,0 +1,293 @@
+/* RISE · presentation layer matched to Figma (file 6WCZLX7n6GHksVOfP9TKZz, page 08_RISE, node 440:7).
+   Visual properties only; markup, copy, timing and animation stay in the v36 source.
+   Every length comes from a 1920x1080 Figma frame:
+   - TV: cqw = Figma px / 19.2 (the 16:9 panel is the container).
+   - Tablet: px = Figma px x 552/1080 (the composition is 552 px tall and scaled uniformly by station.js). */
+
+/* ================= TV · shared ================= */
+/* Header band: 955:10556 */
+html[data-device="tv"] .band{height:6.5625cqw;padding:0 3.5417cqw;gap:0}
+html[data-device="tv"] .band .lg{width:11.25cqw;height:2.2854cqw;background-size:76.3505cqw 42.9474cqw;background-position:-2.7437cqw -2.9031cqw;margin-bottom:.0583cqw}
+html[data-device="tv"] .band .sep{width:.1172cqw;height:2.2852cqw;margin-left:2.2396cqw;border-radius:.0586cqw}
+html[data-device="tv"] .band .ex{margin-left:2.1745cqw;line-height:normal}
+html[data-device="tv"] .band .ex b{font-size:1.3317cqw;font-weight:700;line-height:1.6276cqw}
+html[data-device="tv"] .band .ex span{font-size:1.1837cqw;font-weight:500;line-height:1.4796cqw;margin-top:-.2958cqw}
+html[data-device="tv"] .tv .bgwall,html[data-device="tv"] .tv canvas.iwall{top:6.5625cqw;height:calc(100% - 6.5625cqw)}
+html[data-device="tv"] .tv .bgwall{opacity:.5!important}
+html[data-device="tv"] .tvin:has(.tsc.idle) .bgwall{opacity:1!important}
+html[data-device="tv"] .foot{bottom:1.6578cqw}
+html[data-device="tv"] .foot b{font-weight:700}
+html[data-device="tv"] .tpill{font-weight:700;padding-right:1.1771cqw}
+html[data-device="tv"] .tv .ptoast{box-shadow:none}
+html[data-device="tv"] .ptoast .pl{font-weight:700}
+html[data-device="tv"] .k{font-size:1.5625cqw;font-weight:800;letter-spacing:.4688cqw;line-height:1.875cqw}
+html[data-device="tv"] .tv em{font-style:normal}
+
+/* ================= 01 · Notice · 955:10546 ================= */
+html[data-device="tv"] .opn-t,html[data-device="tv"] .opn-sim{top:6.5625cqw}
+html[data-device="tv"] .opn-sim{bottom:3.2cqw}
+html[data-device="tv"] .opn-sim .sc{box-sizing:border-box;display:block;position:relative;width:71.9995cqw;max-width:none;height:34.7427cqw;padding:0;border-top-width:.6771cqw;border-radius:1.4cqw;box-shadow:none}
+html[data-device="tv"] .opn-sim small{position:absolute;left:0;right:0;top:5.9896cqw;font-size:1.5625cqw;font-weight:800;letter-spacing:.4688cqw;line-height:1.875cqw}
+html[data-device="tv"] .opn-sim h1{position:absolute;left:0;right:0;top:8.2813cqw;font-size:5.6cqw;line-height:1;letter-spacing:0;text-wrap:wrap}
+html[data-device="tv"] .opn-sim h1 em{display:block;max-width:65.1042cqw;margin:0 auto;color:#005cff}
+html[data-device="tv"] .opn-sim p{position:absolute;left:0;right:0;top:26.25cqw;max-width:none;font-size:1.8cqw;font-weight:500;line-height:2.1875cqw;color:#141414;text-wrap:wrap}
+html[data-device="tv"] .opn-sim p .fgl{display:block}
+
+/* ================= 02 · 8,200 · 944:5188 ================= */
+html[data-device="tv"] .opn-t{bottom:3.5313cqw;gap:.4167cqw}
+html[data-device="tv"] .opn-t b{font-size:16cqw;font-weight:700;line-height:19.375cqw;letter-spacing:0;font-variant-numeric:normal;position:relative;left:2.9948cqw}
+html[data-device="tv"] .opn-t span{font-size:3.1cqw;font-weight:700;line-height:3.4833cqw;max-width:52.0833cqw;position:relative;left:.2917cqw}
+
+/* ================= 03 · Challenge · 955:10461 ================= */
+html[data-device="tv"] .ficha:has(.stats) .l{gap:0;position:relative;top:1.8594cqw}
+html[data-device="tv"] .ficha:has(.stats) .l .k{margin-bottom:.4688cqw}
+html[data-device="tv"] .ficha:has(.stats) .H{font-size:4.6cqw;line-height:1;letter-spacing:0;max-width:45.8333cqw}
+html[data-device="tv"] .ficha:has(.stats) .H em{display:block}
+html[data-device="tv"] .ficha:has(.stats) .sub{font-size:2.2cqw!important;font-weight:700!important;color:#141414!important;line-height:2.6563cqw;max-width:40.3646cqw;text-wrap:balance}
+html[data-device="tv"] .ficha .pcard{box-sizing:border-box;min-height:10.1448cqw;padding:.8661cqw 1.7839cqw;gap:.1859cqw;align-content:start}
+html[data-device="tv"] .ficha .pcard b{font-weight:700;line-height:3.8542cqw}
+html[data-device="tv"] .ficha .pcard span{line-height:1.5625cqw;color:#141414}
+
+/* ================= 04 · Solution · 944:5312 ================= */
+html[data-device="tv"] .ficha:has(.flow) .l{gap:0;position:relative;top:.8802cqw}
+html[data-device="tv"] .ficha:has(.flow) .H{line-height:4.9479cqw;margin-top:-.375cqw;letter-spacing:0}
+html[data-device="tv"] .ficha:has(.flow) .sub{line-height:1.9271cqw;margin-top:-.2969cqw}
+html[data-device="tv"] .ficha .gpd{margin-top:1.5104cqw}
+html[data-device="tv"] .ficha .gpd i{font-weight:700}
+html[data-device="tv"] .flow{gap:1.5cqw;position:relative;top:-1.5573cqw}
+html[data-device="tv"] .flow .k{font-size:1.15cqw;font-weight:700;letter-spacing:0;line-height:1.4063cqw;color:#141414;margin-bottom:-.3021cqw}
+html[data-device="tv"] .flow .k em{color:#005cff}
+html[data-device="tv"] .fs{padding:1cqw 1.363cqw 1.1927cqw}
+html[data-device="tv"] .fs i{font-weight:700}
+html[data-device="tv"] .fs b{font-weight:700;line-height:1.8229cqw}
+html[data-device="tv"] .fs .ft{gap:.8854cqw}
+html[data-device="tv"] .fs span.d{line-height:1.3438cqw;margin-top:.026cqw}
+html[data-device="tv"] .wt{letter-spacing:0;padding:.2729cqw .8073cqw;line-height:1.0417cqw}
+html[data-device="tv"] .tv .ptoast.fl{bottom:7.2359cqw}
+
+/* ================= 05–06 · Proposals · 944:5261, 944:6036 ================= */
+html[data-device="tv"] .scene:has(.dealrow)>div:first-child{max-width:68.75cqw!important;gap:0!important}
+html[data-device="tv"] .scene:has(.dealrow) h3{font-size:4.6cqw!important;line-height:1!important;text-wrap:wrap}
+html[data-device="tv"] .scene:has(.dealrow) h3 em{display:block;color:#005cff}
+html[data-device="tv"] .scene:has(.dealrow):not(:has(.stack))>div:first-child{padding:2.3792cqw 0 0 .3417cqw}
+html[data-device="tv"] .scene:has(.dealrow):not(:has(.stack)) h3{margin-top:.2083cqw}
+html[data-device="tv"] .scene:has(.stack) h3{font-size:3.3854cqw!important;margin-top:.5573cqw;max-width:36.4583cqw}
+html[data-device="tv"] .deal{box-sizing:border-box;min-height:13.3958cqw;align-content:start;gap:0}
+html[data-device="tv"] .deal b{font-weight:700;line-height:2.1875cqw;margin-top:.3615cqw}
+html[data-device="tv"] .deal span:not(.di){line-height:1.4063cqw;margin-top:.6411cqw}
+html[data-device="tv"] .deal em{font-weight:700;line-height:1.1979cqw;margin-top:.8198cqw;letter-spacing:0}
+html[data-device="tv"] .deal.dim{opacity:1;background:rgba(255,255,255,.25);border-color:rgba(207,225,255,.25)}
+html[data-device="tv"] .deal.dim .di{opacity:.25}
+/* The page counter sits on top of the selected card (944:6092); the sheets stay behind it. */
+html[data-device="tv"] .stack:has(+ .dealrow .deal.sel:nth-child(2)){z-index:2;clip-path:polygon(-2.0833cqw -2.0833cqw,17.9688cqw -2.0833cqw,17.9688cqw 15.1563cqw,15.8854cqw 15.1563cqw,15.9896cqw 16.1979cqw,15.7552cqw 16.6667cqw,15.3906cqw 17.0313cqw,14.5833cqw 17.2656cqw,10.5729cqw 17.2656cqw,9.7396cqw 17.0313cqw,9.375cqw 16.6667cqw,9.1406cqw 16.1979cqw,9.2448cqw 15.1563cqw,-2.0833cqw 15.1563cqw)}
+html[data-device="tv"] .pg strong,html[data-device="tv"] .pg .cnt{font-weight:700}
+html[data-device="tv"] .pg .cnt{box-shadow:none}
+
+/* ================= Numbered heading (07–09, 12–13) ================= */
+html[data-device="tv"] .scene:has(.mhead){top:7.9688cqw}
+html[data-device="tv"] .mhead{grid-template-columns:4.4042cqw 1fr;gap:0;align-items:start;height:6.1339cqw;margin-bottom:0}
+html[data-device="tv"] .mnum{font-size:5.3646cqw;font-weight:700;line-height:6.5104cqw}
+html[data-device="tv"] .mh{line-height:3.6458cqw;margin-top:.625cqw}
+html[data-device="tv"] .mq{line-height:1.8229cqw;margin-top:-.537cqw;color:#141414}
+html[data-device="tv"] .sup .mq{margin-top:-.3125cqw}
+
+/* ================= 07–08 · Reading · 944:5392, 944:5634 ================= */
+html[data-device="tv"] .mscene{grid-template-rows:6.1339cqw 25.1609cqw minmax(4.8411cqw,auto);gap:.8cqw;height:auto}
+html[data-device="tv"] .mscene .pipe{margin-top:.8031cqw}
+html[data-device="tv"] .tagm{font-weight:700;margin-bottom:.1854cqw}
+html[data-device="tv"] .timer{font-weight:700;line-height:2.6563cqw;padding:.0797cqw 0 .3438cqw}
+html[data-device="tv"] .xr b{font-weight:700}
+html[data-device="tv"] .xr span,html[data-device="tv"] .xr b{position:relative;top:-.0729cqw}
+html[data-device="tv"] .xr.off{opacity:1;background:rgba(235,237,247,.25)}
+html[data-device="tv"] .done-chip,html[data-device="tv"] .wait-chip{font-weight:700}
+html[data-device="tv"] .pipe .pl{align-content:start;padding-top:.026cqw;gap:.3073cqw}
+html[data-device="tv"] .pipe .pl b{font-weight:700;line-height:1.2552cqw}
+html[data-device="tv"] .pst{opacity:1;background:rgba(235,237,247,.55);padding:.4474cqw .9cqw 0;align-content:start}
+html[data-device="tv"] .pst.on{background:#cfe1ff}
+html[data-device="tv"] .pst i{align-self:start;margin-top:.8536cqw;font-weight:700}
+html[data-device="tv"] .pst b{font-weight:700;line-height:1.3542cqw}
+html[data-device="tv"] .pst span{margin-top:-.0469cqw}
+html[data-device="tv"] .tv.light .ptoast{bottom:4.4271cqw}
+
+/* ================= 09 · Risk analysis · 944:5526 ================= */
+html[data-device="tv"] .dwrap{grid-template-rows:6.2479cqw 30.4026cqw;gap:1.2cqw;height:auto}
+html[data-device="tv"] .dsc{grid-template-rows:30.4026cqw}
+html[data-device="tv"] .dsum.rmx{align-content:start;gap:1cqw;padding:1.5844cqw 1.9839cqw 0}
+html[data-device="tv"] .rmx .rtop h3{font-weight:700;line-height:1.9271cqw;margin-bottom:.2344cqw}
+html[data-device="tv"] .vc,html[data-device="tv"] .vc b{font-weight:700}
+html[data-device="tv"] .dcls div{padding:.6198cqw 1cqw .8099cqw}
+html[data-device="tv"] .dcls div span{font-weight:400;margin-bottom:.1198cqw}
+html[data-device="tv"] .rmx .rsec{gap:.8984cqw}
+html[data-device="tv"] .rmx .mxl{position:relative;top:-.0833cqw}
+html[data-device="tv"] .lgn,html[data-device="tv"] .ri .pl,html[data-device="tv"] .ri .rn,html[data-device="tv"] .ri .pv{font-weight:700}
+html[data-device="tv"] .ri .pt{position:relative;top:-.0938cqw}
+html[data-device="tv"] .dsum.rmx .ri{padding-top:.6583cqw;padding-bottom:.7417cqw}
+html[data-device="tv"] .ri .rb{gap:.6771cqw}
+html[data-device="tv"] .tv .ptoast.keep{bottom:4.4432cqw}
+
+/* ================= 10–11 · Time · 944:5987, 944:6109 ================= */
+html[data-device="tv"] .tsc{align-content:start;gap:0;padding-bottom:0}
+html[data-device="tv"] .tchip svg{background:none;color:#005cff;padding:0}
+html[data-device="tv"] .tbar{top:.8578cqw}
+html[data-device="tv"] .tsc.idle .tyr{opacity:1}
+html[data-device="tv"] .tsc.idle .tbar,html[data-device="tv"] .tsc.idle .tdot i{opacity:.55}
+html[data-device="tv"] .thead2{margin-top:5.126cqw;min-height:0;height:14.5208cqw}
+html[data-device="tv"] .thead2 .hB{font-size:4.6875cqw;line-height:1;margin:-2.401cqw 0 -1.8281cqw}
+html[data-device="tv"] .tyr{margin-top:4.6979cqw}
+html[data-device="tv"] .tdot span{margin-top:.7604cqw}
+
+/* ================= 12–13 · Supervision · 944:5783, 944:5831 ================= */
+html[data-device="tv"] .sup{display:block}
+html[data-device="tv"] .sup .yrs{box-sizing:border-box;height:7.9688cqw;margin-top:2.8245cqw}
+html[data-device="tv"] .sup .yrs:has(.pin){height:10.7813cqw;margin-top:1.0016cqw}
+html[data-device="tv"] .sup .yrs .axis,html[data-device="tv"] .sup .yrs .prog{top:2.363cqw}
+html[data-device="tv"] .sup .yrs:has(.pin) .axis,html[data-device="tv"] .sup .yrs:has(.pin) .prog{top:5.2276cqw}
+html[data-device="tv"] .sup .yr{top:1.463cqw;gap:.3307cqw}
+html[data-device="tv"] .sup .yrs:has(.pin) .yr{top:4.3276cqw}
+html[data-device="tv"] .sup .yr span,html[data-device="tv"] .sup .pin b{font-weight:700}
+html[data-device="tv"] .sup .pin{top:1.2281cqw}
+html[data-device="tv"] .sup .pin i{display:none}
+html[data-device="tv"] .waitbox{border-style:solid}
+html[data-device="tv"] .sup .memrow{margin-top:1.1979cqw}
+html[data-device="tv"] .sup .memrow.go{margin-top:1.7708cqw}
+html[data-device="tv"] .alertc .at,html[data-device="tv"] .sigs em{font-weight:700}
+html[data-device="tv"] .memrow.go .alertc{gap:0}
+html[data-device="tv"] .memrow.go .alertc h4{font-weight:700;margin-top:.276cqw}
+html[data-device="tv"]:not([lang="es"]) .memrow.go .alertc h4{max-width:24.4792cqw}
+html[data-device="tv"] .memrow.go .alertc p{margin-top:.401cqw}
+html[data-device="tv"] .memrow.go .alertc .sigs{margin-top:.6198cqw}
+html[data-device="tv"] .dsup .dq b,html[data-device="tv"] .dopt2 b,html[data-device="tv"] .dsup .dn{font-weight:700}
+html[data-device="tv"] .dopt2.off{opacity:1;background:rgba(255,255,255,.35);border-color:rgba(0,92,255,.35)}
+html[data-device="tv"] .tv .ptoast.sw{bottom:4.0625cqw}
+
+/* ================= 14 · Closing · 944:6157 ================= */
+html[data-device="tv"] .close2 .k{font-size:1.3021cqw;font-weight:700;letter-spacing:.3906cqw;line-height:1.5625cqw}
+html[data-device="tv"] .close2>div:first-child{gap:0!important;position:relative;top:.3464cqw}
+html[data-device="tv"] .close2 .tagline{line-height:1;margin-top:.5208cqw}
+html[data-device="tv"] .close2 .tagline span{color:#141414}
+html[data-device="tv"] .close2 .sum{margin-top:3.4375cqw}
+html[data-device="tv"] .srow{border-bottom-width:.1042cqw}
+html[data-device="tv"] .srow b{font-weight:700}
+html[data-device="tv"] .wallbox{height:26.0557cqw;align-self:start}
+html[data-device="tv"] .wallbox .tag{padding-bottom:1.0104cqw}
+html[data-device="tv"] .wallbox .tag b{font-weight:700;line-height:2.1875cqw;margin:-.0313cqw 0 .1615cqw}
+html[data-device="tv"] .opc{position:relative;top:-.4255cqw;gap:.449cqw}
+html[data-device="tv"] .opc .ck{font-size:1.4583cqw;letter-spacing:0;line-height:1.7708cqw}
+html[data-device="tv"] .opc .cc{box-sizing:border-box;min-height:6.4964cqw;align-content:start;gap:.1146cqw;padding:.899cqw 1.1995cqw 0}
+html[data-device="tv"] .opc .cc b{font-weight:700}
+html[data-device="tv"] .opc .cc span{line-height:1.7255cqw}
+
+
+/* ================= Tablet · shared ================= */
+/* Header band: 958:655 */
+html[data-device="tablet"] .tband{min-height:0;height:64.4px;padding:0 34.7556px;gap:0}
+html[data-device="tablet"] .tband .lg{width:110.4px;height:22.4276px;background-size:749.2531px 421.4571px;background-position:-26.9253px -28.4893px;margin-bottom:.5724px}
+html[data-device="tablet"] .tband .sep{width:1.15px;height:22.425px;margin-left:24.0222px;border-radius:.575px}
+html[data-device="tablet"] .tband .ex{margin-left:23.8944px;line-height:normal;white-space:nowrap}
+html[data-device="tablet"] .tband .ex b{font-size:13.0681px;font-weight:700;line-height:15.9722px}
+html[data-device="tablet"] .tband .ex span{font-size:11.616px;font-weight:500;line-height:14.5202px;margin-top:-2.9031px}
+/* Header shows Home only (958:666); the language switch is hidden. */
+html[data-device="tablet"] .tband .lang{display:none}
+html[data-device="tablet"] .tband .home{box-sizing:border-box;width:67.4667px;height:25.5556px;margin-left:auto;padding:0 0 0 9.7111px;gap:7.6667px;justify-content:flex-start;border-width:.5111px;border-color:#fff;font-size:8.6889px;font-weight:800;line-height:10.4267px}
+html[data-device="tablet"] .tband .home svg{width:11.2444px;height:11.2444px}
+
+/* Content column: x 293–1589 of the 1920 frame. --fc is the distance from the column centre to the
+   frame centre (9.7111px in the 16:9 frame); the round button and the risk card are centred on the frame. */
+html[data-device="tablet"] .tapp{container-type:inline-size;--fc:calc((100cqw - min(662.4px,100cqw - 48px))*.0304)}
+html[data-device="tablet"] .tbody{box-sizing:border-box;width:662.4px;max-width:calc(100% - 48px);margin-left:calc((100cqw - min(662.4px,100cqw - 48px))*.4696);padding:26.0667px 0 33.3347px;gap:13.4678px}
+html[data-device="tablet"] .thead{align-items:flex-start}
+html[data-device="tablet"] .tkick{display:block;font-size:15.3333px;font-weight:800;letter-spacing:4.6px;line-height:18.4px}
+html[data-device="tablet"] .thead h3{font-size:40.2347px;line-height:1;letter-spacing:0;margin:.5827px 0 0}
+html[data-device="tablet"] .thead p{font-size:15.7013px;line-height:18.9111px;margin-top:7.7382px;color:#141414}
+html[data-device="tablet"] .prog{box-sizing:border-box;min-width:136.5178px;height:74.6222px;padding:8.0756px 0 0;border-width:1.1377px;border-radius:11.3763px}
+html[data-device="tablet"] .prog small{font-size:13.6518px;line-height:19.1125px}
+html[data-device="tablet"] .prog b{display:block;margin-top:.5622px;font-size:31.854px;line-height:35.0392px}
+
+/* Footer buttons: 958:842, 958:706 */
+html[data-device="tablet"] .tfoot{gap:14.9551px}
+html[data-device="tablet"] .tb{box-sizing:border-box;height:44.8653px;min-width:121.5141px;padding:0 26.22px;gap:7.6922px;border-width:.9348px;font-size:14.9556px;font-weight:600}
+html[data-device="tablet"] .tb svg{width:16.8258px;height:16.8258px}
+
+/* "Look at the screen" card: 958:687 */
+html[data-device="tablet"] .thint{gap:20.4444px}
+html[data-device="tablet"] .thint .ill{box-sizing:border-box;width:403.9567px;max-width:100%;min-height:85.3913px;padding:17.25px 19.1667px;gap:5.7704px;align-content:center;border-width:1.0222px;border-radius:11.5419px}
+html[data-device="tablet"] .thint .ill>b{font-size:17.3124px;font-weight:700;line-height:24.2374px}
+html[data-device="tablet"] .thint .ill>span{font-size:13.4652px;line-height:18.8513px;color:#6a6b6f}
+html[data-device="tablet"] .spill{box-sizing:border-box;height:34.8067px;padding:0 15.41px 0 15.3896px;gap:6.9664px;font-size:12.5033px;font-weight:600;line-height:17.505px}
+html[data-device="tablet"] .spill svg{width:15.3896px;height:15.3896px}
+
+/* ================= 01–02 · Welcome · 958:324, 958:731 ================= */
+html[data-device="tablet"] .tapp:not(:has(.home)) .thead p{margin-top:.0716px}
+html[data-device="tablet"] .tapp:not(:has(.home)) .thint{gap:13.4678px;position:relative;top:-5.3156px}
+html[data-device="tablet"] .tsim{box-sizing:border-box;min-height:54.28px;padding:9.6191px 13.4678px 8.1778px;border-left-width:3.8471px;border-radius:9.6181px;font-size:12.5033px;line-height:16.8794px}
+html[data-device="tablet"] .tsim b{font-size:13.4652px;font-weight:700;line-height:18.1782px;margin-bottom:-.7667px}
+html[data-device="tablet"] .tapp:not(:has(.home)) .tfoot{gap:11.5409px}
+html[data-device="tablet"] .tapp:not(:has(.home)) .tbody{padding-bottom:32.4862px}
+html[data-device="tablet"] .tapp:not(:has(.home)) .tb{height:46.1687px;min-width:125.0352px;padding:0 26.8333px;gap:7.9222px;border-width:.9619px;font-size:15.389px}
+html[data-device="tablet"] .tapp:not(:has(.home)) .tb svg{width:17.3113px;height:17.3113px}
+html[data-device="tablet"] .tapp:not(:has(.home)) .tkick,html[data-device="tablet"] .tbody:has(.tb.pri[data-go="deal"]) .tkick,html[data-device="tablet"] .tbody:has(.tb.pri[data-go="read"]) .tkick,html[data-device="tablet"] .tbody:has(.tb.pri[data-go="decide"]) .tkick{text-transform:none}
+
+/* ================= 03 · Challenge · 958:780 ================= */
+html[data-device="tablet"] .tbody:has(.tb.pri[data-go="ficha"]) .thead h3{margin-top:5.1111px}
+html[data-device="tablet"] .tbody:has(.tb.pri[data-go="ficha"]) .thead h3 em{display:block}
+html[data-device="tablet"] .tbody:has(.tb.pri[data-go="ficha"]) .thint{gap:13.4627px;position:relative;top:4.4467px}
+
+/* ================= 04 · Solution · 958:847 ================= */
+html[data-device="tablet"] .tbody:has(.tb.pri[data-go="deal"]) .thead p{margin-top:.0716px}
+html[data-device="tablet"] .tbody:has(.tb.pri[data-go="deal"]) .thint{position:relative;top:11.27px}
+html[data-device="tablet"] .thint .ill:has(.wi){min-height:157.9333px;padding-top:21.9778px;padding-bottom:13.6467px;align-content:start}
+html[data-device="tablet"] .thint .ill .wi{width:36.9789px;height:36.9789px;margin:0 auto 9.798px}
+html[data-device="tablet"] .thint .ill .wi svg{width:19.9333px;height:17.0711px}
+
+/* ================= 05–06 · Proposals · 958:1069, 958:1127 ================= */
+html[data-device="tablet"] .tapp .opts2.deals{flex:none;height:223.8667px;margin:auto 0;gap:9.7111px;position:relative;top:.46px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn{align-content:start;gap:11.5511px;padding:22.0084px 5.1111px 0;border-width:1.0222px;border-radius:15.4049px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn.on{border-width:1.0222px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn .ico{width:73.3393px;height:73.3393px;border-radius:18.3346px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn .ico svg{width:39.2891px;height:39.2891px}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn>span:not(.ico){font-size:15.4049px;font-weight:600;line-height:18.6556px;color:#005cff}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn small{max-width:132.8889px;margin:4.4467px auto 0;font-size:12.0351px;line-height:14.3111px;color:#141414}
+html[data-device="tablet"] .tapp .opts2.deals .dealbtn em{padding:0 9.2px;font-size:11.5537px;line-height:24.0682px;border-radius:12.0351px}
+html[data-device="tablet"] .tbody:has(.tb.pri[data-go="read"]) .tfoot{gap:17.2142px}
+
+/* ================= 07, 12 · Run / Read · 958:1188, 971:1432 ================= */
+html[data-device="tablet"] .tapp .play{position:relative;left:var(--fc);padding-top:6.1333px;box-sizing:border-box;width:232.0444px;height:232.0444px;margin:0;gap:6.3378px;border-width:4.8044px;box-shadow:none;font-size:16.928px;font-weight:700;line-height:1.25}
+html[data-device="tablet"] .tapp .play img.eq{width:122.728px}
+html[data-device="tablet"] .tapp .play span{max-width:117.5556px}
+/* Client revision: the title is two lines ("Run simulation" / "Manual vs. RISE"). */
+html[data-device="tablet"] .tbody:has(.tb.pri[data-go="decide"]) .thead h3 em{display:block}
+html[data-device="tablet"] .tapp .play{width:208.5333px;height:208.5333px;padding-top:5.1111px;gap:5.1111px;font-size:15.3333px}
+html[data-device="tablet"] .tapp .play img.eq{width:110.4px}
+
+/* ================= 09 · Risk analysis · 971:1296 ================= */
+html[data-device="tablet"] .tbody:has(.tring) .thint{gap:17.8889px;position:relative;top:6.9px;left:var(--fc)}
+html[data-device="tablet"] .thint .ill:has(.tring){width:352.0431px;min-height:183.4889px;padding:9.9667px 10.2222px 0;gap:0;align-content:start}
+html[data-device="tablet"] .thint .ill .tring{width:93.8911px;height:93.8911px;margin:0 auto 8.5662px}
+html[data-device="tablet"] .thint .ill .tring b{font-size:19.8822px;font-weight:700}
+html[data-device="tablet"] .thint .ill:has(.tring)>b{font-size:15.4642px;line-height:18.9111px}
+html[data-device="tablet"] .thint .ill:has(.tring)>span{font-size:11.5981px;line-height:14.0556px;margin-top:-.4907px}
+html[data-device="tablet"] .thint .ill:has(.tring)>.accq{margin-top:7.4111px}
+html[data-device="tablet"] .thint .ill>.accq{color:#005cff;font-weight:700}
+html[data-device="tablet"] .tbody:has(.tring) .spill{height:30.1504px;padding:0 12.4711px;gap:5.1111px;font-size:10.4936px;font-weight:700;line-height:12.7778px}
+html[data-device="tablet"] .tbody:has(.tring) .spill svg{width:11.2444px;height:11.2444px}
+
+/* ================= 10–11 · Supervision reports · 971:1382 ================= */
+html[data-device="tablet"] .tbody:has([data-tp]) .thead h3,html[data-device="tablet"] .tbody:has(.tb.pri[data-go="sup"]) .thead h3{font-size:30.6667px;margin-top:3.7311px;color:#005cff}
+html[data-device="tablet"] .tbody:has([data-tp]) .thead p,html[data-device="tablet"] .tbody:has(.tb.pri[data-go="sup"]) .thead p{margin-top:6.4911px}
+html[data-device="tablet"] .tbody:has([data-tp]) .thint,html[data-device="tablet"] .tbody:has(.tb.pri[data-go="sup"]) .thint{position:relative;top:8.7144px}
+html[data-device="tablet"] .tbody:has([data-tp]) .ill,html[data-device="tablet"] .tbody:has(.tb.pri[data-go="sup"]) .ill{min-height:95.5778px;padding-top:12.2667px;padding-bottom:13.2889px}
+html[data-device="tablet"] .tbody:has([data-tp]) .ill>span,html[data-device="tablet"] .tbody:has(.tb.pri[data-go="sup"]) .ill>span,html[data-device="tablet"] .tbody:has([data-reset]) .ill>span{max-width:312.8px;margin-inline:auto}
+
+/* ================= 13 · Insights · 971:1479 ================= */
+html[data-device="tablet"] .tapp .opts2:not(.deals){grid-auto-rows:77.2238px;gap:11.2444px;align-content:center}
+html[data-device="tablet"] .tapp .opt2:not(.dealbtn){padding:0 20.9556px 0 15.8444px;border-width:1.0222px;border-radius:4.0889px;font-size:18.653px;font-weight:700;line-height:22.4889px}
+html[data-device="tablet"] .tapp .opt2:not(.dealbtn)>span:first-child{color:#005cff}
+html[data-device="tablet"] .tapp .opt2:not(.dealbtn) small{margin-top:-.4089px;font-size:14.767px;line-height:17.8889px;color:#6a6b6f}
+html[data-device="tablet"] .tapp .opt2 .rd{width:23.4856px;height:23.4856px;font-size:10.904px}
+html[data-device="tablet"] .tapp .opt2:not(.dealbtn){grid-template-columns:1fr 23.4856px}
+html[data-device="tablet"] .tbody:has(.tb.pri[data-go="loop"]) .tfoot{gap:18.0218px}
+
+/* ================= 14 · Closing · 971:1527 ================= */
+html[data-device="tablet"] .tbody:has([data-reset]) .thint{position:relative;top:4.8811px}
+html[data-device="tablet"] .tbody:has([data-reset]) .ill{min-height:95.5778px;padding-top:20.4444px;padding-bottom:0;gap:4.6px;align-content:start}
+html[data-device="tablet"] .tbody:has([data-reset]) .ill>b{line-height:1}

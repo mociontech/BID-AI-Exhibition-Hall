@@ -5,7 +5,7 @@
  ES['Continue to the next step.']='Continúa al siguiente paso.';
  ES['Tap «Next step» on the tablet']='Toca «Siguiente paso» en la tableta';
  const basePillTxt=pillTxt;
- pillTxt=function(){return S.sc==='decide'?'Tap «Next step» on the tablet':basePillTxt();};
+ pillTxt=function(){const t=basePillTxt();return S.sc==='decide'||t==='Tap «Next» on the tablet'?'Tap «Next step» on the tablet':t;};
  let ready=false,applying=false,envelope=RISE_STATE.fresh(),lastSignature='',recoveryTimer=0,offset=0;
  const baseRender=render,baseUpdIntro=updIntro,baseSetLang=setLang;
  const baseTabView=tabView;
@@ -16,6 +16,7 @@
    [...next.childNodes].filter(n=>n.nodeType===3).forEach(n=>{n.textContent=n.textContent.replace('Accept','Next step');});
    const hint=holder.querySelector('.accq');if(hint)hint.textContent='Continue to the next step.';
   }
+  holder.querySelectorAll('button.pri[data-go="decide"],button.pri[data-go="sup"]').forEach(b=>{[...b.childNodes].filter(n=>n.nodeType===3).forEach(n=>{n.textContent=n.textContent.replace(/^Next(?= |$)/,'Next step');});});
   const footer=holder.querySelector('.tfoot');if(!footer)return html;
   if([...footer.querySelectorAll('button[data-go]')].some(b=>b.textContent.trim()==='Back'))return holder.innerHTML;
   const back=document.createElement('button');back.type='button';back.className='tb';
@@ -60,7 +61,7 @@
   const back=event.target.closest('[data-rise-back]');
   if(back){
    event.preventDefault();event.stopImmediatePropagation();
-   if(back.dataset.riseBack==='projects'){parent.postMessage({type:'rise:home'},location.origin);return;}
+   if(back.dataset.riseBack==='projects'){parent.postMessage({type:'rise:menu'},location.origin);return;}
    clearInterval(tm);clearInterval(recoveryTimer);stopIntro();
    if(back.dataset.riseBack==='notice'){S.ip=0;envelope.introStartedAt=0;RISE_V36_CLOCK.introStartedAt=0;render();return;}
    if(back.dataset.riseBack==='opening'){S.sc='intro';S.ip=2;render();return;}

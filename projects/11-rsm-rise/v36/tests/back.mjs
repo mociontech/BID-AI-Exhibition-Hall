@@ -43,8 +43,11 @@ try{
  await ctx.request.post(base+'/api/state'+query,{data:{projectId:'11',view:'game',mode:'game',language:'en',game:state.fresh()}});
  await tablet.goto(base+'/projects/11-rsm-rise/index.html'+query);
  await tablet.frameLocator('iframe').getByRole('button',{name:'Back',exact:true}).click();
+ await tablet.locator('.rsm-menu--tablet').waitFor();
+ assert.equal((await (await ctx.request.get(base+'/api/state'+query)).json()).mode,'landing');
+ await tablet.locator('.rsm-hit--home').click();
  await tablet.waitForURL('**/index.html?**projects=1');
  assert.equal((await (await ctx.request.get(base+'/api/state'+query)).json()).view,'home');
  assert.equal(tvWrites,0);assert.deepEqual(errors,[]);
- console.log('PASS initial Back returns to projects; no TV writes or page errors');
+ console.log('PASS initial Back returns to the RISE menu and its Home to projects; no TV writes or page errors');
 }finally{await browser.close();}

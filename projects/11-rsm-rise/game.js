@@ -1,16 +1,17 @@
 /* Each isolated source document exposes one device. AI_SYNC is the only transport. */
 (function(){
  const source=new URL('./v36/screen.html',document.currentScript.src);
- const frameHTML=role=>`<iframe class="rise-v34-frame" data-rise-device="${role}" src="${source.href}?role=${role}&v=36-next-step-1" title="RISE ${role==='tv'?'main display':'tablet controller'}" allow="fullscreen"></iframe>`;
+ const frameHTML=role=>`<iframe class="rise-v34-frame" data-rise-device="${role}" src="${source.href}?role=${role}&v=36-menu-1" title="RISE ${role==='tv'?'main display':'tablet controller'}" allow="fullscreen"></iframe>`;
  function send(frame,game,language){
   frame?.contentWindow?.postMessage({type:'rise:state',game,language,now:window.AI_SYNC?.now()||Date.now()},location.origin);
  }
- function connectController(mount,{game,language,onChange,onHome}){
+ function connectController(mount,{game,language,onChange,onHome,onMenu}){
   const frame=mount.querySelector('[data-rise-device="tablet"]');
   const receive=event=>{
    if(event.origin!==location.origin||event.source!==frame.contentWindow)return;
    if(event.data?.type==='rise:ready')send(frame,game,language);
    if(event.data?.type==='rise:home')onHome();
+   if(event.data?.type==='rise:menu')(onMenu||onHome)();
    if(event.data?.type==='rise:change'){
     const clean=RISE_STATE.sanitize(event.data.game);
     if(clean&&['en','es'].includes(event.data.language)){

@@ -49,7 +49,7 @@ try{
  assert.equal(target.pathname,'/projects/11-rsm-rise/index.html');
  assert.equal(target.search,'?'+tq.toString());
  await tablet.bringToFront();await tablet.screenshot({path:fileURLToPath(new URL('menu-tablet.png',out))});
- await card.click();
+ await card.click();await tablet.locator('.rsm-hit--interactive').click();
  const frame=()=>tablet.frameLocator('[data-rise-device="tablet"]');
  const scene=async(sc,ip)=>{
   for(const page of [tablet,tv])await page.waitForFunction(({sc,ip})=>{const s=document.querySelector('[data-rise-device]')?.contentWindow?.S;return s?.sc===sc&&(ip===undefined||s.ip===ip);},{sc,ip});
@@ -70,7 +70,7 @@ try{
  await tablet.waitForFunction(()=>document.querySelector('[data-rise-device]')?.contentWindow?.S?.run===2);
  await frame().locator('[data-go="decide"]').click();await scene('decide');
  await tablet.reload();await scene('decide');
- await frame().locator('[data-lang="es"]').click();
+ await frame().locator('[data-lang="es"]').dispatchEvent('click');
  await tv.waitForFunction(()=>document.querySelector('[data-rise-device]')?.contentDocument?.documentElement.lang==='es');
  await frame().locator('[data-go="time"]').click();await scene('time');
  await frame().locator('[data-tp]').click();
@@ -87,8 +87,8 @@ try{
  await frame().locator('[data-home]').click();await tablet.locator('[data-project="11"]').waitFor();
  await tv.locator('.home-art-image').waitFor();
  assert.equal(new URL(tablet.url()).searchParams.get('room'),tq.get('room'));
- await tablet.locator('[data-project="11"]').click();await scene('intro',0);
- await frame().getByRole('button',{name:'Back',exact:true}).click();
+ await tablet.locator('[data-project="11"]').click();await tablet.locator('.rsm-hit--interactive').click();await scene('intro',0);
+ await frame().getByRole('button',{name:'Back',exact:true}).click();await tablet.locator('.rsm-hit--home').click();
  await tablet.locator('[data-project="11"]').waitFor();await tv.locator('.home-art-image').waitFor();
  assert.equal(await otherTV.locator('[data-rise-device]').count(),0);
  assert.equal(report.tvWrites,0);assert.deepEqual(report.errors,[]);

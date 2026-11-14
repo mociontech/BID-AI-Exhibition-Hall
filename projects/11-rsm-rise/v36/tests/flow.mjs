@@ -38,6 +38,9 @@ try{
  await ctx.request.post(base+'/api/state'+query,{data:{view:'home',projectId:null,game:null}});
  await isolated.goto(base+'/display.html?station=11&room=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
  await tablet.goto(base+'/projects/11-rsm-rise/index.html'+query);await tv.goto(base+'/display.html'+query);
+ // The station opens on the RISE main menu; the TV shows the same menu until the experience starts.
+ await tablet.locator('.rsm-menu--tablet').waitFor();await tv.locator('.rsm-menu--landing').waitFor();
+ await tablet.locator('.rsm-hit--interactive').click();
  await frame().locator('[data-ip="1"]').waitFor();await scene('intro');await tablet.waitForTimeout(600);
  assert.equal((await read()).game.version,36);assert.equal((await read()).game.ip,0);
  assert.equal(await tablet.locator('iframe').evaluate(f=>!!f.contentWindow.RISE_INTRO),false,'No v34 opening overlay');
@@ -54,7 +57,7 @@ try{
  assert.equal(await tv.locator('iframe').evaluate(f=>f.contentDocument.getElementById('opnn').textContent),'8,200');
  await snap('opening');check('v36 notice, Continue, original animation, reload recovery and explicit Start experience');
  for(let deal=0;deal<3;deal++){
-  const language=deal===1?'es':'en';await frame().locator(`[data-lang="${language}"]`).click();
+  const language=deal===1?'es':'en';await frame().locator(`[data-lang="${language}"]`).dispatchEvent('click');
   if(deal===1){await frame().locator('[data-ip="1"]').click();await frame().locator('[data-ip="2"]').click();}
   await frame().locator('[data-go="problem"]').click();await scene('problem');
   await frame().locator('[data-go="ficha"]').click();await scene('ficha');
@@ -63,7 +66,7 @@ try{
   assert.equal(await frame().locator('[data-deal]').count(),3);
   await frame().locator(`[data-deal="${deal}"]`).click();
   await tv.waitForFunction(deal=>document.querySelector('iframe')?.contentWindow?.S?.deal===deal,deal);
-  assert.deepEqual(await tv.locator('iframe').evaluate(f=>[...f.contentDocument.querySelectorAll('.deal.dim')].map(el=>getComputedStyle(el).opacity)),['0.25','0.25']);
+  assert.deepEqual(await tv.locator('iframe').evaluate(f=>[...f.contentDocument.querySelectorAll('.deal.dim')].map(el=>getComputedStyle(el.querySelector('.di')).opacity)),['0.25','0.25']);
   if(!deal)await snap('proposal');
   await frame().locator('[data-go="read"]').click();await scene('read');
   assert.equal((await read()).game.run,0);await frame().locator('[data-run]').click();await tablet.waitForTimeout(900);

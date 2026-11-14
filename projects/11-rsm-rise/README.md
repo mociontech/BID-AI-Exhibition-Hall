@@ -1,5 +1,15 @@
 # 11 — RSM RISE · v36 original integrado
 
+## Menú principal e infografía (2026-11-14)
+
+La estación abre en el menú principal (`Public/rise-menu-en.png`, 1920×1080, con zonas táctiles), igual que las estaciones 04 y 06:
+
+- **About the project:** la TV muestra la infografía `Public/rise-infografia-en.png` animada por recortes sobre `rise-infografia-base.png` (referencia «Iniciativa 2.2_animada_PRO») y, al terminar, la píldora «When you are ready, tap “Interactive experience” on the tablet». La tableta conserva el menú y añade la píldora Back junto a Home.
+- **Interactive experience:** abre el v36 en la tableta y en la TV. El primer Back del v36 (aviso inicial) vuelve a este menú; Home vuelve a los proyectos de la exhibición.
+- **TV en el menú:** el mismo arte con la píldora «Select an option on the tablet».
+
+Al recargar la tableta se recupera lo que estaba en pantalla: menú, infografía o la escena del v36. Código: `experience.js` (menú, infografía y TV), `module.js` (tableta), `module.css` (clases `rsm-*` y `rss-*`). Los textos pedidos por el cliente en Figma están en `v36/client-copy.js` y el ajuste visual a Figma en `v36/figma-review.css` y `v36/figma-accent.js`; ver `v36/LOCAL-REVIEW.md`. Las secciones siguientes describen el v36 tal como se integró antes de estos cambios.
+
 El control que antes decía Accept / Aceptar ahora dice Next step / Siguiente paso. La indicación de la TV y la ayuda de la tableta usan el mismo texto de navegación. Es un ajuste aprobado en el adaptador de integración; el archivo original archivado permanece intacto.
 
 La versión activa usa **RISE_Prototipo_v36.html** tal como fue entregado: diseño, CSS, copy EN/ES, cifras, casos, controles, escenas y animaciones. No carga estilos ni ajustes de las revisiones anteriores. El original está archivado byte por byte en `v36/original.html`.
