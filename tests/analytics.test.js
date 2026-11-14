@@ -38,7 +38,7 @@ function client({ projectId = '01', pathname = '/projects/01-aquadata/index.html
   const context = {
     window, document, location: { pathname, hostname },
     performance: { now: () => now },
-    Date: { now: () => 100000 + now },
+    Date: class extends Date { constructor() { super(1794632400000 + now); } static now() { return 1794632400000 + now; } },
     crypto: { getRandomValues: array => array.fill(1) },
     sessionStorage: { getItem: () => null, setItem: () => {} },
     navigator: { sendBeacon: (url, body) => { beacons.push({ url, body }); return true; } },
@@ -55,10 +55,10 @@ function client({ projectId = '01', pathname = '/projects/01-aquadata/index.html
 
 test('tablet records one visit, button action and visible time', () => {
   const c = client();
-  assert.equal(c.requests.length, 11);
-  assert.equal(c.requests.filter(r => r.url.includes('documentId=catalog')).length, 10);
-  assert.equal(c.requests[10].event.fields.type.stringValue, 'visit');
-  assert.match(c.requests[10].url, /documents\/BID_AI_01_AquaData$/);
+  assert.equal(c.requests.length, 31);
+  assert.equal(c.requests.filter(r => /documentId=(visits|clicks|durations)$/.test(r.url)).length, 30);
+  assert.match(c.requests[30].url, /BID_AI_01_AquaData\/visits\/entries\?documentId=2026/);
+  assert.match(c.requests[30].event.fields.occurredAt.timestampValue, /^2026-/);
   const button = {
     getAttribute: name => name === 'data-action' ? 'information' : null,
     matches: () => false
@@ -66,12 +66,12 @@ test('tablet records one visit, button action and visible time', () => {
   const element = new c.Element();
   element.closest = () => button;
   c.handlers.click({ target: element });
-  assert.equal(c.requests[11].event.fields.type.stringValue, 'click');
-  assert.equal(c.requests[11].event.fields.action.stringValue, 'action:information');
+  assert.match(c.requests[31].url, /\/clicks\/entries\?/);
+  assert.equal(c.requests[31].event.fields.action.stringValue, 'action:information');
   c.advance(20000);
   c.intervals[0]();
-  assert.equal(c.requests[12].event.fields.type.stringValue, 'duration');
-  assert.equal(c.requests[12].event.fields.durationMs.integerValue, '20000');
+  assert.match(c.requests[32].url, /\/durations\/entries\?/);
+  assert.equal(c.requests[32].event.fields.durationMs.integerValue, '20000');
   c.document.visibilityState = 'hidden';
   c.handlers.visibilitychange();
   assert.equal(c.beacons.length, 1);

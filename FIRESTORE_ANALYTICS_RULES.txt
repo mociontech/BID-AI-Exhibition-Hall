@@ -1,57 +1,56 @@
-// Pega este bloque DENTRO de: match /databases/{database}/documents {
-// Conserva todas las reglas de Firestore que ya tienes.
-match /{collection}/{docId} {
+// Pega este bloque dentro de match /databases/{database}/documents {
+// Conserva las demás reglas de Firestore.
+match /{collection}/{category} {
   function analyticsCollection() {
     return collection in [
-      'BID_AI_01_AquaData',
-      'BID_AI_02_BogotaTraffic',
-      'BID_AI_03_SmartBorders',
-      'BID_AI_04_Guatiguara',
-      'BID_AI_05_ProfeGabi',
-      'BID_AI_06_RegLAC',
-      'BID_AI_07_MAIIA',
-      'BID_AI_08_Teachy',
-      'BID_AI_10_CountryIntelligence',
-      'BID_AI_11_RISE'
+      'BID_AI_01_AquaData', 'BID_AI_02_BogotaTraffic',
+      'BID_AI_03_SmartBorders', 'BID_AI_04_Guatiguara',
+      'BID_AI_05_ProfeGabi', 'BID_AI_06_RegLAC',
+      'BID_AI_07_MAIIA', 'BID_AI_08_Teachy',
+      'BID_AI_10_CountryIntelligence', 'BID_AI_11_RISE'
     ];
   }
 
-  function eventBase() {
-    return docId.matches('^[A-Za-z0-9]{20}$')
-      && request.resource.data.keys().hasAll(['type', 'visitId', 'station'])
-      && request.resource.data.visitId is string
-      && request.resource.data.visitId.matches('^[a-f0-9]{32}$')
-      && request.resource.data.station is int
-      && request.resource.data.station >= 1
-      && request.resource.data.station <= 11;
-  }
-
-  function validEvent() {
-    return eventBase() && (
-      (request.resource.data.type == 'visit'
-        && request.resource.data.keys().hasOnly(['type', 'visitId', 'station']))
-      || (request.resource.data.type == 'click'
-        && request.resource.data.keys().hasOnly(['type', 'visitId', 'station', 'action'])
-        && request.resource.data.action is string
-        && request.resource.data.action.size() > 0
-        && request.resource.data.action.size() <= 80)
-      || (request.resource.data.type == 'duration'
-        && request.resource.data.keys().hasOnly(['type', 'visitId', 'station', 'durationMs'])
-        && request.resource.data.durationMs is int
-        && request.resource.data.durationMs >= 0
-        && request.resource.data.durationMs <= 86400000)
-    );
-  }
-
-  function validCatalog() {
-    return docId == 'catalog'
-      && request.resource.data.keys().hasOnly(['type', 'projectId', 'name'])
-      && request.resource.data.type == 'catalog'
+  function categoryDoc() {
+    return category in ['visits', 'clicks', 'durations']
+      && request.resource.data.keys().hasOnly(['kind', 'projectId', 'name'])
+      && request.resource.data.kind == category
       && request.resource.data.projectId is string
       && request.resource.data.projectId.matches('^(01|02|03|04|05|06|07|08|10|11)$')
       && request.resource.data.name == collection;
   }
 
-  allow create: if analyticsCollection() && (validCatalog() || validEvent());
+  allow create: if analyticsCollection() && categoryDoc();
   allow read, update, delete: if false;
+
+  match /entries/{eventId} {
+    function baseEvent() {
+      return analyticsCollection()
+        && category in ['visits', 'clicks', 'durations']
+        && eventId.matches('^[0-9]{8}T[0-9]{9}Z_[a-f0-9]{8}_[0-9]{4}$')
+        && request.resource.data.keys().hasAll(['visitId', 'station', 'occurredAt'])
+        && request.resource.data.visitId is string
+        && request.resource.data.visitId.matches('^[a-f0-9]{32}$')
+        && request.resource.data.station is int
+        && request.resource.data.station >= 1
+        && request.resource.data.station <= 11
+        && request.resource.data.occurredAt is timestamp;
+    }
+
+    allow create: if baseEvent() && (
+      (category == 'visits'
+        && request.resource.data.keys().hasOnly(['visitId', 'station', 'occurredAt']))
+      || (category == 'clicks'
+        && request.resource.data.keys().hasOnly(['visitId', 'station', 'occurredAt', 'action'])
+        && request.resource.data.action is string
+        && request.resource.data.action.size() > 0
+        && request.resource.data.action.size() <= 80)
+      || (category == 'durations'
+        && request.resource.data.keys().hasOnly(['visitId', 'station', 'occurredAt', 'durationMs'])
+        && request.resource.data.durationMs is int
+        && request.resource.data.durationMs >= 0
+        && request.resource.data.durationMs <= 86400000)
+    );
+    allow read, update, delete: if false;
+  }
 }

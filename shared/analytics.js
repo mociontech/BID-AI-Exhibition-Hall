@@ -21,11 +21,13 @@
   };
   const base = 'https://firestore.googleapis.com/v1/projects/f1-sap/databases/(default)/documents/';
   const root = base + collections[projectId];
+  const categories = { visit: 'visits', click: 'clicks', duration: 'durations' };
   const visitId = Array.from(crypto.getRandomValues(new Uint8Array(16)), n => n.toString(16).padStart(2, '0')).join('');
   const station = Number(window.AI_SYNC?.station) || 1;
   let activeSince = document.visibilityState === 'visible' ? performance.now() : null;
   let activeMs = 0;
   let lastSnapshot = -1;
+  let eventSequence = 0;
   const observedFrames = new WeakSet();
   const observedDocuments = new WeakSet();
 
@@ -35,34 +37,37 @@
 
   function encode(data) {
     return { fields: Object.fromEntries(Object.entries(data).map(([key, value]) => [
-      key, typeof value === 'number' ? { integerValue: String(value) } : { stringValue: value }
+      key, key === 'occurredAt' ? { timestampValue: value } : typeof value === 'number' ? { integerValue: String(value) } : { stringValue: value }
     ])) };
   }
 
   function seedCollections() {
     try {
-      if (sessionStorage.getItem('bid-ai-firestore-seeded') === '1') return;
+      if (sessionStorage.getItem('bid-ai-firestore-seeded-v2') === '1') return;
     } catch { /* Private browsing can disable storage. */ }
-    Promise.all(Object.entries(collections).map(([id, collection]) =>
-      fetch(base + collection + '?documentId=catalog', {
+    Promise.all(Object.entries(collections).flatMap(([id, collection]) =>
+      Object.values(categories).map(kind => fetch(base + collection + '?documentId=' + kind, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(encode({ type: 'catalog', projectId: id, name: collection }))
-      }).then(response => response.ok || response.status === 409).catch(() => false)
+        body: JSON.stringify(encode({ kind, projectId: id, name: collection }))
+      }).then(response => response.ok || response.status === 409).catch(() => false))
     )).then(results => {
       if (results.every(Boolean)) {
-        try { sessionStorage.setItem('bid-ai-firestore-seeded', '1'); } catch {}
+        try { sessionStorage.setItem('bid-ai-firestore-seeded-v2', '1'); } catch {}
       }
     });
   }
 
   function send(type, extra = {}, final = false) {
-    const event = JSON.stringify(encode({ type, visitId, station, ...extra }));
+    const occurredAt = new Date().toISOString();
+    const eventId = occurredAt.replace(/[-:.]/g, '') + '_' + visitId.slice(0, 8) + '_' + String(++eventSequence).padStart(4, '0');
+    const endpoint = root + '/' + categories[type] + '/entries?documentId=' + eventId;
+    const event = JSON.stringify(encode({ visitId, station, occurredAt, ...extra }));
     if (final && navigator.sendBeacon) {
       const body = new Blob([event], { type: 'application/json' });
-      if (navigator.sendBeacon(root, body)) return;
+      if (navigator.sendBeacon(endpoint, body)) return;
     }
-    fetch(root, {
+    fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: event,
