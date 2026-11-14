@@ -280,7 +280,7 @@
   en:{
    onTablet:'On the tablet',
    landingCta:'Select an option on the tablet',
-   infoCta:'When you are ready, tap “Interactive experience” on the tablet',
+   infoCta:'When you are ready, tap “Interactive experience” or “Video” on the tablet',
    /* Information sheet (November 2026 infographic), rebuilt in HTML so it can be animated. */
    sheet:{sub:'Smarter Water Loss Detection',unit:'VPS - INE',
     cards:[['THE','CHALLENGE','Limited Inspection Capacity','Water service providers manage thousands of accounts but can only inspect a fraction, often missing potential irregularities.'],['THE','SOLUTION','AI-Powered Prioritization','AquaData analyzes existing billing and consumption data to rank accounts by risk, helping teams inspect the most critical cases first.']],
@@ -305,7 +305,7 @@
   es:{
    onTablet:'En la tableta',
    landingCta:'Elige una opción en la tableta',
-   infoCta:'Cuando estés listo, pulsa “Experiencia interactiva” en la tableta',
+   infoCta:'Cuando estés listo, pulsa “Experiencia interactiva” o “Video” en la tableta',
    sheet:{sub:'Detección más inteligente de pérdidas de agua',unit:'VPS - INE',
     cards:[['EL','RETO','Capacidad de inspección limitada','Las empresas de agua gestionan miles de contratos, pero solo pueden inspeccionar una fracción y a menudo pasan por alto posibles irregularidades.'],['LA','SOLUCIÓN','Priorización con IA','AquaData analiza los datos de facturación y consumo para ordenar los contratos por riesgo y que los equipos inspeccionen primero los casos más críticos.']],
     impact:'IMPACTO A LA FECHA',facts:[['7,3 veces',['más detección','EMCALI','Cali, Colombia']],['2,3 veces',['más detección','Aguas Regionales','Urabá, Colombia']],['53 %',['más detección en','Guatemala']]]},
