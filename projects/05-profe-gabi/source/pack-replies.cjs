@@ -1,6 +1,7 @@
 /* Offline editorial balancing against the actual HD TV layout. No runtime dependency. */
 const {chromium}=require('playwright'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const folder=__dirname,base=process.env.TEST_URL||'http://localhost:4173';
+if(require('../state.js').fresh().version!==6)throw Error('Historical packer supports only the previous eight-ending flow. Current routes are validated by verify-topic-routes.cjs; do not overwrite their state counts.');
 const read=lang=>JSON.parse(fs.readFileSync(path.join(folder,`conversations.${lang}.json`),'utf8'));
 const normal=t=>t.replace(/\s+/g,' ').trim();
 function units(text){

@@ -53,6 +53,17 @@
 .gabi-art-tv-selected p{font-size:30px;line-height:1.2;margin:0}
 .gabi-art-header{border-radius:0}
 .gabi-art-home-label{position:absolute;left:1770px;top:46px;width:68px;height:34px;z-index:3;display:flex;align-items:center;justify-content:center;background:#005cff;color:#fff;font-size:20px;line-height:1;font-weight:700;pointer-events:none}
+.gabi-project-nav{position:absolute;left:1544px;top:22px;width:328px;height:82px;padding:16px 20px;background:#005cff;z-index:8;display:flex;align-items:center;gap:24px}
+.gabi-project-nav button{display:flex;align-items:center;justify-content:center;flex:0 0 132px;width:132px;height:50px;min-height:calc(45px / var(--gabi-art-scale,1));border:0;border-radius:0;background:transparent;color:white;padding:0;font:700 18px/1 GabiInter,Inter,sans-serif;cursor:pointer}
+.gabi-project-nav-pill{display:flex;align-items:center;justify-content:center;gap:14px;width:132px;height:50px;flex:none;border:1.2px solid #9fc5ff;border-radius:26px;background:#005cff}
+.gabi-project-nav svg{width:20px;height:20px;flex:none}
+.gabi-project-nav button:focus-visible{outline:none}
+.gabi-project-nav button:focus-visible>.gabi-project-nav-pill{outline:3px solid white;outline-offset:4px}
+.gabi-project-nav button:hover>.gabi-project-nav-pill{background:#1268ff}
+.gabi-art-topic-label span{font-size:24px;line-height:1.1}
+.gabi-art-context.is-updated>h2{font-size:30px}
+.gabi-art-result-take p{font-size:30px;line-height:1.2;margin:0}
+.gabi-art-welcome.gabi-subcategory-welcome>.gabi-art-case-list{grid-template-rows:repeat(2,minmax(0,1fr))}
 /* Retire the former toolbar, including when an older renderer is still loaded. */
 .gabi-approved-screen .gabi-art-toolbar,
 .gabi-approved-screen .gabi-art-utilities{display:none!important}
