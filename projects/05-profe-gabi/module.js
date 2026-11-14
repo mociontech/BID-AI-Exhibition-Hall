@@ -33,13 +33,17 @@ window.ProjectModule={
   function restart(){update({view:'game',mode:'game',game:schema.fresh(true)});}
   function back(){
    const g=state.game;
+   const topic=window.PROFE_GABI_CONVERSATIONS.en[g.topic];
+   const subcategories=()=>setGame({phase:'situations',situation:null,follow:null,turn:null,startedAt:0,part:0});
    if(state.mode!=='game')return menu();
    if(g.phase==='topics')return menu();
    if(g.phase==='animating'||g.phase==='reading'){
-    if(g.turn==='situation')return restart();
+    if(g.turn==='situation')return topic?.entry==='choose'?subcategories():restart();
     return setGame({phase:'follow',follow:null,turn:null,startedAt:0,part:0});
    }
    if(g.phase==='follow')return restart();
+   if(g.phase==='situations')return restart();
+   if(g.phase==='complete'&&!topic.options[g.situation].follow.length)return topic.entry==='choose'?subcategories():restart();
    return setGame({phase:'follow',follow:null,part:0});
   }
   async function goHome(){
@@ -54,6 +58,7 @@ window.ProjectModule={
     return; // Event interface is English; WhatsApp messages are always Spanish.
    }
    if(action==='home')return goHome();
+   if(action==='project-menu')return menu();
    if(action==='fullscreen'){
     try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}
     catch{mount.querySelector('[data-status]').textContent=api.words[state.language].noFullscreen;}
@@ -72,7 +77,8 @@ window.ProjectModule={
    if(action==='continue'&&g.phase==='reading'){
     if(g.part+1<api.replyParts(g,state.language).length)
      return setGame({phase:'animating',part:g.part+1,startedAt:api.now()});
-    return setGame({phase:g.turn==='situation'?'follow':'complete',part:0,turn:null,startedAt:0});
+    const hasFollow=window.PROFE_GABI_CONVERSATIONS.en[g.topic].options[g.situation].follow.length>0;
+    return setGame({phase:g.turn==='situation'&&hasFollow?'follow':'complete',part:0,turn:null,startedAt:0});
    }
    if(g.phase==='reading')return;
    if(g.phase==='animating')return;
@@ -84,10 +90,13 @@ window.ProjectModule={
    };
    if(button.dataset.topic!==undefined&&g.phase==='topics'){
     const topic=Number(button.dataset.topic);
-    if(Number.isInteger(topic)&&topic>=0&&topic<window.PROFE_GABI_CONVERSATIONS[state.language].length)
-     setGame({topic,situation:0,follow:null,phase:'animating',turn:'situation',part:0,startedAt:api.now()});
+    if(Number.isInteger(topic)&&topic>=0&&topic<window.PROFE_GABI_CONVERSATIONS[state.language].length){
+     const chooseCategory=window.PROFE_GABI_CONVERSATIONS.en[topic].entry==='choose';
+     setGame({topic,situation:chooseCategory?null:0,follow:null,phase:chooseCategory?'situations':'animating',turn:chooseCategory?null:'situation',part:0,startedAt:chooseCategory?0:api.now()});
+    }
     return;
    }
+   if(choose('situation','situations',window.PROFE_GABI_CONVERSATIONS.en[g.topic]?.options.length-1))return;
    choose('follow','follow',1);
   });
   try{

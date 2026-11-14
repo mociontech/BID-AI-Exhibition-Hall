@@ -62,10 +62,11 @@ window.PROFE_GABI_CONVERSATIONS={
         }
       ],
       "reviewNotes": "M03: se omite el procedimiento de montaje y calentamiento de destilación; se conserva la estructura pedagógica. M04: se resume la planificación y se omite la numeración OA hasta validar su referencia curricular. No se añade ninguna práctica experimental a la experiencia.",
-      "scriptRevision": "2026-11-09-draft"
+      "scriptRevision": "2026-11-09-draft",
+      "entry": "direct"
     },
     {
-      "title": "Crear actividades y evaluar",
+      "title": "Crear actividades y cuestionarios",
       "sub": "Práctica pedagógica",
       "icon": "document",
       "lead": "Guías y evaluación",
@@ -85,7 +86,7 @@ window.PROFE_GABI_CONVERSATIONS={
           },
           "follow": [
             {
-              "label": "Cuándo aplicar una sumativa",
+              "label": "Cuándo aplicar un cuestionario",
               "user": "Hola, puedo iniciar una unidad y hacer una evaluación sumativa el mismo dia?",
               "gabi": "¡Hola! La evaluación sumativa se enfoca en medir logros al cierre de la unidad, tras procesos de enseñanza y retroalimentación formativa.\nSi inicias y aplicas la sumativa el mismo día, tus estudiantes no habrán tenido tiempo para practicar ni incorporar feedback.\nTe sugiero:\n• Planificar actividades formativas (rúbricas, coevaluación, autoevaluación).\n• Dar retroalimentación durante la unidad.\n• Programar la sumativa al final, cuando ya se cumplieron los OA.",
               "provenance": {
@@ -101,19 +102,19 @@ window.PROFE_GABI_CONVERSATIONS={
               ]
             },
             {
-              "label": "Una rúbrica para Música",
-              "user": "debo crear una rubrica para evaluar el desempeño de los estudiantes de 2do básico en la asignatura de musica frente al aprendizaje de una cancion con instrumentos (metalofono o flauta) ayudame a crear los criterios de evaluacion que sean pertinentes a esta actividad",
-              "gabi": "Te propongo 4 criterios con 4 niveles de logro (4-Excelente; 3-Bueno; 2-Aceptable; 1-Necesita apoyo):\n\n1) Ritmo y afinación\n2) Técnica instrumental\n3) Expresión y dinámica\n4) Responsabilidad y cuidado\n\nPor ejemplo, en responsabilidad y cuidado, el nivel 4 describe a quien prepara, guarda y cuida el instrumento siempre; el nivel 2 indica que requiere recordatorios constantes.",
+              "label": "Preparar exámenes parciales",
+              "user": "Necesito un examen parcial de Biología sobre funciones vitales y homeostasis, con cuatro criterios y niveles de logro.",
+              "gabi": "Te propongo preparar el examen parcial de Biología con 4 criterios y 4 niveles de logro (4-Excelente; 3-Bueno; 2-Aceptable; 1-Necesita apoyo):\n\n1) Comprensión de nutrición, relación, reproducción y homeostasis.\n2) Aplicación de conceptos a situaciones biológicas.\n3) Interpretación de datos, esquemas o ejemplos.\n4) Claridad y fundamentación de las respuestas.\n\nPor ejemplo, en aplicación de conceptos, el nivel 4 explica una situación y justifica su respuesta con conceptos de Biología; el nivel 2 identifica algunas ideas, pero necesita apoyo para relacionarlas. Comparte los criterios antes del examen.",
               "provenance": {
                 "sourceIds": [
                   "M06"
                 ],
-                "userTreatment": "Literal",
-                "responseTreatment": "Adaptación abreviada del mensaje real"
+                "userTreatment": "Adaptación editorial solicitada el 2026-11-14",
+                "responseTreatment": "Adaptación editorial de la estructura de M06 a un examen de Biología; no es una respuesta literal del equipo"
               },
-              "take": "Una rúbrica hace explícitos los criterios y los niveles de logro.",
+              "take": "Los criterios y niveles de logro ayudan a preparar y evaluar un examen de Biología.",
               "gabiParts": [
-                "Te propongo 4 criterios con 4 niveles de logro (4-Excelente; 3-Bueno; 2-Aceptable; 1-Necesita apoyo):\n1) Ritmo y afinación 2) Técnica instrumental\n3) Expresión y dinámica 4) Responsabilidad y cuidado\nPor ejemplo, en responsabilidad y cuidado, el nivel 4 describe a quien prepara, guarda y cuida el instrumento siempre; el nivel 2 indica que requiere recordatorios constantes."
+                "Te propongo preparar el examen parcial de Biología con 4 criterios y 4 niveles de logro (4-Excelente; 3-Bueno; 2-Aceptable; 1-Necesita apoyo): 1) Comprensión de nutrición, relación, reproducción y homeostasis. 2) Aplicación de conceptos a situaciones biológicas. 3) Interpretación de datos, esquemas o ejemplos. 4) Claridad y fundamentación de las respuestas. Por ejemplo, en aplicación de conceptos, el nivel 4 explica una situación y justifica su respuesta con conceptos de Biología; el nivel 2 identifica algunas ideas, pero necesita apoyo para relacionarlas. Comparte los criterios antes del examen."
               ]
             }
           ],
@@ -124,18 +125,50 @@ window.PROFE_GABI_CONVERSATIONS={
         }
       ],
       "reviewNotes": "M02: no se reproduce el ítem «¿Cuál NO es función vital?» ni su listado de opciones; requiere revisión pedagógica. M06: se resume la matriz de 16 descriptores y se omite «embocadura», que no corresponde por igual a flauta y metalófono. M05 es un extracto del mensaje recibido, no una certificación normativa.",
-      "scriptRevision": "2026-11-09-draft"
+      "scriptRevision": "2026-11-09-draft",
+      "entry": "direct"
     },
     {
-      "title": "Orientarme en mi desarrollo",
-      "sub": "Desarrollo profesional",
-      "icon": "calendar",
-      "lead": "Formación y evaluación docente",
-      "question": "Sí. El CPEIP ofrece formación gratuita para docentes de educación básica, aunque la oferta cambia según cada convocatoria.\nPuedes encontrar:\n• Cursos y talleres en línea.\n• Cursos de perfeccionamiento con certificación.\n• Acciones formativas vinculadas a la Carrera Docente.\n• En algunas convocatorias, diplomados o postítulos ejecutados junto a universidades.",
-      "source": "Fuente: PROFE GABI textos · M10, M09 · Adaptación para exhibición",
+      "title": "Orientaciones para la convivencia",
+      "sub": "Convivencia en el aula",
+      "icon": "people",
+      "lead": "Convivencia en el aula",
+      "question": "Claro, aquí va una propuesta simple para 1° medio:\n1. Señal de atención\n• Define un sonido o gesto (p. ej., “1-2-3, ojos en mí”).\n• Practícalo 2–3 veces al inicio para que responda al instante.\n2. Tiempos cortos y claros\n• Divide las actividades en tramos de 5–10 min.\n• Usa un cronómetro visible para que controlen el tiempo.\n3. Roles en grupos\n• Forma equipos de 3–4 alumnos.\n• Asigna un “guardián del foco” que avise si alguien se dispersa.\n4. Pausas activas\n• Cada 15–20 min haz un break de 1–2 min (estirarse, respirar).\n• Así vuelven con más energía y menos charla improductiva.\n5. Refuerzo positivo\n• Al apagar la charla, felicita en voz alta a quien colabore.\n• Los incentivos simples (5 segundos de aplausos, stickers) ayudan mucho.",
+      "source": "PROFE GABI textos - M07 - Exhibition adaptation",
       "options": [
         {
-          "label": "Formación gratuita del CPEIP",
+          "label": "Recuperar el foco del curso",
+          "user": "Actúa como experto en convivencia. Necesito una estrategia de foco para 1 medio, El principal desafío es que se distraen fácil hablan mucho",
+          "gabi": "Claro, aquí va una propuesta simple para 1° medio:\n1. Señal de atención\n• Define un sonido o gesto (p. ej., “1-2-3, ojos en mí”).\n• Practícalo 2–3 veces al inicio para que responda al instante.\n2. Tiempos cortos y claros\n• Divide las actividades en tramos de 5–10 min.\n• Usa un cronómetro visible para que controlen el tiempo.\n3. Roles en grupos\n• Forma equipos de 3–4 alumnos.\n• Asigna un “guardián del foco” que avise si alguien se dispersa.\n4. Pausas activas\n• Cada 15–20 min haz un break de 1–2 min (estirarse, respirar).\n• Así vuelven con más energía y menos charla improductiva.\n5. Refuerzo positivo\n• Al apagar la charla, felicita en voz alta a quien colabore.\n• Los incentivos simples (5 segundos de aplausos, stickers) ayudan mucho.",
+          "provenance": {
+            "sourceIds": [
+              "M07"
+            ],
+            "userTreatment": "Literal",
+            "responseTreatment": "Extracto literal; selección de párrafos originales"
+          },
+          "take": "Las rutinas claras, los roles y las pausas ofrecen ideas para organizar el trabajo del curso.",
+          "gabiParts": [
+            "Claro, aquí va una propuesta simple para 1° medio: 1. Señal de atención • Define un sonido o gesto (p. ej., “1-2-3, ojos en mí”). • Practícalo 2–3 veces al inicio para que responda al instante.\n2. Tiempos cortos y claros • Divide las actividades en tramos de 5–10 min. • Usa un cronómetro visible para que controlen el tiempo.\n3. Roles en grupos • Forma equipos de 3–4 alumnos.",
+            "• Asigna un “guardián del foco” que avise si alguien se dispersa.\n4. Pausas activas • Cada 15–20 min haz un break de 1–2 min (estirarse, respirar). • Así vuelven con más energía y menos charla improductiva.\n5. Refuerzo positivo • Al apagar la charla, felicita en voz alta a quien colabore. • Los incentivos simples (5 segundos de aplausos, stickers) ayudan mucho."
+          ],
+          "follow": []
+        }
+      ],
+      "reviewNotes": "M09: pendiente validar con el equipo la afirmación del documento sobre adhesión de colegios particulares pagados. El borrador no repite esa afirmación ni determina elegibilidad. M10: no se afirma que exista hoy una convocatoria abierta; el segundo mensaje del docente es una transición editorial, no una consulta real adicional. Las fuentes se muestran como texto, sin enlaces externos.",
+      "scriptRevision": "2026-11-09-draft",
+      "entry": "direct"
+    },
+    {
+      "title": "Desarrollo profesional y bienestar",
+      "sub": "Desarrollo profesional y bienestar",
+      "icon": "heart",
+      "lead": "Desarrollo profesional y bienestar",
+      "question": "Elige desarrollo profesional o bienestar antes de iniciar la conversación.",
+      "source": "PROFE GABI textos - M10, M08 - Exhibition adaptation",
+      "options": [
+        {
+          "label": "Desarrollo profesional",
           "user": "El cpeip tiene diplomados o postítulos para profesores de educación básica? Gratis ?",
           "gabi": "Sí. El CPEIP ofrece formación gratuita para docentes de educación básica, aunque la oferta cambia según cada convocatoria.\nPuedes encontrar:\n• Cursos y talleres en línea.\n• Cursos de perfeccionamiento con certificación.\n• Acciones formativas vinculadas a la Carrera Docente.\n• En algunas convocatorias, diplomados o postítulos ejecutados junto a universidades.",
           "provenance": {
@@ -145,58 +178,14 @@ window.PROFE_GABI_CONVERSATIONS={
             "userTreatment": "Literal",
             "responseTreatment": "Extracto literal; selección de párrafos originales"
           },
-          "follow": [
-            {
-              "label": "Evaluación en un colegio particular",
-              "user": "Si trabajo en un colegio particular libre, puedo realizar la evaluación docente?",
-              "gabi": "Para confirmar si tu establecimiento está incluido, revisa su RBD y la información oficial de DocenteMás, en la sección sobre quiénes se evalúan.\n\nLa orientación del chat no confirma por sí sola tu participación. Es importante verificar la situación de tu establecimiento y los requisitos vigentes.",
-              "provenance": {
-                "sourceIds": [
-                  "M09"
-                ],
-                "userTreatment": "Literal",
-                "responseTreatment": "Adaptación editorial; evita convertir la respuesta recibida en una regla de elegibilidad"
-              },
-              "take": "La orientación general no reemplaza la confirmación oficial de una situación individual.",
-              "gabiParts": [
-                "Para confirmar si tu establecimiento está incluido, revisa su RBD y la información oficial de DocenteMás, en la sección sobre quiénes se evalúan.\nLa orientación del chat no confirma por sí sola tu participación. Es importante verificar la situación de tu establecimiento y los requisitos vigentes."
-              ]
-            },
-            {
-              "label": "Requisitos de las convocatorias",
-              "user": "¿Qué debo revisar antes de postular a una formación del CPEIP?",
-              "gabi": "Te recomiendo revisar periódicamente la plataforma y leer los requisitos de cada convocatoria, porque no todos los programas están abiertos para todos los docentes.",
-              "provenance": {
-                "sourceIds": [
-                  "M10"
-                ],
-                "userTreatment": "Continuación editorial",
-                "responseTreatment": "Extracto literal; selección de párrafos originales"
-              },
-              "take": "La oferta de formación y sus requisitos deben revisarse en cada convocatoria.",
-              "gabiParts": [
-                "Te recomiendo revisar periódicamente la plataforma y leer los requisitos de cada convocatoria, porque no todos los programas están abiertos para todos los docentes."
-              ]
-            }
-          ],
+          "follow": [],
           "gabiParts": [
             "Sí. El CPEIP ofrece formación gratuita para docentes de educación básica, aunque la oferta cambia según cada convocatoria. Puedes encontrar: • Cursos y talleres en línea. • Cursos de perfeccionamiento con certificación. • Acciones formativas vinculadas a la Carrera Docente. • En algunas convocatorias, diplomados o postítulos ejecutados junto a universidades."
-          ]
-        }
-      ],
-      "reviewNotes": "M09: pendiente validar con el equipo la afirmación del documento sobre adhesión de colegios particulares pagados. El borrador no repite esa afirmación ni determina elegibilidad. M10: no se afirma que exista hoy una convocatoria abierta; el segundo mensaje del docente es una transición editorial, no una consulta real adicional. Las fuentes se muestran como texto, sin enlaces externos.",
-      "scriptRevision": "2026-11-09-draft"
-    },
-    {
-      "title": "Cuidar mi bienestar",
-      "sub": "Bienestar docente",
-      "icon": "heart",
-      "lead": "Carga de trabajo y convivencia",
-      "question": "Entiendo cómo te sientes. Equilibrar correcciones y tiempo personal es todo un desafío.\nAquí van unas ideas:\n• Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente.\n• Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales.\n• Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado.\n• Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas.\nY no olvides tu autocuidado:\n1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana.",
-      "source": "Fuente: PROFE GABI textos · M08, M07 · Adaptación para exhibición",
-      "options": [
+          ],
+          "take": "Revisa la oferta y los requisitos de cada convocatoria para elegir una formación pertinente."
+        },
         {
-          "label": "Correcciones y tiempo personal",
+          "label": "Bienestar",
           "user": "Me siento mal, porque tengo que revisar trabajos, evaluaciones y más.. Pero tampoco quiero utilizar mi tiempo libre de fin de semana y en la semana no alcanzo porque termino agotado por la jornada escolar",
           "gabi": "Entiendo cómo te sientes. Equilibrar correcciones y tiempo personal es todo un desafío.\nAquí van unas ideas:\n• Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente.\n• Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales.\n• Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado.\n• Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas.\nY no olvides tu autocuidado:\n1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana.",
           "provenance": {
@@ -206,54 +195,22 @@ window.PROFE_GABI_CONVERSATIONS={
             "userTreatment": "Literal",
             "responseTreatment": "Extracto literal; selección de párrafos originales"
           },
-          "follow": [
-            {
-              "label": "Organizar mis correcciones",
-              "user": "Quiero organizar mis correcciones y proteger mi tiempo libre.",
-              "gabi": "• Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente.\n• Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales.\n• Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado.\n• Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas.\nY no olvides tu autocuidado:\n1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana.",
-              "provenance": {
-                "sourceIds": [
-                  "M08"
-                ],
-                "userTreatment": "Continuación editorial",
-                "responseTreatment": "Extracto literal; selección de párrafos originales"
-              },
-              "take": "Poner límites, priorizar y compartir la carga ayuda a cuidar el tiempo personal.",
-              "gabiParts": [
-                "• Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente. • Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales. • Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado. • Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas. Y no olvides tu autocuidado: 1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana."
-              ]
-            },
-            {
-              "label": "Recuperar el foco del curso",
-              "user": "Actúa como experto en convivencia. Necesito una estrategia de foco para 1 medio, El principal desafío es que se distraen fácil hablan mucho",
-              "gabi": "Claro, aquí va una propuesta simple para 1° medio:\n1. Señal de atención\n• Define un sonido o gesto (p. ej., “1-2-3, ojos en mí”).\n• Practícalo 2–3 veces al inicio para que responda al instante.\n2. Tiempos cortos y claros\n• Divide las actividades en tramos de 5–10 min.\n• Usa un cronómetro visible para que controlen el tiempo.\n3. Roles en grupos\n• Forma equipos de 3–4 alumnos.\n• Asigna un “guardián del foco” que avise si alguien se dispersa.\n4. Pausas activas\n• Cada 15–20 min haz un break de 1–2 min (estirarse, respirar).\n• Así vuelven con más energía y menos charla improductiva.\n5. Refuerzo positivo\n• Al apagar la charla, felicita en voz alta a quien colabore.\n• Los incentivos simples (5 segundos de aplausos, stickers) ayudan mucho.",
-              "provenance": {
-                "sourceIds": [
-                  "M07"
-                ],
-                "userTreatment": "Literal",
-                "responseTreatment": "Extracto literal; selección de párrafos originales"
-              },
-              "take": "Las rutinas claras, los roles y las pausas ofrecen ideas para organizar el trabajo del curso.",
-              "gabiParts": [
-                "Claro, aquí va una propuesta simple para 1° medio: 1. Señal de atención • Define un sonido o gesto (p. ej., “1-2-3, ojos en mí”). • Practícalo 2–3 veces al inicio para que responda al instante.\n2. Tiempos cortos y claros • Divide las actividades en tramos de 5–10 min. • Usa un cronómetro visible para que controlen el tiempo.\n3. Roles en grupos • Forma equipos de 3–4 alumnos.",
-                "• Asigna un “guardián del foco” que avise si alguien se dispersa.\n4. Pausas activas • Cada 15–20 min haz un break de 1–2 min (estirarse, respirar). • Así vuelven con más energía y menos charla improductiva.\n5. Refuerzo positivo • Al apagar la charla, felicita en voz alta a quien colabore. • Los incentivos simples (5 segundos de aplausos, stickers) ayudan mucho."
-              ]
-            }
-          ],
+          "follow": [],
           "gabiParts": [
             "Entiendo cómo te sientes. Equilibrar correcciones y tiempo personal es todo un desafío. Aquí van unas ideas: • Organiza bloques de corrección: dedica 30–45 min diarios a revisar y luego detente. • Prioriza: identifica qué trabajos requieren retroalimentación detallada y cuáles pueden recibir comentarios generales.",
             "• Usa rúbricas claras: te ahorran tiempo y guían a l@s estudiantes sobre lo esperado. • Comparte la carga: considera co-evaluación con colegas o intercambio de pruebas. Y no olvides tu autocuidado: 1. Pon horarios límites y respétalos.\n2. Programa pausas cortas para recargar energías.\n3. Reserva un espacio real de desconexión el fin de semana."
-          ]
+          ],
+          "take": "Organiza la carga de trabajo y protege espacios de descanso y desconexión."
         }
       ],
       "reviewNotes": "M08: la primera respuesta es un extracto literal; se retira la pregunta abierta final para conservar una decisión cerrada. El seguimiento sobre correcciones reorganiza párrafos reales y usa una transición editorial. M07 se vincula con convivencia y carga cotidiana; no se presenta como atención de salud mental.",
-      "scriptRevision": "2026-11-09-draft"
+      "scriptRevision": "2026-11-09-draft",
+      "entry": "choose"
     }
   ],
   "en": [
     {
-      "title": "Prepare a lesson",
+      "title": "Prepare for a class",
       "sub": "Teaching practice",
       "icon": "book",
       "lead": "Activities and lesson planning",
@@ -313,10 +270,11 @@ window.PROFE_GABI_CONVERSATIONS={
         }
       ],
       "reviewNotes": "M03: se omite el procedimiento de montaje y calentamiento de destilación; se conserva la estructura pedagógica. M04: se resume la planificación y se omite la numeración OA hasta validar su referencia curricular. No se añade ninguna práctica experimental a la experiencia.",
-      "scriptRevision": "2026-11-09-draft"
+      "scriptRevision": "2026-11-09-draft",
+      "entry": "direct"
     },
     {
-      "title": "Create activities and assess",
+      "title": "Create activities and quizzes",
       "sub": "Teaching practice",
       "icon": "document",
       "lead": "Worksheets and assessment",
@@ -336,7 +294,7 @@ window.PROFE_GABI_CONVERSATIONS={
           },
           "follow": [
             {
-              "label": "When to use summative assessment",
+              "label": "When to quiz my class",
               "user": "Can I start a unit and give a summative assessment on the same day?",
               "gabi": "Hello! Summative assessment measures achievement at the end of a unit, after teaching and formative feedback.\n\nIf you start the unit and give a summative assessment on the same day, students will not have had time to practise or use feedback.\n\nI suggest:\n• Plan formative activities such as rubrics, peer assessment and self-assessment.\n• Give feedback throughout the unit.\n• Schedule summative assessment at the end, once the learning objectives have been met.",
               "provenance": {
@@ -352,19 +310,19 @@ window.PROFE_GABI_CONVERSATIONS={
               ]
             },
             {
-              "label": "A rubric for Music",
-              "user": "Help me create suitable rubric criteria for second-grade Music students learning a song on a metallophone or recorder.",
-              "gabi": "I suggest four criteria with four achievement levels: 4—Excellent; 3—Good; 2—Acceptable; 1—Needs support.\n\n1. Rhythm and tuning\n2. Instrumental technique\n3. Expression and dynamics\n4. Responsibility and care\n\nFor example, in responsibility and care, level 4 describes a student who always prepares, puts away and cares for the instrument; level 2 means the student needs frequent reminders.",
+              "label": "Prepare mid-term exams",
+              "user": "I need a mid-term Biology exam on life processes and homeostasis, with four criteria and achievement levels.",
+              "gabi": "Prepare the mid-term Biology exam using four criteria and four achievement levels (4-Excellent; 3-Good; 2-Acceptable; 1-Needs support):\n\n1) Understanding nutrition, interaction, reproduction and homeostasis.\n2) Applying concepts to biological situations.\n3) Interpreting data, diagrams or examples.\n4) Clear answers supported by evidence.\n\nFor example, level 4 in application explains a situation and justifies the answer with Biology concepts; level 2 identifies some ideas but needs support connecting them. Share the criteria before the exam.",
               "provenance": {
                 "sourceIds": [
                   "M06"
                 ],
                 "userTreatment": "English translation",
-                "responseTreatment": "English translation of the Spanish exhibition draft"
+                "responseTreatment": "English translation of editorial Biology adaptation"
               },
-              "take": "A rubric makes assessment criteria and achievement levels explicit.",
+              "take": "Criteria and achievement levels help teachers prepare and assess a Biology exam.",
               "gabiParts": [
-                "I suggest four criteria with four achievement levels: 4—Excellent; 3—Good; 2—Acceptable; 1—Needs support.\n1. Rhythm and tuning 2. Instrumental technique\n3. Expression and dynamics 4. Responsibility and care\nFor example, in responsibility and care, level 4 describes a student who always prepares, puts away and cares for the instrument; level 2 means the student needs frequent reminders."
+                "Prepare the mid-term Biology exam using four criteria and four achievement levels (4-Excellent; 3-Good; 2-Acceptable; 1-Needs support): 1) Understanding nutrition, interaction, reproduction and homeostasis. 2) Applying concepts to biological situations. 3) Interpreting data, diagrams or examples. 4) Clear answers supported by evidence. For example, level 4 in application explains a situation and justifies the answer with Biology concepts; level 2 identifies some ideas but needs support connecting them. Share the criteria before the exam."
               ]
             }
           ],
@@ -375,18 +333,50 @@ window.PROFE_GABI_CONVERSATIONS={
         }
       ],
       "reviewNotes": "M02: no se reproduce el ítem «¿Cuál NO es función vital?» ni su listado de opciones; requiere revisión pedagógica. M06: se resume la matriz de 16 descriptores y se omite «embocadura», que no corresponde por igual a flauta y metalófono. M05 es un extracto del mensaje recibido, no una certificación normativa.",
-      "scriptRevision": "2026-11-09-draft"
+      "scriptRevision": "2026-11-09-draft",
+      "entry": "direct"
     },
     {
-      "title": "Guide my professional growth",
-      "sub": "Professional development",
-      "icon": "calendar",
-      "lead": "Training and teacher assessment",
-      "question": "Yes. CPEIP offers free training for primary school teachers, although the offer changes with each call for applications.\n\nYou may find:\n• Online courses and workshops.\n• Certified professional development courses.\n• Training linked to the Teaching Career system.\n• In some calls, diploma or postgraduate programmes delivered with universities.",
-      "source": "Source: PROFE GABI textos · M10, M09 · English translation of exhibition adaptation",
+      "title": "Community Guidelines",
+      "sub": "Classroom community",
+      "icon": "people",
+      "lead": "Classroom community",
+      "question": "Here is a simple plan for ninth grade:\n\n1. Attention signal\n• Agree on a sound or gesture, such as “1-2-3, eyes on me”. Practise it two or three times at the start.\n2. Short, clear work periods\n• Divide activities into five- to ten-minute blocks. Use a visible timer.\n3. Group roles\n• Make teams of three or four. Assign a “focus keeper” to help the group stay on task.\n4. Active breaks\n• Every 15–20 minutes, take one or two minutes to stretch or breathe.\n5. Positive reinforcement\n• Praise students who help the class refocus. Simple incentives such as applause or stickers can help.",
+      "source": "PROFE GABI textos - M07 - Exhibition adaptation",
       "options": [
         {
-          "label": "Free CPEIP training",
+          "label": "Help my class stay focused",
+          "user": "Act as a classroom climate expert. I need a focus strategy for ninth grade: students are easily distracted and talk a lot.",
+          "gabi": "Here is a simple plan for ninth grade:\n\n1. Attention signal\n• Agree on a sound or gesture, such as “1-2-3, eyes on me”. Practise it two or three times at the start.\n2. Short, clear work periods\n• Divide activities into five- to ten-minute blocks. Use a visible timer.\n3. Group roles\n• Make teams of three or four. Assign a “focus keeper” to help the group stay on task.\n4. Active breaks\n• Every 15–20 minutes, take one or two minutes to stretch or breathe.\n5. Positive reinforcement\n• Praise students who help the class refocus. Simple incentives such as applause or stickers can help.",
+          "provenance": {
+            "sourceIds": [
+              "M07"
+            ],
+            "userTreatment": "English translation",
+            "responseTreatment": "English translation of the Spanish exhibition draft"
+          },
+          "take": "Clear routines, roles and breaks offer ideas for organising classroom work.",
+          "gabiParts": [
+            "Here is a simple plan for ninth grade:\n1. Attention signal • Agree on a sound or gesture, such as “1-2-3, eyes on me”. Practise it two or three times at the start.\n2. Short, clear work periods • Divide activities into five- to ten-minute blocks. Use a visible timer.",
+            "3. Group roles • Make teams of three or four. Assign a “focus keeper” to help the group stay on task.\n4. Active breaks • Every 15–20 minutes, take one or two minutes to stretch or breathe.\n5. Positive reinforcement • Praise students who help the class refocus. Simple incentives such as applause or stickers can help."
+          ],
+          "follow": []
+        }
+      ],
+      "reviewNotes": "M09: pendiente validar con el equipo la afirmación del documento sobre adhesión de colegios particulares pagados. El borrador no repite esa afirmación ni determina elegibilidad. M10: no se afirma que exista hoy una convocatoria abierta; el segundo mensaje del docente es una transición editorial, no una consulta real adicional. Las fuentes se muestran como texto, sin enlaces externos.",
+      "scriptRevision": "2026-11-09-draft",
+      "entry": "direct"
+    },
+    {
+      "title": "Professional growth and wellbeing",
+      "sub": "Professional growth and wellbeing",
+      "icon": "heart",
+      "lead": "Professional growth and wellbeing",
+      "question": "Choose Professional growth or Wellbeing before the conversation starts.",
+      "source": "PROFE GABI textos - M10, M08 - Exhibition adaptation",
+      "options": [
+        {
+          "label": "Professional growth",
           "user": "Does CPEIP offer free diploma or postgraduate programmes for primary school teachers?",
           "gabi": "Yes. CPEIP offers free training for primary school teachers, although the offer changes with each call for applications.\n\nYou may find:\n• Online courses and workshops.\n• Certified professional development courses.\n• Training linked to the Teaching Career system.\n• In some calls, diploma or postgraduate programmes delivered with universities.",
           "provenance": {
@@ -396,58 +386,14 @@ window.PROFE_GABI_CONVERSATIONS={
             "userTreatment": "English translation",
             "responseTreatment": "English translation of the Spanish exhibition draft"
           },
-          "follow": [
-            {
-              "label": "Assessment in a private school",
-              "user": "Can I take part in teacher assessment if I work in an independently funded private school?",
-              "gabi": "To confirm whether your school is included, check its RBD school identifier and the official DocenteMás information on who is assessed.\n\nChat guidance does not confirm your participation on its own. It is important to verify your school’s situation and the current requirements.",
-              "provenance": {
-                "sourceIds": [
-                  "M09"
-                ],
-                "userTreatment": "English translation",
-                "responseTreatment": "English translation of the Spanish exhibition draft"
-              },
-              "take": "General guidance does not replace official confirmation of an individual situation.",
-              "gabiParts": [
-                "To confirm whether your school is included, check its RBD school identifier and the official DocenteMás information on who is assessed.\nChat guidance does not confirm your participation on its own. It is important to verify your school’s situation and the current requirements."
-              ]
-            },
-            {
-              "label": "Application requirements",
-              "user": "What should I check before applying for CPEIP training?",
-              "gabi": "I recommend checking the platform regularly and reading the requirements for each call, because not every programme is open to every teacher.",
-              "provenance": {
-                "sourceIds": [
-                  "M10"
-                ],
-                "userTreatment": "English translation",
-                "responseTreatment": "English translation of the Spanish exhibition draft"
-              },
-              "take": "Training opportunities and requirements should be checked for each call.",
-              "gabiParts": [
-                "I recommend checking the platform regularly and reading the requirements for each call, because not every programme is open to every teacher."
-              ]
-            }
-          ],
+          "follow": [],
           "gabiParts": [
             "Yes. CPEIP offers free training for primary school teachers, although the offer changes with each call for applications. You may find: • Online courses and workshops. • Certified professional development courses. • Training linked to the Teaching Career system. • In some calls, diploma or postgraduate programmes delivered with universities."
-          ]
-        }
-      ],
-      "reviewNotes": "M09: pendiente validar con el equipo la afirmación del documento sobre adhesión de colegios particulares pagados. El borrador no repite esa afirmación ni determina elegibilidad. M10: no se afirma que exista hoy una convocatoria abierta; el segundo mensaje del docente es una transición editorial, no una consulta real adicional. Las fuentes se muestran como texto, sin enlaces externos.",
-      "scriptRevision": "2026-11-09-draft"
-    },
-    {
-      "title": "Look after my wellbeing",
-      "sub": "Teacher wellbeing",
-      "icon": "heart",
-      "lead": "Workload and classroom routines",
-      "question": "I understand how you feel. Balancing marking and personal time is a real challenge.\n\nHere are some ideas:\n• Set marking blocks: spend 30–45 minutes a day marking, then stop.\n• Prioritise: identify which assignments need detailed feedback and which can receive general comments.\n• Use clear rubrics: they save time and show students what is expected.\n• Share the workload: consider peer assessment with colleagues or exchanging tests.\n\nAnd remember to look after yourself:\n1. Set time limits and keep to them.\n2. Schedule short breaks to recharge.\n3. Protect real time to switch off at the weekend.",
-      "source": "Source: PROFE GABI textos · M08, M07 · English translation of exhibition adaptation",
-      "options": [
+          ],
+          "take": "Review each training opportunity and its requirements to choose a relevant option."
+        },
         {
-          "label": "Marking and personal time",
+          "label": "Wellbeing",
           "user": "I feel bad because I have assignments, assessments and more to mark. But I do not want to use my free time at the weekend, and I cannot finish during the week because I am exhausted after the school day.",
           "gabi": "I understand how you feel. Balancing marking and personal time is a real challenge.\n\nHere are some ideas:\n• Set marking blocks: spend 30–45 minutes a day marking, then stop.\n• Prioritise: identify which assignments need detailed feedback and which can receive general comments.\n• Use clear rubrics: they save time and show students what is expected.\n• Share the workload: consider peer assessment with colleagues or exchanging tests.\n\nAnd remember to look after yourself:\n1. Set time limits and keep to them.\n2. Schedule short breaks to recharge.\n3. Protect real time to switch off at the weekend.",
           "provenance": {
@@ -457,49 +403,17 @@ window.PROFE_GABI_CONVERSATIONS={
             "userTreatment": "English translation",
             "responseTreatment": "English translation of the Spanish exhibition draft"
           },
-          "follow": [
-            {
-              "label": "Organise my marking",
-              "user": "I want to organise my marking and protect my free time.",
-              "gabi": "• Set marking blocks: spend 30–45 minutes a day marking, then stop.\n• Prioritise which assignments need detailed feedback and which can receive general comments.\n• Use clear rubrics to save time and guide students.\n• Share the workload with colleagues.\n\nAnd look after yourself:\n1. Set time limits and keep to them.\n2. Schedule short breaks to recharge.\n3. Protect real time to switch off at the weekend.",
-              "provenance": {
-                "sourceIds": [
-                  "M08"
-                ],
-                "userTreatment": "English translation",
-                "responseTreatment": "English translation of the Spanish exhibition draft"
-              },
-              "take": "Setting limits, prioritising and sharing the workload helps protect personal time.",
-              "gabiParts": [
-                "• Set marking blocks: spend 30–45 minutes a day marking, then stop. • Prioritise which assignments need detailed feedback and which can receive general comments. • Use clear rubrics to save time and guide students. • Share the workload with colleagues. And look after yourself: 1. Set time limits and keep to them.\n2. Schedule short breaks to recharge.\n3. Protect real time to switch off at the weekend."
-              ]
-            },
-            {
-              "label": "Help my class stay focused",
-              "user": "Act as a classroom climate expert. I need a focus strategy for ninth grade: students are easily distracted and talk a lot.",
-              "gabi": "Here is a simple plan for ninth grade:\n\n1. Attention signal\n• Agree on a sound or gesture, such as “1-2-3, eyes on me”. Practise it two or three times at the start.\n2. Short, clear work periods\n• Divide activities into five- to ten-minute blocks. Use a visible timer.\n3. Group roles\n• Make teams of three or four. Assign a “focus keeper” to help the group stay on task.\n4. Active breaks\n• Every 15–20 minutes, take one or two minutes to stretch or breathe.\n5. Positive reinforcement\n• Praise students who help the class refocus. Simple incentives such as applause or stickers can help.",
-              "provenance": {
-                "sourceIds": [
-                  "M07"
-                ],
-                "userTreatment": "English translation",
-                "responseTreatment": "English translation of the Spanish exhibition draft"
-              },
-              "take": "Clear routines, roles and breaks offer ideas for organising classroom work.",
-              "gabiParts": [
-                "Here is a simple plan for ninth grade:\n1. Attention signal • Agree on a sound or gesture, such as “1-2-3, eyes on me”. Practise it two or three times at the start.\n2. Short, clear work periods • Divide activities into five- to ten-minute blocks. Use a visible timer.",
-                "3. Group roles • Make teams of three or four. Assign a “focus keeper” to help the group stay on task.\n4. Active breaks • Every 15–20 minutes, take one or two minutes to stretch or breathe.\n5. Positive reinforcement • Praise students who help the class refocus. Simple incentives such as applause or stickers can help."
-              ]
-            }
-          ],
+          "follow": [],
           "gabiParts": [
             "I understand how you feel. Balancing marking and personal time is a real challenge. Here are some ideas: • Set marking blocks: spend 30–45 minutes a day marking, then stop. • Prioritise: identify which assignments need detailed feedback and which can receive general comments.",
             "• Use clear rubrics: they save time and show students what is expected. • Share the workload: consider peer assessment with colleagues or exchanging tests. And remember to look after yourself: 1. Set time limits and keep to them.\n2. Schedule short breaks to recharge.\n3. Protect real time to switch off at the weekend."
-          ]
+          ],
+          "take": "Organise your workload and protect time for rest and disconnection."
         }
       ],
       "reviewNotes": "M08: la primera respuesta es un extracto literal; se retira la pregunta abierta final para conservar una decisión cerrada. El seguimiento sobre correcciones reorganiza párrafos reales y usa una transición editorial. M07 se vincula con convivencia y carga cotidiana; no se presenta como atención de salud mental.",
-      "scriptRevision": "2026-11-09-draft"
+      "scriptRevision": "2026-11-09-draft",
+      "entry": "choose"
     }
   ]
 };

@@ -7,8 +7,10 @@ const es=read('conversations.es.json'),en=read('conversations.en.json');
 assert.equal(source.size,10);assert.equal(es.length,4);assert.equal(en.length,4);
 const used=new Set();let literalQuestions=0,literalResponses=0;
 for(let i=0;i<4;i++){
- const a=es[i].options[0],b=en[i].options[0];
- assert.equal(es[i].options.length,1);assert.equal(a.follow.length,2);assert.equal(b.follow.length,2);
+ assert.equal(es[i].options.length,i===3?2:1);
+ for(let option=0;option<es[i].options.length;option++){
+ const a=es[i].options[option],b=en[i].options[option];
+ assert.equal(a.follow.length,i<2?2:0);assert.equal(b.follow.length,a.follow.length);
  for(const [p,q] of [[a,b],...a.follow.map((f,j)=>[f,b.follow[j]])]){
   const meta=p.provenance;
   assert.deepEqual(meta.sourceIds,q.provenance.sourceIds);
@@ -28,6 +30,9 @@ for(let i=0;i<4;i++){
   }
   for(const item of [p,q])assert.ok(!/https?:\/\/|www\./.test(item.gabi),'Runtime reply should not redirect visitors');
  }
+ }
 }
-assert.equal(used.size,10);
-console.log(JSON.stringify({passed:true,sourceMessages:10,represented:used.size,literalQuestions,literalResponses,editorialQuestions:12-literalQuestions,endingsPerLanguage:8}));
+assert.equal(used.size,9);assert.ok(!used.has('M09'));
+assert.match(es[1].options[0].follow[1].provenance.responseTreatment,/Adaptación editorial/);
+assert.ok(!/música|music|flauta|met[aá]l[oó]fono/i.test(es[1].options[0].follow[1].gabi));
+console.log(JSON.stringify({passed:true,sourceMessages:10,represented:used.size,retired:['M09'],literalQuestions,literalResponses,editorialQuestions:9-literalQuestions,endingsPerLanguage:7}));

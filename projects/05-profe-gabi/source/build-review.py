@@ -7,6 +7,11 @@ import json
 import zipfile
 import html
 from xml.sax.saxutils import escape
+import runpy
+
+if any(t.get('entry') == 'choose' for t in json.loads((Path(__file__).resolve().parent / 'conversations.en.json').read_text(encoding='utf-8'))):
+    runpy.run_path(str(Path(__file__).resolve().parent / 'build-topic-review.py'))
+    raise SystemExit(0)
 
 base = Path(__file__).resolve().parent.parent
 out = base / 'review' / '2026-11-09'

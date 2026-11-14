@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "topics": [
+    "Prepare for a class",
+    "Create activities and quizzes",
+    "Community Guidelines",
+    "Professional growth and wellbeing"
+  ],
+  "endings": 7,
+  "deliveries": 17,
+  "communitySingleConversation": true,
+  "categoryFourChoosesBeforeChat": true,
+  "biologyExam": true,
+  "noClippedText": true,
+  "font": "22px",
+  "reload": true,
+  "homeBackRestart": true,
+  "stationIsolation": true,
+  "browserErrors": []
+}
