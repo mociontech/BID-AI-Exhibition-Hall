@@ -70,7 +70,7 @@
  function playerScreen(data,game,language,readonly){
   const copy=t(language),tv=readonly?window.PREDICTTODO_INSIGHTS:null;
   const roles=data.characters.map(item=>`<${readonly?'div':'button type="button"'} class="pulse-role-card ${item.id===game.playerId?'is-selected':''}" ${readonly?`data-role-mirror="${item.id}"`:`data-role="${item.id}"`}><span>${icon(readonly?'role':'avatar',item.id,item.avatar)}</span><b>${item.name}</b><small>${item[`role_${language}`]}</small><em>${item[`focus_${language}`]}</em><i>${item.bonus.points > 0?`+${item.bonus.points} ${copy.score.toLowerCase()}`:''}</i></${readonly?'div':'button'}>`).join('');
-  const heading=`<div><p>${copy.profile}</p><h1>${language==='es'?'¿Quién va a manejar <span>la ciudad hoy?</span>':'Who will manage <span>the city today?</span>'}</h1><span>${copy.roleHint}</span></div>`;
+  const heading=`<div><p>${copy.profile}</p><h1>${language==='es'?'¿Quién va a manejar <span>el tráfico de la ciudad hoy?</span>':'Who will manage <span>city traffic today?</span>'}</h1></div>`;
   const nameLabel=language==='es'?'Tu <span class="ptd-accent">nombre</span>':'Your <span class="ptd-accent">name</span>';
   if(tv){
    // The TV shows the chosen role large; the name field and the choice stay on the tablet.
@@ -463,7 +463,7 @@
    const card=fragment.firstElementChild,phase=options.game.phase,side=page.querySelector('.ptd-story-side');
    // The opening guide stays text-light and the closing hero keeps only the score (the impact block carries the idea).
    if(page.querySelector('.ptd-tv-guide')||page.querySelector('.ptd-tv-story--final')){}
-   else if(side)side.append(card);
+   else if(side){if(phase!=='player')side.append(card);}
    else if(phase==='intro'){
     const actions=page.querySelector('.ptd-intro-actions');
     if(actions)actions.before(card);else page.querySelector('.pulse-intro-card')?.append(card);

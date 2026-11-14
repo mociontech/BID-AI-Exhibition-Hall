@@ -343,3 +343,5 @@
 .ptd-menu-cta strong{font:700 calc(19.1 * var(--u))/1 PTDInter,Inter,Arial,sans-serif;font-optical-sizing:none;letter-spacing:0}
 @keyframes ptd-menu-cta-in{from{opacity:0;transform:translate(-50%,calc(12 * var(--u)))}to{opacity:1;transform:translate(-50%,0)}}
 @media (prefers-reduced-motion:reduce){.ptd-menu-cta{animation:none}}
+/* TV role screen without the key-fact box (client review, 14 Nov 2026): the empty side column takes no space. */
+.ptd-tv-story--player>.ptd-story-side:empty{display:none}
