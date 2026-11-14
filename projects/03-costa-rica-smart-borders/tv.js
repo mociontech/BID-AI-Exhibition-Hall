@@ -118,10 +118,10 @@
  function board(g){
   const tr=g.truck||{},L=g.labels||{};
   const counter=g.mode==='ai'?L.vuce:(g.stops&&g.stops[g.idx]?g.stops[g.idx].name:'');
-  return `<section class="crtv-board">
+  return `<section class="crtv-board${g.phase==='crossed'&&g.sim&&g.sim.final?' crtv-board--sim':''}">
    <div class="crtv-current crtv-current--plain"><b>${esc(tr.id)}</b><small>${esc(tr.cargo)}</small>${g.phase!=='crossed'?`<em>${esc(counter)}</em>`:''}</div>
    <div class="crtv-middle">${status(g)}${g.phase==='feedback'&&g.hint?`<p class="crtv-remind">${esc(g.hint)}</p>`:''}</div>
-   <div class="crtv-clocks crtv-clocks--one"><div class="crtv-clock"><span>${esc(g.clockLabel)}</span><b data-crtv-clock>${fmt(g.time||0)} s</b></div></div>
+   ${g.phase==='crossed'&&g.sim&&g.sim.final?`<div class="crtv-clocks crtv-clocks--one crtv-clocks--sim"><div class="crtv-clock crtv-clock--sim"><span>${esc(g.sim.label)}</span><b>${esc(g.sim.text)}</b></div></div>`:`<div class="crtv-clocks crtv-clocks--one"><div class="crtv-clock"><span>${esc(g.clockLabel)}</span><b data-crtv-clock>${fmt(g.time||0)} s</b></div></div>`}
   </section>`;
  }
  function intro(g){

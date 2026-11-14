@@ -962,3 +962,8 @@ div.crc-card{cursor:default}
 .crb-display-cta--aqd .crb-cta-arrow{width:clamp(18px,1.25vw,24px);height:clamp(18px,1.25vw,24px);margin-left:clamp(2px,.2vw,4px);animation:crbCtaDrop 1.6s cubic-bezier(.45,0,.55,1) infinite}
 .crb-display-cta--aqd .crb-cta-arrow svg{display:block;width:100%;height:100%}
 @keyframes crbCtaDrop{0%{opacity:0;transform:rotate(90deg) translateX(-45%)}25%{opacity:1}60%{opacity:1;transform:rotate(90deg) translateX(8%)}100%{opacity:0;transform:rotate(90deg) translateX(45%)}}
+
+/* TV: al cruzar, la caja de tiempo crece para el tiempo simulado fijo («Simulated time with VUCE 3.0: 1 hour, 19 min») */
+.crtv--fig .crtv-board.crtv-board--sim{grid-template-columns:calc(346 * var(--u)) minmax(0,1fr) calc(480 * var(--u))}
+.crtv--fig .crtv-clock--sim span{white-space:nowrap}
+.crtv--fig .crtv-clock--sim b{font-size:calc(50 * var(--u));white-space:nowrap}

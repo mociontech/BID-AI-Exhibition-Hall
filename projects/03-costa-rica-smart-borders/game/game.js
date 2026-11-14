@@ -22,6 +22,8 @@ const app=document.getElementById('app');
 /* Tiempo simulado "en frontera" (minutos). Son valores ilustrativos para la exposición:
    cámbialos aquí si el equipo del proyecto entrega cifras documentadas. */
 const SIM={stop:20,ai:5};
+/* Tiempos reales de referencia que pidió el BID: no dependen de la partida. */
+const REAL={manual:600,ai:79};
 
 /* Instituciones (paradas). Cada una revisa sus 3 documentos con su propia regla.
    red: inconsistencia posible · yellow: documento que puede faltar. */
@@ -100,7 +102,7 @@ const COPY={
   entities:{aduana:{name:'Aduana',short:'Aduana',rule:'Cantidad, peso y placa deben coincidir en los 3 documentos.'},policia:{name:'Policía',short:'Policía',rule:'Conductor y placa deben coincidir con la licencia y la tarjeta de circulación.'},salud:{name:'Ministerio de Salud',short:'Salud',rule:'El registro sanitario debe coincidir con el producto y la cantidad.'},animal:{name:'Sanidad Animal',short:'S. Animal',rule:'Producto y origen deben coincidir con el certificado zoosanitario.'},vegetal:{name:'Sanidad Vegetal',short:'S. Vegetal',rule:'Lote y peso deben coincidir con el certificado fitosanitario.'}},
   border:'Frontera',start:'Salida',vuce:'VUCE 3.0 · una sola ventanilla',
   // Intro
-  introTitle:'Un camión llega a la frontera.',introTitleA:'Un camión llega',introTitleB:'a la frontera.',howExplore:'Cómo explorar',seeHow:'Toca para ver cómo lo haría VUCE 3.0',startPill:'Inicio',
+  introTitle:'Un camión llega a la frontera.',introTitleA:'Un camión llega',introTitleB:'a la frontera.',howExplore:'Cómo explorar',seeHow:'Toca para ver cómo lo haría VUCE 3.0',startPill:'Inicio',backPill:'Volver',
   introBig:'Debe pasar por 5 instituciones.',
   introBody:'Primero lo revisas tú, parada por parada. Luego la IA de VUCE 3.0 lo hace en una sola.',
   introHow:[['eye','Tú revisas','5 paradas, 3 documentos en cada una.'],['cpu','La IA revisa','Una sola parada.'],['timer','Comparamos','Paradas, tiempo y aciertos.']],
@@ -123,7 +125,9 @@ const COPY={
   moving:'El camión avanza a la siguiente parada',
   crossed:'¡Cruzó la frontera!',
   crossedManual:'5 paradas · 5 filas · 5 revisiones por separado.',
-  crossedTime:'Tu tiempo: <strong>{t} s</strong> · Aciertos: <strong>{h} / 5</strong>',
+  crossedTime:'Aciertos: <strong>{h} / 5</strong>',
+  realManual:'En la frontera real, este proceso manual podría tardar hasta 10 horas.',realAi:'Tiempo simulado con VUCE 3.0: 1 hora, 19 min.',
+  simFinal:{manual:['Tiempo simulado','10 horas'],ai:['Tiempo simulado con VUCE 3.0','1 hora, 19 min']},simChart:['10 horas','1 h 19 min'],
   crossedSim:'En la frontera real esto toma horas. Tiempo simulado: <strong>≈ {m}</strong>.',
   manualDone:'¡Terminaste! Ahora la IA revisará el mismo camión en una sola parada.',
   manualCta:'Ver cómo lo hace la IA',
@@ -137,7 +141,7 @@ const COPY={
   aiLine:{green:'{entity}: todo coincide.',yellow:'{entity}: falta {doc}.',red:'{entity}: diferencia en {field}.'},
   aiLearn:'La IA <b>no abre el camión</b>. Lee rápido, une las 5 revisiones en una y señala las pistas. Cada institución conserva la última palabra.',
   crossedAi:'1 parada · 1 revisión conjunta · 5 reglas aplicadas.',
-  crossedAiTime:'Tiempo de la IA: <strong>{t} s</strong> · Semáforo: <strong>{light}</strong>',
+  crossedAiTime:'Semáforo: <strong>{light}</strong>',
   crossedAiSim:'Tiempo simulado en la frontera: <strong>≈ {m}</strong>.',
   aiDone:'La IA terminó. El camión ya cruzó.',
   aiCta:'Comparar resultados',
@@ -215,7 +219,7 @@ const COPY={
   units:{cantidad:'boxes',peso:'kg'},
   entities:{aduana:{name:'Customs',short:'Customs',rule:'Quantity, weight and plate must match across the 3 documents.'},policia:{name:'Police',short:'Police',rule:'Driver and plate must match the licence and the registration card.'},salud:{name:'Ministry of Health',short:'Health',rule:'The sanitary registration must match the product and the quantity.'},animal:{name:'Animal Health',short:'Animal',rule:'Product and origin must match the zoosanitary certificate.'},vegetal:{name:'Plant Health',short:'Plant',rule:'Batch and weight must match the phytosanitary certificate.'}},
   border:'Border',start:'Start',vuce:'VUCE 3.0 · one single window',
-  introTitle:'A truck arrives at the border.',introTitleA:'A truck arrives',introTitleB:'at the border.',howExplore:'How to explore',seeHow:'Click to see how VUCE 3.0 would do it',startPill:'Home',
+  introTitle:'A truck arrives at the border.',introTitleA:'A truck arrives',introTitleB:'at the border.',howExplore:'How to explore',seeHow:'Click to see how VUCE 3.0 would do it',startPill:'Home',backPill:'Back',
   introBig:'It must clear 5 agencies.',
   introBody:'First you check it, stop by stop. Then the VUCE 3.0 AI does it in a single stop.',
   introHow:[['eye','You check','5 stops, 3 documents each.'],['cpu','AI checks','One single stop.'],['timer','We compare','Stops, time and correct answers.']],
@@ -237,7 +241,9 @@ const COPY={
   moving:'The truck moves to the next stop',
   crossed:'It crossed the border!',
   crossedManual:'5 stops · 5 queues · 5 separate checks.',
-  crossedTime:'Your time: <strong>{t} s</strong> · Correct: <strong>{h} / 5</strong>',
+  crossedTime:'Correct: <strong>{h} / 5</strong>',
+  realManual:'At the real border, this manual process could take up to 10 hours.',realAi:'Simulated time with VUCE 3.0: 1 hour, 19 min.',
+  simFinal:{manual:['Simulated time','10 hours'],ai:['Simulated time with VUCE 3.0','1 hour, 19 min']},simChart:['10 hours','1h 19 min'],
   crossedSim:'At a real border this takes hours. Simulated time: <strong>≈ {m}</strong>.',
   manualDone:'Done! Now the AI will check the same truck in a single stop.',
   manualCta:'See how the AI does it',
@@ -250,7 +256,7 @@ const COPY={
   aiLine:{green:'{entity}: everything matches.',yellow:'{entity}: {doc} is missing.',red:'{entity}: difference in {field}.'},
   aiLearn:'The AI <b>does not open the truck</b>. It reads fast, merges the 5 checks into one and points out clues. Each agency keeps the final say.',
   crossedAi:'1 stop · 1 joint check · 5 rules applied.',
-  crossedAiTime:'AI time: <strong>{t} s</strong> · Light: <strong>{light}</strong>',
+  crossedAiTime:'Light: <strong>{light}</strong>',
   crossedAiSim:'Simulated time at the border: <strong>≈ {m}</strong>.',
   aiDone:'The AI is done. The truck has crossed.',
   aiCta:'Compare results',
@@ -410,11 +416,12 @@ function box(kind,title,body){
  const icon=ico({what:'eye',decided:'check',learned:'info'}[kind]);
  return `<section class="box box--${kind}"><h3><span>${icon}</span>${esc(title)}</h3><div class="box-body" data-box="${kind}">${body}</div></section>`;
 }
+function realPop(key){return `<aside class="real-pop" role="status"><span>${ico('timer')}</span><p>${esc(t(key))}</p></aside>`;}
 function clock(label){return `<div class="clock"><span>${esc(label)}</span><b data-clock>${fmt(state.screen==='ai'?state.ai.time:state.manual.time)} s</b></div>`;}
 function header(){
  return `<header class="top">
   <div class="top-brand"><img class="top-idb-group" src="../public/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="top-sep"></span><span><b>${esc(t('brand'))}</b><small>IDB Group Projects Across the Region</small></span></div>
-  <div class="top-tools"><div class="langs" aria-hidden="true"><button id="es" type="button" tabindex="-1">ES</button><button id="en" type="button" tabindex="-1">EN</button></div><button type="button" class="home-btn home-btn--start" data-act="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M10 20v-5h4v5"/></svg><span>${esc(t('startPill'))}</span></button></div>
+  <div class="top-tools"><div class="langs" aria-hidden="true"><button id="es" type="button" tabindex="-1">ES</button><button id="en" type="button" tabindex="-1">EN</button></div><button type="button" class="home-btn home-btn--back" data-act="back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4m6-6-6 6 6 6"/></svg><span>${esc(t('backPill'))}</span></button><button type="button" class="home-btn home-btn--start" data-act="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M10 20v-5h4v5"/></svg><span>${esc(t('startPill'))}</span></button></div>
  </header>`;
 }
 
@@ -494,7 +501,7 @@ function screenManual(){
  const E=t('entities'),L=t('lights');
  return `<main class="screen screen--manual">
   <section class="stage">
-   <div class="stage-head"><div><h1>${esc(t('manualTitle'))}</h1><p class="stage-lead">${done?esc(t('manualDone')):fill(t('manualBody'),{i:state.idx+1,entity:esc(E[s.key].name)})}</p></div>${clock(t('yourTime'))}</div>
+   <div class="stage-head"><div><h1>${esc(t('manualTitle'))}</h1><p class="stage-lead">${done?esc(t('manualDone')):fill(t('manualBody'),{i:state.idx+1,entity:esc(E[s.key].name)})}</p></div>${done?realPop('realManual'):clock(t('yourTime'))}</div>
    ${done?`<div class="manual-done" data-desk>${crossedCard()}</div>`:`<div class="manual-grid"><div class="manual-main" data-desk>${stopPanel(s)}</div><div class="actions actions--col" data-actions>${['green','yellow','red'].map(c=>`<button type="button" class="btn btn--${c}" data-act="${c}"><span class="light light--big light--${c}"></span><span><b>${esc(L[c].action)}</b><small>${esc(L[c].when)}</small></span></button>`).join('')}</div><div class="manual-foot" data-feedback><p class="manual-hint">${esc(t('manualHint'))} ${farrow()}</p></div></div>`}
   </section>
  </main>`;
@@ -526,14 +533,14 @@ function screenAi(){
  const done=state.ai.step>=5;
  return `<main class="screen screen--ai">
   <section class="stage">
-   <div class="stage-head"><div><h1>${esc(t('aiTitle'))}</h1><p class="stage-lead">${t('aiBody')} ${esc(t('aiIntro'))}</p></div>${clock(t('aiTime'))}</div>
+   <div class="stage-head"><div><h1>${esc(t('aiTitle'))}</h1><p class="stage-lead">${t('aiBody')} ${esc(t('aiIntro'))}</p></div>${done?realPop('realAi'):clock(t('aiTime'))}</div>
    <div data-desk>${aiPanel()}</div>
   </section>
  </main>`;
 }
 function chartRows(){
  const mt=state.manual.time,at=state.ai.time,yh=state.manual.answers.filter(a=>a.ok).length,ah=state.ai.answers.filter(a=>a.ok).length;
- return [{label:t('stops'),you:N,ai:1,youText:String(N),aiText:'1'},{label:t('time'),you:mt,ai:at,youText:fmt(mt)+' s',aiText:fmt(at)+' s'},{label:t('simTime'),you:N*SIM.stop,ai:SIM.ai,youText:'≈ '+fmtMin(N*SIM.stop),aiText:'≈ '+fmtMin(SIM.ai)},{label:t('hits'),you:yh,ai:ah,youText:yh+' / '+N,aiText:ah+' / '+N}];
+ return [{label:t('stops'),you:N,ai:1,youText:String(N),aiText:'1'},{label:t('time'),you:REAL.manual,ai:REAL.ai,youText:t('simChart')[0],aiText:t('simChart')[1]},{label:t('hits'),you:yh,ai:ah,youText:yh+' / '+N,aiText:ah+' / '+N}];
 }
 function chartHtml(rows){
  const col=(w,v,m,x)=>`<div class="rc-col rc-col--${w}"><em>${esc(x)}</em><i style="height:${Math.max(6,v/m*100)}%"></i></div>`;
@@ -678,7 +685,7 @@ function tvPacket(){
  return {v:2,screen,lang:state.lang,step:{intro:0,manual:1,ai:2,results:3}[screen],steps:t('steps'),simulated:t('simulated'),
   mode:m,truck:{id:truckId(),cargo:t('cargo')[state.cargo],icon:cargoOf().icon},stops,idx:Math.min(state.idx,N-1),pos:state.pos,moving:state.moving,
   merged:m==='ai'&&(state.ai.step>=1||(state.ai.busy&&state.ai.phase!=='replay')),busy:state.ai.busy,aiStep:state.ai.step,scanIdx:state.ai.scanIdx,confirmed:state.ai.confirmed,title,titleA:t('introTitleA'),titleB:t('introTitleB'),subtitle:screen==='intro'?t('introBig'):'',hint,phase,clockLabel,
-  time:Math.round(state[who].time),running:!!state[who].running,sim:{label:t('simLabel'),text:sim?'≈ '+fmtMin(sim):'0 min'},explain,
+  time:Math.round(state[who].time),running:!!state[who].running,sim:phase==='crossed'?{label:t('simFinal')[who][0],text:t('simFinal')[who][1],final:true}:{label:t('simLabel'),text:sim?'≈ '+fmtMin(sim):'0 min'},explain,
   feedback:fb?{ok:fb.ok,light:fb.light,title:fb.ok?t('fbRight'):t('fbWrong'),msg:fb.msg}:null,
   verdict:v?{light:v.light,title:fill(t('semaforo'),{name:L[v.light].name.toLowerCase()})+' · '+L[v.light].action,msg:v.msg,lines:v.lines}:null,
   results,labels:{you:t('you'),ai:t('ai'),time:t('time'),hits:t('hits'),stops:t('stops'),simTime:t('simTime'),seconds:t('seconds'),reading:TV.reading,border:t('border'),start:t('start'),vuce:t('vuce')}};
