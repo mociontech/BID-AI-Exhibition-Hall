@@ -1,27 +1,26 @@
-# Métricas de las diez experiencias
+# Métricas de las diez experiencias en Cloud Firestore
 
-Este sitio ya usa **Firebase Realtime Database**. Allí los proyectos son nodos, no documentos de Firestore. Las diez rutas son `aiExhibitionHall/analytics/projects/01`, `02`, `03`, `04`, `05`, `06`, `07`, `08`, `10` y `11`. Cada nodo aparece al recibir su primera visita.
+La sincronización entre tableta y TV continúa en Realtime Database. Las métricas se escriben en **Cloud Firestore** del proyecto `f1-sap`, base `(default)`.
 
-En cada ruta, `events` contiene registros anónimos:
+Ya se creó un documento `catalog` en cada una de estas diez colecciones. La tableta intenta completar cualquier catálogo que falte al abrir una experiencia en Netlify:
 
-- `visit`: entrada a la página del proyecto en la tableta.
-- `click`: botón o enlace pulsado, identificado por atributo o estructura de la interfaz. No se guarda el texto del botón.
-- `duration`: segundos acumulados con la pestaña visible. Se envía cada 15 segundos y al ocultar o cerrar la página.
+- `BID_AI_01_AquaData`
+- `BID_AI_02_BogotaTraffic`
+- `BID_AI_03_SmartBorders`
+- `BID_AI_04_Guatiguara`
+- `BID_AI_05_ProfeGabi`
+- `BID_AI_06_RegLAC`
+- `BID_AI_07_MAIIA`
+- `BID_AI_08_Teachy`
+- `BID_AI_10_CountryIntelligence`
+- `BID_AI_11_RISE`
 
-Todos llevan `visitId`, `ts` y `station`. Los clics llevan `action`; las muestras de tiempo llevan `durationMs`. La TV no registra visitas ni clics. La navegación local tampoco envía datos a Firebase.
+Dentro de la colección correspondiente se crean documentos `visit` al entrar, `click` al pulsar botones o enlaces y `duration` con el tiempo acumulado de la pestaña visible. El tiempo se registra cada 15 segundos y al ocultar o salir. Cada evento tiene `visitId` anónimo y número de estación; Firestore agrega `createTime`. No se guardan textos de botones, valores de formularios ni códigos de sala. La TV no cuenta como una visita adicional.
 
-## Activación
+## Reglas recomendadas
 
-En Firebase Console → Realtime Database → Reglas, copia el bloque actualizado `aiExhibitionHall` de [firebase.rules.fragment.json](firebase.rules.fragment.json) dentro de `rules` y publícalo. Conserva los demás bloques de reglas de la base. Sin publicar las reglas nuevas, Firebase rechazará los eventos. La configuración web de Firebase no da permisos de administración para modificar reglas.
+Firestore aceptó la creación de los diez catálogos con las reglas actuales. Para limitar estas escrituras públicas, abre **Firebase Console → Firestore Database → Reglas** y adapta el bloque de [FIRESTORE_ANALYTICS_RULES.txt](FIRESTORE_ANALYTICS_RULES.txt) dentro de `match /databases/{database}/documents {`, conservando las reglas existentes. Una regla general más permisiva puede seguir permitiendo otras escrituras; revísala antes de publicar. Las reglas de Realtime Database de `firebase.rules.fragment.json` no controlan Firestore.
 
-La lectura pública de estas métricas está desactivada. Los eventos se pueden ver en Firebase Console con una cuenta autorizada. Las escrituras permiten añadir registros y validan tipo, proyecto, marca de tiempo y tamaño. Como la tableta no se autentica, los conteos son orientativos: un tercero podría enviar eventos ficticios a la ruta pública. No uses estas métricas para decisiones que requieran auditoría.
+Luego abre `https://bidaiinaction.netlify.app/projects/01-aquadata/index.html?station=1` en la tableta. En Firestore deben aparecer las diez colecciones con `catalog`; la colección AquaData también tendrá un documento `visit`. Pulsa un botón y espera al menos 15 segundos para ver `click` y `duration`.
 
-## Obtener el resumen
-
-En Firebase Console → Realtime Database → Datos, exporta a JSON el nodo `aiExhibitionHall/analytics/projects` o toda la base. Después ejecuta:
-
-```powershell
-node scripts/analytics-report.cjs C:\ruta\exportacion.json
-```
-
-El reporte muestra entradas, clics, minutos activos, promedio de segundos por entrada y clics por acción para los diez proyectos. Para cada visita se usa la mayor muestra de tiempo, así que ocultar la página y cerrarla no suma el mismo tiempo dos veces. Una visita terminada antes de la primera muestra puede registrar cero segundos. Las imágenes y los contenidos dentro de iframes de otro origen quedan fuera del registro de clics.
+Los eventos son datos de demostración no autenticados. Las reglas limitan formato y tamaño, pero no pueden asegurar que cada evento provenga de una persona real; los conteos son orientativos.
