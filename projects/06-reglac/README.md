@@ -1,7 +1,7 @@
 # 06 — RegLAC
 
 Actualizado el 2026-11-13: menú principal PNG del cliente (`menuprincipalREGLAG`) en la tableta y el TV,
-infografía animada en «About the project» y video `RegLac_SUB_EN` en «Video». El TV muestra una píldora
+infografía animada en «About the project» y video `RegLac_SUB_ENV2` en «Video». El TV muestra una píldora
 de guía en el menú y otra en la infografía. Mismo funcionamiento que Guatiguará (04).
 Respetar mayúsculas de `Public/` y `Video/` (las rutas de Netlify distinguen mayúsculas).
 
@@ -15,8 +15,8 @@ Respetar mayúsculas de `Public/` y `Video/` (las rutas de Netlify distinguen ma
 - `Public/reglac-infografia-base.png`: la misma infografía con el contenido borrado (panel azul,
   marcos de las tarjetas y barra de impacto vacíos). Se genera borrando las cajas de `SHEET` en
   `experience.js`; si cambia la infografía hay que regenerarla y volver a medir esas cajas.
-- `Video/RegLac_SUB_EN_web.mp4`: video del TV (H.264 1080p, AAC 160 kbps, faststart, 27,5 MB),
-  comprimido desde `RegLac_SUB_EN.mp4` (95 MB, no se versiona: GitHub limita a 100 MB).
+- `Video/RegLac_SUB_ENV2_web.mp4`: video del TV (H.264 1080p, AAC 160 kbps, faststart, 28 MB),
+  comprimido desde `RegLac_SUB_ENV2.mp4` (98,5 MB, no se versiona: GitHub limita a 100 MB).
 
 ## Funcionamiento
 

@@ -2,7 +2,7 @@
    Both clients use only files in 06-reglac/Public and 06-reglac/Video.
    Keep the capital P and V: hosting paths are case-sensitive. */
 (function(){
- const version='?v=20261113-menu-1';
+ const version='?v=20261114-video-2';
  const base=new URL('./Public/',document.currentScript.src);
  const videoBase=new URL('./Video/',document.currentScript.src);
  const asset=name=>new URL(name,base).href+version;
@@ -13,7 +13,7 @@
      used as the empty blue panel, card frames and impact bar while the sheet builds. */
   info:asset('reglac-infografia-en.png'),
   infoBase:asset('reglac-infografia-base.png'),
-  video:new URL('RegLac_SUB_EN_web.mp4',videoBase).href+version
+  video:new URL('RegLac_SUB_ENV2_web.mp4',videoBase).href+version
  };
  const words={
   screen:'RegLAC, VPS · IFD: AI-Powered Regulatory Analysis. About the project and Video.',
