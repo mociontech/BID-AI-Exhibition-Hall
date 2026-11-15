@@ -46,7 +46,7 @@
  const glyph=(name,className='')=>`<svg class="ptd-icon ptd-icon--${name}${className?' '+className:''}" viewBox="${figma[name][0]}" fill="none" aria-hidden="true">${figma[name][1]}</svg>`;
  const svg=(name,className='')=>`<svg class="ptd-icon ptd-icon--${name}${className?' '+className:''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]||paths.pin}</svg>`;
  const scenarios={cali_peak:'case-car',campin_arrival:'case-ball',campin_exit:'case-exit',calle100_quiet:'case-moon'};
- const actions={signals:'action-signal',reversible:'action-reversible',agents:'action-officer',monitor:'action-pause'};
+ const actions={signals:'action-signal',reversible:'action-arrows',agents:'action-cone',monitor:'action-eyeoff'};
  // The TV keeps the outline role marks (Figma 08-tv-rol); the tablet role cards use the Figma figures.
  const roles={valentina:'chart',camila:'monitor',santiago:'signal',andres:'badge'};
  const avatars={valentina:'role-woman',camila:'role-woman',santiago:'role-man',andres:'role-man'};
@@ -55,7 +55,7 @@
   svg,names:Object.keys(paths),
   glyph,glyphs:Object.keys(figma),
   scenario:(id,className)=>glyph(scenarios[id]||'case-car',className),
-  action:(id,className)=>glyph(actions[id]||'action-pause',className),
+  action:(id,className)=>glyph(actions[id]||'action-eyeoff',className),
   role:(id,className)=>svg(roles[id]||'user',className),
   avatar:(id,className)=>glyph(avatars[id]||'role-man',className),
   step:(index,className)=>glyph(steps[index]||'step-star',className)

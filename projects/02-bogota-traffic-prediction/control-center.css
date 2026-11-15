@@ -550,6 +550,8 @@
 .cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div,.cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div.is-choice{padding:0;gap:6px 12px;border:0;background:transparent;color:#141414;font-weight:500}
 .cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div.is-choice{color:#005cff;font-weight:700}
 .cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div>span{font-size:16px}
+/* Frame 6: action marks stay blue even when their row is not selected. */
+.cc-observer[data-phase=result] .cc-tv-compare--result .ptd-icon{width:22px;height:22px;color:#5c97ff;vertical-align:middle}
 .cc-observer[data-phase=result] .cc-tv-compare--result>div:last-child>div>b{font-size:20px}
 .cc-observer[data-phase=result] .cc-tv-compare--result i{height:6px;background:#edf4ff}.cc-observer[data-phase=result] .cc-tv-compare--result em{background:#005cff}
 /* Opening and role screens (pulse-vial): two-tone titles, large buttons, brand-only TV bar */

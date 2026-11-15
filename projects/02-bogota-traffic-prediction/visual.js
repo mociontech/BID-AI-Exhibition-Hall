@@ -1,10 +1,9 @@
-﻿/* Project 02 landing (November 2026). The tablet shows the supplied main menu (menu-principal-en.png, 1920 × 1080,
-   English) with touch zones over Home and the two cards; while the TV shows the project sheet a Back pill sits next
-   to Home. The TV shows the same artwork without the Home pill (menu-principal-tv.png). In both files the subtitle
-   reads «Bogotá Traffic Prediction»: the delivered menuprincipal2.png said «ediction» and only that line was redrawn. */
+/* Project 02 landing (November 2026). The tablet uses the supplied 14 November cover
+   with the updated About copy and two-tone title. Its header retains the existing Home
+   pill; touch zones and TV artwork remain independent of the tablet body. */
 (function(){
   const asset=name=>new URL('predicttodoImages/'+name,document.currentScript.src).href;
-  const menuArt=Object.freeze({tablet:asset('menu-principal-en.png'),tv:asset('menu-principal-tv.png')});
+  const menuArt=Object.freeze({tablet:asset('menu-principal-tablet-20261114.png'),tabletHeader:asset('menu-principal-en.png'),tv:asset('menu-principal-tv.png')});
   // The tablet opens on the menu: start loading it with the script.
   if(typeof Image!=='undefined'&&/\/projects\//.test(location.pathname))new Image().src=menuArt.tablet;
   // Thin arrow in the style of the house outline drawn in the Home pill.
@@ -19,7 +18,8 @@
     const hit=(action,label)=>`<button type="button" class="ptd-menu-hit ptd-menu-hit--${action}" data-action="${action}" aria-label="${label}"></button>`;
     const back=informationActive?`<button type="button" class="ptd-menu-back" data-action="back-information">${backIcon}<span>${copy.back}</span></button>`:'';
     const art=readonly?menuArt.tv:menuArt.tablet;
-    return `<main class="ptd-menu${readonly?' ptd-menu--tv':''}" lang="en" style="--art:url('${art}')" aria-label="${copy.alt}"><div class="ptd-menu-bar"><div class="ptd-menu-band ptd-menu-band--bar">${readonly?'':back+hit('home',copy.home)}</div></div><div class="ptd-menu-body"><div class="ptd-menu-band ptd-menu-band--body">${readonly?`<div class="ptd-menu-cta" role="status">${tvTablet}<strong>${copy.tvCta}</strong></div>`:hit('information',copy.information)+hit('open-game',copy.game)}</div></div></main>`;
+    const headerArt=readonly?art:menuArt.tabletHeader;
+    return `<main class="ptd-menu${readonly?' ptd-menu--tv':''}" lang="en" style="--art:url('${art}')" aria-label="${copy.alt}"><div class="ptd-menu-bar"><div class="ptd-menu-band ptd-menu-band--bar" style="background-image:url('${headerArt}')">${readonly?'':back+hit('home',copy.home)}</div></div><div class="ptd-menu-body"><div class="ptd-menu-band ptd-menu-band--body">${readonly?`<div class="ptd-menu-cta" role="status">${tvTablet}<strong>${copy.tvCta}</strong></div>`:hit('information',copy.information)+hit('open-game',copy.game)}</div></div></main>`;
   }
   window.PREDICTTODO_VISUAL=Object.freeze({landing,menuArt});
 })();
