@@ -97,8 +97,7 @@
   if(mount.querySelector('.teachy-display-video'))return;
   mount.innerHTML=`<main class="teachy-display teachy-display--video" aria-label="Teachy video"><video class="teachy-display-video" src="${art.video}" autoplay loop playsinline preload="auto" aria-label="Teachy video"></video></main>`;
   const video=mount.querySelector('.teachy-display-video');
-  // Browsers may block sound without a user gesture on the TV: fall back to muted playback.
-  video.play().catch(()=>{video.muted=true;return video.play().catch(()=>{});});
+  window.AI_DISPLAY_AUDIO.play(video);
  }
  function renderInfo(mount){
   // Do not remount (and restart the animation) if the sheet is already on screen.
