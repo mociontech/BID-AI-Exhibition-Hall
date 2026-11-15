@@ -10,12 +10,18 @@ Tablet controller + TV for station 04 (English only). Links: tablet `projects/04
 - `Public/guatiguara-menu-en.png`: main menu, 1920 × 1080 (tablet and TV; the TV adds the "Select an option on the tablet" pill).
 - `Public/guatiguara-infografia-en.png`: "About the project" infographic, 1920 × 1080. The TV builds it piece by piece from crops of this PNG over `guatiguara-infografia-base.png` (the same sheet with its content erased).
 
-## Pending: institutional video
+## Institutional video
 
-The video has not been delivered. Until then, "Video" shows a "Coming soon" screen on the TV. When it arrives:
+`Video/guatiguara.mp4` is the web-optimized version of the supplied institutional video (41,353,226 bytes). It preserves the full 74.36-second duration, 1920 x 1080 resolution and stereo audio, encoded as H.264/AAC with fast-start metadata. The original file in Downloads is preserved.
 
-1. Save it as `Video/<name>.mp4` (H.264 1080p, under 100 MB).
-2. Write the file name in `VIDEO_FILE` in `experience.js` and bump the `?v=` versions in `experience.js`, `index.html` and `display.html`.
+From the repository root, run `npm start`, then open both:
+
+- Tablet controller: http://localhost:4173/projects/04-parque-tecnologico-guatiguara/index.html?station=4
+- TV display: http://localhost:4173/display.html?station=4
+
+Tap **Video** on the tablet to play it full screen in a loop on the TV. **Back** returns to the project menu. If the browser blocks audio autoplay, playback falls back to muted video. The TV has no interactive controls; all visitor interaction takes place on the tablet.
+
+The video is configured by `VIDEO_FILE` in `experience.js`. When replacing it, update that file name and the experience script cache versions in `experience.js`, `index.html` and `display.html`.
 
 ## If the infographic PNG changes
 

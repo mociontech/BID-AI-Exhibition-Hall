@@ -3,14 +3,12 @@
    Both clients use only files in 04-parque-tecnologico-guatiguara/Public and /Video.
    Keep the capital P and V: hosting paths are case-sensitive. */
 (function(){
- const version='?v=20261113-menu-2';
+ const version='?v=20261115-video-3';
  const base=new URL('./Public/',document.currentScript.src);
  const videoBase=new URL('./Video/',document.currentScript.src);
  const asset=name=>new URL(name,base).href+version;
- /* The institutional video has not been delivered yet. When it arrives, save it as
-    Video/<name>.mp4 (H.264, under 100 MB) and write its file name here: the TV then plays it
-    full screen in a loop instead of the "coming soon" screen. */
- const VIDEO_FILE='';
+ /* Web-optimized copy of the supplied institutional video; the TV plays it full screen in a loop. */
+ const VIDEO_FILE='guatiguara.mp4';
  const art={
   menu:asset('guatiguara-menu-en.png'),
   /* "About the project" infographic and the same sheet with its content erased, used as the
@@ -115,8 +113,11 @@
   mount.innerHTML=`<main class="gtg-display gtg-display--video" aria-label="${words.video}"><video class="gtg-display-video" src="${art.video}" autoplay loop playsinline preload="auto" aria-label="${words.video}"></video></main>`;
   const video=mount.querySelector('.gtg-display-video');
   video.addEventListener('error',()=>renderPlaceholder(mount),{once:true});
-  // Browsers may block sound without a user gesture on the TV: fall back to muted playback.
-  video.play().catch(()=>{video.muted=true;return video.play().catch(()=>{});});
+  // A tablet click cannot unlock audio in the separate TV browser.
+  video.play().catch(()=>{
+   video.muted=true;
+   return video.play().catch(()=>{});
+  });
  }
  function renderInfo(mount){
   // Do not remount (and restart the animation) if the sheet is already on screen.
