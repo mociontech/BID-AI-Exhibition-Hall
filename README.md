@@ -11,6 +11,10 @@ Los proyectos 01–04 conservan su implementación. Las secciones siguientes doc
 
 Starter para programar en **Codex**, basado en la pantalla de tableta horizontal aprobada para el BID. Incluye el menú de **11 proyectos en orden alfabético**, estructura separada por carpetas y las bases para **3 estaciones tablet–pantalla independientes**.
 
+## Audio de las pantallas
+
+Para habilitar sonido una vez por sesi?n y preparar Chrome/Edge para funcionamiento desatendido, consulta [la gu?a de audio y el lanzador de Windows](docs/display-audio.md).
+
 ## Ejecutar
 
 Se necesita **Node.js 18 o superior**. No se descargan librerías; no hay dependencias externas.

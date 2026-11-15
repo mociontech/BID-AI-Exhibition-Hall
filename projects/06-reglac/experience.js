@@ -105,8 +105,7 @@
   if(mount.querySelector('.reglac-display-video'))return;
   mount.innerHTML=`<main class="reglac-display reglac-display--video" aria-label="${words.video}"><video class="reglac-display-video" src="${art.video}" autoplay loop playsinline preload="auto" aria-label="${words.video}"></video></main>`;
   const video=mount.querySelector('.reglac-display-video');
-  // Browsers may block sound without a user gesture on the TV: fall back to muted playback.
-  video.play().catch(()=>{video.muted=true;return video.play().catch(()=>{});});
+  window.AI_DISPLAY_AUDIO.play(video);
  }
  function renderInfo(mount){
   // Do not remount (and restart the animation) if the sheet is already on screen.

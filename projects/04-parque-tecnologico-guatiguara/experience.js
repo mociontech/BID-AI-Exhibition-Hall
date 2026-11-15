@@ -112,12 +112,7 @@
   if(!art.video)return renderPlaceholder(mount);
   mount.innerHTML=`<main class="gtg-display gtg-display--video" aria-label="${words.video}"><video class="gtg-display-video" src="${art.video}" autoplay loop playsinline preload="auto" aria-label="${words.video}"></video></main>`;
   const video=mount.querySelector('.gtg-display-video');
-  video.addEventListener('error',()=>renderPlaceholder(mount),{once:true});
-  // A tablet click cannot unlock audio in the separate TV browser.
-  video.play().catch(()=>{
-   video.muted=true;
-   return video.play().catch(()=>{});
-  });
+  window.AI_DISPLAY_AUDIO.play(video,{onError:()=>renderPlaceholder(mount)});
  }
  function renderInfo(mount){
   // Do not remount (and restart the animation) if the sheet is already on screen.
