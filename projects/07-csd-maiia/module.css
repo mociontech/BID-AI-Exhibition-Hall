@@ -114,9 +114,9 @@
 .mai-branded .mai-art-final-legend .mai-legend i{width:22px;height:16px}
 .mai-branded .mai-scorecard{border:0;border-radius:0;background:#fff;box-shadow:none;padding:0;text-align:left;color:#5b93ff}
 .mai-branded .mai-scorecard-assisted{color:#005cff}
-.mai-branded .mai-scorecard strong{font-size:136px;line-height:1;letter-spacing:-4px;font-weight:450;display:block;margin:0 0 0}
+.mai-branded .mai-scorecard strong{font-family:MaiiaInter,Inter,Arial,sans-serif;font-size:136px;line-height:1;letter-spacing:-4px;font-weight:700;display:block;margin:0 0 0}
 .mai-branded .mai-scorecard p{font-size:26px;line-height:1.4;margin:0;color:#141414}
-.mai-branded .mai-scorecard p b{font-weight:450}
+.mai-branded .mai-scorecard p b{font-weight:700}
 .mai-branded .mai-final-message{border:0;border-radius:0;box-shadow:none;padding:0;background:#fff}
 .mai-branded .mai-final-message h2{font-size:35px;font-weight:700;line-height:1.15;margin:0 0 3px;letter-spacing:-.7px}
 .mai-branded .mai-final-message p{font-size:26px;line-height:1.2;margin:0}

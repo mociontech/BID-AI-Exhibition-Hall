@@ -207,8 +207,9 @@
     html+=patch([340,202,1400,42],`${g.easyScore}% overlap with the demo reference`,'mai-supplied-hint');
     html+=suppliedButton([1280,960,300,70],'next','Next: Scale');
    }else if(p==='manual'){
+    html+=patch([340,202,1490,42],'Tap places on the tablet. No drawing this time.','mai-supplied-hint');
     html+='<div class="mai-zoom-controls">';
-    html+=patch([710,960,550,70],`${g.markers.length} of 5 pins placed`,'mai-supplied-count');
+    html+=patch([710,960,550,70],`${g.markers.length} ${g.markers.length===1?'pin':'pins'} placed`,'mai-supplied-count');
     html+=suppliedButton([340,960,250,70],'clear','Clear all markers',!g.markers.length);
     html+=suppliedButton([1280,960,300,70],'review',"I'm ready")+'</div>';
    }else if(p==='manualResult'){
@@ -240,6 +241,7 @@
   else if(p==='easyResult'){
    html+=patch([1420,590,424,190],`<span>You identified</span><strong>${g.easyScore}%</strong>`,'mai-supplied-overlap');
   }else if(p==='manual'){
+   html+=patch([1420,657,424,173],'Can you spot more informal settlements? Tap places on the tablet. No drawing this time.','mai-supplied-tv-body');
    html+=patch([1420,960,424,60],`${g.markers.length} ${g.markers.length===1?'area outlined':'areas outlined'}`,'mai-supplied-tv-counter mai-zoom-controls');
   }else if(p==='manualResult'){
    html+=patch([1420,461,424,50],`${g.manual.hits} of ${total} informal areas found`,'mai-supplied-tv-body');
