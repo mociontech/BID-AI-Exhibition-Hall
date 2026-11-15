@@ -1,6 +1,7 @@
 # 06 — RegLAC
 
-Actualizado el 2026-11-13: menú principal PNG del cliente (`menuprincipalREGLAG`) en la tableta y el TV,
+Video actualizado el 2026-11-15 desde el archivo entregado `RegLac_SUB_ENV2.mp4`.
+Se conserva el menú principal PNG del cliente (`menuprincipalREGLAG`) en la tableta y el TV,
 infografía animada en «About the project» y video `RegLac_SUB_ENV2` en «Video». El TV muestra una píldora
 de guía en el menú y otra en la infografía. Mismo funcionamiento que Guatiguará (04).
 Respetar mayúsculas de `Public/` y `Video/` (las rutas de Netlify distinguen mayúsculas).
@@ -15,8 +16,13 @@ Respetar mayúsculas de `Public/` y `Video/` (las rutas de Netlify distinguen ma
 - `Public/reglac-infografia-base.png`: la misma infografía con el contenido borrado (panel azul,
   marcos de las tarjetas y barra de impacto vacíos). Se genera borrando las cajas de `SHEET` en
   `experience.js`; si cambia la infografía hay que regenerarla y volver a medir esas cajas.
-- `Video/RegLac_SUB_ENV2_web.mp4`: video del TV (H.264 1080p, AAC 160 kbps, faststart, 28 MB),
-  comprimido desde `RegLac_SUB_ENV2.mp4` (98,5 MB, no se versiona: GitHub limita a 100 MB).
+- `Video/RegLac_SUB_ENV2_web.mp4`: video del TV (H.264 Main 4.1, 1920 × 1080, 25 fps,
+  76,84 s, audio AAC original sin recodificar, faststart, 23,18 MB).
+  Se genera desde `RegLac_SUB_ENV2.mp4` (98,53 MB); el original queda fuera del repositorio.
+- `Video/source.json`: tamaños, SHA-256 del original y de la copia web y parámetros de codificación
+  (`libx264`, preset `medium`, CRF 20, audio `copy`, `+faststart`). El video usa una nueva versión de
+  caché, importada desde la tableta y la TV. La comparación con el video anterior confirma el mismo
+  contenido; esta entrega reemplaza su copia web optimizada y conserva el audio de la fuente.
 
 ## Funcionamiento
 
