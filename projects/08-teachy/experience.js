@@ -13,7 +13,7 @@
      used as the empty blue panel, card frames and impact bar while the sheet builds. */
   info:asset('teachy-infografia-en.png'),
   infoBase:asset('teachy-infografia-base.png'),
-  video:new URL('Teachy_Musica_v3_web.mp4',videoBase).href+version
+  video:new URL('Teachy_Musica_v3_web.mp4',videoBase).href+'?v=20261115-video-4'
  };
  const words={
   screen:'Teachy, IDB Lab: AI Co-Pilot for Teachers. About the project and Video.',
