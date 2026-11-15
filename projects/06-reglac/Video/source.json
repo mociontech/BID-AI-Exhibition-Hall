@@ -1,0 +1,27 @@
+{
+  "updatedAt": "2026-11-15",
+  "source": {
+    "file": "RegLac_SUB_ENV2.mp4",
+    "bytes": 98526009,
+    "sha256": "45a586c0bcdeaae73329b139e2495ec208c954166ee29f77abced747a48389f1"
+  },
+  "web": {
+    "file": "RegLac_SUB_ENV2_web.mp4",
+    "bytes": 23179575,
+    "sha256": "04d6a209b2f79cc8614c44e1f5f015d9410738c662a3a403c601c827a444cdab",
+    "width": 1920,
+    "height": 1080,
+    "durationSeconds": 76.84,
+    "fps": 25,
+    "videoCodec": "H.264 Main 4.1, yuv420p",
+    "audio": "Original AAC stereo, copied without re-encoding",
+    "faststart": true
+  },
+  "encoding": {
+    "video": "libx264",
+    "preset": "medium",
+    "crf": 20,
+    "audio": "copy",
+    "movflags": "+faststart"
+  }
+}
