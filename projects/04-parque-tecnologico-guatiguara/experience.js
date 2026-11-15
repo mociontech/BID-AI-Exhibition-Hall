@@ -3,7 +3,7 @@
    Both clients use only files in 04-parque-tecnologico-guatiguara/Public and /Video.
    Keep the capital P and V: hosting paths are case-sensitive. */
 (function(){
- const version='?v=20261115-video-3';
+ const version='?v=20261115-video-4';
  const base=new URL('./Public/',document.currentScript.src);
  const videoBase=new URL('./Video/',document.currentScript.src);
  const asset=name=>new URL(name,base).href+version;
