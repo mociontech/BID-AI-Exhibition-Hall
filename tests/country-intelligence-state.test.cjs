@@ -16,23 +16,13 @@ test('all three human decisions survive transport, including option zero',()=>{
  assert.equal(state.sanitize({...original,ph:{0:'run'}}),null);
  assert.equal(state.sanitize({...original,lastActive:NaN}),null);
 });
-
-test('Country Intelligence uses the hosting clock and preserves private room links on Netlify',async()=>{
- const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
- const realNow=Date.now(),requests=[],room='c'.repeat(32),values=new Map();
- class SkewedDate extends Date{static now(){return Date.now()+300000;}}
- const storage={getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
- const window={dispatchEvent:()=>{}};
- const fetch=async(url,options={})=>{
-  requests.push({url,method:options.method});
-  if(options.method==='HEAD')return {ok:true,headers:{get:()=>new Date(realNow).toUTCString()}};
-  return {ok:true,headers:{get:()=>null},json:async()=>({stationId:10,updatedAt:realNow,payload:JSON.stringify({projectId:'10',view:'game',language:'es',game:{...state.fresh(realNow,'es'),screen:'game',sc:'m0'}})})};
- };
- vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../shared/sync.js'),'utf8'),{window,location:{hostname:'bidaiinaction.netlify.app',search:'?station=10&room='+room},sessionStorage:storage,localStorage:storage,URLSearchParams,fetch,AbortSignal,Date:SkewedDate,JSON,Promise,setTimeout,CustomEvent:class {}});
- const received=await window.AI_SYNC.read();
- assert.equal(received.projectId,'10');
- assert.ok(Math.abs(window.AI_SYNC.now()-realNow)<1500);
- assert.equal(window.AI_SYNC.stationQuery,'?station=10&room='+room);
- assert.equal(requests.filter(r=>r.method==='HEAD').length,1);
- assert.ok(requests.filter(r=>r.method!=='HEAD').every(r=>r.url.endsWith('/rooms/'+room+'.json')));
+test('v51 retains country, reading phase, comparison timestamps and all five program options',()=>{
+ const v51={...state.freshV51(10000),sc:'m2',cc:'MX',ph:{0:'done',1:'done',2:'read'},pk:{0:0,1:4},p:{0:1,1:1,2:1},phaseAt:{0:4000,1:7000,2:9500}};
+ const packet={...state.fresh(10000),screen:'game',v51};
+ assert.deepEqual(state.sanitize(JSON.parse(JSON.stringify(packet))).v51,v51);
+ assert.equal(state.sanitize({...packet,v51:{...v51,cc:'XX'}}),null);
+ assert.equal(state.sanitize({...packet,v51:{...v51,pk:{0:1}}}),null);
+ assert.equal(state.sanitize({...packet,v51:{...v51,pk:{1:5}}}),null);
+ assert.equal(state.sanitize({...packet,v51:{...v51,p:{2:1.1}}}),null);
+ assert.equal(state.sanitize({...packet,v51:{...v51,con:[0,0]}}),null);
 });

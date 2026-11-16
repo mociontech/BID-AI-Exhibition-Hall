@@ -1,44 +1,52 @@
-# 10 — VPC Country Intelligence
+# 10 — Country Intelligence / AI-Powered Country Strategies
 
-**Scope:** this is an individual module for the AI Exhibition Hall tablet controller.
+Integration of the approved `AI-powered_Country_Strategies_Prototipo_v51.html` for the GitHub/Netlify exhibition. The existing shared Firebase transport, private room links and other projects are preserved.
 
-- `index.html`: project landing and navigation wrapper.
-- `module.js`: the editable location for this project's overview content and mini-game.
-- Shared display, tablet UI, navigation and station synchronization are in `../../shared/`.
+## Review locally
 
-## Status
+- Tablet: http://localhost:4187/projects/10-vpc-country-intelligence/index.html?station=10
+- Large display: http://localhost:4187/display.html?station=10
+- General projects: http://localhost:4187/projects/10-vpc-country-intelligence/index.html?station=10&projects=1
 
-Integrated locally from the supplied **Country Intelligence Prototipo.html**. The user's explicit instruction to preserve its dynamics takes precedence over the different Valleverde game described in the pasted brief.
+From the exhibition repository root, use `$env:PORT='4187'; npm start` in PowerShell. Keep the tablet and display on the same station number.
 
-The original sequence remains: Problem → Solution → eight signals → Design → Program → Supervise → Loop. Each comparison lasts 5.2 seconds. Each moment requires one human choice; every offered choice is valid, as in the original. Back navigation, Connect all, and replay are retained. There is no added scoring, source rejection, drag interaction, or 60-second cutoff: those would change the supplied game.
+## Cover and infographic
 
-The exhibition wrapper adds two independent options, both active from the start: Information and Minigame. Information shows a separate bilingual infographic about Country Intelligence on TV: scattered evidence → AI connections → human decisions, the three connected capabilities, and more than eight experiments. It does not reuse the minigame screens. There is no unlock timer or prerequisite. Synchronized ES/EN, fullscreen, general Home, and return to the project menu are retained. The original 45-second inactivity reset returns to the project menu with both options available. Absolute server-aligned timestamps preserve comparison progress across tablet/TV reloads. Only the tablet writes state; the display is read-only.
+The tablet cover contains only Home, About the project and Interactive experience. Selecting About the project leaves the tablet cover unchanged apart from a blue perimeter on that card; the supplied infographic animates exclusively on the large display. Selecting the card again replays the animation. The seven-second reveal follows `Iniciativa 2.2_animada_PRO.mp4`; reduced motion shows all content immediately. The supplied PNGs and extracted visuals remain in `assets/`.
 
-## Local routes
+## Interactive experience — v51
 
-- Tablet: `/projects/10-vpc-country-intelligence/index.html?station=10`.
-- TV: `/display.html?station=10`.
-- General exhibition menu: `/index.html?station=10&projects=1`.
-- The project can also be selected from the existing menu on other paired stations.
+`v51/source.html` is a byte-identical copy of the supplied HTML. Its SHA-256 is `0DF0C4DFB9F6565832134D2ABA4F3A25983344B7CB8486E119784F33E90B3F67`.
 
-Start with `npm start`; the default port is 4173. On Netlify the existing shared transport uses Firebase, including private `room` links.
+The original scene styles and both original scripts are embedded in `v51/device.html`. The device page isolates the TV and tablet roots in separate same-origin frames. Original English copy, map, embedded imagery, sector rules, disabled options, choices, animations and timing are retained. The exhibition is English-only: the EN/ES selector is removed, and saved Spanish preferences are ignored. The supplied source file remains unchanged. Inter fonts are stored locally; runtime does not require Google Fonts.
 
-## Files and resources
+Original sequence: intro → challenge → country selection (26 countries) → country strategy cycle → design transition → eight signals → design comparison and choice → programming transition → programming comparison and choice → supervision comparison and choice → final impact. Comparisons last 3.2 seconds. Design and supervision include the original 6.5-second reading phase; programming opens its decision without that extra phase. Only Education is enabled in the design choice, and programming retains five choices. No scoring or additional eligibility rules were introduced.
 
-- `module.js` uses the existing `mountController` extension in the shared shell.
-- `experience.js` owns the tablet lifecycle and the read-only TV renderer.
-- `prototype.js` adapts the supplied HTML's views and retains its SVG icons, sector visualization, comparisons, choices, and cycle diagram.
-- `module.css` scopes the original design and adds landscape sizing and the exhibition wrapper. Colors come from the supplied prototype and existing blue/white convention. No new raster assets, external fonts, or external dependencies are required at runtime.
-- `state.js` validates the shared payload on the server and calculates recoverable progress.
-- `translations.js` translates visible prototype text without modifying its choice values or rules.
-- Shared changes are limited to loading its renderer in `display.html`, calibrating the shared clock for project 10, and validating its payload in `server.js`. Registry numbering and other project folders are unchanged.
+Exhibition adaptations:
 
-The referenced Country Intelligence case sheet, context document, standalone Valleverde prototype, and original brand manual were not supplied/found. The repository contains a brand text extract with no usable content. Prototype figures remain visible to preserve the supplied experience and are labeled **illustrative simulation values**, rather than validated pilot results. The unsupported 2027 rollout claim was replaced with the provided statement about more than eight experiments.
+- The demonstration project grid is replaced by the existing exhibition navigation. Interactive experience opens the original intro directly.
+- Back and Home pills appear in the tablet header. Back returns to the Country Intelligence cover; Home opens all exhibition projects. Original scene-level Back and replay controls remain.
+- Only the tablet owns transitions and sends state. The large display consumes state and has no active controls.
+- Country, signals, choices and phase timestamps synchronize through the existing station server. Reloading the tablet resumes comparisons and reading phases. Transition timers use elapsed time on recovery.
+- The interactive experience retains its original one-minute inactivity timeout and returns to the project cover. The existing cover/infographic inactivity behavior is unchanged.
+
+`v51/bridge.inc.js` contains only the pairing, navigation and recovery adapter. `v51/device.css` isolates the device roots and styles the added navigation. Rebuild the generated device page after changing either adapter file:
+
+```powershell
+python projects/10-vpc-country-intelligence/v51/build.py
+```
+
+`experience.js` owns the cover, infographic and paired frames. `state.js` validates both the exhibition wrapper and the v51 snapshot. The prior `prototype.js` and `translations.js` remain as legacy resources; they do not render the v51 experience.
 
 ## Verification
 
-- `node --test tests/smoke.test.js tests/country-intelligence-state.test.cjs`
-- `node tests/country-intelligence.browser.cjs` with Playwright available via `NODE_PATH`; use `COUNTRY_URL` to select the running server (default `http://127.0.0.1:4187`).
-- `node tests/country-intelligence.audit.cjs` checks all three choices in every scene, both languages, untranslated text, and TV panel overflow.
+With Playwright available through `NODE_PATH`, optionally set `CHROMIUM_PATH` to an installed Chromium executable and `COUNTRY_URL` to a different local server.
 
-Browser verification covers two separate contexts (touch tablet at 1024×768 and 1180×820; TV at 1920×1080), immediate game access without opening Information, the independent infographic and reload, individual and bulk signal selection, each comparison and decision, replay, project menu, language synchronization, inactivity, Home, malformed payload rejection, and isolation from station 1. Screenshots and reports are in `verification/`. Physical tablet/TV and Wi-Fi testing remain pending.
+```powershell
+node --test tests/smoke.test.js tests/country-intelligence-state.test.cjs
+node tests/country-intelligence.browser.cjs
+node tests/country-intelligence.audit.cjs
+node projects/10-vpc-country-intelligence/verification/presentation-check.cjs
+```
+
+The interaction test traverses the full v51 sequence across separate tablet and TV pages, including country selection, reload during a comparison, disabled choices, programming option five, automatic transitions, replay, Back, Home, infographic selection and station isolation. The audit compares English scene text against the original supplied renderer at 1024×768 and 1180×820, including restored EN and ES state (44 comparisons), confirms that no language selector is rendered,, checks tablet layout overflow and verifies local Inter loading. Reports and screenshots are in `verification/`. Physical tablet, TV and Wi-Fi checks remain for onsite review.
