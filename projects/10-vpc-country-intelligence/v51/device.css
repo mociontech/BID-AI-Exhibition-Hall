@@ -1,0 +1,12 @@
+/* Device separation only. All scene styling belongs to source.html. */
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fff;color-scheme:light}
+body{display:grid;place-items:center}
+html[data-device=tablet] #tv,html[data-device=display] #tab{display:none!important}
+html[data-device=tablet] #tab{width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0}
+html[data-device=display] #tv{width:min(100vw,calc(100dvh * 16 / 9));height:auto;aspect-ratio:16/9;max-width:none;border-radius:0;pointer-events:none}
+html[data-device=display] body{background:#141414}
+.ci-device-nav{display:flex;align-items:center;gap:12px;margin-left:auto;flex:none}
+.ci-device-nav .home{margin-left:0;min-width:94px;min-height:46px;padding:10px 16px;justify-content:center}
+.ci-device-nav svg{width:18px;height:18px;flex:none}
+.ci-device-nav button:focus-visible{outline-color:#fff;outline-offset:3px}
+@media(max-width:800px){.tband{gap:12px;padding-inline:16px}.tband .ex span{max-width:160px}.ci-device-nav{gap:8px}.ci-device-nav .home{min-width:82px;padding:10px 12px}}
