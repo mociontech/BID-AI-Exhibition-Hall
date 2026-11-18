@@ -1,0 +1,119 @@
+.crb-clock {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  box-sizing: border-box;
+  padding: calc(10 * var(--u)) calc(16 * var(--u));
+  border-radius: calc(14 * var(--u));
+  background: var(--blue4);
+  color: var(--bid);
+}
+
+.stage-head .crb-clock {
+  width: calc(277 * var(--u));
+  min-height: calc(107 * var(--u));
+}
+
+.crtv-board > .crb-clock {
+  justify-content: center;
+  --clock-size: calc(100 * var(--u));
+}
+
+.crb-clock-face {
+  position: relative;
+  flex: none;
+  width: var(--clock-size, calc(82 * var(--u)));
+  aspect-ratio: 1;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: max(1px, calc(3 * var(--u))) solid currentColor;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.crb-clock-face > i {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--tick-angle));
+}
+
+.crb-clock-face > i:not(.crb-clock-hand)::before {
+  position: absolute;
+  inset: 6% auto auto 50%;
+  width: max(1px, calc(2 * var(--u)));
+  height: 6%;
+  background: #7898cc;
+  content: "";
+  transform: translateX(-50%);
+}
+
+.crb-clock-face > .crb-clock-hand {
+  transform: rotate(var(--start-angle));
+}
+
+.crb-clock-hand--minute {
+  --start-angle: 60deg;
+  --hand-revolution: var(--clock-revolution);
+}
+
+.crb-clock-hand--hour {
+  --start-angle: 305deg;
+  --hand-revolution: calc(12 * var(--clock-revolution));
+}
+
+.crb-clock[data-clock-cue]:not([data-clock-cue=""]) .crb-clock-hand {
+  animation: crb-clock-turn var(--hand-revolution) linear infinite;
+}
+
+.crb-clock-hand::before {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: max(2px, calc(4 * var(--u)));
+  height: 39%;
+  border-radius: 4px;
+  background: currentColor;
+  content: "";
+  transform: translateX(-50%);
+}
+
+.crb-clock-hand--hour::before {
+  width: max(2px, calc(6 * var(--u)));
+  height: 28%;
+  background: #152c50;
+}
+
+.crb-clock-face::after {
+  position: absolute;
+  inset: 45%;
+  border-radius: 50%;
+  background: #152c50;
+  content: "";
+}
+
+.crb-clock-copy {
+  display: grid;
+  gap: calc(4 * var(--u));
+  line-height: 1.1;
+}
+
+.crb-clock-copy span {
+  font-size: clamp(8px, calc(15.5 * var(--u)), 22px);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.crb-clock-copy strong {
+  color: #141414;
+  font-size: clamp(11px, calc(23 * var(--u)), 36px);
+}
+
+@keyframes crb-clock-turn {
+  from { transform: rotate(var(--start-angle)); }
+  to { transform: rotate(calc(var(--start-angle) + 1turn)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crb-clock[data-clock-cue]:not([data-clock-cue=""]) .crb-clock-hand { animation: none; }
+}
