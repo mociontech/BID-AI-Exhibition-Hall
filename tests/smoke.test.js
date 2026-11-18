@@ -206,8 +206,9 @@ test('Costa Rica Smart Borders ships the redesigned bilingual mini-game and keep
  const controller=fs.readFileSync(path.join(root,'projects','03-costa-rica-smart-borders','module.js'),'utf8');
  assert.ok(controller.includes("./game/index.html"));
  for(const screen of ['intro','manual','ai','results'])assert.match(script,new RegExp(screen+':screen'));
- assert.match(script,/Tu tiempo/);
- assert.match(script,/Your time/);
+ assert.match(script,/Tiempo simulado/);
+ assert.match(script,/Hours pass/);
+ assert.match(script,/Minutes pass/);
  assert.match(script,/Manifiesto de carga/);
  assert.match(script,/Declaración aduanera/);
  assert.match(script,/Falta un documento/);
@@ -217,7 +218,7 @@ test('Costa Rica Smart Borders ships the redesigned bilingual mini-game and keep
  assert.match(script,/data-act="home"/);
  assert.match(script,/id="es"/);
  assert.match(script,/id="en"/);
- // Fuera del juego el paquete no lleva estado; dentro, lleva solo el resumen (etapa, semáforos, cronómetro), nunca documentos.
+ // Fuera del juego el paquete no lleva estado; dentro, solo lleva el resumen.
  assert.match(controller,/game:null/);
 });
 
@@ -256,21 +257,21 @@ test('Costa Rica Smart Borders mini-game decides with the VUCE risk traffic ligh
  assert.match(css,/\.btn--yellow/);
 });
 
-test('Costa Rica Smart Borders mini-game drives one truck through 3 agency stops and merges them into a single VUCE 3.0 stop with the AI',()=>{
+test('Costa Rica Smart Borders mini-game drives one truck through 5 agency stops and merges them into a single VUCE 3.0 stop with the AI',()=>{
  const project=path.join(root,'projects','03-costa-rica-smart-borders');
  const game=fs.readFileSync(path.join(project,'game','game.js'),'utf8');
  const css=fs.readFileSync(path.join(project,'game','game.css'),'utf8');
  const tv=fs.readFileSync(path.join(project,'tv.js'),'utf8');
  const tvCss=fs.readFileSync(path.join(project,'module.css'),'utf8');
  const server=fs.readFileSync(path.join(root,'server.js'),'utf8');
- // Un camión, tres instituciones (paradas) y una sola ventanilla con la IA
+ // Un camión, cinco instituciones y una sola ventanilla con la IA.
  for(const key of ['aduana','policia','salud','animal','vegetal'])assert.ok(game.includes("key:'"+key+"'"));
  assert.ok(game.includes("steps:['Llega un camión','Tú revisas: 5 paradas','La IA revisa: 1 parada','Comparación']"));
  assert.ok(game.includes("steps:['A truck arrives','You check: 5 stops','AI checks: 1 stop','Comparison']"));
  assert.ok(game.includes('Parada {i} de 5'));
  assert.ok(game.includes('una sola ventanilla'));
  assert.ok(game.includes("phase='merging'"));
- assert.ok(game.includes('const SIM={stop:20,ai:5}'));
+ assert.ok(game.includes('const REFERENCE_MINUTES={manual:600,ai:79}'));
  // La tableta solo interactúa (aviso "Mira la TV" y pasos de la IA); el camión y la unión de cajas viven en la TV
  assert.ok(game.includes('function tvCue('));
  assert.ok(game.includes("aiSteps:['Una sola ventanilla'"));
@@ -309,5 +310,9 @@ test('Costa Rica Smart Borders mirrors the mini-game on the TV through the stati
  assert.ok(display.includes('window.CRB_TV.render(app,data.game)'));
  assert.ok(html.includes('projects/03-costa-rica-smart-borders/tv.js'));
  assert.ok(tv.includes('window.CRB_TV={render,stop}'));
- assert.ok(tv.includes('data-crtv-clock'));
+ assert.ok(tv.includes('window.CRB_CLOCK.markup(g.clock)'));
+ assert.ok(html.includes('projects/03-costa-rica-smart-borders/clock.js'));
+ assert.match(fs.readFileSync(path.join(project,'clock.css'),'utf8'),/animation:\s*crb-clock-turn[^;]*\binfinite\b/);
+ assert.doesNotMatch(game,/performance\.now\(|startClock\(/);
+ assert.doesNotMatch(tv,/data-crtv-clock|tickClock\(/);
 });

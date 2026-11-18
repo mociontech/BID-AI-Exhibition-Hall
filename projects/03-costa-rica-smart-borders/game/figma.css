@@ -25,9 +25,6 @@ html:has(.fig),body:has(.fig){background:#fff}
 .fig .stage-head h1{margin:calc(3 * var(--u)) 0 0;font-size:calc(70 * var(--u));font-weight:800;line-height:calc(64 * var(--u));letter-spacing:-.01em;color:var(--ink)}
 .fig .stage-lead{margin:calc(6 * var(--u)) 0 0;font-size:calc(25 * var(--u));line-height:calc(32 * var(--u));color:var(--ink)}
 .fig .stage-lead b{color:var(--bid)}
-.fig .clock{flex:none;display:flex;flex-direction:column;justify-content:center;gap:calc(4 * var(--u));width:calc(277 * var(--u));min-width:0;height:calc(107 * var(--u));padding:0 calc(24 * var(--u));border-radius:calc(14 * var(--u));background:var(--tint)}
-.fig .clock span{font-size:calc(15.5 * var(--u));font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:var(--bid)}
-.fig .clock b{font-size:calc(52 * var(--u));font-weight:800;line-height:1;color:var(--ink)}
 
 /* ---- botones ---- */
 .fig .cta{display:inline-flex;align-items:center;justify-content:center;gap:calc(16 * var(--u));min-height:0;height:calc(67 * var(--u));padding:0 calc(40 * var(--u));border:0;border-radius:calc(14 * var(--u));background:var(--bid);color:#fff;font:700 calc(24 * var(--u))/1 Inter,Arial,sans-serif;box-shadow:none;cursor:pointer;animation:none}
@@ -285,9 +282,10 @@ html:has(.fig),body:has(.fig){background:#fff}
 .fig .home-btn{gap:calc(17 * var(--u));padding:0 calc(28 * var(--u)) 0 calc(22 * var(--u));border:1.5px solid #fff;font-weight:700;font-size:max(13px,calc(18 * var(--u)));-webkit-tap-highlight-color:transparent}
 .fig .home-btn svg{width:max(15px,calc(18 * var(--u)));height:auto}
 
-/* Aviso de tiempo real (comentarios del BID, nov 2026): sustituye a la caja «Your time» cuando el camión ya cruzó */
+/* Aviso con el tiempo de referencia al cruzar la frontera. */
 .fig .stage-head .real-pop{flex:none;display:flex;align-items:center;gap:calc(20 * var(--u));width:calc(560 * var(--u));max-width:none;min-height:calc(107 * var(--u));padding:calc(16 * var(--u)) calc(24 * var(--u));box-sizing:border-box;border-radius:calc(14 * var(--u));background:var(--bid);color:#fff;box-shadow:0 calc(12 * var(--u)) calc(30 * var(--u)) rgba(0,92,255,.28);animation:realPop .45s cubic-bezier(.2,1.4,.4,1) both}
 .fig .real-pop>span{flex:none;display:grid;place-items:center;width:calc(52 * var(--u));height:calc(52 * var(--u));border-radius:50%;background:#fff;color:var(--bid)}
 .fig .real-pop>span .ico{width:calc(30 * var(--u));height:calc(30 * var(--u))}
 .fig .stage-head .real-pop p{margin:0;max-width:none;font-size:calc(26 * var(--u));font-weight:700;line-height:1.22;color:#fff}
+.fig .real-pop-duration{font-size:1.4em;line-height:1;white-space:nowrap}
 @keyframes realPop{from{opacity:0;transform:scale(.85) translateY(calc(-10 * var(--u)))}to{opacity:1;transform:none}}

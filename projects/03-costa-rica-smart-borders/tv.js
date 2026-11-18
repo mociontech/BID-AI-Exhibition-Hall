@@ -34,13 +34,12 @@
  };
  function ico(name,cls){return `<svg class="ico ico--${name} ${cls||''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.doc}</svg>`;}
  
- const fmt=ms=>{const s=Math.floor(ms/1000),d=Math.floor((ms%1000)/100);return `${s}.${d}`;};
  const GATE=89.5,VUCE_X=46; // GATE: caseta fronteriza · VUCE_X: columna central (% del ancho de la foto)
  const ASSETS='projects/03-costa-rica-smart-borders/public/';
  const PILLARS=[14,30,46,62,76.6]; // columnas del peaje en la foto tv-border.jpg
  function stopX(n,i){return n<=1?VUCE_X:n===PILLARS.length?PILLARS[i]:13+i*(51/(n-1));}
  function posOf(g){const n=(g.stops||[]).length||1;const out=[9];for(let i=0;i<n;i++)out.push(g.mode==='ai'?VUCE_X:stopX(n,i));out.push(94);return out;}
- let clock={time:0,running:false,received:0},timer=null,key='',lastPct=null,prevMerged=false,prevPhase='',prevLit=0,prevScreen='',prevConf=0;
+ let key='',lastPct=null,prevMerged=false,prevPhase='',prevLit=0,prevScreen='',prevConf=0;
  function flashTv(app,color){const f=document.createElement('div');f.className='crtv-flash crtv-flash--'+esc(color);(app.querySelector('.crtv')||app).appendChild(f);setTimeout(()=>f.remove(),1300);}
  function truck(icon,cls,id,cargo){
   return `<div class="crtv-lorry ${cls||''}"><img src="${ASSETS}tv-truck.png" alt=""><span class="crtv-lorry-tag"><b>${esc(id||'')}</b><small>${esc(cargo||'')}</small></span></div>`;
@@ -121,7 +120,7 @@
   return `<section class="crtv-board${g.phase==='crossed'&&g.sim&&g.sim.final?' crtv-board--sim':''}">
    <div class="crtv-current crtv-current--plain"><b>${esc(tr.id)}</b><small>${esc(tr.cargo)}</small>${g.phase!=='crossed'?`<em>${esc(counter)}</em>`:''}</div>
    <div class="crtv-middle">${status(g)}${g.phase==='feedback'&&g.hint?`<p class="crtv-remind">${esc(g.hint)}</p>`:''}</div>
-   ${g.phase==='crossed'&&g.sim&&g.sim.final?`<div class="crtv-clocks crtv-clocks--one crtv-clocks--sim"><div class="crtv-clock crtv-clock--sim"><span>${esc(g.sim.label)}</span><b>${esc(g.sim.text)}</b></div></div>`:`<div class="crtv-clocks crtv-clocks--one"><div class="crtv-clock"><span>${esc(g.clockLabel)}</span><b data-crtv-clock>${fmt(g.time||0)} s</b></div></div>`}
+   ${g.phase==='crossed'&&g.sim&&g.sim.final?`<div class="crtv-clocks crtv-clocks--one crtv-clocks--sim"><div class="crtv-clock crtv-clock--sim"><span>${esc(g.sim.label)}</span><b>${esc(g.sim.text)}</b></div></div>`:g.clock?window.CRB_CLOCK.markup(g.clock):''}
   </section>`;
  }
  function intro(g){
@@ -139,11 +138,6 @@
    <div class="crtv-res3-body">${chart}<div class="crtv-res3-side"><h2 class="crtv-res2-title">${esc(r.insightsTitle)}</h2><div class="crtv-ins3 crtv-ins3--col">${ins}</div></div></div>
 </section>`;
  }
- function tickClock(){
-  const el=document.querySelector('[data-crtv-clock]');if(!el)return;
-  const t=clock.time+(clock.running?Date.now()-clock.received:0);
-  el.textContent=fmt(t)+' s';
- }
  function placeTruck(g){
   const rig=document.querySelector('[data-crtv-rig]');if(!rig)return;
   const to=pct(g);
@@ -152,15 +146,14 @@
   requestAnimationFrame(()=>requestAnimationFrame(()=>{rig.style.left=to+'%';}));
  }
  function render(app,g){
-  clock={time:Number(g.time)||0,running:!!g.running,received:Date.now()};
-  const k=JSON.stringify({...g,time:0,running:false,pos:0});
-  if(k===key&&app.querySelector('.crtv')){tickClock();placeTruck(g);return;} // solo cambió el reloj o la posición del camión
+  const k=JSON.stringify({...g,pos:0});
+  if(k===key&&app.querySelector('.crtv')){placeTruck(g);return;}
   key=k;
   const merged=!!g.merged;
   const animateMerge=merged&&(!prevMerged||(g.phase==='merging'&&prevPhase!=='merging')); // primera vez o al repetir el paso 1: pintar sin unir y animar la unión
   const body=g.screen==='intro'?intro(g):g.screen==='results'?results(g):`${scene(g,merged&&!animateMerge)}${board(g)}`;
   document.documentElement.lang=g.lang==='es'?'es':'en';
-  app.innerHTML=`<main class="crtv crtv--fig crtv--${esc(g.screen)}" aria-label="Costa Rica Smart Borders">${header(g)}${body}</main>`;
+  window.CRB_CLOCK.replace(app,`<main class="crtv crtv--fig crtv--${esc(g.screen)}" aria-label="Costa Rica Smart Borders">${header(g)}${body}</main>`);
   if(g.screen==='intro')lastPct=null; // el camión arranca en la salida sin animación
   if(g.phase==='feedback'&&prevPhase!=='feedback'&&g.feedback)flashTv(app,g.feedback.light); // destello: semáforo manual
   const lit=g.screen==='ai'?(g.stops||[]).filter(x=>x.light).length:0;
@@ -172,8 +165,7 @@
   placeTruck(g);
   if(animateMerge)requestAnimationFrame(()=>requestAnimationFrame(()=>{const s=app.querySelector('[data-crtv-scene]');if(s)s.classList.add('is-merged','is-animating');})); // is-animating: escalona la aparición de las reglas solo la primera vez
   prevMerged=merged;
-  if(!timer)timer=setInterval(tickClock,100);
  }
- function stop(){if(timer){clearInterval(timer);timer=null;}key='';lastPct=null;prevMerged=false;prevPhase='';prevLit=0;prevScreen='';prevConf=0;}
+ function stop(){key='';lastPct=null;prevMerged=false;prevPhase='';prevLit=0;prevScreen='';prevConf=0;}
  window.CRB_TV={render,stop};
 })();

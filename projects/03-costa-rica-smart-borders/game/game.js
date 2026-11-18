@@ -2,15 +2,13 @@
    HTML/CSS/JS puros, sin dependencias. Datos 100 % simulados.
 
    Dinámica:
-     intro   → Llega UN camión con su carga. Debe pasar por 3 instituciones.
-     manual  → El camión se detiene en 3 paradas (Aduanas · Sanidad animal y vegetal ·
-               Ministerio de Salud). En cada parada TÚ lees los 3 documentos de esa
-               institución y pones el semáforo (verde / amarillo / rojo). Un cronómetro
-               mide tu tiempo. En la pantalla el camión avanza parada por parada.
-     ai      → El MISMO camión. VUCE 3.0 une las 3 instituciones en UNA sola ventanilla:
-               la IA aplica las 3 reglas en una sola revisión y pone un solo semáforo.
-               El camión para una vez y cruza. En la pantalla se ve cómo las 3 cajas se unen.
-     results → Comparación: paradas, tiempo, aciertos y tiempo simulado en frontera.
+     intro   → Llega UN camión con su carga. Debe pasar por 5 instituciones.
+     manual  → El camión se detiene en 5 paradas. En cada parada lees los 3 documentos de esa
+               institución y pones el semáforo (verde / amarillo / rojo). El reloj
+               simula el paso de las horas mientras el camión avanza parada por parada.
+     ai      → El mismo camión. VUCE 3.0 une las 5 instituciones en una sola ventanilla:
+               la IA revisa las reglas y el reloj simula el paso de los minutos.
+     results → Comparación: paradas, aciertos y tiempo simulado en frontera.
 
    Integración con la tableta (module.js del proyecto 03):
      #es / #en cambian el idioma; [data-act="home"] vuelve al Home global.
@@ -19,11 +17,8 @@
 (()=>{
 const app=document.getElementById('app');
 
-/* Tiempo simulado "en frontera" (minutos). Son valores ilustrativos para la exposición:
-   cámbialos aquí si el equipo del proyecto entrega cifras documentadas. */
-const SIM={stop:20,ai:5};
-/* Tiempos reales de referencia que pidió el BID: no dependen de la partida. */
-const REAL={manual:600,ai:79};
+/* Duraciones de referencia en minutos, independientes de la partida. */
+const REFERENCE_MINUTES={manual:600,ai:79};
 
 /* Instituciones (paradas). Cada una revisa sus 3 documentos con su propia regla.
    red: inconsistencia posible · yellow: documento que puede faltar. */
@@ -44,6 +39,7 @@ const CARGO_ORDER=['alimentos','frutas','lacteos'];
 /* Posición del camión (0 salida · 1-3 paradas · 4 cruzó): la pantalla (tv.js) la convierte en % de la carretera. */
 /* Ritmo lento a propósito: cada paso se ve y se explica en la pantalla. */
 const MERGE_MS=11000,TRAVEL_MS=5200,SCAN_MS=2600,CONFIRM_MS=1700;
+const MANUAL_STOP_TRAVEL_MS=2200; // 1,8 s de animación en la pantalla más margen de sincronización.
 /* Iconos de línea fina (24×24, trazo 1.6). Sustituyen a los emojis en tableta y TV. */
 const ICONS={
  aduana:'<path d="M3 21h18M5 21V10m4.7 11V10m4.6 11V10M19 21V10M3 10l9-6 9 6H3z"/>',
@@ -113,11 +109,10 @@ const COPY={
   manualTitle:'Busca irregularidades',
   manualBody:'Compara los 3 documentos de <b>{entity}</b>. ¿Coinciden? ¿Falta alguno?',manualHint:'Elige el semáforo a la derecha',guide:{title:'Cómo decidir',check:'Revisa:',steps:[['green','Todo coincide','Verde · Dejar pasar'],['yellow','Falta un documento','Amarillo · Revisar documentos'],['red','Un dato no coincide','Rojo · Inspección conjunta']]},
   stopOf:'Parada {i} de 5',
-  yourTime:'Tu tiempo',aiTime:'Tiempo de la IA',simLabel:'En la frontera · simulado',
+  clockLabel:'Tiempo simulado',clockHours:'Pasan horas',clockMinutes:'Pasan minutos',
   lights:{green:{name:'Verde',action:'Dejar pasar',when:'Todo coincide'},yellow:{name:'Amarillo',action:'Revisar documentos',when:'Falta un documento'},red:{name:'Rojo',action:'Inspección conjunta',when:'Algo no coincide'}},
   semaforo:'Semáforo {name}',itWas:'Era semáforo {name}.',
   manualWhat:'Aquí decides tú. Cada institución revisa por separado: lee las filas, compara los 3 documentos y pon el semáforo.',
-  manualDecided:'Todavía nadie te ayuda. El camión espera en cada fila y el cronómetro corre.',
   manualLearn:'Un detalle pequeño, como una cifra o una letra, puede esconder un problema.',
   missingDoc:'Falta un documento',paper:{date:'Fecha',sign:'Firma y sello',stamp:'ORIGINAL',no:'N.º',section:'Datos declarados'},
   fbRight:'¡Correcto!',fbWrong:'Ups, no era así.',
@@ -126,7 +121,7 @@ const COPY={
   crossed:'¡Cruzó la frontera!',
   crossedManual:'5 paradas · 5 filas · 5 revisiones por separado.',
   crossedTime:'Aciertos: <strong>{h} / 5</strong>',
-  realManual:'En la frontera real, este proceso manual podría tardar hasta 10 horas.',realAi:'Tiempo simulado con VUCE 3.0: 1 hora, 19 min.',
+  realManual:'En la frontera real, este proceso manual podría tardar hasta {duration}.',realAi:'Tiempo simulado con VUCE 3.0: 1 hora, 19 min.',
   simFinal:{manual:['Tiempo simulado','10 horas'],ai:['Tiempo simulado con VUCE 3.0','1 hora, 19 min']},simChart:['10 horas','1 h 19 min'],
   crossedSim:'En la frontera real esto toma horas. Tiempo simulado: <strong>≈ {m}</strong>.',
   manualDone:'¡Terminaste! Ahora la IA revisará el mismo camión en una sola parada.',
@@ -149,22 +144,20 @@ const COPY={
   resTitle:'El mismo camión, dos formas de cruzar',
   resBody:'Así le fue al camión {id} con {cargo}.',
   you:'Tú',ai:'IA · VUCE 3.0',
-  time:'Tiempo',hits:'Aciertos',stops:'Paradas',simTime:'En frontera · simulado',
-  seconds:'segundos',faster:'La IA fue {x} veces más rápida y paró 1 vez en lugar de 5.',sameTime:'Tardaron casi lo mismo, pero la IA paró 1 vez en lugar de 5.',
+  hits:'Aciertos',stops:'Paradas',
   perStop:'Parada por parada',
   right:'Acertó',wrong:'Falló',
-  resDecided:'La IA aplicó las 5 reglas en {t} segundos con una sola parada. Tú hiciste 5 paradas en {m} segundos.',
   resLearnTitle:'La IA une las revisiones y señala pistas.',resLearnBig:'La persona decide.',
   resLearn:'No se trata de inspeccionar más. Se trata de priorizar mejor, revisar una sola vez y ganar tiempo para lo importante.',
   resSimulated:'Datos simulados con fines educativos.',
   again:'Jugar otro turno',toHome:'Volver al inicio',
   truckAria:'Camión {id}, {cargo}',
-  tv:{intro:'Toca «Empezar la revisión» en la tableta.',deciding:'Decidiendo el semáforo de {entity} en la tableta…',feedback:'Toca «Siguiente parada» en la tableta.',moving:'El camión avanza a la siguiente parada…',crossedManual:'Toca «Ver cómo lo hace la IA» en la tableta.',waiting:'Lee el paso 1 en la tableta y toca «{cta}».',nextStep:'Lee el paso {n} en la tableta y toca «{cta}».',merging:'Las 5 instituciones se unen en una sola ventanilla',toVuce:'El camión llega a la ventanilla única…',scanning:'El sistema híbrido revisa las 5 instituciones a la vez',verdict:'Cada institución confirma la decisión final',toBorder:'Semáforo listo: el camión cruza…',crossedAi:'Toca «Comparar resultados» en la tableta.',results:'Toca «Jugar otro turno» o «Inicio» en la tableta.',reading:'Se está leyendo en la tableta'},
+  tv:{intro:'Toca «Empezar la revisión» en la tableta.',deciding:'Decidiendo el semáforo de {entity} en la tableta…',feedback:'Toca «Siguiente parada» en la tableta.',moving:'El camión avanza a la siguiente parada…',crossedManual:'Toca «Ver cómo lo hace la IA» en la tableta.',waiting:'Cierra la ventana en la tableta para empezar.',nextStep:'Lee el paso {n} en la tableta y toca «{cta}».',merging:'Las 5 instituciones se unen en una sola ventanilla',toVuce:'El camión llega a la ventanilla única…',scanning:'El sistema híbrido revisa las 5 instituciones a la vez',verdict:'Cada institución confirma la decisión final',toBorder:'Semáforo listo: el camión cruza…',crossedAi:'Toca «Comparar resultados» en la tableta.',results:'Toca «Jugar otro turno» o «Inicio» en la tableta.',reading:'Se está leyendo en la tableta'},
   watchTv:'Mira la pantalla',watchTvIntro:'Aquí decides tú; allá avanza el camión.',
   explain:{deciding:['Parada {i} de 5','{entity} revisa con sus propias reglas.'],feedback:['Semáforo de {entity}','Cada institución pone su semáforo.'],moving:['Otra fila','El camión pasa a la siguiente fila.'],crossedManual:['Así era antes','5 filas, 5 revisiones, el mismo camión.'],waiting:['VUCE 3.0','Una sola puerta para las 5 instituciones.'],merging:['Paso 1 · Una sola ventanilla','Los documentos llegan a un solo lugar.'],toVuce:['Paso 2 · Una sola parada','El camión se detiene una sola vez.'],scanning:['Paso 3 · Sistema híbrido','Reglas + aprendizaje automático + azar, en una sola revisión.'],verdict:['Paso 4 · Cada institución decide','La IA propone; cada institución confirma.'],toBorder:['Paso 5 · Cruza','Un solo semáforo para las 5.'],crossedAi:['Resultado','Cruzó con una sola parada.']},
   aiSteps:['Una sola ventanilla','Una sola parada','Sistema híbrido','Cada institución decide','Cruza la frontera'],
   replay:'Repetir paso {n}',stepOf:'Paso {i} de 5',confirmCta:'Cada institución confirma',confirms:'{entity} confirma la decisión final',confirmWait:'{entity} decide…',resOnScreenTitle:'Mira la pantalla',resOnScreen:'Ahí están los resultados comparativos: revisión humana vs VUCE 3.0.',chartTitle:'Revisión humana vs VUCE 3.0',seeTv:'Ver en la pantalla',watchingTv:'Mira la pantalla…',stepDone:'Listo',nextStop:'Siguiente parada',crossNow:'Cruzar la frontera',
-  aiIntro:'Toca cada paso y mira la pantalla.',
+  aiIntro:'Mira la animación en la pantalla.',
   solTitle:'Solución del reto',solBody:'Esto era lo que había que ver en cada institución.',solFinal:'Semáforo final del camión',solYou:'Tu semáforo',
   resChallenge:['El reto','En Peñas Blancas cruzan unos 650 camiones al día. Cada uno pasaba por 5 instituciones: 5 filas, 5 revisiones separadas y el mismo camión abierto varias veces.'],
   resHow:'Cómo lo resolvió la IA',resInsightsTitle:'Lo que te llevas de VUCE 3.0',
@@ -229,11 +222,10 @@ const COPY={
   manualTitle:'Look for irregularities',
   manualBody:'Compare the 3 <b>{entity}</b> documents. Do they match? Is one missing?',manualHint:'Choose the light on the right',guide:{title:'How to decide',check:'Check:',steps:[['green','Everything matches','Green · Let it pass'],['yellow','A document is missing','Yellow · Review documents'],['red','A value does not match','Red · Joint inspection']]},
   stopOf:'Stop {i} of 5',
-  yourTime:'Your time',aiTime:'AI time',simLabel:'At the border · simulated',
+  clockLabel:'Simulated time',clockHours:'Hours pass',clockMinutes:'Minutes pass',
   lights:{green:{name:'Green',action:'Let it pass',when:'Everything matches'},yellow:{name:'Yellow',action:'Review documents',when:'A document is missing'},red:{name:'Red',action:'Joint inspection',when:'Something is off'}},
   semaforo:'{name} light',itWas:'It was a {name} light.',
   manualWhat:'You decide here. Each agency checks separately: read the rows, compare the 3 documents and set the light.',
-  manualDecided:'Nobody is helping you yet. The truck waits in every queue and the clock is running.',
   manualLearn:'A small detail, like a digit or a letter, can hide a problem.',
   missingDoc:'Missing document',paper:{date:'Date',sign:'Signature and stamp',stamp:'ORIGINAL',no:'No.',section:'Declared data'},
   fbRight:'Correct!',fbWrong:'Oops, not quite.',
@@ -242,7 +234,7 @@ const COPY={
   crossed:'It crossed the border!',
   crossedManual:'5 stops · 5 queues · 5 separate checks.',
   crossedTime:'Correct: <strong>{h} / 5</strong>',
-  realManual:'At the real border, this manual process could take up to 10 hours.',realAi:'Simulated time with VUCE 3.0: 1 hour, 19 min.',
+  realManual:'At the real border, this manual process could take up to {duration}.',realAi:'Simulated time with VUCE 3.0: 1 hour, 19 min.',
   simFinal:{manual:['Simulated time','10 hours'],ai:['Simulated time with VUCE 3.0','1 hour, 19 min']},simChart:['10 hours','1h 19 min'],
   crossedSim:'At a real border this takes hours. Simulated time: <strong>≈ {m}</strong>.',
   manualDone:'Done! Now the AI will check the same truck in a single stop.',
@@ -263,22 +255,20 @@ const COPY={
   resTitle:'Same truck, two ways to cross',
   resBody:'This is how truck {id} with {cargo} did.',
   you:'You',ai:'AI · VUCE 3.0',
-  time:'Time',hits:'Correct',stops:'Stops',simTime:'At the border · simulated',
-  seconds:'seconds',faster:'The AI was {x} times faster and stopped once instead of 5 times.',sameTime:'They took about the same time, but the AI stopped once instead of 5 times.',
+  hits:'Correct',stops:'Stops',
   perStop:'Stop by stop',
   right:'Correct',wrong:'Missed',
-  resDecided:'The AI applied the 5 rules in {t} seconds with a single stop. You made 5 stops in {m} seconds.',
   resLearnTitle:'AI merges the checks and points out clues.',resLearnBig:'The person decides.',
   resLearn:'It is not about inspecting more. It is about prioritizing better, checking once and saving time for what matters.',
   resSimulated:'Simulated data for educational purposes.',
   again:'Play another round',toHome:'Back to start',
   truckAria:'Truck {id}, {cargo}',
-  tv:{intro:'Tap “Start checking” on the tablet.',deciding:'Deciding the {entity} light on the tablet…',feedback:'Tap “Next stop” on the tablet.',moving:'The truck moves to the next stop…',crossedManual:'Tap “See how the AI does it” on the tablet.',waiting:'Read step 1 on the tablet and tap “{cta}”.',nextStep:'Read step {n} on the tablet and tap “{cta}”.',merging:'The 5 agencies merge into one single window',toVuce:'The truck reaches the single window…',scanning:'The hybrid system checks the 5 agencies at once',verdict:'Each institution confirms the final decision',toBorder:'Light ready: the truck crosses…',crossedAi:'Tap “Compare results” on the tablet.',results:'Tap “Play another round” or “Home” on the tablet.',reading:'Being read on the tablet'},
+  tv:{intro:'Tap “Start checking” on the tablet.',deciding:'Deciding the {entity} light on the tablet…',feedback:'Tap “Next stop” on the tablet.',moving:'The truck moves to the next stop…',crossedManual:'Tap “See how the AI does it” on the tablet.',waiting:'Close the pop-up on the tablet to start.',nextStep:'Read step {n} on the tablet and tap “{cta}”.',merging:'The 5 agencies merge into one single window',toVuce:'The truck reaches the single window…',scanning:'The hybrid system checks the 5 agencies at once',verdict:'Each institution confirms the final decision',toBorder:'Light ready: the truck crosses…',crossedAi:'Tap “Compare results” on the tablet.',results:'Tap “Play another round” or “Home” on the tablet.',reading:'Being read on the tablet'},
   watchTv:'Watch on the screen',watchTvIntro:'You decide here; the truck moves over there.',
   explain:{deciding:['Stop {i} of 5','{entity} checks with its own rules.'],feedback:['{entity} light','Each agency sets its own light.'],moving:['Another queue','The truck moves to the next queue.'],crossedManual:['How it used to be','5 queues, 5 checks, the same truck.'],waiting:['VUCE 3.0','One door for the 5 agencies.'],merging:['Step 1 · One single window','Documents arrive in one place.'],toVuce:['Step 2 · One single stop','The truck stops only once.'],scanning:['Step 3 · Hybrid system','Rules + machine learning + chance, in one check.'],verdict:['Step 4 · Each institution decides','The AI suggests; each agency confirms.'],toBorder:['Step 5 · It crosses','One single light for all 5.'],crossedAi:['Result','It crossed with a single stop.']},
   aiSteps:['One single window','One single stop','Hybrid system','Each institution decides','Crosses the border'],
   replay:'Replay step {n}',stepOf:'Step {i} of 5',confirmCta:'Each institution confirms',confirms:'{entity} confirms the final decision',confirmWait:'{entity} is deciding…',resOnScreenTitle:'Look at the screen',resOnScreen:'There you will find the comparative results: human review vs VUCE 3.0.',chartTitle:'Human review vs VUCE 3.0',seeTv:'Watch on the screen',watchingTv:'Watch on the screen…',stepDone:'Done',nextStop:'Next stop',crossNow:'Cross the border',
-  aiIntro:'Tap each step and watch on the screen.',
+  aiIntro:'Watch the animation on the screen.',
   solTitle:'Challenge solution',solBody:'This is what had to be spotted at each agency.',solFinal:'Final light for the truck',solYou:'Your light',
   resChallenge:['The challenge','About 650 trucks cross Peñas Blancas every day. Each one went through 5 agencies: 5 queues, 5 separate checks and the same truck opened several times.'],
   resHow:'How the AI solved it',resInsightsTitle:'What to take away from VUCE 3.0',
@@ -327,8 +317,6 @@ const COPY={
 /* ---------- Utilidades ---------- */
 const fill=(text,vars)=>text.replace(/\{(\w+)\}/g,(_,k)=>vars[k]??'');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const fmt=ms=>{const s=Math.floor(ms/1000),d=Math.floor((ms%1000)/100);return `${s}.${d}`;};
-function fmtMin(m){if(m<60)return `${m} min`;const h=Math.floor(m/60),r=m%60;return r?`${h} h ${r} min`:`${h} h`;}
 function rng(v){let x=v>>>0;return()=>{x+=0x6D2B79F5;let a=x;a=Math.imul(a^(a>>>15),a|1);a^=a+Math.imul(a^(a>>>7),a|61);return((a^(a>>>14))>>>0)/4294967296;};}
 function expected(c){return c.issue?'red':c.missing?'yellow':'green';} // semáforo correcto de cada parada
 const RANK={green:0,yellow:1,red:2};
@@ -339,12 +327,12 @@ function docValue(c,doc,field){
 }
 
 /* ---------- Estado ---------- */
-const state={lang:'en',screen:'intro',round:1,cargo:'alimentos',stops:[],idx:0,pos:0,moving:false,modal:null,seen:{},resume:false,
- manual:{time:0,start:0,running:false,answers:[],feedback:null,done:false},
- ai:{time:0,start:0,running:false,answers:[],phase:'idle',verdict:null,scanIdx:-1,step:0,busy:false,confirmed:0}};
-let timers=[],ticker=null;
+const state={lang:'en',screen:'intro',round:1,cargo:'alimentos',stops:[],idx:0,pos:0,moving:false,modal:null,seen:{},
+ manual:{answers:[],feedback:null,done:false},
+ ai:{answers:[],phase:'idle',verdict:null,scanIdx:-1,step:0,busy:false,confirmed:0}};
+let timers=[];
 const after=(fn,ms)=>timers.push(setTimeout(fn,ms));
-const stop=()=>{timers.forEach(clearTimeout);timers=[];if(ticker){clearInterval(ticker);ticker=null;}};
+const stop=()=>{timers.forEach(clearTimeout);timers=[];};
 const t=k=>COPY[state.lang][k];
 const cargoOf=()=>CARGOS[state.cargo];
 const truckId=()=>'CR-'+cargoOf().id;
@@ -365,18 +353,18 @@ function newRound(){
   return s;
  });
  if(stops.every(s=>expected(s)==='green'))stops[1].missing=ENTITIES[1].yellow; // al menos una parada con pista
- state.stops=stops;state.idx=0;state.pos=0;state.moving=false;state.modal=null;state.seen={};state.resume=false;
- state.manual={time:0,start:0,running:false,answers:[],feedback:null,done:false};
- state.ai={time:0,start:0,running:false,answers:[],phase:'idle',verdict:null,scanIdx:-1,confirmed:0};
+ state.stops=stops;state.idx=0;state.pos=0;state.moving=false;state.modal=null;state.seen={};
+ state.manual={answers:[],feedback:null,done:false};
+ state.ai={answers:[],phase:'idle',verdict:null,scanIdx:-1,step:0,busy:false,confirmed:0};
 }
-function startClock(who){state[who].start=performance.now()-state[who].time;state[who].running=true;let n=0;
- if(!ticker)ticker=setInterval(()=>{const el=app.querySelector('[data-clock]');if(el&&state[who].running){state[who].time=performance.now()-state[who].start;el.textContent=fmt(state[who].time)+' s';if(++n%10===0)emit();}},100);
- emit();}
-function pauseClock(who){if(state[who].running){state[who].time=performance.now()-state[who].start;state[who].running=false;emit();}}
-function simMinutes(){
- if(state.screen==='manual')return Math.min(N,state.manual.answers.length)*SIM.stop;
- if(state.screen==='ai')return state.ai.step>=4?SIM.ai:0;
- return 0;
+function clockData(){
+ const ai=state.screen==='ai';
+ const showingInstructions=state.modal===(ai?'how':'play');
+ return {
+  cue:showingInstructions?'':`${state.round}-${state.screen}`,
+  revolution:ai?16000:1250,
+  label:t('clockLabel'),caption:t(ai?'clockMinutes':'clockHours')
+ };
 }
 
 /* ---------- Componentes ---------- */
@@ -416,8 +404,11 @@ function box(kind,title,body){
  const icon=ico({what:'eye',decided:'check',learned:'info'}[kind]);
  return `<section class="box box--${kind}"><h3><span>${icon}</span>${esc(title)}</h3><div class="box-body" data-box="${kind}">${body}</div></section>`;
 }
-function realPop(key){return `<aside class="real-pop" role="status"><span>${ico('timer')}</span><p>${esc(t(key))}</p></aside>`;}
-function clock(label){return `<div class="clock"><span>${esc(label)}</span><b data-clock>${fmt(state.screen==='ai'?state.ai.time:state.manual.time)} s</b></div>`;}
+function realPop(key){
+ const text=fill(esc(t(key)),{duration:`<strong class="real-pop-duration">${esc(t('simFinal').manual[1])}</strong>`});
+ return `<aside class="real-pop" role="status"><span>${ico('timer')}</span><p>${text}</p></aside>`;
+}
+function clock(){return window.CRB_CLOCK.markup(clockData());}
 function header(){
  return `<header class="top">
   <div class="top-brand"><img class="top-idb-group" src="../public/idb-group-white.svg" width="216" height="44" alt="IDB Group"><span class="top-sep"></span><span><b>${esc(t('brand'))}</b><small>IDB Group Projects Across the Region</small></span></div>
@@ -462,15 +453,18 @@ function modalHtml(){
 }
 function openModal(k){
  if(!t('pop')[k])return;
- if(state.screen==='manual'&&state.manual.running){pauseClock('manual');state.resume=true;} // el reloj no corre mientras se lee un popup
  const old=app.querySelector('[data-modal]');if(old)old.remove();
  state.modal=k;state.seen[k]=true;
  app.insertAdjacentHTML('beforeend',modalHtml());bind();emit();
 }
 function closeModal(){
  const el=app.querySelector('[data-modal]');if(el)el.remove();
- state.modal=null;emit();
- if(state.screen==='manual'&&state.resume){state.resume=false;startClock('manual');}
+ const startVuce=state.screen==='ai'&&state.modal==='how'&&state.ai.step===0;
+ const idleClock=app.querySelector('.crb-clock[data-clock-cue=""]');
+ state.modal=null;
+ if(startVuce){runStep();return;}
+ if(idleClock)idleClock.outerHTML=clock();
+ emit();
 }
 function flash(color){const el=document.createElement('div');el.className='flash flash--'+color;app.appendChild(el);setTimeout(()=>el.remove(),1100);}
 function infoBtn(k){return `<button type="button" class="info-btn" data-act="pop:${k}" aria-label="${esc(t('pop')[k].title)}">${ico('info')}</button>`;}
@@ -493,21 +487,20 @@ function screenIntro(){
 }
 function crossedCard(){
  const hits=state.manual.answers.filter(a=>a.ok).length;
- if(state.screen==='ai'){const l=overall();return `<div class="done-wrap"><div class="done-card done-card--ai"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedAi'))}</p><p>${fill(t('crossedAiTime'),{t:fmt(state.ai.time),light:esc(t('lights')[l].name)})}</p></div></div><div class="done-actions"><button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:5}))}</button><button type="button" class="cta" data-act="to-results">${esc(t('aiCta'))} ${farrow()}</button></div></div>`;}
- return `<div class="done-wrap"><div class="done-card"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedManual'))}</p><p>${fill(t('crossedTime'),{t:fmt(state.manual.time),h:hits})}</p></div></div><div class="done-actions"><button type="button" class="cta" data-act="to-ai">${esc(t('manualCta'))} ${farrow()}</button></div></div>`;
+ if(state.screen==='ai'){const l=overall();return `<div class="done-wrap"><div class="done-card done-card--ai"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedAi'))}</p><p>${fill(t('crossedAiTime'),{light:esc(t('lights')[l].name)})}</p></div></div><div class="done-actions"><button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:5}))}</button><button type="button" class="cta" data-act="to-results">${esc(t('aiCta'))} ${farrow()}</button></div></div>`;}
+ return `<div class="done-wrap"><div class="done-card"><span class="done-icon">${ico('flag')}</span><div><b>${esc(t('crossed'))}</b><p>${esc(t('crossedManual'))}</p><p>${fill(t('crossedTime'),{h:hits})}</p></div></div><div class="done-actions"><button type="button" class="cta" data-act="to-ai">${esc(t('manualCta'))} ${farrow()}</button></div></div>`;
 }
 function screenManual(){
  const s=state.stops[state.idx];const done=state.manual.done;
  const E=t('entities'),L=t('lights');
  return `<main class="screen screen--manual">
   <section class="stage">
-   <div class="stage-head"><div><h1>${esc(t('manualTitle'))}</h1><p class="stage-lead">${done?esc(t('manualDone')):fill(t('manualBody'),{i:state.idx+1,entity:esc(E[s.key].name)})}</p></div>${done?realPop('realManual'):clock(t('yourTime'))}</div>
+   <div class="stage-head"><div><h1>${esc(t('manualTitle'))}</h1><p class="stage-lead">${done?esc(t('manualDone')):fill(t('manualBody'),{i:state.idx+1,entity:esc(E[s.key].name)})}</p></div>${done?realPop('realManual'):clock()}</div>
    ${done?`<div class="manual-done" data-desk>${crossedCard()}</div>`:`<div class="manual-grid"><div class="manual-main" data-desk>${stopPanel(s)}</div><div class="actions actions--col" data-actions>${['green','yellow','red'].map(c=>`<button type="button" class="btn btn--${c}" data-act="${c}"><span class="light light--big light--${c}"></span><span><b>${esc(L[c].action)}</b><small>${esc(L[c].when)}</small></span></button>`).join('')}</div><div class="manual-foot" data-feedback><p class="manual-hint">${esc(t('manualHint'))} ${farrow()}</p></div></div>`}
   </section>
  </main>`;
 }
-/* Panel de la IA en la tableta: el visitante lee cada paso, toca «Ver en la pantalla» y la animación
-   ocurre en la pantalla grande. Nada avanza solo. */
+/* El primer paso arranca al cerrar el popup. El visitante activa los siguientes desde la tableta. */
 function aiPanel(){
  const E=t('entities'),i=state.ai.step,busy=state.ai.busy;
  const steps=`<ol class="ai-steps">${t('aiSteps').map((x,k)=>`<li class="${k<i?'done':k===i?'current':''}"><span>${k+1}</span>${esc(x)}</li>`).join('')}</ol>`;
@@ -515,7 +508,7 @@ function aiPanel(){
  const ex=t('explain')[AI_STEPS[i]];
  const prev=''; // sin la línea «✓ Listo: …» en los pasos de la IA
  const card=`<div class="step-card ${busy?'is-busy':''}"><span class="desk-counter">${esc(fill(t('stepOf'),{i:i+1}))}</span><h2>${esc(t('aiSteps')[i])}</h2><p>${esc(ex[1])}</p>${prev}
-  <div class="step-actions">${busy?`<button type="button" class="cta cta--tv cta--dark" disabled><span class="tv-anim">${ico('screen')}</span>${esc(t('watchingTv'))}</button>`:`<button type="button" class="cta cta--tv" data-act="ai-step">${ico('screen')} ${esc(i===4?t('seeTv'):t('seeHow'))} ${farrow()}</button>`}${i>0&&!busy?`<button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:i}))}</button>`:''}</div></div>`;
+  <div class="step-actions">${busy?`<button type="button" class="cta cta--tv cta--dark" disabled><span class="tv-anim">${ico('screen')}</span>${esc(t('watchingTv'))}</button>`:i>0?`<button type="button" class="cta cta--tv" data-act="ai-step">${ico('screen')} ${esc(i===4?t('seeTv'):t('seeHow'))} ${farrow()}</button>`:''}${i>0&&!busy?`<button type="button" class="cta cta--ghost" data-act="replay">${ico('replay')} ${esc(fill(t('replay'),{n:i}))}</button>`:''}</div></div>`;
  let vuce='';
  if(i>=2&&(i>2||busy)){
   const rows=state.stops.map((s,k)=>{
@@ -533,30 +526,16 @@ function screenAi(){
  const done=state.ai.step>=5;
  return `<main class="screen screen--ai">
   <section class="stage">
-   <div class="stage-head"><div><h1>${esc(t('aiTitle'))}</h1><p class="stage-lead">${t('aiBody')} ${esc(t('aiIntro'))}</p></div>${done?realPop('realAi'):clock(t('aiTime'))}</div>
+   <div class="stage-head"><div><h1>${esc(t('aiTitle'))}</h1><p class="stage-lead">${t('aiBody')} ${esc(t('aiIntro'))}</p></div>${done?realPop('realAi'):clock()}</div>
    <div data-desk>${aiPanel()}</div>
   </section>
  </main>`;
 }
 function chartRows(){
- const mt=state.manual.time,at=state.ai.time,yh=state.manual.answers.filter(a=>a.ok).length,ah=state.ai.answers.filter(a=>a.ok).length;
- return [{label:t('stops'),you:N,ai:1,youText:String(N),aiText:'1'},{label:t('time'),you:REAL.manual,ai:REAL.ai,youText:t('simChart')[0],aiText:t('simChart')[1]},{label:t('hits'),you:yh,ai:ah,youText:yh+' / '+N,aiText:ah+' / '+N}];
-}
-function chartHtml(rows){
- const col=(w,v,m,x)=>`<div class="rc-col rc-col--${w}"><em>${esc(x)}</em><i style="height:${Math.max(6,v/m*100)}%"></i></div>`;
- return `<section class="res-chart"><header><b><i class="rc-key rc-key--you"></i>${esc(t('you'))}</b><b><i class="rc-key rc-key--ai"></i>${esc(t('ai'))}</b></header><div class="rc-groups">${rows.map(r=>{const m=Math.max(r.you,r.ai,1);return `<div class="rc-group"><div class="rc-cols">${col('you',r.you,m,r.youText)}${col('ai',r.ai,m,r.aiText)}</div><small>${esc(r.label)}</small></div>`;}).join('')}</div></section>`;
+ const yh=state.manual.answers.filter(a=>a.ok).length,ah=state.ai.answers.filter(a=>a.ok).length;
+ return [{label:t('stops'),you:N,ai:1,youText:String(N),aiText:'1'},{label:t('clockLabel'),you:REFERENCE_MINUTES.manual,ai:REFERENCE_MINUTES.ai,youText:t('simChart')[0],aiText:t('simChart')[1]},{label:t('hits'),you:yh,ai:ah,youText:yh+' / '+N,aiText:ah+' / '+N}];
 }
 function screenResults(){
- const yourHits=state.manual.answers.filter(a=>a.ok).length,aiHits=state.ai.answers.filter(a=>a.ok).length;
- const mt=state.manual.time,at=state.ai.time;
- const ratio=at>0?mt/at:0;
- const verdict=ratio>=1.5?fill(t('faster'),{x:Math.round(ratio)}):t('sameTime');
- const maxT=Math.max(mt,at,1);
- const E=t('entities');
- const col=(who,time,hits,stops,sim,extra)=>`<section class="who who--${who}"><header><b>${esc(t(who==='you'?'you':'ai'))}</b></header>
-   <div class="stat stat--row"><div><small>${esc(t('stops'))}</small><b>${stops}</b></div><div><small>${esc(t('simTime'))}</small><b class="stat-sim">≈ ${esc(fmtMin(sim))}</b></div></div>
-   <div class="stat"><small>${esc(t('time'))}</small><b>${fmt(time)}<em> ${esc(t('seconds'))}</em></b><i class="bar"><i style="width:${Math.max(4,time/maxT*100)}%"></i></i></div>
-   <div class="stat"><small>${esc(t('hits'))}</small><b>${hits}<em> / ${N}</em></b></div>${extra||''}</section>`;
  return `<main class="screen screen--results">
   <div class="res-only"><section class="res-sign res-sign--big"><span>${ico('screen')}</span><div><b>${esc(t('resOnScreenTitle'))}</b><p>${esc(t('resOnScreen'))}</p></div></section>
    <div class="res-actions"><button type="button" class="cta cta--ghost" data-act="again">${ico('replay')} ${esc(t('again'))}</button><button type="button" class="cta" data-act="home">${esc(t('toHome'))} ${farrow()}</button></div></div>
@@ -566,7 +545,7 @@ function screenResults(){
 /* ---------- Render ---------- */
 function render(){
  const screens={intro:screenIntro,manual:screenManual,ai:screenAi,results:screenResults};
- app.innerHTML=header()+screens[state.screen]()+modalHtml();
+ window.CRB_CLOCK.replace(app,header()+screens[state.screen]()+modalHtml());
  app.className='app fig app--'+state.screen;
  bind();window.scrollTo(0,0);emit();
 }
@@ -574,11 +553,10 @@ function setBox(kind,html){const el=app.querySelector(`[data-box="${kind}"]`);if
 function setDesk(html){const el=app.querySelector('[data-desk]');if(el)el.innerHTML=html;}
 function decidedList(){const E=t('entities');return `<ol class="decided-list">${state.stops.map(x=>{const c=expected(x);return `<li class="decided--${c}"><span class="light light--${c}"></span><b>${esc(E[x.key].short)}</b> · ${esc(t('lights')[c].action)}</li>`;}).join('')}</ol>`;}
 
-/* ---------- Ronda manual: 3 paradas (el visitante avanza con un toque) ---------- */
+/* ---------- Ronda manual: el visitante avanza de parada con un toque ---------- */
 function answerManual(choice){
  if(state.manual.feedback||state.manual.done||state.moving)return;
  const s=state.stops[state.idx];const exp=expected(s);const ok=choice===exp;
- pauseClock('manual');
  state.manual.answers.push({key:s.key,choice,ok});
  const E=t('entities')[s.key];
  const field=s.issue?t('fields')[s.issue.field]:'',doc=s.missing?t('docs')[s.missing]:'';
@@ -595,21 +573,22 @@ function answerManual(choice){
 function nextStop(){
  if(!state.manual.feedback||state.moving)return;
  state.manual.feedback=null;state.moving=true;state.pos=state.idx+2;
+ const travelMs=state.pos>N?TRAVEL_MS:MANUAL_STOP_TRAVEL_MS;
  const a=app.querySelector('[data-feedback]');if(a)a.innerHTML=`<div class="feedback feedback--move"><span class="move-icon">${ico('screen')}</span><b>${esc(t('watchTv'))}</b><i class="fb-sep" aria-hidden="true"></i><span>${esc(t('moving'))}</span><span class="move-arrow" aria-hidden="true">${farrow()}</span></div>`;
  emit();
  after(()=>{
   state.moving=false;state.idx+=1;
   if(state.idx>=state.stops.length){state.manual.done=true;state.pos=N+1;render();if(!state.seen.place)openModal('place');}
-  else{render();startClock('manual');}
- },TRAVEL_MS);
+  else render();
+ },travelMs);
 }
 
-/* ---------- Ronda IA: 5 pasos, cada uno arranca con un toque en la tableta ---------- */
+/* ---------- Ronda IA: arranque automático, continuación desde la tableta ---------- */
 /* Volver a ver el paso anterior de la IA: la tableta vuelve un paso y repite la animación en la pantalla. */
 function replayStep(){
  if(state.ai.busy||state.ai.step<=0||state.modal)return;
  const i=state.ai.step-1;state.ai.step=i;
- if(i<=2){state.ai.answers=[];state.ai.scanIdx=-1;state.ai.time=0;}if(i<=3){state.ai.verdict=null;state.ai.confirmed=0;}
+ if(i<=2){state.ai.answers=[];state.ai.scanIdx=-1;}if(i<=3){state.ai.verdict=null;state.ai.confirmed=0;}
  if(i<=1)state.pos=0;if(i===4)state.pos=2;
  state.moving=false;state.ai.busy=true;state.ai.phase='replay';render();
  after(()=>{state.ai.busy=false;runStep();},i<=1?900:120); // primero se muestra el estado anterior en la pantalla, luego la animación
@@ -622,9 +601,9 @@ function runStep(){
  if(ph==='merging'){render();after(finish,MERGE_MS);}
  else if(ph==='toVuce'){state.moving=true;state.pos=2;render();after(()=>{state.moving=false;finish();},TRAVEL_MS);}
  else if(ph==='scanning'){
-  state.ai.answers=[];state.ai.time=0;render();startClock('ai');
+  state.ai.answers=[];render();
   const scan=k=>{
-   if(k>=state.stops.length){pauseClock('ai');state.ai.scanIdx=-1;finish();return;}
+   if(k>=state.stops.length){state.ai.scanIdx=-1;finish();return;}
    state.ai.scanIdx=k;setDesk(aiPanel());bind();emit();
    after(()=>{state.ai.answers.push({key:state.stops[k].key,choice:expected(state.stops[k]),ok:true});flash(expected(state.stops[k]));setDesk(aiPanel());bind();emit();scan(k+1);},SCAN_MS);
   };
@@ -648,47 +627,45 @@ function runStep(){
 /* ---------- Espejo para la pantalla ----------
    La tableta (module.js) reenvía este resumen al estado de la estación y la pantalla lo pinta
    con tv.js. Solo lleva textos ya traducidos, posición del camión, semáforos y
-   cronómetros: nunca documentos. */
+   datos para el reloj simulado, sin documentos. */
 function tvPacket(){
  const L=t('lights'),TV=t('tv'),E=t('entities');
  const screen=state.screen,m=mode(),who=m==='ai'?'ai':'manual';
  const stops=state.stops.map((s,i)=>{const y=state.manual.answers[i],a=state.ai.answers[i];const revealed=screen==='results'||(screen==='manual'&&!!y)||(screen==='ai'&&!!a);
   return {key:s.key,name:E[s.key].name,short:E[s.key].short,icon:s.icon,rule:E[s.key].rule,light:revealed?expected(s):null,you:y?y.choice:null,ok:y?y.ok:null};});
- let phase='deciding',hint='',title='',clockLabel='';
+ let phase='deciding',hint='',title='';
  const cur=state.stops[Math.min(state.idx,N-1)];
  if(screen==='intro'){phase='intro';hint=TV.intro;title=t('introTitle');}
- else if(screen==='manual'){title=t('manualTitle');clockLabel=t('yourTime');
+ else if(screen==='manual'){title=t('manualTitle');
   if(state.manual.done){phase='crossed';hint=TV.crossedManual;}else if(state.moving){phase='moving';hint=TV.moving;}else if(state.manual.feedback){phase='feedback';hint=TV.feedback;}else{hint=fill(TV.deciding,{entity:E[cur.key].name});}}
- else if(screen==='ai'){title=t('aiTitle');clockLabel=t('aiTime');
+ else if(screen==='ai'){title=t('aiTitle');
   const p=state.ai.phase,busy=state.ai.busy,st=state.ai.step;
   if(st>=5){phase='crossed';hint=TV.crossedAi;}
-  else if(!busy){const cta=st>=4?t('seeTv'):t('seeHow');phase=st===0?'waiting':'stepDone';hint=st===0?fill(TV.waiting,{cta}):fill(TV.nextStep,{n:st+1,cta});}
+  else if(!busy){const cta=st>=4?t('seeTv'):t('seeHow');phase=st===0?'waiting':'stepDone';hint=st===0?TV.waiting:fill(TV.nextStep,{n:st+1,cta});}
   else if(p==='replay'){phase='waiting';hint=TV.reading;}else if(p==='merging'){phase='merging';hint=TV.merging;}else if(p==='toVuce'){phase='moving';hint=TV.toVuce;}
   else if(p==='scanning'){phase='scanning';hint=TV.scanning;}else if(p==='verdict'){phase='verdict';hint=TV.verdict;}else{phase='moving';hint=TV.toBorder;}}
  else{phase='results';title=t('resTitle');hint=TV.results;}
  const fb=state.manual.feedback,v=state.ai.verdict;
  let results=null;
  if(screen==='results'){
-  const mt=state.manual.time,at=state.ai.time,ratio=at>0?mt/at:0;
   const ol=overall();
-  results={verdict:ratio>=1.5?fill(t('faster'),{x:Math.round(ratio)}):t('sameTime'),learnTitle:t('resLearnTitle'),learnBig:t('resLearnBig'),learn:t('resLearn'),
+  results={learnTitle:t('resLearnTitle'),learnBig:t('resLearnBig'),learn:t('resLearn'),
    solTitle:t('solTitle'),solBody:t('solBody'),solFinal:t('solFinal'),solYou:t('solYou'),
    solution:state.stops.map((s,i)=>{const l=expected(s);const y=state.manual.answers[i];return {name:E[s.key].name,icon:s.icon,light:l,action:L[l].action,why:fill(t('why')[l],{entity:E[s.key].name,field:s.issue?t('fields')[s.issue.field]:'',doc:s.missing?t('docs')[s.missing]:''}),you:y?y.choice:null,youName:y?L[y.choice].name:'',ok:y?y.ok:false};}),
-   final:{light:ol,action:L[ol].action,name:L[ol].name},chart:chartRows().filter(r=>r.label!==t('simTime')),chartTitle:t('chartTitle'),
-   challenge:{title:t('resChallenge')[0],text:t('resChallenge')[1]},how:t('resHow'),insightsTitle:t('resInsightsTitle'),insights:t('insights').map(([big,title,text])=>({big,title,text})),
-   stats:{you:{stops:N,time:fmt(mt),hits:state.manual.answers.filter(a=>a.ok).length,sim:'≈ '+fmtMin(3*SIM.stop)},ai:{stops:1,time:fmt(at),hits:state.ai.answers.filter(a=>a.ok).length,sim:'≈ '+fmtMin(SIM.ai)}}};
+   final:{light:ol,action:L[ol].action,name:L[ol].name},chart:chartRows(),chartTitle:t('chartTitle'),
+   challenge:{title:t('resChallenge')[0],text:t('resChallenge')[1]},how:t('resHow'),insightsTitle:t('resInsightsTitle'),insights:t('insights').map(([big,title,text])=>({big,title,text}))};
  }
- const sim=simMinutes();
  const exKey=screen==='manual'?(state.manual.done?'crossedManual':state.moving?'moving':state.manual.feedback?'feedback':'deciding'):screen==='ai'?(state.ai.step>=5?'crossedAi':state.ai.busy?AI_STEPS[state.ai.step]:state.ai.step===0?'waiting':AI_STEPS[state.ai.step-1]):null;
  const exRaw=exKey?t('explain')[exKey]:null;
  const explain=exRaw?{step:fill(exRaw[0],{i:state.idx+1,entity:E[cur.key].name}),text:fill(exRaw[1],{entity:E[cur.key].name,left:Math.max(0,N-1-state.idx)})}:null;
  return {v:2,screen,lang:state.lang,step:{intro:0,manual:1,ai:2,results:3}[screen],steps:t('steps'),simulated:t('simulated'),
   mode:m,truck:{id:truckId(),cargo:t('cargo')[state.cargo],icon:cargoOf().icon},stops,idx:Math.min(state.idx,N-1),pos:state.pos,moving:state.moving,
-  merged:m==='ai'&&(state.ai.step>=1||(state.ai.busy&&state.ai.phase!=='replay')),busy:state.ai.busy,aiStep:state.ai.step,scanIdx:state.ai.scanIdx,confirmed:state.ai.confirmed,title,titleA:t('introTitleA'),titleB:t('introTitleB'),subtitle:screen==='intro'?t('introBig'):'',hint,phase,clockLabel,
-  time:Math.round(state[who].time),running:!!state[who].running,sim:phase==='crossed'?{label:t('simFinal')[who][0],text:t('simFinal')[who][1],final:true}:{label:t('simLabel'),text:sim?'≈ '+fmtMin(sim):'0 min'},explain,
+  merged:m==='ai'&&(state.ai.step>=1||(state.ai.busy&&state.ai.phase!=='replay')),busy:state.ai.busy,aiStep:state.ai.step,scanIdx:state.ai.scanIdx,confirmed:state.ai.confirmed,title,titleA:t('introTitleA'),titleB:t('introTitleB'),subtitle:screen==='intro'?t('introBig'):'',hint,phase,
+  clock:screen==='manual'||screen==='ai'?clockData():null,
+  sim:phase==='crossed'?{label:t('simFinal')[who][0],text:t('simFinal')[who][1],final:true}:null,explain,
   feedback:fb?{ok:fb.ok,light:fb.light,title:fb.ok?t('fbRight'):t('fbWrong'),msg:fb.msg}:null,
   verdict:v?{light:v.light,title:fill(t('semaforo'),{name:L[v.light].name.toLowerCase()})+' · '+L[v.light].action,msg:v.msg,lines:v.lines}:null,
-  results,labels:{you:t('you'),ai:t('ai'),time:t('time'),hits:t('hits'),stops:t('stops'),simTime:t('simTime'),seconds:t('seconds'),reading:TV.reading,border:t('border'),start:t('start'),vuce:t('vuce')}};
+  results,labels:{you:t('you'),ai:t('ai'),hits:t('hits'),stops:t('stops'),reading:TV.reading,border:t('border'),start:t('start'),vuce:t('vuce')}};
 }
 let emitPending=false;
 function emit(){
@@ -700,10 +677,16 @@ function emit(){
 /* ---------- Navegación ---------- */
 function go(screen){
  stop();state.screen=screen;state.moving=false;
- if(screen==='manual'){state.idx=0;state.pos=1;state.manual={time:0,start:0,running:false,answers:[],feedback:null,done:false};render();
-  if(state.seen.play)startClock('manual');else{state.resume=true;openModal('play');}return;}
- if(screen==='ai'){state.ai={time:0,start:0,running:false,answers:[],phase:'idle',verdict:null,scanIdx:-1,step:0,busy:false,confirmed:0};state.pos=0;render();
-  if(!state.seen.how)openModal('how');return;}
+ if(screen==='manual'){
+  state.idx=0;state.pos=1;state.manual={answers:[],feedback:null,done:false};
+  if(!state.seen.play){state.modal='play';state.seen.play=true;}
+  render();return;
+ }
+ if(screen==='ai'){
+  state.ai={answers:[],phase:'idle',verdict:null,scanIdx:-1,step:0,busy:false,confirmed:0};state.pos=0;
+  if(state.seen.how){runStep();return;}
+  state.modal='how';state.seen.how=true;render();return;
+ }
  if(screen==='intro')state.pos=0;
  render();
  if(screen==='results')flash(overall());
@@ -740,9 +723,7 @@ function bind(){
 function setLanguage(lang){
  if(!COPY[lang]||lang===state.lang)return;
  state.lang=lang;document.documentElement.lang=lang;
- const wasRunning=state.manual.running;
  render();
- if(state.screen==='manual'&&wasRunning&&!state.modal)startClock('manual');
  if(state.screen==='ai'&&state.ai.verdict)setBox('decided',decidedList());
 }
 window.CR_GAME={state,go,setLanguage,tvPacket};
