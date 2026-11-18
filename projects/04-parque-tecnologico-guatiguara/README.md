@@ -12,7 +12,7 @@ Tablet controller + TV for station 04 (English only). Links: tablet `projects/04
 
 ## Institutional video
 
-`Video/guatiguara.mp4` is the web-optimized version of the revised institutional video supplied as `Parque Tecnológico Guatiguará3 (1).mp4` (41,412,395 bytes). It preserves the full 74.36-second duration, 1920 x 1080 resolution and stereo audio, encoded as H.264/AAC with fast-start metadata. The original file in Downloads is preserved.
+`Video/guatiguara.mp4` is the web-optimized version of the revised institutional video supplied as `Parque Tecnológico Guatiguará F.mp4` (41,350,324 bytes). It preserves the full 74.36-second duration, 1920 x 1080 resolution and stereo audio, encoded as H.264/AAC with fast-start metadata. The original file in Downloads is preserved.
 
 From the repository root, run `npm start`, then open both:
 
